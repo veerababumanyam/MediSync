@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Example Tally Response - Success
+This is what Tally returns after successfully importing a voucher
+-->
+<ENVELOPE>
+    <HEADER>
+        <VERSION>1</VERSION>
+        <TALLYREQUEST>Import Data</TALLYREQUEST>
+        <ID>All Masters</ID>
+        <STATUS>1</STATUS>
+    </HEADER>
+    <BODY>
+        <DATA>
+            <LINEERROR>0</LINEERROR>
+            <COLLECTION>
+                <TYPE>Vouchers</TYPE>
+                <LANGUAGE>English</LANGUAGE>
+            </COLLECTION>
+            <LANGUAGENAME.LIST>
+                <LANGUAGE.LIST>
+                    <NAME.LIST>
+                        <NAME>All Vouchers</NAME>
+                    </NAME.LIST>
+                    <LANGUAGEID>English</LANGUAGEID>
+                </LANGUAGE.LIST>
+            </LANGUAGENAME.LIST>
+        </DATA>
+    </BODY>
+</ENVELOPE>
+
+<!--
+STATUS Values:
+- 1 = Success
+- 0 = Failure (check ERRORMESSAGE in BODY>DATA)
+
+LINEERROR Values:
+- 0 = No errors
+- 1 = One or more lines had errors (check ERRORLINE)
+
+For partial success in batch requests, check LINEMESSAGE for per-line status.
+-->

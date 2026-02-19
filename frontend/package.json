@@ -1,0 +1,49 @@
+{
+  "name": "@medisync/frontend",
+  "private": true,
+  "version": "1.0.0-alpha",
+  "type": "module",
+  "description": "MediSync React Web Application - AI-Powered Conversational BI & Intelligent Accounting for Healthcare",
+  "author": "MediSync Team",
+  "license": "MIT",
+  "scripts": {
+    "dev": "vite --host",
+    "build": "tsc -b && vite build",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "preview": "vite preview",
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@copilotkit/react-core": "^1.3.6",
+    "@copilotkit/react-ui": "^1.3.6",
+    "echarts": "^5.6.0",
+    "echarts-for-react": "^3.0.2",
+    "i18next": "^24.2.2",
+    "react": "19.2.4",
+    "react-dom": "19.2.4",
+    "react-i18next": "^15.4.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.1",
+    "@types/node": "^24.10.1",
+    "@types/react": "19.2.7",
+    "@types/react-dom": "19.2.3",
+    "@vitejs/plugin-react": "^5.1.1",
+    "autoprefixer": "^10.4.20",
+    "eslint": "^9.39.1",
+    "eslint-plugin-react-hooks": "^7.0.1",
+    "eslint-plugin-react-refresh": "^0.4.24",
+    "globals": "^16.5.0",
+    "postcss": "^8.5.4",
+    "tailwindcss": "^3.4.17",
+    "terser": "^5.46.0",
+    "typescript": "~5.9.3",
+    "typescript-eslint": "^8.48.0",
+    "vite": "7.3.1"
+  },
+  "engines": {
+    "node": ">=24.0.0",
+    "npm": ">=10.0.0"
+  }
+}

@@ -39,6 +39,7 @@ The project maintains a vast library of "meta-skills" in `/References/skills`. T
 - **Knowledge Synthesis**: How to merge multi-source data (`References/skills/knowledge-synthesis`).
 - **Source Management**: How to handle MCP and third-party data connections (`References/skills/source-management`).
 - **Data Validation**: Patterns for ETL sanity checks (`References/skills/data-validation`).
+- **Tally Integration**: Comprehensive developer reference for TallyPrime XML/JSON APIs (`References/tally-reference.md`).
 
 ## Technical Standards
 

@@ -7,6 +7,9 @@ description: Push approved transactions from the MediSync platform into Tally ER
 
 Guidelines for synchronizing approved financial data from MediSync to Tally Prime/ERP 9.
 
+> [!NOTE]
+> For detailed XML/JSON API structures and Tally Gateway configuration, refer to the [Tally Developer Reference](file:///Users/v13478/Desktop/MediSync/References/tally-reference.md).
+
 ## Integration Architecture
 
 ### TDL XML Communication

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ENVELOPE>
+    <HEADER>
+        <TALLYREQUEST>Import Data</TALLYREQUEST>
+        <VERSION>1</VERSION>
+    </HEADER>
+    <BODY>
+        <IMPORTDATA>
+            <REQUESTDESC>
+                <REPORTNAME>All Masters</REPORTNAME>
+                <STATICVARIABLES>
+                    <SVEXPORTFORMAT>$$SysName:XML</SVEXPORTFORMAT>
+                </STATICVARIABLES>
+            </REQUESTDESC>
+            <REQUESTDATA>
+                <TALLYMESSAGE xmlns:UDF="TallyUDF">
+                    <VOUCHER VCHTYPE="Purchase" ACTION="Create" OBJVIEW="Inventory Voucher View">
+                        <DATE>20260219</DATE>
+                        <VOUCHERNUMBER>PUR-2026-0219-001</VOUCHERNUMBER>
+                        <PARTYLEDGERNAME>Pharma Supplies LLC</PARTYLEDGERNAME>
+                        <PARTYNAME>Pharma Supplies LLC</PARTYNAME>
+                        <VCHTYPE1>Purchase</VCHTYPE1>
+                        <NARRATION>Monthly medicine supply - Invoice #INV-2026-0456</NARRATION>
+                        <REMOTEID>medisync-pur-3e7f9b2a1c</REMOTEID>
+
+                        <!-- Ledger Entry: Purchase Account -->
+                        <ALLLEDGERENTRIES.LIST>
+                            <LEDGERNAME>Purchase Account - Medicines</LEDGERNAME>
+                            <ISDEEMEDPOSITIVE>No</ISDEEMEDPOSITIVE>
+                            <ISLASTDEEMEDPOSITIVE>No</ISLASTDEEMEDPOSITIVE>
+                            <AMOUNT>15000</AMOUNT>
+                            <SERVICETAXDETAILS />
+                        </ALLLEDGERENTRIES.LIST>
+
+                        <!-- VAT Output (5%) -->
+                        <ALLLEDGERENTRIES.LIST>
+                            <LEDGERNAME>VAT Input 5%</LEDGERNAME>
+                            <ISDEEMEDPOSITIVE>No</ISDEEMEDPOSITIVE>
+                            <ISLASTDEEMEDPOSITIVE>No</ISLASTDEEMEDPOSITIVE>
+                            <AMOUNT>750</AMOUNT>
+                        </ALLLEDGERENTRIES.LIST>
+
+                        <!-- Inventory Entry: Paracetamol -->
+                        <ALLINVENTORYENTRIES.LIST>
+                            <STOCKITEMNAME>Paracetamol 500mg - Tablet (Strip of 15)</STOCKITEMNAME>
+                            <RATE>15</RATE>
+                            <PER>100</PER>
+                            <AMOUNT>7500</AMOUNT>
+                            <ACTUALQTY>500 nos</ACTUALQTY>
+                            <BATCHALLOCATIONS.LIST>
+                                <BATCHNAME>BATCH-PAR-2026-0219-001</BATCHNAME>
+                                <GODOWNNAME>Main Pharmacy Store</GODOWNNAME>
+                                <BATCHDATE>20260219</BATCHDATE>
+                                <INDENTNO />
+                                <ORDERNO />
+                                <ORDEREDQUANTITY>500</ORDEREDQUANTITY>
+                                <DESTINATIONGODOWN />
+                                <BASEPARTYNAME />
+                                <SERIALNOTRACKING>No</SERIALNOTRACKING>
+                                <NARRATION />
+                            </BATCHALLOCATIONS.LIST>
+                            <ACCOUNTINGALLOCATIONS.LIST>
+                                <LEDGERFROM />
+                                <LEDGERTO />
+                                <GODOWNNAME />
+                                <QUANTITY>500</QUANTITY>
+                                <RATE>15</RATE>
+                                <PER>100</PER>
+                                <AMOUNT>7500</AMOUNT>
+                            </ACCOUNTINGALLOCATIONS.LIST>
+                        </ALLINVENTORYENTRIES.LIST>
+
+                        <!-- Inventory Entry: Amoxicillin -->
+                        <ALLINVENTORYENTRIES.LIST>
+                            <STOCKITEMNAME>Amoxicillin 250mg - Capsule (Strip of 10)</STOCKITEMNAME>
+                            <RATE>7.50</RATE>
+                            <PER>100</PER>
+                            <AMOUNT>7500</AMOUNT>
+                            <ACTUALQTY>1000 nos</ACTUALQTY>
+                            <BATCHALLOCATIONS.LIST>
+                                <BATCHNAME>BATCH-AMX-2026-0219-001</BATCHNAME>
+                                <GODOWNNAME>Main Pharmacy Store</GODOWNNAME>
+                                <BATCHDATE>20260219</BATCHDATE>
+                            </BATCHALLOCATIONS.LIST>
+                        </ALLINVENTORYENTRIES.LIST>
+
+                        <!-- MediSync Tracking Fields -->
+                        <UDF:MSYNC.ENTRYID>ENT-20260219-0002</UDF:MSYNC.ENTRYID>
+                        <UDF:MSYNC.SYNCEDBY>system@medisync.com</UDF:MSYNC.SYNCEDBY>
+                        <UDF:MSYNC.SYNCDATETIME>2026-02-19 15:45:00</UDF:MSYNC.SYNCDATETIME>
+                        <UDF:MSYNC.SOURCE>ocr</UDF:MSYNC.SOURCE>
+                        <UDF:MSYNC.DOCUMENTHASH>a1b2c3d4e5f6g7h8</UDF:MSYNC.DOCUMENTHASH>
+                        <UDF:MSYNC.INVOICENUMBER>INV-2026-0456</UDF:MSYNC.INVOICENUMBER>
+                    </VOUCHER>
+                </TALLYMESSAGE>
+            </REQUESTDATA>
+        </IMPORTDATA>
+    </BODY>
+</ENVELOPE>

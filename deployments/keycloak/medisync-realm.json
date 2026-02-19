@@ -1,0 +1,257 @@
+{
+  "realm": "medisync",
+  "enabled": true,
+  "displayName": "MediSync",
+  "displayNameHtml": "<strong>MediSync</strong>",
+  "sslRequired": "none",
+  "registrationAllowed": false,
+  "loginWithEmailAllowed": true,
+  "duplicateEmailsAllowed": false,
+  "resetPasswordAllowed": true,
+  "editUsernameAllowed": false,
+  "bruteForceProtected": true,
+  "permanentLockout": false,
+  "maxFailureWaitSeconds": 900,
+  "minimumQuickLoginWaitSeconds": 60,
+  "waitIncrementSeconds": 60,
+  "quickLoginCheckMilliSeconds": 1000,
+  "maxDeltaTimeSeconds": 43200,
+  "failureFactor": 5,
+  "defaultSignatureAlgorithm": "RS256",
+  "accessTokenLifespan": 300,
+  "accessTokenLifespanForImplicitFlow": 900,
+  "ssoSessionIdleTimeout": 1800,
+  "ssoSessionMaxLifespan": 36000,
+  "offlineSessionIdleTimeout": 2592000,
+  "offlineSessionMaxLifespanEnabled": false,
+  "accessCodeLifespan": 60,
+  "accessCodeLifespanUserAction": 300,
+  "accessCodeLifespanLogin": 1800,
+  "actionTokenGeneratedByAdminLifespan": 43200,
+  "actionTokenGeneratedByUserLifespan": 300,
+  "internationalizationEnabled": true,
+  "supportedLocales": ["en", "ar"],
+  "defaultLocale": "en",
+  "roles": {
+    "realm": [
+      {
+        "name": "admin",
+        "description": "Full system administrator",
+        "composite": false
+      },
+      {
+        "name": "finance_head",
+        "description": "Finance department head with approval authority",
+        "composite": false
+      },
+      {
+        "name": "accountant_lead",
+        "description": "Lead accountant with elevated permissions",
+        "composite": false
+      },
+      {
+        "name": "accountant",
+        "description": "Standard accountant role",
+        "composite": false
+      },
+      {
+        "name": "manager",
+        "description": "Department manager",
+        "composite": false
+      },
+      {
+        "name": "pharmacy_manager",
+        "description": "Pharmacy department manager",
+        "composite": false
+      },
+      {
+        "name": "analyst",
+        "description": "Data analyst with read access",
+        "composite": false
+      },
+      {
+        "name": "viewer",
+        "description": "Read-only access",
+        "composite": false
+      }
+    ],
+    "client": {
+      "medisync-app": [
+        {
+          "name": "query_hims",
+          "description": "Permission to query HIMS data"
+        },
+        {
+          "name": "query_tally",
+          "description": "Permission to query Tally data"
+        },
+        {
+          "name": "export_data",
+          "description": "Permission to export reports"
+        },
+        {
+          "name": "approve_workflows",
+          "description": "Permission to approve workflow items"
+        },
+        {
+          "name": "manage_users",
+          "description": "Permission to manage users"
+        }
+      ]
+    }
+  },
+  "groups": [
+    {
+      "name": "Finance",
+      "path": "/Finance",
+      "subGroups": [
+        {
+          "name": "Accounting",
+          "path": "/Finance/Accounting"
+        },
+        {
+          "name": "Treasury",
+          "path": "/Finance/Treasury"
+        }
+      ]
+    },
+    {
+      "name": "Operations",
+      "path": "/Operations",
+      "subGroups": [
+        {
+          "name": "Pharmacy",
+          "path": "/Operations/Pharmacy"
+        },
+        {
+          "name": "Clinical",
+          "path": "/Operations/Clinical"
+        }
+      ]
+    }
+  ],
+  "clients": [
+    {
+      "clientId": "medisync-app",
+      "name": "MediSync Application",
+      "description": "Main MediSync web application",
+      "enabled": true,
+      "publicClient": true,
+      "directAccessGrantsEnabled": true,
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "serviceAccountsEnabled": false,
+      "protocol": "openid-connect",
+      "rootUrl": "http://localhost:3000",
+      "baseUrl": "/",
+      "redirectUris": [
+        "http://localhost:3000/*",
+        "http://localhost:8080/*"
+      ],
+      "webOrigins": [
+        "http://localhost:3000",
+        "http://localhost:8080"
+      ],
+      "attributes": {
+        "post.logout.redirect.uris": "http://localhost:3000/*"
+      },
+      "defaultClientScopes": [
+        "web-origins",
+        "acr",
+        "profile",
+        "roles",
+        "email"
+      ],
+      "optionalClientScopes": [
+        "address",
+        "phone",
+        "offline_access"
+      ]
+    },
+    {
+      "clientId": "medisync-etl",
+      "name": "MediSync ETL Service",
+      "description": "ETL service for data synchronization",
+      "enabled": true,
+      "publicClient": false,
+      "serviceAccountsEnabled": true,
+      "directAccessGrantsEnabled": false,
+      "standardFlowEnabled": false,
+      "protocol": "openid-connect",
+      "secret": "etl-service-secret-change-in-production"
+    }
+  ],
+  "users": [
+    {
+      "username": "admin",
+      "email": "admin@medisync.local",
+      "enabled": true,
+      "emailVerified": true,
+      "firstName": "System",
+      "lastName": "Administrator",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "admin123",
+          "temporary": true
+        }
+      ],
+      "realmRoles": ["admin"],
+      "clientRoles": {
+        "medisync-app": ["query_hims", "query_tally", "export_data", "approve_workflows", "manage_users"]
+      }
+    },
+    {
+      "username": "analyst",
+      "email": "analyst@medisync.local",
+      "enabled": true,
+      "emailVerified": true,
+      "firstName": "Demo",
+      "lastName": "Analyst",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "analyst123",
+          "temporary": true
+        }
+      ],
+      "realmRoles": ["analyst"],
+      "clientRoles": {
+        "medisync-app": ["query_hims", "query_tally", "export_data"]
+      }
+    },
+    {
+      "username": "viewer",
+      "email": "viewer@medisync.local",
+      "enabled": true,
+      "emailVerified": true,
+      "firstName": "Demo",
+      "lastName": "Viewer",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "viewer123",
+          "temporary": true
+        }
+      ],
+      "realmRoles": ["viewer"],
+      "clientRoles": {
+        "medisync-app": ["query_hims", "query_tally"]
+      }
+    }
+  ],
+  "scopeMappings": [
+    {
+      "client": "medisync-app",
+      "roles": ["admin", "analyst", "viewer"]
+    }
+  ],
+  "clientScopeMappings": {
+    "medisync-app": [
+      {
+        "client": "medisync-app",
+        "roles": ["query_hims", "query_tally"]
+      }
+    ]
+  }
+}

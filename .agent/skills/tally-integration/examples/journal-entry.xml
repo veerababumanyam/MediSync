@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ENVELOPE>
+    <HEADER>
+        <TALLYREQUEST>Import Data</TALLYREQUEST>
+        <VERSION>1</VERSION>
+    </HEADER>
+    <BODY>
+        <IMPORTDATA>
+            <REQUESTDESC>
+                <REPORTNAME>All Masters</REPORTNAME>
+                <STATICVARIABLES>
+                    <SVEXPORTFORMAT>$$SysName:XML</SVEXPORTFORMAT>
+                </STATICVARIABLES>
+            </REQUESTDESC>
+            <REQUESTDATA>
+                <TALLYMESSAGE xmlns:UDF="TallyUDF">
+                    <VOUCHER VCHTYPE="Journal" ACTION="Create" OBJVIEW="Accounting Voucher View">
+                        <DATE>20260219</DATE>
+                        <VOUCHERNUMBER>JV-2026-0219-001</VOUCHERNUMBER>
+                        <NARRATION>Monthly rent payment for Dubai clinic - February 2026</NARRATION>
+                        <REMOTEID>medisync-8f4d2a1b3c</REMOTEID>
+
+                        <!-- Debit Entry: Rent Expense -->
+                        <ALLLEDGERENTRIES.LIST>
+                            <LEDGERNAME>Rent Expense - Dubai Clinic</LEDGERNAME>
+                            <ISDEEMEDPOSITIVE>No</ISDEEMEDPOSITIVE>
+                            <AMOUNT>25000</AMOUNT>
+                            <BANKALLOCTYPE>NotApplicable</BANKALLOCTYPE>
+                        </ALLLEDGERENTRIES.LIST>
+
+                        <!-- Credit Entry: Bank Account -->
+                        <ALLLEDGERENTRIES.LIST>
+                            <LEDGERNAME>ADCB Bank - Current Account</LEDGERNAME>
+                            <ISDEEMEDPOSITIVE>Yes</ISDEEMEDPOSITIVE>
+                            <AMOUNT>25000</AMOUNT>
+                            <BANKALLOCTYPE>NotApplicable</BANKALLOCTYPE>
+                        </ALLLEDGERENTRIES.LIST>
+
+                        <!-- MediSync Tracking Fields -->
+                        <UDF:MSYNC.ENTRYID>ENT-20260219-0001</UDF:MSYNC.ENTRYID>
+                        <UDF:MSYNC.SYNCEDBY>john.doe@medisync.com</UDF:MSYNC.SYNCEDBY>
+                        <UDF:MSYNC.SYNCDATETIME>2026-02-19 14:30:00</UDF:MSYNC.SYNCDATETIME>
+                        <UDF:MSYNC.SOURCE>manual</UDF:MSYNC.SOURCE>
+                    </VOUCHER>
+                </TALLYMESSAGE>
+            </REQUESTDATA>
+        </IMPORTDATA>
+    </BODY>
+</ENVELOPE>
