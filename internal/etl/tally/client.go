@@ -462,6 +462,11 @@ func (c *Client) doRequest(ctx context.Context, xmlPayload string) (*Response, e
 	}
 	defer resp.Body.Close()
 
+	// Check for HTTP status errors - 5xx errors should be retryable
+	if resp.StatusCode >= 500 {
+		return nil, fmt.Errorf("%w: HTTP %d %s", ErrConnectionFailed, resp.StatusCode, resp.Status)
+	}
+
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return nil, fmt.Errorf("%w: failed to read response body: %v", ErrResponseParseFailed, err)
