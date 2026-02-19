@@ -202,7 +202,7 @@ HIMS REST  → [Go HIMS Connector]  ─┘
 
 ### 4.3 Data Warehouse Layer
 
-**Primary Store:** PostgreSQL 15+ (self-hosted, on-premises)
+**Primary Store:** PostgreSQL 18.2 (self-hosted, on-premises)
 
 ```
 PostgreSQL Instance
@@ -292,7 +292,7 @@ User Request
 
 **Genkit features used:**
 - **Flows** — Type-safe, traceable AI pipelines with explicit input/output schemas (Pydantic-style Go structs)
-- **Plugins** — Interchangeable LLM backends (Gemini, GPT-4o, Ollama/Llama 3)
+- **Plugins** — Interchangeable LLM backends (Gemini 3, GPT-5.2, Ollama/Llama 4)
 - **Observability** — Built-in tracing, span logging per flow step; exported to Grafana/Loki
 - **Retry logic** — Configurable retry with exponential backoff on transient LLM errors
 - **Streaming** — Server-Sent Events (SSE) for streaming chart/text responses to CopilotKit
@@ -682,9 +682,9 @@ Proactive Background Services:
 | E-04 | Multilingual Report Generator | Reactive | L2 | No | 5 |
 | E-05 | Translation Coverage Guard (CI) | Proactive | L1 | No | 1 |
 | E-06 | Multilingual Notification | Proactive | L1 | No | 6 |
-| E-07 | Bilingual Glossary Sync | Proactive | L1 | Yes (glossary review) | 3 |
 
 **Total: 58 agents across 5 modules**
+
 
 ### 6.2 Inter-Agent Communication (A2A Protocol)
 
@@ -1086,7 +1086,7 @@ Offline capabilities:
 
 | Component | Technology | License | Role |
 |---|---|---|---|
-| Core backend | Go 1.22+ | BSD-3 | API server, ETL service, AI flow glue |
+| Core backend | Go 1.26 | BSD-3 | API server, ETL service, AI flow glue |
 | HTTP router | go-chi/chi | MIT | REST routing, middleware |
 | SQL driver | jmoiron/sqlx | MIT | PostgreSQL data access |
 | Message broker | NATS / JetStream | Apache-2.0 | Async events, queues |
@@ -1101,18 +1101,18 @@ Offline capabilities:
 | AI flow orchestration | Google Genkit | Apache-2.0 | Type-safe AI pipelines |
 | Multi-agent framework | Agent ADK | Apache-2.0 | Agent coordination |
 | Inter-agent protocol | A2A Protocol | Apache-2.0 | Standardised agent communication |
-| Local LLM serving | Ollama | MIT | Llama 3, Mistral, Gemma |
+| Local LLM serving | Ollama | MIT | Llama 4, Mistral, Gemma |
 | Production LLM serving | vLLM | Apache-2.0 | High-throughput GPU inference |
 | Semantic layer | MetricFlow | Apache-2.0 | Governed metric definitions |
 | NL search | Genkit + pgvector | — | Vector semantic search |
 | OCR | PaddleOCR | Apache-2.0 | Document text extraction |
-| LLM providers | GPT-4o / Claude 3.5 / Gemini Pro | — | Cloud LLM backends (swappable) |
+| LLM providers | GPT-5.2 / Claude 4.6 / Gemini 3 Pro | — | Cloud LLM backends (swappable) |
 
 ### Data
 
 | Component | Technology | License | Role |
 |---|---|---|---|
-| Data warehouse | PostgreSQL 15+ | PostgreSQL | Primary analytics store |
+| Data warehouse | PostgreSQL 18.2 | PostgreSQL | Primary analytics store |
 | Vector search | pgvector | PostgreSQL | Embedding storage and similarity |
 | Dedicated vector DB | Milvus | Apache-2.0 | High-volume vector indexing |
 | Cache | Redis | BSD-3 | Query cache, session cache, task broker |
@@ -1122,9 +1122,9 @@ Offline capabilities:
 
 | Component | Technology | License | Role |
 |---|---|---|---|
-| Web framework | React 18 | MIT | Web application shell |
+| Web framework | React 19.2.4 | MIT | Web application shell |
 | Generative UI | CopilotKit | MIT | AI-powered dynamic UI orchestration |
-| Build tool | Vite | MIT | Development & production build |
+| Build tool | Vite 7.3 | MIT | Development & production build |
 | Charts | Apache ECharts | Apache-2.0 | All data visualisations |
 | i18n (web) | i18next | MIT | EN/AR translations, RTL |
 | Mobile | Flutter | BSD-3 | iOS/Android cross-platform app |
@@ -1151,7 +1151,7 @@ MediSync is deployed **on-premises** (private network, self-hosted) to satisfy h
 │  ┌──────────────────┐   ┌──────────────────┐   ┌───────────────┐   │
 │  │  App Server(s)   │   │  DB Server       │   │  GPU Server   │   │
 │  │                  │   │                  │   │  (optional)   │   │
-│  │  Go API          │   │  PostgreSQL 15   │   │               │   │
+│  │  Go API          │   │  PostgreSQL 18.2 │   │               │   │
 │  │  Genkit Flows    │   │  pgvector ext    │   │  vLLM         │   │
 │  │  Agent Services  │   │  Redis           │   │  Ollama       │   │
 │  │  Keycloak        │   │  Milvus          │   │               │   │

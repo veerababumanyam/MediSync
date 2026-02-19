@@ -229,13 +229,13 @@ MediSync is powered by **58 specialized AI agents** across 5 modules, coordinate
 
 | Layer | Technology |
 |---|---|
-| Backend language | **Go 1.22+** |
+| Backend language | **Go 1.26** |
 | HTTP router | go-chi/chi (MIT) |
 | Message broker | **NATS / JetStream** (Apache-2.0) |
 | Identity & Auth | **Keycloak** (Apache-2.0) — OIDC, JWT, 2FA |
 | Authorization | **Open Policy Agent** (Apache-2.0) — Rego policies |
 | ETL orchestration | **Meltano** (MIT) |
-| Database | **PostgreSQL 15+** with pgvector extension |
+| Database | **PostgreSQL 18.2** with pgvector extension |
 | Cache | **Redis** (BSD-3) |
 | Offline sync | **PowerSync** (Apache-2.0) |
 | Vector DB (alt.) | **Milvus** (Apache-2.0) |
@@ -248,18 +248,18 @@ MediSync is powered by **58 specialized AI agents** across 5 modules, coordinate
 | Multi-agent framework | **Agent ADK** (Apache-2.0) |
 | Inter-agent protocol | **Google A2A Protocol** (Apache-2.0) |
 | Semantic layer | **MetricFlow** (Apache-2.0) |
-| Local LLM serving | **Ollama** (MIT) — Llama 3, Mistral, Gemma |
+| Local LLM serving | **Ollama** (MIT) — Llama 4, Mistral, Gemma |
 | GPU LLM serving | **vLLM** (Apache-2.0) |
-| Cloud LLMs | GPT-4o, Claude 3.5 Sonnet, Gemini 1.5 Pro (swappable via Genkit plugin) |
+| Cloud LLMs | GPT-5.2, Claude 4.6 Opus, Gemini 3 Pro (swappable via Genkit plugin) |
 | OCR engine | **PaddleOCR** (Apache-2.0) |
 
 ### Frontend
 
 | Layer | Technology |
 |---|---|
-| Web framework | **React 18** (MIT) |
+| Web framework | **React 19.2.4** (MIT) |
 | Generative UI | **CopilotKit** (MIT) |
-| Build tool | **Vite** (MIT) |
+| Build tool | **Vite 7.3** (MIT) |
 | Charting | **Apache ECharts** (Apache-2.0) |
 | Web i18n | **i18next + react-i18next** (MIT) |
 | Mobile | **Flutter** (BSD-3) — iOS & Android |
@@ -456,13 +456,13 @@ Phase 18  (Wk 53–54) ██████████  Full integration UAT, fin
 
 ### Prerequisites
 
-- Go 1.22+
+- Go 1.26
 - Docker & Docker Compose
-- Node.js 20+ (frontend build)
-- Flutter 3.x (mobile build)
-- PostgreSQL 15+ with `pgvector` extension
-- Redis 7+
-- NATS Server 2.10+
+- Node.js 24 LTS (frontend build)
+- Flutter 3.42 (mobile build)
+- PostgreSQL 18.2 with `pgvector` extension
+- Redis 8.6.0
+- NATS Server 2.12.4
 
 ### Development Setup
 

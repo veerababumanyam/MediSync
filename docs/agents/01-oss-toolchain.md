@@ -32,7 +32,7 @@
 |------|---------|--------|-----------------|------|
 | **Genkit** ✅ | Apache-2.0 | [firebase/genkit](https://github.com/firebase/genkit) | AI Orchestration (Go/TS) | Type-safe flows, observability |
 | **Agent ADK** ✅ | Apache-2.0 | [google/agent-adk](https://github.com/google/agent-adk) | Multi-Agent Framework | Sophisticated agent orchestration |
-| **Ollama** ✅ | MIT | [ollama/ollama](https://github.com/ollama/ollama) | Local LLM Serving | Llama 3, Mistral, Gemma |
+| **Ollama** ✅ | MIT | [ollama/ollama](https://github.com/ollama/ollama) | Local LLM Serving | Llama 4, Mistral, Gemma |
 | **vLLM** ✅ | Apache-2.0 | [vllm-project/vllm](https://github.com/vllm-project/vllm) | Production LLM Serving | High-throughput GPU |
 | **Redamon** ✅ | MIT | [samugit83/redamon](https://github.com/samugit83/redamon) | Agentic Red Teaming | AI-powered offensive security |
 
@@ -93,7 +93,7 @@
 | **C-05 Security** | OPA (Open Policy Agent), **Redamon** | Offensive & defensive agentic security |
 | **D-01 NL Search** | Genkit, pgvector | Vector embedding search |
 | **E-01 Language Detection** | Genkit, `golang.org/x/text/language` | Locale detection, query lang classification |
-| **E-02 Query Translation** | Genkit + GPT-4o / Gemini Pro | Arabic→intent normalisation pre-SQL |
+| **E-02 Query Translation** | Genkit + GPT-5.2 / Gemini 3 Pro | Arabic→intent normalisation pre-SQL |
 | **E-03 Response Formatter** | `golang.org/x/text/message`, Go `Intl` | Locale-correct number/date/currency output |
 | **E-04 Report Generator (i18n)** | WeasyPrint, Cairo font, excelize, `golang.org/x/text` | RTL PDF + RTL Excel generation |
 | **E-05 Translation Guard** | i18next-parser, Node.js CI script | Missing translation key enforcement |
