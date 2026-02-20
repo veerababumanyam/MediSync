@@ -1,0 +1,371 @@
+{
+  "metadata": {
+    "version": "1.0",
+    "created": "2026-02-19",
+    "description": "Domain terminology glossary for healthcare and accounting terms used in MediSync",
+    "total_terms": 30,
+    "categories": ["healthcare", "accounting", "general"]
+  },
+  "terms": [
+    {
+      "id": 1,
+      "synonym": "footfall",
+      "canonical_term": "patient_visits",
+      "category": "healthcare",
+      "sql_fragment": "fact_appointments.appointment_id",
+      "locale_variants": {
+        "en": ["footfall", "walk-ins", "visits", "patient traffic"],
+        "ar": ["زيارات", "حضور", "إقبال"]
+      },
+      "description": "Count of patient visits to the clinic"
+    },
+    {
+      "id": 2,
+      "synonym": "revenue",
+      "canonical_term": "total_billed_amount",
+      "category": "accounting",
+      "sql_fragment": "fact_billing.amount",
+      "locale_variants": {
+        "en": ["revenue", "income", "earnings", "sales"],
+        "ar": ["إيرادات", "دخل", "مبيعات"]
+      },
+      "description": "Total amount billed for services"
+    },
+    {
+      "id": 3,
+      "synonym": "clinic",
+      "canonical_term": "clinic_department",
+      "category": "healthcare",
+      "sql_fragment": "dim_department.department_type = 'clinic'",
+      "locale_variants": {
+        "en": ["clinic", "outpatient", "medical center"],
+        "ar": ["عيادة", "مركز طبي"]
+      },
+      "description": "Clinic department or outpatient services"
+    },
+    {
+      "id": 4,
+      "synonym": "pharmacy",
+      "canonical_term": "pharmacy_department",
+      "category": "healthcare",
+      "sql_fragment": "dim_department.department_type = 'pharmacy'",
+      "locale_variants": {
+        "en": ["pharmacy", "drugstore", "dispensary"],
+        "ar": ["صيدلية", "مستودع أدوية"]
+      },
+      "description": "Pharmacy department for medication dispensing"
+    },
+    {
+      "id": 5,
+      "synonym": "appointment",
+      "canonical_term": "scheduled_visit",
+      "category": "healthcare",
+      "sql_fragment": "fact_appointments",
+      "locale_variants": {
+        "en": ["appointment", "booking", "schedule", "slot"],
+        "ar": ["موعد", "حجز", "جدول"]
+      },
+      "description": "Scheduled patient appointment"
+    },
+    {
+      "id": 6,
+      "synonym": "doctor",
+      "canonical_term": "physician",
+      "category": "healthcare",
+      "sql_fragment": "dim_doctor",
+      "locale_variants": {
+        "en": ["doctor", "physician", "clinician", "practitioner"],
+        "ar": ["طبيب", "حكيم", "طبيب معالج"]
+      },
+      "description": "Medical doctor or physician"
+    },
+    {
+      "id": 7,
+      "synonym": "patient",
+      "canonical_term": "patient_record",
+      "category": "healthcare",
+      "sql_fragment": "dim_patient",
+      "locale_variants": {
+        "en": ["patient", "customer", "client"],
+        "ar": ["مريض", "حالة", "عميل"]
+      },
+      "description": "Patient or customer record"
+    },
+    {
+      "id": 8,
+      "synonym": "billing",
+      "canonical_term": "invoice",
+      "category": "accounting",
+      "sql_fragment": "fact_billing",
+      "locale_variants": {
+        "en": ["billing", "invoice", "bill", "charges"],
+        "ar": ["فاتورة", "فواتير", "رسوم"]
+      },
+      "description": "Billing or invoice record"
+    },
+    {
+      "id": 9,
+      "synonym": "payment",
+      "canonical_term": "transaction",
+      "category": "accounting",
+      "sql_fragment": "fact_payments",
+      "locale_variants": {
+        "en": ["payment", "transaction", "settlement"],
+        "ar": ["دفعة", "معاملة", "تسوية"]
+      },
+      "description": "Payment transaction record"
+    },
+    {
+      "id": 10,
+      "synonym": "profit",
+      "canonical_term": "net_income",
+      "category": "accounting",
+      "sql_fragment": "(fact_billing.amount - fact_billing.cost)",
+      "locale_variants": {
+        "en": ["profit", "net income", "earnings"],
+        "ar": ["ربح", "صافي الدخل"]
+      },
+      "description": "Net profit after costs"
+    },
+    {
+      "id": 11,
+      "synonym": "margin",
+      "canonical_term": "profit_percentage",
+      "category": "accounting",
+      "sql_fragment": "((fact_billing.amount - fact_billing.cost) / fact_billing.amount * 100)",
+      "locale_variants": {
+        "en": ["margin", "profit margin", "markup"],
+        "ar": ["هامش الربح", "نسبة الربح"]
+      },
+      "description": "Profit margin percentage"
+    },
+    {
+      "id": 12,
+      "synonym": "inventory",
+      "canonical_term": "stock",
+      "category": "healthcare",
+      "sql_fragment": "fact_inventory",
+      "locale_variants": {
+        "en": ["inventory", "stock", "supplies"],
+        "ar": ["مخزون", "أسهم", "إمدادات"]
+      },
+      "description": "Medicine and supply inventory"
+    },
+    {
+      "id": 13,
+      "synonym": "prescription",
+      "canonical_term": "medication_order",
+      "category": "healthcare",
+      "sql_fragment": "fact_prescriptions",
+      "locale_variants": {
+        "en": ["prescription", "Rx", "medication order"],
+        "ar": ["وصفة طبية", "روشتة"]
+      },
+      "description": "Medical prescription or medication order"
+    },
+    {
+      "id": 14,
+      "synonym": "diagnosis",
+      "canonical_term": "medical_condition",
+      "category": "healthcare",
+      "sql_fragment": "dim_diagnosis",
+      "locale_variants": {
+        "en": ["diagnosis", "condition", "ailment"],
+        "ar": ["تشخيص", "حالة مرضية"]
+      },
+      "description": "Medical diagnosis or condition"
+    },
+    {
+      "id": 15,
+      "synonym": "treatment",
+      "canonical_term": "procedure",
+      "category": "healthcare",
+      "sql_fragment": "dim_procedure",
+      "locale_variants": {
+        "en": ["treatment", "procedure", "therapy"],
+        "ar": ["علاج", "إجراء طبي"]
+      },
+      "description": "Medical treatment or procedure"
+    },
+    {
+      "id": 16,
+      "synonym": "insurance",
+      "canonical_term": "coverage",
+      "category": "accounting",
+      "sql_fragment": "dim_insurance",
+      "locale_variants": {
+        "en": ["insurance", "coverage", "policy"],
+        "ar": ["تأمين", "تغطية", "بوليصة"]
+      },
+      "description": "Insurance coverage or policy"
+    },
+    {
+      "id": 17,
+      "synonym": "claim",
+      "canonical_term": "insurance_claim",
+      "category": "accounting",
+      "sql_fragment": "fact_claims",
+      "locale_variants": {
+        "en": ["claim", "insurance claim", "reimbursement"],
+        "ar": ["مطالبة", "تعويض"]
+      },
+      "description": "Insurance claim record"
+    },
+    {
+      "id": 18,
+      "synonym": "department",
+      "canonical_term": "organizational_unit",
+      "category": "general",
+      "sql_fragment": "dim_department",
+      "locale_variants": {
+        "en": ["department", "unit", "division"],
+        "ar": ["قسم", "وحدة", "شعبة"]
+      },
+      "description": "Organizational department or unit"
+    },
+    {
+      "id": 19,
+      "synonym": "specialty",
+      "canonical_term": "medical_specialization",
+      "category": "healthcare",
+      "sql_fragment": "dim_specialty",
+      "locale_variants": {
+        "en": ["specialty", "specialization", "field"],
+        "ar": ["تخصص", "مجال طبي"]
+      },
+      "description": "Medical specialty or specialization"
+    },
+    {
+      "id": 20,
+      "synonym": "supplier",
+      "canonical_term": "vendor",
+      "category": "accounting",
+      "sql_fragment": "dim_supplier",
+      "locale_variants": {
+        "en": ["supplier", "vendor", "distributor"],
+        "ar": ["مورد", "بائع", "موزع"]
+      },
+      "description": "Medicine or supply vendor"
+    },
+    {
+      "id": 21,
+      "synonym": "purchase",
+      "canonical_term": "procurement",
+      "category": "accounting",
+      "sql_fragment": "fact_purchases",
+      "locale_variants": {
+        "en": ["purchase", "procurement", "acquisition"],
+        "ar": ["شراء", "مشتريات", "توريد"]
+      },
+      "description": "Purchase or procurement record"
+    },
+    {
+      "id": 22,
+      "synonym": "expense",
+      "canonical_term": "cost",
+      "category": "accounting",
+      "sql_fragment": "fact_expenses",
+      "locale_variants": {
+        "en": ["expense", "cost", "expenditure"],
+        "ar": ["مصروف", "تكلفة", "نفقة"]
+      },
+      "description": "Business expense or cost"
+    },
+    {
+      "id": 23,
+      "synonym": "salary",
+      "canonical_term": "payroll",
+      "category": "accounting",
+      "sql_fragment": "fact_payroll",
+      "locale_variants": {
+        "en": ["salary", "payroll", "wages", "compensation"],
+        "ar": ["راتب", "رواتب", "أجر"]
+      },
+      "description": "Employee salary or payroll"
+    },
+    {
+      "id": 24,
+      "synonym": "staff",
+      "canonical_term": "employee",
+      "category": "general",
+      "sql_fragment": "dim_employee",
+      "locale_variants": {
+        "en": ["staff", "employee", "personnel", "worker"],
+        "ar": ["موظف", "طاقم", "عامل"]
+      },
+      "description": "Staff or employee record"
+    },
+    {
+      "id": 25,
+      "synonym": "shift",
+      "canonical_term": "work_schedule",
+      "category": "general",
+      "sql_fragment": "fact_shifts",
+      "locale_variants": {
+        "en": ["shift", "schedule", "roster"],
+        "ar": ["وردية", "جدول عمل"]
+      },
+      "description": "Work shift or schedule"
+    },
+    {
+      "id": 26,
+      "synonym": "bed",
+      "canonical_term": "inpatient_bed",
+      "category": "healthcare",
+      "sql_fragment": "dim_beds",
+      "locale_variants": {
+        "en": ["bed", "inpatient bed", "hospital bed"],
+        "ar": ["سرير", "سرير مريض"]
+      },
+      "description": "Inpatient bed resource"
+    },
+    {
+      "id": 27,
+      "synonym": "admission",
+      "canonical_term": "hospitalization",
+      "category": "healthcare",
+      "sql_fragment": "fact_admissions",
+      "locale_variants": {
+        "en": ["admission", "hospitalization", "inpatient stay"],
+        "ar": ["تنويم", "إدخال"]
+      },
+      "description": "Hospital admission or inpatient stay"
+    },
+    {
+      "id": 28,
+      "synonym": "discharge",
+      "canonical_term": "release",
+      "category": "healthcare",
+      "sql_fragment": "fact_admissions.discharge_date",
+      "locale_variants": {
+        "en": ["discharge", "release", "checkout"],
+        "ar": ["تخريج", "خروج"]
+      },
+      "description": "Patient discharge or release"
+    },
+    {
+      "id": 29,
+      "synonym": "lab",
+      "canonical_term": "laboratory",
+      "category": "healthcare",
+      "sql_fragment": "dim_department.department_type = 'laboratory'",
+      "locale_variants": {
+        "en": ["lab", "laboratory", "diagnostics"],
+        "ar": ["مختبر", "معمل"]
+      },
+      "description": "Laboratory or diagnostics department"
+    },
+    {
+      "id": 30,
+      "synonym": "report",
+      "canonical_term": "analytics_output",
+      "category": "general",
+      "sql_fragment": "app.saved_reports",
+      "locale_variants": {
+        "en": ["report", "analytics", "summary"],
+        "ar": ["تقرير", "تحليلات", "ملخص"]
+      },
+      "description": "Report or analytics output"
+    }
+  ]
+}

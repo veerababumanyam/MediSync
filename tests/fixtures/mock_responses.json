@@ -1,0 +1,370 @@
+{
+  "metadata": {
+    "version": "1.0",
+    "created": "2026-02-19",
+    "description": "Mock LLM responses for testing AI agents without actual LLM API calls",
+    "usage": "Set MOCK_LLM=true environment variable to use these responses"
+  },
+  "language_detection": {
+    "english_query": {
+      "input": "Show me total clinic revenue for January 2026",
+      "output": {
+        "locale": "en",
+        "confidence": 0.99
+      }
+    },
+    "arabic_query": {
+      "input": "أظهر إجمالي إيرادات الصيدلية هذا الشهر",
+      "output": {
+        "locale": "ar",
+        "confidence": 0.99
+      }
+    },
+    "mixed_query": {
+      "input": "Show me إيرادات for January",
+      "output": {
+        "locale": "en",
+        "confidence": 0.75
+      }
+    }
+  },
+  "query_translation": {
+    "arabic_to_english": {
+      "input": {
+        "query": "أظهر إجمالي إيرادات الصيدلية هذا الشهر",
+        "locale": "ar"
+      },
+      "output": {
+        "translated_query": "Show total pharmacy revenue for this month",
+        "detected_intent": "kpi",
+        "confidence": 0.92
+      }
+    },
+    "complex_arabic": {
+      "input": {
+        "query": "ما هو اتجاه زيارات المرضى خلال الأشهر الستة الماضية",
+        "locale": "ar"
+      },
+      "output": {
+        "translated_query": "What is the trend of patient visits over the last six months",
+        "detected_intent": "trend",
+        "confidence": 0.88
+      }
+    }
+  },
+  "text_to_sql": {
+    "revenue_kpi": {
+      "input": {
+        "query": "Show me total clinic revenue for January 2026",
+        "schema_context": "fact_billing, dim_date, dim_department"
+      },
+      "output": {
+        "sql": "SELECT SUM(f.amount) AS total_revenue FROM fact_billing f JOIN dim_date d ON f.date_id = d.date_id JOIN dim_department dept ON f.department_id = dept.department_id WHERE dept.department_type = 'clinic' AND d.year = 2026 AND d.month = 1",
+        "confidence": 0.94,
+        "explanation": "Aggregates billing amounts filtered by clinic department and January 2026"
+      }
+    },
+    "trend_query": {
+      "input": {
+        "query": "Show me revenue trend over the last 6 months",
+        "schema_context": "fact_billing, dim_date"
+      },
+      "output": {
+        "sql": "SELECT DATE_TRUNC('month', d.date_actual) AS month, SUM(f.amount) AS monthly_revenue FROM fact_billing f JOIN dim_date d ON f.date_id = d.date_id WHERE d.date_actual >= DATE_TRUNC('month', CURRENT_DATE - INTERVAL '5 months') GROUP BY 1 ORDER BY 1",
+        "confidence": 0.91,
+        "explanation": "Groups revenue by month for the last 6 months including current"
+      }
+    },
+    "comparison_query": {
+      "input": {
+        "query": "Compare revenue by department for this quarter",
+        "schema_context": "fact_billing, dim_date, dim_department"
+      },
+      "output": {
+        "sql": "SELECT dept.department_name, SUM(f.amount) AS revenue FROM fact_billing f JOIN dim_date d ON f.date_id = d.date_id JOIN dim_department dept ON f.department_id = dept.department_id WHERE d.quarter = DATE_TRUNC('quarter', CURRENT_DATE) GROUP BY dept.department_name ORDER BY 2 DESC",
+        "confidence": 0.89,
+        "explanation": "Aggregates revenue by department for current quarter"
+      }
+    },
+    "patient_visits": {
+      "input": {
+        "query": "What is the total number of patient visits this week?",
+        "schema_context": "fact_appointments, dim_date"
+      },
+      "output": {
+        "sql": "SELECT COUNT(*) AS total_visits FROM fact_appointments a JOIN dim_date d ON a.date_id = d.date_id WHERE d.date_actual >= DATE_TRUNC('week', CURRENT_DATE) AND a.status = 'completed'",
+        "confidence": 0.93,
+        "explanation": "Counts completed appointments for the current week"
+      }
+    },
+    "top_doctors": {
+      "input": {
+        "query": "List top 10 doctors by revenue generated this month",
+        "schema_context": "fact_billing, dim_date, dim_doctor"
+      },
+      "output": {
+        "sql": "SELECT doc.doctor_name, SUM(f.amount) AS revenue FROM fact_billing f JOIN dim_date d ON f.date_id = d.date_id JOIN dim_doctor doc ON f.doctor_id = doc.doctor_id WHERE d.date_actual >= DATE_TRUNC('month', CURRENT_DATE) GROUP BY doc.doctor_name ORDER BY 2 DESC LIMIT 10",
+        "confidence": 0.92,
+        "explanation": "Ranks doctors by total revenue for current month"
+      }
+    },
+    "pharmacy_breakdown": {
+      "input": {
+        "query": "What percentage of revenue comes from pharmacy vs clinic services?",
+        "schema_context": "fact_billing, dim_department"
+      },
+      "output": {
+        "sql": "SELECT dept.department_type, SUM(f.amount) AS revenue, ROUND(100.0 * SUM(f.amount) / SUM(SUM(f.amount)) OVER (), 2) AS percentage FROM fact_billing f JOIN dim_department dept ON f.department_id = dept.department_id WHERE dept.department_type IN ('pharmacy', 'clinic') GROUP BY dept.department_type",
+        "confidence": 0.87,
+        "explanation": "Calculates revenue share by department type"
+      }
+    }
+  },
+  "sql_correction": {
+    "column_not_found": {
+      "input": {
+        "sql": "SELECT patient_name FROM fact_billing",
+        "error": "column \"patient_name\" does not exist"
+      },
+      "output": {
+        "corrected_sql": "SELECT p.patient_name FROM fact_billing f JOIN dim_patient p ON f.patient_id = p.patient_id",
+        "explanation": "patient_name column is in dim_patient table, added join"
+      }
+    },
+    "syntax_error": {
+      "input": {
+        "sql": "SELECT SUM(amount FROM fact_billing",
+        "error": "syntax error at or near \"FROM\""
+      },
+      "output": {
+        "corrected_sql": "SELECT SUM(amount) FROM fact_billing",
+        "explanation": "Added missing closing parenthesis"
+      }
+    },
+    "table_not_found": {
+      "input": {
+        "sql": "SELECT * FROM patient_visits WHERE date > '2026-01-01'",
+        "error": "relation \"patient_visits\" does not exist"
+      },
+      "output": {
+        "corrected_sql": "SELECT * FROM fact_appointments WHERE appointment_date > '2026-01-01'",
+        "explanation": "Replaced patient_visits with correct table fact_appointments"
+      }
+    }
+  },
+  "visualization_routing": {
+    "kpi_response": {
+      "input": {
+        "intent": "kpi",
+        "data_shape": "single_value",
+        "query": "Show me total clinic revenue"
+      },
+      "output": {
+        "chart_type": "kpiCard",
+        "confidence": 0.96
+      }
+    },
+    "trend_response": {
+      "input": {
+        "intent": "trend",
+        "data_shape": "time_series",
+        "query": "Show revenue trend over last 6 months"
+      },
+      "output": {
+        "chart_type": "lineChart",
+        "confidence": 0.94
+      }
+    },
+    "comparison_response": {
+      "input": {
+        "intent": "comparison",
+        "data_shape": "categorical",
+        "query": "Compare revenue by department"
+      },
+      "output": {
+        "chart_type": "barChart",
+        "confidence": 0.92
+      }
+    },
+    "breakdown_response": {
+      "input": {
+        "intent": "breakdown",
+        "data_shape": "proportions",
+        "query": "What percentage of revenue from pharmacy vs clinic"
+      },
+      "output": {
+        "chart_type": "pieChart",
+        "confidence": 0.89
+      }
+    },
+    "table_response": {
+      "input": {
+        "intent": "breakdown",
+        "data_shape": "many_rows",
+        "query": "List all appointments this month"
+      },
+      "output": {
+        "chart_type": "dataTable",
+        "confidence": 0.91
+      }
+    }
+  },
+  "hallucination_guard": {
+    "on_topic_healthcare": {
+      "input": "Show me patient visits by department",
+      "output": {
+        "is_on_topic": true,
+        "category": "healthcare_analytics",
+        "confidence": 0.98
+      }
+    },
+    "on_topic_finance": {
+      "input": "What is the total revenue this month?",
+      "output": {
+        "is_on_topic": true,
+        "category": "financial_analytics",
+        "confidence": 0.97
+      }
+    },
+    "off_topic_weather": {
+      "input": "What's the weather like today?",
+      "output": {
+        "is_on_topic": false,
+        "category": "weather",
+        "confidence": 0.99,
+        "rejection_message": "I can only help with healthcare and financial data queries. Please ask about patient visits, revenue, appointments, or other business metrics."
+      }
+    },
+    "off_topic_general": {
+      "input": "Write me a poem about spring",
+      "output": {
+        "is_on_topic": false,
+        "category": "creative_writing",
+        "confidence": 0.99,
+        "rejection_message": "I can only help with healthcare and financial data queries. Please ask about patient visits, revenue, appointments, or other business metrics."
+      }
+    },
+    "off_topic_coding": {
+      "input": "How do I implement a binary search tree?",
+      "output": {
+        "is_on_topic": false,
+        "category": "programming",
+        "confidence": 0.95,
+        "rejection_message": "I can only help with healthcare and financial data queries. Please ask about patient visits, revenue, appointments, or other business metrics."
+      }
+    },
+    "ambiguous_query": {
+      "input": "Show me the data",
+      "output": {
+        "is_on_topic": true,
+        "category": "healthcare_analytics",
+        "confidence": 0.55,
+        "needs_clarification": true,
+        "clarification_message": "Could you please specify what data you'd like to see? For example: patient visits, revenue, appointments, or inventory?"
+      }
+    }
+  },
+  "confidence_scoring": {
+    "high_confidence": {
+      "input": {
+        "query": "Show me total revenue for January 2026",
+        "sql_complexity": "simple",
+        "schema_matches": 3,
+        "retry_count": 0
+      },
+      "output": {
+        "score": 94,
+        "factors": {
+          "intent_clarity": 0.95,
+          "schema_match_quality": 0.92,
+          "sql_complexity_penalty": 0.05,
+          "retry_penalty": 0.0,
+          "hallucination_risk": 0.03
+        },
+        "routing_decision": "normal"
+      }
+    },
+    "medium_confidence": {
+      "input": {
+        "query": "Compare revenue across all departments last quarter",
+        "sql_complexity": "medium",
+        "schema_matches": 5,
+        "retry_count": 1
+      },
+      "output": {
+        "score": 68,
+        "factors": {
+          "intent_clarity": 0.80,
+          "schema_match_quality": 0.75,
+          "sql_complexity_penalty": 0.12,
+          "retry_penalty": 0.10,
+          "hallucination_risk": 0.15
+        },
+        "routing_decision": "warning"
+      }
+    },
+    "low_confidence": {
+      "input": {
+        "query": "Show me the most important metrics",
+        "sql_complexity": "high",
+        "schema_matches": 8,
+        "retry_count": 2
+      },
+      "output": {
+        "score": 42,
+        "factors": {
+          "intent_clarity": 0.35,
+          "schema_match_quality": 0.50,
+          "sql_complexity_penalty": 0.20,
+          "retry_penalty": 0.20,
+          "hallucination_risk": 0.38
+        },
+        "routing_decision": "clarify"
+      }
+    }
+  },
+  "localization": {
+    "english_numbers": {
+      "input": {
+        "value": 1234567.89,
+        "locale": "en",
+        "format": "currency",
+        "currency": "INR"
+      },
+      "output": {
+        "formatted": "₹12,34,567.89"
+      }
+    },
+    "arabic_numbers": {
+      "input": {
+        "value": 1234567.89,
+        "locale": "ar",
+        "format": "currency",
+        "currency": "INR"
+      },
+      "output": {
+        "formatted": "₹١٬٢٣٤٬٥٦٧٫٨٩"
+      }
+    },
+    "english_date": {
+      "input": {
+        "date": "2026-01-15",
+        "locale": "en",
+        "format": "long"
+      },
+      "output": {
+        "formatted": "January 15, 2026"
+      }
+    },
+    "arabic_date": {
+      "input": {
+        "date": "2026-01-15",
+        "locale": "ar",
+        "format": "long"
+      },
+      "output": {
+        "formatted": "١٥ يناير ٢٠٢٦"
+      }
+    }
+  }
+}

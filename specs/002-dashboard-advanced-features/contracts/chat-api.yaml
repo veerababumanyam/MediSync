@@ -1,0 +1,473 @@
+openapi: 3.1.0
+info:
+  title: MediSync Chat API
+  description: |
+    Natural language chat interface for querying healthcare and financial data.
+    Supports streaming responses with inline chart and table rendering.
+
+    ## Authentication
+    All endpoints require Bearer token authentication via Keycloak JWT.
+
+    ## Internationalization
+    Responses are localized based on:
+    1. `user_preferences.locale` from JWT claims
+    2. `Accept-Language` header
+    3. `?lang=en|ar` query parameter
+
+  version: 1.0.0
+  contact:
+    name: MediSync API Support
+    email: api@medisync.health
+
+servers:
+  - url: /api/v1
+    description: API v1
+
+tags:
+  - name: Chat
+    description: Natural language query endpoints
+  - name: Streaming
+    description: WebSocket streaming interfaces
+
+paths:
+  /chat/query:
+    post:
+      summary: Submit natural language query
+      description: |
+        Submit a natural language question and receive a response with optional
+        chart/table visualizations. For streaming responses, use the WebSocket endpoint.
+      operationId: submitQuery
+      tags:
+        - Chat
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QueryRequest'
+            examples:
+              english_revenue:
+                summary: English revenue query
+                value:
+                  query: "What is this month's total revenue by department?"
+                  session_id: "550e8400-e29b-41d4-a716-446655440000"
+              arabic_revenue:
+                summary: Arabic revenue query
+                value:
+                  query: "ما هي إجمالي إيرادات هذا الشهر حسب القسم؟"
+                  session_id: "550e8400-e29b-41d4-a716-446655440000"
+                  locale: "ar"
+      responses:
+        '200':
+          description: Query processed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QueryResponse'
+              examples:
+                with_chart:
+                  summary: Response with chart
+                  value:
+                    message_id: "660e8400-e29b-41d4-a716-446655440001"
+                    content: "Here's the revenue breakdown by department for this month:"
+                    chart_spec:
+                      title:
+                        text: "Revenue by Department"
+                      xAxis:
+                        type: category
+                        data: ["Cardiology", "Orthopedics", "Pediatrics"]
+                      yAxis:
+                        type: value
+                      series:
+                        - type: bar
+                          data: [125000, 98000, 76000]
+                    confidence_score: 0.95
+                    locale: "en"
+                with_table:
+                  summary: Response with table
+                  value:
+                    message_id: "660e8400-e29b-41d4-a716-446655440002"
+                    content: "Here's the detailed breakdown:"
+                    table_data:
+                      columns: ["Department", "Revenue", "Change %"]
+                      rows:
+                        - ["Cardiology", "$125,000", "+12%"]
+                        - ["Orthopedics", "$98,000", "-3%"]
+                        - ["Pediatrics", "$76,000", "+5%"]
+                    confidence_score: 0.92
+                    locale: "en"
+        '400':
+          description: Invalid query request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Authentication required
+        '422':
+          description: Query could not be processed (ambiguity, safety violation)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClarificationResponse'
+        '429':
+          description: Rate limit exceeded
+          headers:
+            X-RateLimit-Reset:
+              schema:
+                type: integer
+              description: Seconds until rate limit resets
+
+  /chat/stream:
+    get:
+      summary: WebSocket streaming endpoint
+      description: |
+        Establish a WebSocket connection for streaming query responses.
+
+        ## Connection
+        ```
+        wss://api.medisync.health/api/v1/chat/stream?session_id={session_id}
+        ```
+
+        ## Message Flow
+        1. Client sends: `{"type": "query", "query": "...", "locale": "en"}`
+        2. Server streams: Multiple `{"type": "chunk", ...}` messages
+        3. Server sends: `{"type": "complete", "message_id": "..."}`
+
+        ## Chunk Types
+        - `text`: Text content fragment
+        - `chart`: ECharts specification
+        - `table`: Tabular data
+        - `error`: Error message
+        - `complete`: End of response
+      operationId: streamQuery
+      tags:
+        - Streaming
+      parameters:
+        - name: session_id
+          in: query
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Chat session identifier
+      responses:
+        '101':
+          description: WebSocket connection established
+        '401':
+          description: Authentication required
+
+  /chat/sessions/{session_id}/messages:
+    get:
+      summary: Get chat history
+      description: Retrieve message history for a chat session
+      operationId: getChatHistory
+      tags:
+        - Chat
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: session_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 50
+        - name: before
+          in: query
+          description: Return messages before this timestamp
+          schema:
+            type: string
+            format: date-time
+      responses:
+        '200':
+          description: Chat history retrieved
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  session_id:
+                    type: string
+                    format: uuid
+                  messages:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ChatMessage'
+                  has_more:
+                    type: boolean
+        '404':
+          description: Session not found
+
+  /chat/drilldown:
+    post:
+      summary: Drill down into data point
+      description: |
+        Request detailed breakdown for a specific data point from a chart or table.
+        The system will generate a new query based on the selected element.
+      operationId: drillDown
+      tags:
+        - Chat
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DrillDownRequest'
+      responses:
+        '200':
+          description: Drill-down results
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QueryResponse'
+        '403':
+          description: User lacks permission to view detail level
+        '404':
+          description: Parent data point not found
+
+  /chat/export:
+    post:
+      summary: Export query results
+      description: Export the results of a query to a file format
+      operationId: exportQueryResults
+      tags:
+        - Chat
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExportRequest'
+      responses:
+        '200':
+          description: File generated successfully
+          content:
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+            application/vnd.openxmlformats-officedocument.spreadsheetml.sheet:
+              schema:
+                type: string
+                format: binary
+            text/csv:
+              schema:
+                type: string
+        '202':
+          description: Export in progress (for large datasets)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  export_id:
+                    type: string
+                    format: uuid
+                  estimated_time_seconds:
+                    type: integer
+        '413':
+          description: Dataset too large for export
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: Keycloak JWT token
+
+  schemas:
+    QueryRequest:
+      type: object
+      required:
+        - query
+      properties:
+        query:
+          type: string
+          minLength: 3
+          maxLength: 2000
+          description: Natural language query
+          examples:
+            - What is today's total revenue?
+        session_id:
+          type: string
+          format: uuid
+          description: Session ID for conversation continuity
+        locale:
+          type: string
+          enum: [en, ar]
+          description: Override user's locale for this query
+        comparison_period:
+          type: object
+          description: Optional period comparison
+          properties:
+            type:
+              type: string
+              enum: [previous_period, previous_year, custom]
+            custom_range:
+              $ref: '#/components/schemas/DateRange'
+
+    QueryResponse:
+      type: object
+      required:
+        - message_id
+        - content
+        - locale
+      properties:
+        message_id:
+          type: string
+          format: uuid
+        content:
+          type: string
+          description: Text response from AI
+        chart_spec:
+          type: object
+          description: ECharts configuration (optional)
+        table_data:
+          $ref: '#/components/schemas/TableData'
+        drilldown_available:
+          type: boolean
+          default: false
+        confidence_score:
+          type: number
+          format: float
+          minimum: 0
+          maximum: 1
+        locale:
+          type: string
+          enum: [en, ar]
+        created_at:
+          type: string
+          format: date-time
+
+    ChatMessage:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        role:
+          type: string
+          enum: [user, assistant]
+        content:
+          type: string
+        chart_spec:
+          type: object
+        table_data:
+          $ref: '#/components/schemas/TableData'
+        confidence_score:
+          type: number
+          format: float
+        created_at:
+          type: string
+          format: date-time
+
+    TableData:
+      type: object
+      properties:
+        columns:
+          type: array
+          items:
+            type: string
+        rows:
+          type: array
+          items:
+            type: array
+            items:
+              type: string
+        total_rows:
+          type: integer
+
+    DrillDownRequest:
+      type: object
+      required:
+        - message_id
+        - dimension
+        - value
+      properties:
+        message_id:
+          type: string
+          format: uuid
+          description: Parent message containing the data point
+        dimension:
+          type: string
+          description: Dimension to drill into (e.g., "department", "month")
+        value:
+          type: string
+          description: Value of the selected data point
+        session_id:
+          type: string
+          format: uuid
+
+    ExportRequest:
+      type: object
+      required:
+        - message_id
+        - format
+      properties:
+        message_id:
+          type: string
+          format: uuid
+        format:
+          type: string
+          enum: [pdf, xlsx, csv]
+        include_chart:
+          type: boolean
+          default: true
+        locale:
+          type: string
+          enum: [en, ar]
+
+    DateRange:
+      type: object
+      properties:
+        start:
+          type: string
+          format: date
+        end:
+          type: string
+          format: date
+
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+            message:
+              type: string
+            details:
+              type: object
+
+    ClarificationResponse:
+      type: object
+      properties:
+        type:
+          type: string
+          enum: [clarification_required]
+        message:
+          type: string
+        suggestions:
+          type: array
+          items:
+            type: string
+          examples:
+            - ["Revenue for which department?", "Which time period?"]
+        locale:
+          type: string

@@ -219,47 +219,42 @@ func (c *Client) FlushAll(ctx context.Context) error {
 
 // SchemaContext represents cached schema metadata for a table.
 type SchemaContext struct {
-	SchemaName    string                 `json:"schema_name"`
-	TableName     string                 `json:"table_name"`
-	Columns       []ColumnContext        `json:"columns"`
-	Relationships []RelationshipContext  `json:"relationships"`
-	DescriptionEN string                 `json:"description_en"`
-	DescriptionAR string                 `json:"description_ar"`
-	BusinessContext string               `json:"business_context"`
-	SampleRows    []map[string]interface{} `json:"sample_rows,omitempty"`
-	LastModified  time.Time              `json:"last_modified"`
+	SchemaName      string                   `json:"schema_name"`
+	TableName       string                   `json:"table_name"`
+	Columns         []ColumnContext          `json:"columns"`
+	Relationships   []RelationshipContext    `json:"relationships"`
+	DescriptionEN   string                   `json:"description_en"`
+	DescriptionAR   string                   `json:"description_ar"`
+	BusinessContext string                   `json:"business_context"`
+	SampleRows      []map[string]interface{} `json:"sample_rows,omitempty"`
+	LastModified    time.Time                `json:"last_modified"`
 }
 
 // ColumnContext represents a column in a schema.
 type ColumnContext struct {
-	Name         string `json:"name"`
-	DataType     string `json:"data_type"`
-	IsNullable   bool   `json:"is_nullable"`
-	DescriptionEN string `json:"description_en"`
-	DescriptionAR string `json:"description_ar"`
-	SampleValues []string `json:"sample_values,omitempty"`
+	Name          string   `json:"name"`
+	DataType      string   `json:"data_type"`
+	IsNullable    bool     `json:"is_nullable"`
+	DescriptionEN string   `json:"description_en"`
+	DescriptionAR string   `json:"description_ar"`
+	SampleValues  []string `json:"sample_values,omitempty"`
 }
 
 // RelationshipContext represents a relationship between tables.
 type RelationshipContext struct {
-	FromTable    string `json:"from_table"`
-	FromColumn   string `json:"from_column"`
-	ToTable      string `json:"to_table"`
-	ToColumn     string `json:"to_column"`
-	Type         string `json:"type"` // one_to_one, one_to_many, many_to_many
+	FromTable  string `json:"from_table"`
+	FromColumn string `json:"from_column"`
+	ToTable    string `json:"to_table"`
+	ToColumn   string `json:"to_column"`
+	Type       string `json:"type"` // one_to_one, one_to_many, many_to_many
 }
 
 // SetSchemaContext stores schema context for a table.
 func (c *Client) SetSchemaContext(ctx context.Context, schema, table string, context *SchemaContext) error {
 	key := fmt.Sprintf("%s:%s:%s", KeySchema, schema, table)
 
-	data, err := json.Marshal(context)
-	if err != nil {
-		return fmt.Errorf("cache: failed to marshal schema context: %w", err)
-	}
-
-	if err := c.client.Set(ctx, key, data, TTLSchema).Err(); err != nil {
-		return fmt.Errorf("cache: failed to set schema context: %w", err)
+	if err := c.SetStruct(ctx, key, context, TTLSchema); err != nil {
+		return err
 	}
 
 	c.logger.Debug("cached schema context",
@@ -274,17 +269,13 @@ func (c *Client) SetSchemaContext(ctx context.Context, schema, table string, con
 func (c *Client) GetSchemaContext(ctx context.Context, schema, table string) (*SchemaContext, error) {
 	key := fmt.Sprintf("%s:%s:%s", KeySchema, schema, table)
 
-	data, err := c.client.Get(ctx, key).Bytes()
-	if err != nil {
-		if err == redis.Nil {
-			return nil, nil // Not found
-		}
-		return nil, fmt.Errorf("cache: failed to get schema context: %w", err)
+	var context SchemaContext
+	if err := c.GetStruct(ctx, key, &context); err != nil {
+		return nil, err
 	}
 
-	var context SchemaContext
-	if err := json.Unmarshal(data, &context); err != nil {
-		return nil, fmt.Errorf("cache: failed to unmarshal schema context: %w", err)
+	if context.TableName == "" {
+		return nil, nil // Not found
 	}
 
 	return &context, nil
@@ -341,17 +332,17 @@ func (c *Client) InvalidateSchemaPattern(ctx context.Context, pattern string) er
 
 // SessionData represents cached user session data.
 type SessionData struct {
-	SessionID    string    `json:"session_id"`
-	UserID       string    `json:"user_id"`
-	Locale       string    `json:"locale"`
-	Timezone     string    `json:"timezone"`
-	CalendarSystem string  `json:"calendar_system"`
-	Role         string    `json:"role"`
-	CostCentres  []string  `json:"cost_centres"`
-	Preferences  map[string]interface{} `json:"preferences"`
-	CreatedAt    time.Time `json:"created_at"`
-	ExpiresAt    time.Time `json:"expires_at"`
-	LastActivity time.Time `json:"last_activity"`
+	SessionID      string                 `json:"session_id"`
+	UserID         string                 `json:"user_id"`
+	Locale         string                 `json:"locale"`
+	Timezone       string                 `json:"timezone"`
+	CalendarSystem string                 `json:"calendar_system"`
+	Role           string                 `json:"role"`
+	CostCentres    []string               `json:"cost_centres"`
+	Preferences    map[string]interface{} `json:"preferences"`
+	CreatedAt      time.Time              `json:"created_at"`
+	ExpiresAt      time.Time              `json:"expires_at"`
+	LastActivity   time.Time              `json:"last_activity"`
 }
 
 // SetSession stores session data.
@@ -360,19 +351,14 @@ func (c *Client) SetSession(ctx context.Context, sessionID string, data *Session
 
 	data.LastActivity = time.Now()
 
-	jsonData, err := json.Marshal(data)
-	if err != nil {
-		return fmt.Errorf("cache: failed to marshal session data: %w", err)
-	}
-
 	// Calculate TTL based on expires_at
 	ttl := time.Until(data.ExpiresAt)
 	if ttl <= 0 {
 		ttl = TTLSession
 	}
 
-	if err := c.client.Set(ctx, key, jsonData, ttl).Err(); err != nil {
-		return fmt.Errorf("cache: failed to set session: %w", err)
+	if err := c.SetStruct(ctx, key, data, ttl); err != nil {
+		return err
 	}
 
 	c.logger.Debug("cached session",
@@ -387,17 +373,13 @@ func (c *Client) SetSession(ctx context.Context, sessionID string, data *Session
 func (c *Client) GetSession(ctx context.Context, sessionID string) (*SessionData, error) {
 	key := fmt.Sprintf("%s:%s", KeySession, sessionID)
 
-	data, err := c.client.Get(ctx, key).Bytes()
-	if err != nil {
-		if err == redis.Nil {
-			return nil, nil // Not found
-		}
-		return nil, fmt.Errorf("cache: failed to get session: %w", err)
+	var session SessionData
+	if err := c.GetStruct(ctx, key, &session); err != nil {
+		return nil, err
 	}
 
-	var session SessionData
-	if err := json.Unmarshal(data, &session); err != nil {
-		return nil, fmt.Errorf("cache: failed to unmarshal session data: %w", err)
+	if session.SessionID == "" {
+		return nil, nil // Not found
 	}
 
 	// Update last activity
@@ -427,13 +409,13 @@ func (c *Client) DeleteSession(ctx context.Context, sessionID string) error {
 
 // QueryResult represents a cached query result.
 type QueryResult struct {
-	Query      string                 `json:"query"`
-	Params     map[string]interface{} `json:"params"`
-	Columns    []string               `json:"columns"`
+	Query      string                   `json:"query"`
+	Params     map[string]interface{}   `json:"params"`
+	Columns    []string                 `json:"columns"`
 	Rows       []map[string]interface{} `json:"rows"`
-	RowCount   int                    `json:"row_count"`
-	ExecutedAt time.Time              `json:"executed_at"`
-	DurationMs int64                  `json:"duration_ms"`
+	RowCount   int                      `json:"row_count"`
+	ExecutedAt time.Time                `json:"executed_at"`
+	DurationMs int64                    `json:"duration_ms"`
 }
 
 // SetQueryResult stores a query result.
@@ -444,13 +426,8 @@ func (c *Client) SetQueryResult(ctx context.Context, queryID string, result *Que
 		ttl = TTLQuery
 	}
 
-	data, err := json.Marshal(result)
-	if err != nil {
-		return fmt.Errorf("cache: failed to marshal query result: %w", err)
-	}
-
-	if err := c.client.Set(ctx, key, data, ttl).Err(); err != nil {
-		return fmt.Errorf("cache: failed to set query result: %w", err)
+	if err := c.SetStruct(ctx, key, result, ttl); err != nil {
+		return err
 	}
 
 	c.logger.Debug("cached query result",
@@ -465,17 +442,13 @@ func (c *Client) SetQueryResult(ctx context.Context, queryID string, result *Que
 func (c *Client) GetQueryResult(ctx context.Context, queryID string) (*QueryResult, error) {
 	key := fmt.Sprintf("%s:%s", KeyQuery, queryID)
 
-	data, err := c.client.Get(ctx, key).Bytes()
-	if err != nil {
-		if err == redis.Nil {
-			return nil, nil // Not found
-		}
-		return nil, fmt.Errorf("cache: failed to get query result: %w", err)
+	var result QueryResult
+	if err := c.GetStruct(ctx, key, &result); err != nil {
+		return nil, err
 	}
 
-	var result QueryResult
-	if err := json.Unmarshal(data, &result); err != nil {
-		return nil, fmt.Errorf("cache: failed to unmarshal query result: %w", err)
+	if result.Query == "" {
+		return nil, nil // Not found
 	}
 
 	return &result, nil
@@ -516,12 +489,12 @@ func (c *Client) InvalidateQueryPattern(ctx context.Context, pattern string) err
 
 // AgentState represents cached agent state for multi-turn conversations.
 type AgentState struct {
-	AgentID      string                 `json:"agent_id"`
-	SessionID    string                 `json:"session_id"`
-	State        map[string]interface{} `json:"state"`
-	Context      []string               `json:"context"` // Conversation history
-	Metadata     map[string]interface{} `json:"metadata"`
-	UpdatedAt    time.Time              `json:"updated_at"`
+	AgentID   string                 `json:"agent_id"`
+	SessionID string                 `json:"session_id"`
+	State     map[string]interface{} `json:"state"`
+	Context   []string               `json:"context"` // Conversation history
+	Metadata  map[string]interface{} `json:"metadata"`
+	UpdatedAt time.Time              `json:"updated_at"`
 }
 
 // SetAgentState stores agent state.
@@ -530,13 +503,8 @@ func (c *Client) SetAgentState(ctx context.Context, agentID, sessionID string, s
 
 	state.UpdatedAt = time.Now()
 
-	data, err := json.Marshal(state)
-	if err != nil {
-		return fmt.Errorf("cache: failed to marshal agent state: %w", err)
-	}
-
-	if err := c.client.Set(ctx, key, data, TTLAgent).Err(); err != nil {
-		return fmt.Errorf("cache: failed to set agent state: %w", err)
+	if err := c.SetStruct(ctx, key, state, TTLAgent); err != nil {
+		return err
 	}
 
 	c.logger.Debug("cached agent state",
@@ -551,17 +519,13 @@ func (c *Client) SetAgentState(ctx context.Context, agentID, sessionID string, s
 func (c *Client) GetAgentState(ctx context.Context, agentID, sessionID string) (*AgentState, error) {
 	key := fmt.Sprintf("%s:%s:%s", KeyAgent, agentID, sessionID)
 
-	data, err := c.client.Get(ctx, key).Bytes()
-	if err != nil {
-		if err == redis.Nil {
-			return nil, nil // Not found
-		}
-		return nil, fmt.Errorf("cache: failed to get agent state: %w", err)
+	var state AgentState
+	if err := c.GetStruct(ctx, key, &state); err != nil {
+		return nil, err
 	}
 
-	var state AgentState
-	if err := json.Unmarshal(data, &state); err != nil {
-		return nil, fmt.Errorf("cache: failed to unmarshal agent state: %w", err)
+	if state.AgentID == "" {
+		return nil, nil // Not found
 	}
 
 	return &state, nil
@@ -587,8 +551,16 @@ func (c *Client) DeleteAgentState(ctx context.Context, agentID, sessionID string
 // Generic Operations
 // ============================================================================
 
-// Set stores a value with a key and TTL.
-func (c *Client) Set(ctx context.Context, key string, value interface{}, ttl time.Duration) error {
+// Set stores a string value with a key and TTL.
+func (c *Client) Set(ctx context.Context, key string, value string, ttl time.Duration) error {
+	if err := c.client.Set(ctx, key, value, ttl).Err(); err != nil {
+		return fmt.Errorf("cache: failed to set value: %w", err)
+	}
+	return nil
+}
+
+// SetStruct stores an object as JSON with a key and TTL.
+func (c *Client) SetStruct(ctx context.Context, key string, value interface{}, ttl time.Duration) error {
 	data, err := json.Marshal(value)
 	if err != nil {
 		return fmt.Errorf("cache: failed to marshal value: %w", err)
@@ -601,8 +573,20 @@ func (c *Client) Set(ctx context.Context, key string, value interface{}, ttl tim
 	return nil
 }
 
-// Get retrieves a value by key.
-func (c *Client) Get(ctx context.Context, key string, dest interface{}) error {
+// Get retrieves a string value by key.
+func (c *Client) Get(ctx context.Context, key string) (string, error) {
+	val, err := c.client.Get(ctx, key).Result()
+	if err != nil {
+		if err == redis.Nil {
+			return "", nil // Not found
+		}
+		return "", fmt.Errorf("cache: failed to get value: %w", err)
+	}
+	return val, nil
+}
+
+// GetStruct retrieves a value by key and unmarshals it into dest.
+func (c *Client) GetStruct(ctx context.Context, key string, dest interface{}) error {
 	data, err := c.client.Get(ctx, key).Bytes()
 	if err != nil {
 		if err == redis.Nil {
@@ -626,6 +610,23 @@ func (c *Client) Delete(ctx context.Context, key string) error {
 	return nil
 }
 
+// Increment increments a key and returns the new value.
+func (c *Client) Increment(ctx context.Context, key string) (int64, error) {
+	val, err := c.client.Incr(ctx, key).Result()
+	if err != nil {
+		return 0, fmt.Errorf("cache: failed to increment key: %w", err)
+	}
+	return val, nil
+}
+
+// Expire sets a TTL on a key.
+func (c *Client) Expire(ctx context.Context, key string, ttl time.Duration) error {
+	if err := c.client.Expire(ctx, key, ttl).Err(); err != nil {
+		return fmt.Errorf("cache: failed to set expiry: %w", err)
+	}
+	return nil
+}
+
 // Exists checks if a key exists.
 func (c *Client) Exists(ctx context.Context, key string) (bool, error) {
 	count, err := c.client.Exists(ctx, key).Result()
@@ -637,12 +638,12 @@ func (c *Client) Exists(ctx context.Context, key string) (bool, error) {
 
 // GetStats returns Redis cache statistics.
 type CacheStats struct {
-	TotalKeys     int64   `json:"total_keys"`
-	MemoryUsed    string  `json:"memory_used"`
-	MemoryPeak    string  `json:"memory_peak"`
-	HitRate       float64 `json:"hit_rate"`
- KeyspaceHits  int64   `json:"keyspace_hits"`
- KeyspaceMisses int64  `json:"keyspace_misses"`
+	TotalKeys      int64   `json:"total_keys"`
+	MemoryUsed     string  `json:"memory_used"`
+	MemoryPeak     string  `json:"memory_peak"`
+	HitRate        float64 `json:"hit_rate"`
+	KeyspaceHits   int64   `json:"keyspace_hits"`
+	KeyspaceMisses int64   `json:"keyspace_misses"`
 }
 
 // GetStats retrieves cache statistics.
