@@ -1,8 +1,27 @@
-import { Suspense, useCallback, useEffect, useMemo } from 'react'
+import { Suspense, useCallback, useEffect, useMemo, useState } from 'react'
 import { CopilotKit } from '@copilotkit/react-core'
 import { useTranslation } from 'react-i18next'
 import './i18n'
 import './styles/globals.css'
+
+// Lazy load page components
+import { ChatPage } from './pages/ChatPage'
+import { DashboardPage } from './pages/DashboardPage'
+
+/**
+ * Route type definition
+ */
+type Route = 'home' | 'chat' | 'dashboard'
+
+/**
+ * Get current route from URL
+ */
+function getCurrentRoute(): Route {
+  const path = window.location.pathname
+  if (path === '/chat') return 'chat'
+  if (path === '/dashboard') return 'dashboard'
+  return 'home'
+}
 
 /**
  * MediSync Main Application Component
@@ -11,12 +30,24 @@ import './styles/globals.css'
  * - CopilotKit integration for generative UI
  * - i18n support for English (LTR) and Arabic (RTL)
  * - Automatic RTL layout based on locale
+ * - Client-side routing for /chat and /dashboard
  * - Error boundary and loading states
  */
 function AppContent() {
-  const { t, i18n } = useTranslation()
+  const { i18n } = useTranslation()
   const currentLocale = i18n.language
   const isRTL = currentLocale === 'ar'
+  const [currentRoute, setCurrentRoute] = useState<Route>(() => getCurrentRoute())
+
+  // Handle browser navigation (back/forward buttons)
+  useEffect(() => {
+    const handlePopState = () => {
+      setCurrentRoute(getCurrentRoute())
+    }
+
+    window.addEventListener('popstate', handlePopState)
+    return () => window.removeEventListener('popstate', handlePopState)
+  }, [])
 
   // Update document direction and language when locale changes
   useEffect(() => {
@@ -30,22 +61,75 @@ function AppContent() {
     i18n.changeLanguage(newLocale)
   }, [currentLocale, i18n])
 
+  // Navigation handlers
+  const navigateTo = useCallback((route: Route) => {
+    const path = route === 'home' ? '/' : `/${route}`
+    window.history.pushState({}, '', path)
+    setCurrentRoute(route)
+  }, [])
+
   // CopilotKit configuration
   const copilotConfig = useMemo(() => ({
     endpoint: import.meta.env.VITE_COPILOT_API_URL || '/api/copilotkit',
   }), [])
 
+  // Render route content
+  const renderRoute = () => {
+    switch (currentRoute) {
+      case 'chat':
+        return <ChatPage />
+      case 'dashboard':
+        return <DashboardPage />
+      default:
+        return (
+          <HomePage
+            isRTL={isRTL}
+            currentLocale={currentLocale}
+            toggleLanguage={toggleLanguage}
+            navigateTo={navigateTo}
+            copilotConfig={copilotConfig}
+          />
+        )
+    }
+  }
+
   return (
     <CopilotKit {...copilotConfig}>
-      <div
-        className={`min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800 ${
-          isRTL ? 'rtl' : 'ltr'
-        }`}
-      >
+      {renderRoute()}
+    </CopilotKit>
+  )
+}
+
+/**
+ * Home Page Component
+ */
+interface HomePageProps {
+  isRTL: boolean
+  currentLocale: string
+  toggleLanguage: () => void
+  navigateTo: (route: Route) => void
+  copilotConfig: { endpoint: string }
+}
+
+function HomePage({ isRTL, currentLocale, toggleLanguage, navigateTo }: HomePageProps) {
+  const { t } = useTranslation()
+
+  return (
+    <div
+      className={`min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800 ${
+        isRTL ? 'rtl' : 'ltr'
+      }`}
+    >
         {/* Header */}
         <header className="border-b border-slate-200 dark:border-slate-700 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm">
           <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-            <div className="flex items-center gap-3">
+            <div
+              className="flex items-center gap-3 cursor-pointer"
+              onClick={() => navigateTo('home')}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => e.key === 'Enter' && navigateTo('home')}
+            >
               <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-blue-600 to-cyan-500 flex items-center justify-center">
                 <span className="text-white font-bold text-xl">M</span>
               </div>
@@ -59,13 +143,54 @@ function AppContent() {
               </div>
             </div>
 
-            <button
-              onClick={toggleLanguage}
-              className="px-4 py-2 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 transition-colors text-sm font-medium text-slate-700 dark:text-slate-300"
-              aria-label={t('app.toggleLanguage', 'Toggle language')}
-            >
-              {currentLocale === 'en' ? 'عربي' : 'English'}
-            </button>
+            {/* Navigation Links */}
+            <nav className="flex items-center gap-4">
+              <button
+                onClick={() => navigateTo('chat')}
+                className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium"
+              >
+                <svg
+                  className="w-4 h-4"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
+                  />
+                </svg>
+                {t('navigation.chat', 'Chat')}
+              </button>
+              <button
+                onClick={() => navigateTo('dashboard')}
+                className="inline-flex items-center gap-2 px-4 py-2 text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors text-sm font-medium"
+              >
+                <svg
+                  className="w-4 h-4"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+                  />
+                </svg>
+                {t('navigation.dashboard', 'Dashboard')}
+              </button>
+              <button
+                onClick={toggleLanguage}
+                className="px-4 py-2 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 transition-colors text-sm font-medium text-slate-700 dark:text-slate-300"
+                aria-label={t('app.toggleLanguage', 'Toggle language')}
+              >
+                {currentLocale === 'en' ? 'عربي' : 'English'}
+              </button>
+            </nav>
           </div>
         </header>
 
@@ -147,7 +272,6 @@ function AppContent() {
           </div>
         </footer>
       </div>
-    </CopilotKit>
   )
 }
 

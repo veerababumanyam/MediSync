@@ -1,0 +1,46 @@
+{
+  "title": "Dashboard",
+  "subtitle": "Your pinned insights at a glance",
+  "empty": {
+    "title": "No pinned charts yet",
+    "description": "Pin charts from your conversations to see them here.",
+    "action": "Start chatting"
+  },
+  "widget": {
+    "refresh": "Refresh",
+    "settings": "Settings",
+    "remove": "Remove",
+    "lastUpdated": "Updated {{time}}",
+    "autoRefresh": "Auto-refresh every {{interval}}",
+    "refreshing": "Refreshing..."
+  },
+  "settings": {
+    "title": "Widget Settings",
+    "refreshInterval": {
+      "label": "Refresh interval",
+      "off": "Off",
+      "1min": "1 minute",
+      "5min": "5 minutes",
+      "15min": "15 minutes",
+      "30min": "30 minutes",
+      "1hour": "1 hour"
+    },
+    "size": {
+      "label": "Widget size",
+      "small": "Small (1 column)",
+      "medium": "Medium (2 columns)",
+      "large": "Large (3 columns)"
+    },
+    "save": "Save",
+    "cancel": "Cancel"
+  },
+  "grid": {
+    "addWidget": "Add widget",
+    "rearrange": "Rearrange widgets"
+  },
+  "quickActions": {
+    "title": "Quick Actions",
+    "edit": "Edit quick actions",
+    "custom": "Custom question..."
+  }
+}

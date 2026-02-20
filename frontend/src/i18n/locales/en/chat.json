@@ -1,0 +1,62 @@
+{
+  "placeholder": "Ask a question about your data...",
+  "placeholderExamples": {
+    "revenue": "What is this month's revenue?",
+    "comparison": "Compare clinic vs pharmacy sales",
+    "trend": "Show patient visits trend"
+  },
+  "send": "Send",
+  "thinking": "Thinking...",
+  "generating": "Generating response...",
+  "executingQuery": "Executing query...",
+  "error": {
+    "title": "Error",
+    "queryFailed": "Failed to process your query",
+    "noResults": "No results found",
+    "clarification": "I need more information",
+    "suggestions": "Did you mean:"
+  },
+  "message": {
+    "user": "You",
+    "assistant": "MediSync AI",
+    "confidence": "Confidence: {{score}}%"
+  },
+  "actions": {
+    "pin": "Pin to dashboard",
+    "export": "Export",
+    "drilldown": "See details",
+    "copy": "Copy",
+    "regenerate": "Regenerate"
+  },
+  "quickActions": {
+    "title": "Quick questions",
+    "revenue": "What's today's revenue?",
+    "topProducts": "Show top 5 products",
+    "pendingBills": "How many pending bills?",
+    "stockAlerts": "Any low stock alerts?"
+  },
+  "chart": {
+    "bar": "Bar Chart",
+    "line": "Line Chart",
+    "pie": "Pie Chart",
+    "table": "Table",
+    "kpi": "Summary"
+  },
+  "drilldown": {
+    "title": "Details",
+    "close": "Close",
+    "loading": "Loading details..."
+  },
+  "export": {
+    "title": "Export",
+    "pdf": "PDF Document",
+    "xlsx": "Excel Spreadsheet",
+    "csv": "CSV File",
+    "downloading": "Preparing download..."
+  },
+  "empty": {
+    "title": "Start a conversation",
+    "description": "Ask questions about your healthcare and accounting data in plain language.",
+    "examples": "Try asking:"
+  }
+}

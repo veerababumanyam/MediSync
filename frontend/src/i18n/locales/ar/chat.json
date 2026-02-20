@@ -1,0 +1,62 @@
+{
+  "placeholder": "اطرح سؤالاً عن بياناتك...",
+  "placeholderExamples": {
+    "revenue": "ما هي إيرادات هذا الشهر؟",
+    "comparison": "قارن مبيعات العيادة مع الصيدلية",
+    "trend": "اعرض اتجاه زيارات المرضى"
+  },
+  "send": "إرسال",
+  "thinking": "جاري التفكير...",
+  "generating": "جاري إنشاء الرد...",
+  "executingQuery": "جاري تنفيذ الاستعلام...",
+  "error": {
+    "title": "خطأ",
+    "queryFailed": "فشل في معالجة استعلامك",
+    "noResults": "لم يتم العثور على نتائج",
+    "clarification": "أحتاج إلى مزيد من المعلومات",
+    "suggestions": "هل كنت تقصد:"
+  },
+  "message": {
+    "user": "أنت",
+    "assistant": "ميدي سنك AI",
+    "confidence": "الثقة: {{score}}%"
+  },
+  "actions": {
+    "pin": "تثبيت على لوحة التحكم",
+    "export": "تصدير",
+    "drilldown": "عرض التفاصيل",
+    "copy": "نسخ",
+    "regenerate": "إعادة الإنشاء"
+  },
+  "quickActions": {
+    "title": "أسئلة سريعة",
+    "revenue": "ما هي إيرادات اليوم؟",
+    "topProducts": "اعرض أهم 5 منتجات",
+    "pendingBills": "كم فاتورة معلقة؟",
+    "stockAlerts": "هل هناك تنبيهات نقص المخزون؟"
+  },
+  "chart": {
+    "bar": "رسم بياني شريطي",
+    "line": "رسم بياني خطي",
+    "pie": "رسم دائري",
+    "table": "جدول",
+    "kpi": "ملخص"
+  },
+  "drilldown": {
+    "title": "التفاصيل",
+    "close": "إغلاق",
+    "loading": "جاري تحميل التفاصيل..."
+  },
+  "export": {
+    "title": "تصدير",
+    "pdf": "مستند PDF",
+    "xlsx": "جدول Excel",
+    "csv": "ملف CSV",
+    "downloading": "جاري تحضير التنزيل..."
+  },
+  "empty": {
+    "title": "ابدأ محادثة",
+    "description": "اطرح أسئلة عن بيانات الرعاية الصحية والمحاسبة بلغة بسيطة.",
+    "examples": "حاول السؤال عن:"
+  }
+}

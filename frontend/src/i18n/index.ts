@@ -1,5 +1,6 @@
 import i18n from 'i18next'
 import { initReactI18next } from 'react-i18next'
+import I18nextHttpBackend from 'i18next-http-backend'
 
 /**
  * i18n Configuration for MediSync
@@ -8,6 +9,13 @@ import { initReactI18next } from 'react-i18next'
  * - English (en) - Left-to-Right (LTR)
  * - Arabic (ar) - Right-to-Left (RTL)
  *
+ * Namespaces:
+ * - translation: Common app-wide translations
+ * - chat: Chat interface translations
+ * - dashboard: Dashboard widget translations
+ * - alerts: Alert and notification translations
+ * - reports: Scheduled report translations
+ *
  * Locale Detection Priority:
  * 1. localStorage user preference
  * 2. URL parameter ?lang=ar or ?lang=en
@@ -15,7 +23,7 @@ import { initReactI18next } from 'react-i18next'
  * 4. Default: 'en'
  */
 
-// English translations
+// English translations (inline for core app)
 const enResources = {
   translation: {
     app: {
@@ -54,10 +62,30 @@ const enResources = {
       copyright:
         '© 2026 MediSync. AI-Powered Conversational BI & Intelligent Accounting for Healthcare.',
     },
+    common: {
+      loading: 'Loading...',
+      error: 'An error occurred',
+      retry: 'Retry',
+      cancel: 'Cancel',
+      save: 'Save',
+      delete: 'Delete',
+      edit: 'Edit',
+      close: 'Close',
+      confirm: 'Confirm',
+      yes: 'Yes',
+      no: 'No',
+    },
+    navigation: {
+      dashboard: 'Dashboard',
+      chat: 'Chat',
+      alerts: 'Alerts',
+      reports: 'Reports',
+      settings: 'Settings',
+    },
   },
 }
 
-// Arabic translations
+// Arabic translations (inline for core app)
 const arResources = {
   translation: {
     app: {
@@ -96,6 +124,26 @@ const arResources = {
       copyright:
         '© 2026 ميدي سنك. ذكاء الأعمال المحادثي والمحاسبة الذكية للرعاية الصحية المدعومة بالذكاء الاصطناعي.',
     },
+    common: {
+      loading: 'جاري التحميل...',
+      error: 'حدث خطأ',
+      retry: 'إعادة المحاولة',
+      cancel: 'إلغاء',
+      save: 'حفظ',
+      delete: 'حذف',
+      edit: 'تعديل',
+      close: 'إغلاق',
+      confirm: 'تأكيد',
+      yes: 'نعم',
+      no: 'لا',
+    },
+    navigation: {
+      dashboard: 'لوحة التحكم',
+      chat: 'المحادثة',
+      alerts: 'التنبيهات',
+      reports: 'التقارير',
+      settings: 'الإعدادات',
+    },
   },
 }
 
@@ -124,27 +172,40 @@ const detectInitialLanguage = (): string => {
   return 'en'
 }
 
-// Initialize i18next
-void i18n.use(initReactI18next).init({
-  resources: {
-    en: enResources,
-    ar: arResources,
-  },
-  lng: detectInitialLanguage(),
-  fallbackLng: 'en',
-  debug: import.meta.env.DEV,
+// Initialize i18next with HTTP backend for lazy-loaded namespaces
+void i18n
+  .use(I18nextHttpBackend)
+  .use(initReactI18next)
+  .init({
+    resources: {
+      en: enResources,
+      ar: arResources,
+    },
+    lng: detectInitialLanguage(),
+    fallbackLng: 'en',
+    debug: import.meta.env.DEV,
 
-  interpolation: {
-    escapeValue: false, // React already escapes values
-  },
+    // Namespace configuration
+    ns: ['translation', 'common', 'chat', 'dashboard', 'alerts', 'reports'],
+    defaultNS: 'translation',
+    fallbackNS: 'translation',
 
-  react: {
-    useSuspense: true,
-  },
+    // Backend configuration for lazy loading
+    backend: {
+      loadPath: '/src/i18n/locales/{{lng}}/{{ns}}.json',
+    },
 
-  // Save language preference to localStorage on change
-  saveMissing: false,
-})
+    interpolation: {
+      escapeValue: false, // React already escapes values
+    },
+
+    react: {
+      useSuspense: true,
+    },
+
+    // Save language preference to localStorage on change
+    saveMissing: false,
+  })
 
 // Save language preference on change
 i18n.on('languageChanged', (lng) => {

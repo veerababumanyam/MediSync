@@ -1,0 +1,20 @@
+{
+  "loading": "Loading...",
+  "language": {
+    "switchTo": "Switch language",
+    "current": "Current language"
+  },
+  "export": {
+    "label": "Export",
+    "exporting": "Exporting {{format}}...",
+    "formatOptions": "Export format options",
+    "format": {
+      "pdf": "PDF Document",
+      "xlsx": "Excel Spreadsheet",
+      "csv": "CSV File"
+    },
+    "success": "Export completed",
+    "error": "Export failed",
+    "noData": "No data to export"
+  }
+}

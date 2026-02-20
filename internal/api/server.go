@@ -48,9 +48,19 @@ type Server struct {
 	opa      *OPAClient
 	readonly *warehouse.ReadOnlyClient
 
+	// Repositories
+	userPrefRepo    *warehouse.UserPreferenceRepository
+	pinnedChartRepo *warehouse.PinnedChartRepository
+	chatMsgRepo     *warehouse.ChatMessageRepository
+	alertRuleRepo   *warehouse.AlertRuleRepository
+	notificationRepo *warehouse.NotificationRepository
+
 	// Handlers
-	chatHandler *handlers.ChatHandler
-	wsHandler   *handlers.WSHandler
+	chatHandler        *handlers.ChatHandler
+	wsHandler          *handlers.WSHandler
+	preferencesHandler *handlers.PreferencesHandler
+	dashboardHandler   *handlers.DashboardHandler
+	alertsHandler      *handlers.AlertsHandler
 }
 
 // Dependencies holds the required dependencies for the API server.
@@ -79,6 +89,12 @@ func NewServer(cfg *config.Config, deps *Dependencies) *Server {
 		opa:      deps.OPA,
 	}
 
+	// Initialize repositories
+	s.initRepositories()
+
+	// Initialize handlers
+	s.initHandlers()
+
 	// Setup middleware chain
 	s.setupMiddleware()
 
@@ -86,6 +102,50 @@ func NewServer(cfg *config.Config, deps *Dependencies) *Server {
 	s.registerRoutes()
 
 	return s
+}
+
+// initRepositories initializes all warehouse repositories.
+func (s *Server) initRepositories() {
+	if s.db != nil {
+		s.userPrefRepo = warehouse.NewUserPreferenceRepository(s.db)
+		s.pinnedChartRepo = warehouse.NewPinnedChartRepository(s.db)
+		s.chatMsgRepo = warehouse.NewChatMessageRepository(s.db)
+		s.alertRuleRepo = warehouse.NewAlertRuleRepository(s.db)
+		s.notificationRepo = warehouse.NewNotificationRepository(s.db)
+	}
+}
+
+// initHandlers initializes all HTTP handlers.
+func (s *Server) initHandlers() {
+	// Preferences handler
+	s.preferencesHandler = handlers.NewPreferencesHandler(handlers.PreferencesHandlerConfig{
+		Logger:       s.logger,
+		UserPrefRepo: s.userPrefRepo,
+	})
+
+	// Dashboard handler
+	s.dashboardHandler = handlers.NewDashboardHandler(handlers.DashboardHandlerConfig{
+		Logger:          s.logger,
+		PinnedChartRepo: s.pinnedChartRepo,
+		UserPrefRepo:    s.userPrefRepo,
+	})
+
+	// Alerts handler
+	s.alertsHandler = handlers.NewAlertsHandler(handlers.AlertsHandlerConfig{
+		Logger:       s.logger,
+		AlertRepo:    s.alertRuleRepo,
+		NotifRepo:    s.notificationRepo,
+		UserPrefRepo: s.userPrefRepo,
+	})
+
+	// Chat handler (if readonly DB is available)
+	if s.readonly != nil {
+		s.chatHandler = handlers.NewChatHandler(handlers.ChatHandlerConfig{
+			Logger:      s.logger,
+			DB:          s.readonly,
+			ChatMsgRepo: s.chatMsgRepo,
+		})
+	}
 }
 
 // setupMiddleware configures the middleware chain in the correct order.
@@ -141,6 +201,20 @@ func (s *Server) registerRoutes() {
 			r.Post("/explain", s.handleBIExplain)
 		})
 
+		// Chat endpoints with SSE streaming
+		r.Route("/chat", func(r chi.Router) {
+			if s.chatHandler != nil {
+				r.Post("/", s.chatHandler.HandleChat)
+			} else {
+				r.Post("/", s.handleChatNotConfigured)
+			}
+		})
+
+		// Agent health endpoint
+		if s.chatHandler != nil {
+			r.Get("/agents/health", s.chatHandler.HandleAgentsHealth)
+		}
+
 		// AI Accountant endpoints (Module B)
 		r.Route("/accountant", func(r chi.Router) {
 			r.Post("/ocr", s.handleOCRProcess)
@@ -162,9 +236,29 @@ func (s *Server) registerRoutes() {
 		})
 
 		// User preferences endpoints
+		r.Route("/preferences", func(r chi.Router) {
+			if s.preferencesHandler != nil {
+				s.preferencesHandler.RegisterRoutes(r)
+			}
+		})
+
+		// User endpoints
 		r.Route("/users", func(r chi.Router) {
 			r.Get("/me", s.handleGetCurrentUser)
-			r.Put("/me/preferences", s.handleUpdatePreferences)
+		})
+
+		// Dashboard endpoints (pinned charts, quick actions)
+		r.Route("/dashboard", func(r chi.Router) {
+			if s.dashboardHandler != nil {
+				s.dashboardHandler.RegisterRoutes(r)
+			}
+		})
+
+		// Alerts endpoints
+		r.Route("/alerts", func(r chi.Router) {
+			if s.alertsHandler != nil {
+				s.alertsHandler.RegisterRoutes(r)
+			}
 		})
 
 		// Admin endpoints
@@ -340,8 +434,8 @@ func (s *Server) handleGetCurrentUser(w http.ResponseWriter, r *http.Request) {
 	s.writeError(w, http.StatusNotImplemented, "Get current user endpoint not implemented")
 }
 
-func (s *Server) handleUpdatePreferences(w http.ResponseWriter, r *http.Request) {
-	s.writeError(w, http.StatusNotImplemented, "Update preferences endpoint not implemented")
+func (s *Server) handleChatNotConfigured(w http.ResponseWriter, r *http.Request) {
+	s.writeError(w, http.StatusServiceUnavailable, "Chat service not configured - database connection required")
 }
 
 func (s *Server) handleGetAuditLogs(w http.ResponseWriter, r *http.Request) {

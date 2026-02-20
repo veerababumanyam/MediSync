@@ -92,7 +92,7 @@ func NewClassifier() *Classifier {
 				Intent:    "kpi",
 			},
 			{
-				Pattern:   regexp.MustCompile(`(?i)\b(show\s+me\s+(the\s+)?(revenue|profit|sales|total)\s*$`),
+				Pattern:   regexp.MustCompile(`(?i)\b(show\s+me\s+(the\s+)?(revenue|profit|sales|total))\s*$`),
 				ChartType: models.ChartTypeKPICard,
 				Intent:    "kpi",
 			},
@@ -116,7 +116,7 @@ func NewClassifier() *Classifier {
 				Intent:    "table",
 			},
 			{
-				Pattern:   regexp.MustCompile(`(?i)\b(show\s+me\s+(all\s+)?(patients?|doctors?|bills?|appointments?|records?)\b`),
+				Pattern:   regexp.MustCompile(`(?i)\b(show\s+me\s+(all\s+)?(patients?|doctors?|bills?|appointments?|records?))\b`),
 				ChartType: models.ChartTypeTable,
 				Intent:    "table",
 			},

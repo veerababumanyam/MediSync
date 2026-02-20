@@ -15,25 +15,28 @@ import (
 
 	"github.com/medisync/medisync/internal/agents/module_a/a03_visualization"
 	"github.com/medisync/medisync/internal/warehouse"
+	"github.com/medisync/medisync/internal/warehouse/models"
 
 	"github.com/google/uuid"
 )
 
 // ChatHandler handles chat requests with SSE streaming responses.
 type ChatHandler struct {
-	logger            *slog.Logger
-	db                *warehouse.ReadOnlyClient
+	logger             *slog.Logger
+	db                 *warehouse.ReadOnlyClient
 	visualizationAgent *a03_visualization.VisualizationRoutingAgent
-	eventBuffer       int // Size of the SSE event buffer
-	flushTimeout      time.Duration
+	chatMsgRepo        *warehouse.ChatMessageRepository
+	eventBuffer        int // Size of the SSE event buffer
+	flushTimeout       time.Duration
 }
 
 // ChatHandlerConfig holds configuration for the ChatHandler.
 type ChatHandlerConfig struct {
-	Logger            *slog.Logger
-	DB                *warehouse.ReadOnlyClient
-	EventBuffer       int           // Size of SSE event buffer (default: 16)
-	FlushTimeout      time.Duration // Timeout for flushing SSE (default: 5s)
+	Logger       *slog.Logger
+	DB           *warehouse.ReadOnlyClient
+	ChatMsgRepo  *warehouse.ChatMessageRepository
+	EventBuffer  int           // Size of SSE event buffer (default: 16)
+	FlushTimeout time.Duration // Timeout for flushing SSE (default: 5s)
 }
 
 // NewChatHandler creates a new ChatHandler instance.
@@ -59,6 +62,7 @@ func NewChatHandler(cfg ChatHandlerConfig) *ChatHandler {
 		logger:             cfg.Logger,
 		db:                 cfg.DB,
 		visualizationAgent: visualizationAgent,
+		chatMsgRepo:        cfg.ChatMsgRepo,
 		eventBuffer:        cfg.EventBuffer,
 		flushTimeout:       cfg.FlushTimeout,
 	}
@@ -181,6 +185,31 @@ func (h *ChatHandler) processQuery(
 	req *ChatRequest,
 	sessionID, locale string,
 ) error {
+	// Parse session ID
+	sessID, err := uuid.Parse(sessionID)
+	if err != nil {
+		h.sendSSEEvent(w, flusher, NewErrorEvent("Invalid session ID"))
+		return err
+	}
+
+	// Get user ID from context
+	userIDStr, _ := ctx.Value("user_id").(string)
+	userID, _ := uuid.Parse(userIDStr)
+
+	// Save user message
+	userMsg := &models.ChatMessage{
+		SessionID: sessID,
+		UserID:    userID,
+		Role:      "user",
+		Content:   req.Query,
+		Locale:    locale,
+	}
+	if h.chatMsgRepo != nil {
+		if err := h.chatMsgRepo.Create(ctx, userMsg); err != nil {
+			h.logger.Error("failed to save user message", slog.Any("error", err))
+		}
+	}
+
 	// 1. Send thinking event: Detecting language
 	h.sendSSEEvent(w, flusher, NewThinkingEvent("Detecting query language..."))
 
@@ -231,12 +260,38 @@ func (h *ChatHandler) processQuery(
 	resultEvent := NewResultEvent(chartType, data, confidence)
 	h.sendSSEEvent(w, flusher, resultEvent)
 
+	// 9. Save assistant message
+	assistantMsg := &models.ChatMessage{
+		SessionID:       sessID,
+		UserID:          userID,
+		Role:            "assistant",
+		Content:         "Query completed successfully",
+		ConfidenceScore: &confidence,
+		Locale:          locale,
+	}
+	if chartType != "" && data != nil {
+		if chartData, ok := data.(*ChartData); ok {
+			assistantMsg.ChartSpec = map[string]any{
+				"type":  string(chartType),
+				"chart": chartData,
+			}
+		}
+	}
+	if h.chatMsgRepo != nil {
+		if err := h.chatMsgRepo.Create(ctx, assistantMsg); err != nil {
+			h.logger.Error("failed to save assistant message", slog.Any("error", err))
+		}
+	}
+
 	return nil
 }
 
 // generateSQL generates SQL from natural language query.
 // This is a placeholder implementation - in production, this calls the AI agent.
-func (h *ChatHandler) generateSQL(ctx context.Context, _query, _locale string) (string, ChartType, float64, error) {
+func (h *ChatHandler) generateSQL(ctx context.Context, query, locale string) (string, ChartType, float64, error) {
+	// Placeholder parameters - will be used when AI agent calls are implemented
+	_, _ = query, locale
+
 	// Placeholder implementation
 	// In production, this would:
 	// 1. Call E-01 Language Detection agent

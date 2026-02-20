@@ -26,19 +26,19 @@
 
 **Purpose**: Project initialization and basic structure for dashboard feature
 
-- [ ] T001 Create database migrations for dashboard tables in migrations/010_user_preferences.up.sql
-- [ ] T002 [P] Create database migrations for pinned charts in migrations/011_pinned_charts.up.sql
-- [ ] T003 [P] Create database migrations for alert rules in migrations/012_alert_rules.up.sql
-- [ ] T004 [P] Create database migrations for scheduled reports in migrations/013_scheduled_reports.up.sql
-- [ ] T005 [P] Create database migrations for chat messages in migrations/014_chat_messages.up.sql
-- [ ] T006 [P] Add English translations for chat feature in frontend/src/i18n/locales/en/chat.json
-- [ ] T007 [P] Add Arabic translations for chat feature in frontend/src/i18n/locales/ar/chat.json
-- [ ] T008 [P] Add English translations for dashboard in frontend/src/i18n/locales/en/dashboard.json
-- [ ] T009 [P] Add Arabic translations for dashboard in frontend/src/i18n/locales/ar/dashboard.json
-- [ ] T010 [P] Add English translations for alerts in frontend/src/i18n/locales/en/alerts.json
-- [ ] T011 [P] Add Arabic translations for alerts in frontend/src/i18n/locales/ar/alerts.json
-- [ ] T012 [P] Add English translations for reports in frontend/src/i18n/locales/en/reports.json
-- [ ] T013 [P] Add Arabic translations for reports in frontend/src/i18n/locales/ar/reports.json
+- [x] T001 Create database migrations for dashboard tables in migrations/010_user_preferences.up.sql
+- [x] T002 [P] Create database migrations for pinned charts in migrations/011_pinned_charts.up.sql
+- [x] T003 [P] Create database migrations for alert rules in migrations/012_alert_rules.up.sql
+- [x] T004 [P] Create database migrations for scheduled reports in migrations/013_scheduled_reports.up.sql
+- [x] T005 [P] Create database migrations for chat messages in migrations/014_chat_messages.up.sql
+- [x] T006 [P] Add English translations for chat feature in frontend/src/i18n/locales/en/chat.json
+- [x] T007 [P] Add Arabic translations for chat feature in frontend/src/i18n/locales/ar/chat.json
+- [x] T008 [P] Add English translations for dashboard in frontend/src/i18n/locales/en/dashboard.json
+- [x] T009 [P] Add Arabic translations for dashboard in frontend/src/i18n/locales/ar/dashboard.json
+- [x] T010 [P] Add English translations for alerts in frontend/src/i18n/locales/en/alerts.json
+- [x] T011 [P] Add Arabic translations for alerts in frontend/src/i18n/locales/ar/alerts.json
+- [x] T012 [P] Add English translations for reports in frontend/src/i18n/locales/en/reports.json
+- [x] T013 [P] Add Arabic translations for reports in frontend/src/i18n/locales/ar/reports.json
 
 ---
 
@@ -50,27 +50,27 @@
 
 ### Database Repositories
 
-- [ ] T014 [P] Create UserPreference repository in internal/warehouse/user_preference.go
-- [ ] T015 [P] Create ChatMessage repository in internal/warehouse/chat_message.go
-- [ ] T016 [P] Create PinnedChart repository in internal/warehouse/pinned_chart.go
-- [ ] T017 [P] Create AlertRule repository in internal/warehouse/alert_rule.go
-- [ ] T018 [P] Create Notification repository in internal/warehouse/notification.go
-- [ ] T019 [P] Create ScheduledReport repository in internal/warehouse/scheduled_report.go
+- [x] T014 [P] Create UserPreference repository in internal/warehouse/user_preference.go
+- [x] T015 [P] Create ChatMessage repository in internal/warehouse/chat_message.go
+- [x] T016 [P] Create PinnedChart repository in internal/warehouse/pinned_chart.go
+- [x] T017 [P] Create AlertRule repository in internal/warehouse/alert_rule.go
+- [x] T018 [P] Create Notification repository in internal/warehouse/notification.go
+- [x] T019 [P] Create ScheduledReport repository in internal/warehouse/scheduled_report.go
 
 ### API Infrastructure
 
-- [ ] T020 [P] Create locale extraction middleware in internal/api/middleware/locale.go
-- [ ] T021 [P] Create WebSocket upgrader and stream handler in internal/api/websocket/stream.go
-- [ ] T022 [P] Create API client service for frontend in frontend/src/services/api.ts
-- [ ] T023 [P] Create WebSocket client for streaming in frontend/src/services/websocket.ts
-- [ ] T024 [P] Create locale hook for React in frontend/src/hooks/useLocale.ts
+- [x] T020 [P] Create locale extraction middleware in internal/api/middleware/locale.go
+- [x] T021 [P] Create WebSocket upgrader and stream handler in internal/api/websocket/stream.go
+- [x] T022 [P] Create API client service for frontend in frontend/src/services/api.ts
+- [x] T023 [P] Create WebSocket client for streaming in frontend/src/services/websocket.ts
+- [x] T024 [P] Create locale hook for React in frontend/src/hooks/useLocale.ts
 
 ### Common UI Components
 
-- [ ] T025 [P] Create LanguageSwitcher component in frontend/src/components/common/LanguageSwitcher.tsx
-- [ ] T026 [P] Create LoadingSpinner component with RTL support in frontend/src/components/common/LoadingSpinner.tsx
-- [ ] T027 [P] Create ExportButton component in frontend/src/components/common/ExportButton.tsx
-- [ ] T028 Configure i18next for new namespaces in frontend/src/i18n/index.ts
+- [x] T025 [P] Create LanguageSwitcher component in frontend/src/components/common/LanguageSwitcher.tsx
+- [x] T026 [P] Create LoadingSpinner component with RTL support in frontend/src/components/common/LoadingSpinner.tsx
+- [x] T027 [P] Create ExportButton component in frontend/src/components/common/ExportButton.tsx
+- [x] T028 Configure i18next for new namespaces in frontend/src/i18n/index.ts
 
 **Checkpoint**: Foundation ready - user story implementation can now begin
 
@@ -101,12 +101,12 @@
 
 ### Frontend Implementation for User Story 1
 
-- [ ] T040 [P] [US1] Create useChat hook with streaming support in frontend/src/hooks/useChat.ts
-- [ ] T041 [P] [US1] Create ChatInterface component in frontend/src/components/chat/ChatInterface.tsx
-- [ ] T042 [P] [US1] Create MessageList component in frontend/src/components/chat/MessageList.tsx
-- [ ] T043 [P] [US1] Create QueryInput component with RTL support in frontend/src/components/chat/QueryInput.tsx
-- [ ] T044 [P] [US1] Create StreamingMessage component for progressive rendering in frontend/src/components/chat/StreamingMessage.tsx
-- [ ] T045 [P] [US1] Create ChartRenderer component with ECharts in frontend/src/components/charts/ChartRenderer.tsx
+- [x] T040 [P] [US1] Create useChat hook with streaming support in frontend/src/hooks/useChat.ts
+- [x] T041 [P] [US1] Create ChatInterface component in frontend/src/components/chat/ChatInterface.tsx
+- [x] T042 [P] [US1] Create MessageList component in frontend/src/components/chat/MessageList.tsx
+- [x] T043 [P] [US1] Create QueryInput component with RTL support in frontend/src/components/chat/QueryInput.tsx
+- [x] T044 [P] [US1] Create StreamingMessage component for progressive rendering in frontend/src/components/chat/StreamingMessage.tsx
+- [x] T045 [P] [US1] Create ChartRenderer component with ECharts in frontend/src/components/charts/ChartRenderer.tsx
 - [ ] T046 [P] [US1] Create TableRenderer component in frontend/src/components/charts/TableRenderer.tsx
 - [ ] T047 [US1] Create ChatPage route component in frontend/src/pages/ChatPage.tsx
 - [ ] T048 [US1] Wire up chat route in frontend/src/App.tsx
@@ -128,17 +128,17 @@
 
 ### Backend Implementation for User Story 10
 
-- [ ] T051 [US10] Create PreferencesHandler in internal/api/handlers/preferences.go
-- [ ] T052 [US10] Implement GET /preferences endpoint in internal/api/handlers/preferences.go
-- [ ] T053 [US10] Implement PATCH /preferences endpoint with validation in internal/api/handlers/preferences.go
-- [ ] T054 [US10] Register preferences routes in internal/api/routes.go
+- [x] T051 [US10] Create PreferencesHandler in internal/api/handlers/preferences.go
+- [x] T052 [US10] Implement GET /preferences endpoint in internal/api/handlers/preferences.go
+- [x] T053 [US10] Implement PATCH /preferences endpoint with validation in internal/api/handlers/preferences.go
+- [x] T054 [US10] Register preferences routes in internal/api/routes.go
 
 ### Frontend Implementation for User Story 10
 
-- [ ] T055 [P] [US10] Create usePreferences hook in frontend/src/hooks/usePreferences.ts
-- [ ] T056 [US10] Integrate LanguageSwitcher with preferences API in frontend/src/components/common/LanguageSwitcher.tsx
-- [ ] T057 [US10] Implement instant locale switching without page reload in frontend/src/hooks/useLocale.ts
-- [ ] T058 [US10] Apply RTL layout direction changes in frontend/src/App.tsx
+- [x] T055 [P] [US10] Create usePreferences hook in frontend/src/hooks/usePreferences.ts
+- [x] T056 [US10] Integrate LanguageSwitcher with preferences API in frontend/src/components/common/LanguageSwitcher.tsx
+- [x] T057 [US10] Implement instant locale switching without page reload in frontend/src/hooks/useLocale.ts
+- [x] T058 [US10] Apply RTL layout direction changes in frontend/src/App.tsx
 
 **Checkpoint**: User Story 10 complete - instant language switching works across all components
 
@@ -168,14 +168,14 @@
 
 ### Frontend Implementation for User Story 2
 
-- [ ] T069 [P] [US2] Create useDashboard hook in frontend/src/hooks/useDashboard.ts
-- [ ] T070 [P] [US2] Create DashboardGrid component with responsive layout in frontend/src/components/dashboard/DashboardGrid.tsx
-- [ ] T071 [P] [US2] Create DashboardWidget component in frontend/src/components/dashboard/DashboardWidget.tsx
-- [ ] T072 [P] [US2] Create WidgetSettings component in frontend/src/components/dashboard/WidgetSettings.tsx
-- [ ] T073 [P] [US2] Create ChartActions component (Pin, Export) in frontend/src/components/charts/ChartActions.tsx
-- [ ] T074 [US2] Create DashboardPage route component in frontend/src/pages/DashboardPage.tsx
-- [ ] T075 [US2] Wire up dashboard route in frontend/src/App.tsx
-- [ ] T076 [US2] Implement chart refresh scheduler in frontend/src/hooks/useDashboard.ts
+- [x] T069 [P] [US2] Create useDashboard hook in frontend/src/hooks/useDashboard.ts
+- [x] T070 [P] [US2] Create DashboardGrid component with responsive layout in frontend/src/components/dashboard/DashboardGrid.tsx
+- [x] T071 [P] [US2] Create DashboardWidget component in frontend/src/components/dashboard/DashboardWidget.tsx
+- [x] T072 [P] [US2] Create WidgetSettings component in frontend/src/components/dashboard/WidgetSettings.tsx
+- [x] T073 [P] [US2] Create ChartActions component (Pin, Export) in frontend/src/components/charts/ChartActions.tsx
+- [x] T074 [US2] Create DashboardPage route component in frontend/src/pages/DashboardPage.tsx
+- [x] T075 [US2] Wire up dashboard route in frontend/src/App.tsx
+- [x] T076 [US2] Implement chart refresh scheduler in frontend/src/hooks/useDashboard.ts
 
 **Checkpoint**: User Stories 1, 10, 2 complete - MVP ready for demo
 
@@ -242,13 +242,13 @@
 
 ### Frontend Implementation for User Story 4
 
-- [ ] T105 [P] [US4] Create useAlerts hook in frontend/src/hooks/useAlerts.ts
+- [x] T105 [P] [US4] Create useAlerts hook in frontend/src/hooks/useAlerts.ts
 - [ ] T106 [P] [US4] Create AlertList component in frontend/src/components/alerts/AlertList.tsx
 - [ ] T107 [P] [US4] Create AlertForm component in frontend/src/components/alerts/AlertForm.tsx
 - [ ] T108 [P] [US4] Create NotificationToast component in frontend/src/components/alerts/NotificationToast.tsx
 - [ ] T109 [US4] Create AlertsPage route component in frontend/src/pages/AlertsPage.tsx
 - [ ] T110 [US4] Wire up alerts route in frontend/src/App.tsx
-- [ ] T111 [US4] Add notification polling/WebSocket listener in frontend/src/hooks/useAlerts.ts
+- [x] T111 [US4] Add notification polling/WebSocket listener in frontend/src/hooks/useAlerts.ts
 
 **Checkpoint**: User Story 4 complete - proactive monitoring and notifications work
 
@@ -289,7 +289,7 @@
 
 ### Frontend Implementation for User Story 5
 
-- [ ] T133 [P] [US5] Create useReports hook in frontend/src/hooks/useReports.ts
+- [x] T133 [P] [US5] Create useReports hook in frontend/src/hooks/useReports.ts
 - [ ] T134 [P] [US5] Create ReportScheduler component in frontend/src/components/reports/ReportScheduler.tsx
 - [ ] T135 [P] [US5] Create ReportHistory component in frontend/src/components/reports/ReportHistory.tsx
 - [ ] T136 [US5] Create ReportsPage route component in frontend/src/pages/ReportsPage.tsx

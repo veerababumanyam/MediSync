@@ -1,0 +1,91 @@
+{
+  "title": "Scheduled Reports",
+  "subtitle": "Automated report delivery",
+  "createReport": "Schedule Report",
+  "empty": {
+    "title": "No scheduled reports",
+    "description": "Set up recurring reports to be delivered automatically to your inbox.",
+    "action": "Schedule your first report"
+  },
+  "form": {
+    "name": {
+      "label": "Report Name",
+      "placeholder": "e.g., Weekly Revenue Report"
+    },
+    "description": {
+      "label": "Description (optional)",
+      "placeholder": "Describe the report contents"
+    },
+    "query": {
+      "label": "Report Query",
+      "placeholder": "What should this report show?",
+      "examples": "e.g., 'Monthly revenue by department'"
+    },
+    "schedule": {
+      "label": "Schedule",
+      "type": "Frequency",
+      "daily": "Daily",
+      "weekly": "Weekly",
+      "monthly": "Monthly",
+      "quarterly": "Quarterly",
+      "time": "Time",
+      "day": "Day",
+      "dayOfWeek": {
+        "1": "Monday",
+        "2": "Tuesday",
+        "3": "Wednesday",
+        "4": "Thursday",
+        "5": "Friday",
+        "6": "Saturday",
+        "7": "Sunday"
+      }
+    },
+    "recipients": {
+      "label": "Recipients",
+      "placeholder": "Enter email address",
+      "add": "Add recipient"
+    },
+    "format": {
+      "label": "Output Format",
+      "pdf": "PDF Document",
+      "xlsx": "Excel Spreadsheet",
+      "csv": "CSV File"
+    },
+    "options": {
+      "label": "Options",
+      "includeCharts": "Include charts",
+      "language": "Report language"
+    }
+  },
+  "status": {
+    "active": "Active",
+    "paused": "Paused",
+    "running": "Running"
+  },
+  "actions": {
+    "edit": "Edit",
+    "pause": "Pause",
+    "resume": "Resume",
+    "runNow": "Run Now",
+    "delete": "Delete",
+    "deleteConfirm": "Are you sure you want to delete this scheduled report?",
+    "download": "Download"
+  },
+  "history": {
+    "title": "Run History",
+    "status": {
+      "completed": "Completed",
+      "failed": "Failed",
+      "running": "Running"
+    },
+    "rowCount": "{{count}} rows",
+    "fileSize": "{{size}}",
+    "duration": "Duration: {{time}}"
+  },
+  "toast": {
+    "created": "Report scheduled successfully",
+    "updated": "Report updated successfully",
+    "deleted": "Scheduled report deleted",
+    "runStarted": "Report generation started"
+  }
+}

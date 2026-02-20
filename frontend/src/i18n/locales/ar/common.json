@@ -1,0 +1,20 @@
+{
+  "loading": "جاري التحميل...",
+  "language": {
+    "switchTo": "تبديل اللغة",
+    "current": "اللغة الحالية"
+  },
+  "export": {
+    "label": "تصدير",
+    "exporting": "جاري تصدير {{format}}...",
+    "formatOptions": "خيارات تنسيق التصدير",
+    "format": {
+      "pdf": "مستند PDF",
+      "xlsx": "جدول Excel",
+      "csv": "ملف CSV"
+    },
+    "success": "اكتمل التصدير",
+    "error": "فشل التصدير",
+    "noData": "لا توجد بيانات للتصدير"
+  }
+}
