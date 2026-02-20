@@ -66,6 +66,15 @@ type Config struct {
 
 	// Observability configuration
 	Observability ObservabilityConfig
+
+	// LLM configuration
+	LLM LLMConfig
+
+	// OPA configuration
+	OPA OPAConfig
+
+	// Server configuration
+	Server ServerConfig
 }
 
 // AppConfig holds general application settings.
@@ -285,6 +294,57 @@ type ObservabilityConfig struct {
 
 	// MetricsEnabled enables Prometheus metrics.
 	MetricsEnabled bool
+}
+
+// LLMConfig holds LLM provider settings.
+type LLMConfig struct {
+	// Provider is the LLM provider (openai, ollama, etc.)
+	Provider string
+
+	// Model is the model to use.
+	Model string
+
+	// APIKey is the API key for the provider.
+	APIKey string
+
+	// BaseURL is the base URL for the provider API.
+	BaseURL string
+
+	// MaxTokens is the maximum tokens for responses.
+	MaxTokens int
+
+	// Temperature is the sampling temperature.
+	Temperature float64
+}
+
+// OPAConfig holds OPA policy engine settings.
+type OPAConfig struct {
+	// URL is the OPA server URL.
+	URL string
+
+	// Timeout is the request timeout.
+	Timeout time.Duration
+
+	// DecisionPath is the path for decision API.
+	DecisionPath string
+}
+
+// ServerConfig holds HTTP server settings.
+type ServerConfig struct {
+	// Port is the server port.
+	Port int
+
+	// Host is the server host.
+	Host string
+
+	// ReadTimeout is the read timeout.
+	ReadTimeout time.Duration
+
+	// WriteTimeout is the write timeout.
+	WriteTimeout time.Duration
+
+	// ShutdownTimeout is the graceful shutdown timeout.
+	ShutdownTimeout time.Duration
 }
 
 // Load reads configuration from environment variables and returns a Config struct.

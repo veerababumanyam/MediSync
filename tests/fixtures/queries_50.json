@@ -1,0 +1,531 @@
+{
+  "metadata": {
+    "version": "1.0",
+    "created": "2026-02-19",
+    "description": "50 diverse test queries for validating AI Agent Core SQL generation accuracy",
+    "total_queries": 50,
+    "target_accuracy": 95
+  },
+  "queries": [
+    {
+      "id": "q001",
+      "text": "Show me total clinic revenue for January 2026",
+      "locale": "en",
+      "category": "revenue",
+      "expected_intent": "kpi",
+      "expected_chart": "kpiCard",
+      "expected_tables": ["fact_billing", "dim_date"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "q002",
+      "text": "What is the total number of patient visits this week?",
+      "locale": "en",
+      "category": "patients",
+      "expected_intent": "kpi",
+      "expected_chart": "kpiCard",
+      "expected_tables": ["fact_appointments", "dim_date"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "q003",
+      "text": "Show me revenue trend over the last 6 months",
+      "locale": "en",
+      "category": "trends",
+      "expected_intent": "trend",
+      "expected_chart": "lineChart",
+      "expected_tables": ["fact_billing", "dim_date"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "q004",
+      "text": "Compare revenue by department for this quarter",
+      "locale": "en",
+      "category": "comparisons",
+      "expected_intent": "comparison",
+      "expected_chart": "barChart",
+      "expected_tables": ["fact_billing", "dim_department", "dim_date"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "q005",
+      "text": "How many new patients registered in December 2025?",
+      "locale": "en",
+      "category": "patients",
+      "expected_intent": "kpi",
+      "expected_chart": "kpiCard",
+      "expected_tables": ["dim_patient", "dim_date"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "q006",
+      "text": "What is the average appointment duration by doctor?",
+      "locale": "en",
+      "category": "appointments",
+      "expected_intent": "breakdown",
+      "expected_chart": "barChart",
+      "expected_tables": ["fact_appointments", "dim_doctor"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "q007",
+      "text": "Show daily patient footfall for the past 30 days",
+      "locale": "en",
+      "category": "trends",
+      "expected_intent": "trend",
+      "expected_chart": "lineChart",
+      "expected_tables": ["fact_appointments", "dim_date"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "q008",
+      "text": "What percentage of revenue comes from pharmacy vs clinic services?",
+      "locale": "en",
+      "category": "comparisons",
+      "expected_intent": "breakdown",
+      "expected_chart": "pieChart",
+      "expected_tables": ["fact_billing", "dim_department"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "q009",
+      "text": "List top 10 doctors by revenue generated this month",
+      "locale": "en",
+      "category": "revenue",
+      "expected_intent": "breakdown",
+      "expected_chart": "barChart",
+      "expected_tables": ["fact_billing", "dim_doctor", "dim_date"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "q010",
+      "text": "What is the total outstanding payments from patients?",
+      "locale": "en",
+      "category": "revenue",
+      "expected_intent": "kpi",
+      "expected_chart": "kpiCard",
+      "expected_tables": ["fact_billing", "dim_payment_status"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "q011",
+      "text": "Show me appointment cancellations by reason this year",
+      "locale": "en",
+      "category": "appointments",
+      "expected_intent": "breakdown",
+      "expected_chart": "pieChart",
+      "expected_tables": ["fact_appointments", "dim_cancellation_reason", "dim_date"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "q012",
+      "text": "What is the monthly growth rate of patient visits?",
+      "locale": "en",
+      "category": "trends",
+      "expected_intent": "trend",
+      "expected_chart": "lineChart",
+      "expected_tables": ["fact_appointments", "dim_date"],
+      "difficulty": "hard"
+    },
+    {
+      "id": "q013",
+      "text": "Compare this month revenue to last month",
+      "locale": "en",
+      "category": "comparisons",
+      "expected_intent": "comparison",
+      "expected_chart": "barChart",
+      "expected_tables": ["fact_billing", "dim_date"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "q014",
+      "text": "Show me total expenses for Q4 2025",
+      "locale": "en",
+      "category": "revenue",
+      "expected_intent": "kpi",
+      "expected_chart": "kpiCard",
+      "expected_tables": ["fact_expenses", "dim_date"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "q015",
+      "text": "What is the average revenue per patient visit?",
+      "locale": "en",
+      "category": "revenue",
+      "expected_intent": "kpi",
+      "expected_chart": "kpiCard",
+      "expected_tables": ["fact_billing", "fact_appointments"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "q016",
+      "text": "أظهر إيرادات العيادة في يناير 2026",
+      "locale": "ar",
+      "category": "revenue",
+      "expected_intent": "kpi",
+      "expected_chart": "kpiCard",
+      "expected_tables": ["fact_billing", "dim_date"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "q017",
+      "text": "كم عدد زيارات المرضى هذا الأسبوع؟",
+      "locale": "ar",
+      "category": "patients",
+      "expected_intent": "kpi",
+      "expected_chart": "kpiCard",
+      "expected_tables": ["fact_appointments", "dim_date"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "q018",
+      "text": "أظهر اتجاه الإيرادات خلال الستة أشهر الماضية",
+      "locale": "ar",
+      "category": "trends",
+      "expected_intent": "trend",
+      "expected_chart": "lineChart",
+      "expected_tables": ["fact_billing", "dim_date"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "q019",
+      "text": "قارن الإيرادات حسب القسم هذا الربع",
+      "locale": "ar",
+      "category": "comparisons",
+      "expected_intent": "comparison",
+      "expected_chart": "barChart",
+      "expected_tables": ["fact_billing", "dim_department", "dim_date"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "q020",
+      "text": "كم مريض جديد سجل في ديسمبر 2025؟",
+      "locale": "ar",
+      "category": "patients",
+      "expected_intent": "kpi",
+      "expected_chart": "kpiCard",
+      "expected_tables": ["dim_patient", "dim_date"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "q021",
+      "text": "ما هو متوسط مدة الموعد حسب الطبيب؟",
+      "locale": "ar",
+      "category": "appointments",
+      "expected_intent": "breakdown",
+      "expected_chart": "barChart",
+      "expected_tables": ["fact_appointments", "dim_doctor"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "q022",
+      "text": "أظهر عدد المرضى اليوميين خلال الثلاثين يوما الماضية",
+      "locale": "ar",
+      "category": "trends",
+      "expected_intent": "trend",
+      "expected_chart": "lineChart",
+      "expected_tables": ["fact_appointments", "dim_date"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "q023",
+      "text": "ما هي نسبة الإيرادات من الصيدلة مقابل خدمات العيادة؟",
+      "locale": "ar",
+      "category": "comparisons",
+      "expected_intent": "breakdown",
+      "expected_chart": "pieChart",
+      "expected_tables": ["fact_billing", "dim_department"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "q024",
+      "text": "أظهر أفضل عشرة أطباء حسب الإيرادات هذا الشهر",
+      "locale": "ar",
+      "category": "revenue",
+      "expected_intent": "breakdown",
+      "expected_chart": "barChart",
+      "expected_tables": ["fact_billing", "dim_doctor", "dim_date"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "q025",
+      "text": "ما هو إجمالي المدفوعات المستحقة من المرضى؟",
+      "locale": "ar",
+      "category": "revenue",
+      "expected_intent": "kpi",
+      "expected_chart": "kpiCard",
+      "expected_tables": ["fact_billing", "dim_payment_status"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "q026",
+      "text": "أظهر إلغاءات المواعيد حسب السبب هذا العام",
+      "locale": "ar",
+      "category": "appointments",
+      "expected_intent": "breakdown",
+      "expected_chart": "pieChart",
+      "expected_tables": ["fact_appointments", "dim_cancellation_reason", "dim_date"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "q027",
+      "text": "ما هو معدل النمو الشهري لزيارات المرضى؟",
+      "locale": "ar",
+      "category": "trends",
+      "expected_intent": "trend",
+      "expected_chart": "lineChart",
+      "expected_tables": ["fact_appointments", "dim_date"],
+      "difficulty": "hard"
+    },
+    {
+      "id": "q028",
+      "text": "قارن إيرادات هذا الشهر بالشهر الماضي",
+      "locale": "ar",
+      "category": "comparisons",
+      "expected_intent": "comparison",
+      "expected_chart": "barChart",
+      "expected_tables": ["fact_billing", "dim_date"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "q029",
+      "text": "أظهر إجمالي المصروفات للربع الرابع 2025",
+      "locale": "ar",
+      "category": "revenue",
+      "expected_intent": "kpi",
+      "expected_chart": "kpiCard",
+      "expected_tables": ["fact_expenses", "dim_date"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "q030",
+      "text": "ما هو متوسط الإيراد لكل زيارة مريض؟",
+      "locale": "ar",
+      "category": "revenue",
+      "expected_intent": "kpi",
+      "expected_chart": "kpiCard",
+      "expected_tables": ["fact_billing", "fact_appointments"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "q031",
+      "text": "Show revenue",
+      "locale": "en",
+      "category": "edge_case",
+      "expected_intent": "ambiguous",
+      "expected_chart": "clarification",
+      "expected_tables": [],
+      "difficulty": "hard",
+      "notes": "Ambiguous - requires clarification for time period and revenue type"
+    },
+    {
+      "id": "q032",
+      "text": "Compare performance",
+      "locale": "en",
+      "category": "edge_case",
+      "expected_intent": "ambiguous",
+      "expected_chart": "clarification",
+      "expected_tables": [],
+      "difficulty": "hard",
+      "notes": "Ambiguous - requires clarification for metrics, time period, and entities to compare"
+    },
+    {
+      "id": "q033",
+      "text": "Show me the total revenue per doctor per department per month with patient count and average billing amount for each combination",
+      "locale": "en",
+      "category": "edge_case",
+      "expected_intent": "breakdown",
+      "expected_chart": "table",
+      "expected_tables": ["fact_billing", "dim_doctor", "dim_department", "dim_date", "fact_appointments"],
+      "difficulty": "hard",
+      "notes": "Complex multi-join aggregation query"
+    },
+    {
+      "id": "q034",
+      "text": "What is the revenue correlation between pharmacy sales and clinic consultations over the past year grouped by month?",
+      "locale": "en",
+      "category": "edge_case",
+      "expected_intent": "trend",
+      "expected_chart": "lineChart",
+      "expected_tables": ["fact_billing", "dim_department", "dim_date"],
+      "difficulty": "hard",
+      "notes": "Complex join with correlation analysis"
+    },
+    {
+      "id": "q035",
+      "text": "Calculate the running total of daily revenue with 7-day moving average",
+      "locale": "en",
+      "category": "edge_case",
+      "expected_intent": "trend",
+      "expected_chart": "lineChart",
+      "expected_tables": ["fact_billing", "dim_date"],
+      "difficulty": "hard",
+      "notes": "Requires window functions"
+    },
+    {
+      "id": "q036",
+      "text": "Find patients who have visited more than 5 times but have unpaid bills over 1000",
+      "locale": "en",
+      "category": "edge_case",
+      "expected_intent": "table",
+      "expected_chart": "table",
+      "expected_tables": ["fact_appointments", "fact_billing", "dim_patient"],
+      "difficulty": "hard",
+      "notes": "Complex HAVING clause with multiple conditions"
+    },
+    {
+      "id": "q037",
+      "text": "Show year-over-year growth percentage for each department",
+      "locale": "en",
+      "category": "edge_case",
+      "expected_intent": "comparison",
+      "expected_chart": "barChart",
+      "expected_tables": ["fact_billing", "dim_department", "dim_date"],
+      "difficulty": "hard",
+      "notes": "Requires LAG window function or self-join"
+    },
+    {
+      "id": "q038",
+      "text": "List all patients who had appointments with doctors from a different department than their primary care department",
+      "locale": "en",
+      "category": "edge_case",
+      "expected_intent": "table",
+      "expected_chart": "table",
+      "expected_tables": ["fact_appointments", "dim_patient", "dim_doctor", "dim_department"],
+      "difficulty": "hard",
+      "notes": "Complex self-referencing join"
+    },
+    {
+      "id": "q039",
+      "text": "ما هي الإيرادات",
+      "locale": "ar",
+      "category": "edge_case",
+      "expected_intent": "ambiguous",
+      "expected_chart": "clarification",
+      "expected_tables": [],
+      "difficulty": "hard",
+      "notes": "Arabic ambiguous query - requires clarification"
+    },
+    {
+      "id": "q040",
+      "text": "Rank doctors by revenue within their department and show percentile",
+      "locale": "en",
+      "category": "edge_case",
+      "expected_intent": "breakdown",
+      "expected_chart": "table",
+      "expected_tables": ["fact_billing", "dim_doctor", "dim_department"],
+      "difficulty": "hard",
+      "notes": "Requires window functions for ranking and percentiles"
+    },
+    {
+      "id": "q041",
+      "text": "What is the weather like today?",
+      "locale": "en",
+      "category": "off_topic",
+      "expected_intent": "reject",
+      "expected_chart": "none",
+      "expected_tables": [],
+      "difficulty": "easy",
+      "notes": "Off-topic query - should be rejected with redirect"
+    },
+    {
+      "id": "q042",
+      "text": "Write me a poem about healthcare",
+      "locale": "en",
+      "category": "off_topic",
+      "expected_intent": "reject",
+      "expected_chart": "none",
+      "expected_tables": [],
+      "difficulty": "easy",
+      "notes": "Off-topic query - should be rejected with redirect"
+    },
+    {
+      "id": "q043",
+      "text": "Who won the World Cup in 2022?",
+      "locale": "en",
+      "category": "off_topic",
+      "expected_intent": "reject",
+      "expected_chart": "none",
+      "expected_tables": [],
+      "difficulty": "easy",
+      "notes": "Off-topic query - should be rejected with redirect"
+    },
+    {
+      "id": "q044",
+      "text": "Tell me a joke",
+      "locale": "en",
+      "category": "off_topic",
+      "expected_intent": "reject",
+      "expected_chart": "none",
+      "expected_tables": [],
+      "difficulty": "easy",
+      "notes": "Off-topic query - should be rejected with redirect"
+    },
+    {
+      "id": "q045",
+      "text": "What is the capital of France?",
+      "locale": "en",
+      "category": "off_topic",
+      "expected_intent": "reject",
+      "expected_chart": "none",
+      "expected_tables": [],
+      "difficulty": "easy",
+      "notes": "Off-topic query - should be rejected with redirect"
+    },
+    {
+      "id": "q046",
+      "text": "How do I bake a chocolate cake?",
+      "locale": "en",
+      "category": "off_topic",
+      "expected_intent": "reject",
+      "expected_chart": "none",
+      "expected_tables": [],
+      "difficulty": "easy",
+      "notes": "Off-topic query - should be rejected with redirect"
+    },
+    {
+      "id": "q047",
+      "text": "ما هو الطقس اليوم؟",
+      "locale": "ar",
+      "category": "off_topic",
+      "expected_intent": "reject",
+      "expected_chart": "none",
+      "expected_tables": [],
+      "difficulty": "easy",
+      "notes": "Arabic off-topic query - should be rejected with redirect in Arabic"
+    },
+    {
+      "id": "q048",
+      "text": "اكتب لي قصة عن الأطباء",
+      "locale": "ar",
+      "category": "off_topic",
+      "expected_intent": "reject",
+      "expected_chart": "none",
+      "expected_tables": [],
+      "difficulty": "easy",
+      "notes": "Arabic off-topic query - should be rejected with redirect in Arabic"
+    },
+    {
+      "id": "q049",
+      "text": "Can you help me write code for a website?",
+      "locale": "en",
+      "category": "off_topic",
+      "expected_intent": "reject",
+      "expected_chart": "none",
+      "expected_tables": [],
+      "difficulty": "easy",
+      "notes": "Off-topic query - should be rejected with redirect"
+    },
+    {
+      "id": "q050",
+      "text": "Translate this sentence to Spanish: hello world",
+      "locale": "en",
+      "category": "off_topic",
+      "expected_intent": "reject",
+      "expected_chart": "none",
+      "expected_tables": [],
+      "difficulty": "easy",
+      "notes": "Off-topic query - should be rejected with redirect"
+    }
+  ]
+}

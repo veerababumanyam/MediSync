@@ -442,3 +442,13 @@ When working on this codebase:
 ---
 
 *This guide is maintained by the MediSync engineering team. For questions or updates, please refer to the project documentation or contact the team lead.*
+
+## Active Technologies
+- Go 1.26 (backend), TypeScript/React 19 (frontend types) (001-ai-agent-core)
+- PostgreSQL 18.2 + pgvector (schema embeddings), Redis (session cache) (001-ai-agent-core)
+- CopilotKit 1.3.6 (streaming chat UI), Apache ECharts 5.6 (charts), i18next 24.2 (i18n) (002-dashboard-advanced-features)
+- NATS JetStream (alert/report scheduling), Puppeteer (PDF generation), excelize (Excel export) (002-dashboard-advanced-features)
+
+## Recent Changes
+- 001-ai-agent-core: Added Go 1.26 (backend), TypeScript/React 19 (frontend types)
+- 002-dashboard-advanced-features: Added CopilotKit, ECharts, i18next, NATS JetStream scheduling

@@ -1,0 +1,349 @@
+# golangci-lint configuration for MediSync
+# https://golangci-lint.run/usage/configuration/
+
+run:
+  # Timeout for analysis
+  timeout: 5m
+
+  # Include test files
+  tests: true
+
+  # Which dirs to skip: issues from them won't be reported
+  skip-dirs:
+    - vendor
+    - bin
+    - node_modules
+
+  # Which files to skip: they will be analyzed, but issues from them won't be reported
+  skip-files:
+    - ".*\\.pb\\.go$"
+    - ".*_gen\\.go$"
+
+  # Modules download mode
+  modules-download-mode: readonly
+
+  # Allow multiple parallel golangci-lint instances running
+  allow-parallel-runners: true
+
+output:
+  # Format: colored-line-number|line-number|json|tab|checkstyle|code-climate|junit-xml|github-actions
+  format: colored-line-number
+
+  # Print lines of code with issue
+  print-issued-lines: true
+
+  # Print linter name in the end of issue text
+  print-linter-name: true
+
+  # Make issues output unique by line
+  uniq-by-line: true
+
+  # Add a prefix to the output file references
+  path-prefix: ""
+
+  # Sort results by: filepath, line and column
+  sort-results: true
+
+linters:
+  # Enable specific linter
+  # https://golangci-lint.run/usage/linters/
+  enable:
+    - errcheck      # Errcheck is a program for checking for unchecked errors in go programs
+    - govet         # Vet examines Go source code and reports suspicious constructs
+    - staticcheck   # Go static analysis tool
+    - ineffassign   # Detects when assignments to existing variables are not used
+    - typecheck     # Like the front-end of a Go compiler, parses and type-checks Go code
+    - gosimple      # Linter for Go source code that specializes in simplifying code
+    - gofmt         # Gofmt checks whether code was gofmt-ed
+    - goimports     # Goimports does everything that gofmt does
+    - goconst       # Finds repeated strings that could be replaced by a constant
+    - gocyclo       # Computes and checks the cyclomatic complexity of functions
+    - gosec         # Inspects source code for security problems
+    - misspell      # Finds commonly misspelled English words in comments
+    - nakedret      # Finds naked returns in functions greater than a specified function length
+    - prealloc      # Finds slice declarations that could potentially be pre-allocated
+    - revive        # Fast, configurable, extensible, flexible, and beautiful linter for Go
+    - sqlclosecheck # Checks that sql.Rows and sql.Stmt are closed
+    - unconvert     # Remove unnecessary type conversions
+    - whitespace    # Detection of leading and trailing whitespace
+
+  # Disable all linters
+  disable-all: false
+
+  # Enable presets
+  # presets:
+  #   - bugs
+  #   - comment
+  #   - complexity
+  #   - error
+  #   - format
+  #   - import
+  #   - metalinter
+  #   - module
+  #   - performance
+  #   - sql
+  #   - style
+  #   - test
+  #   - unused
+
+  # Run only fast linters from enabled linters set
+  fast: false
+
+linters-settings:
+  errcheck:
+    # Report about not checking of errors in type assertions: `a := b.(MyStruct)`
+    check-type-assertions: true
+
+    # report about assignment of errors to blank identifier: `num, _ := strconv.Atoi(str)`
+    check-blank: false
+
+    # Path to a file containing a list of functions to exclude from checking
+    exclude-functions:
+      - io/ioutil.ReadFile
+      - io.Copy(*bytes.Buffer)
+      - io.Copy(os.Stdout)
+
+  govet:
+    # Report about shadowed variables
+    check-shadowing: true
+
+    # Settings per analyzer
+    settings:
+      printf:
+        # Run `go tool vet help printf` to see all settings
+        funcs:
+          - (github.com/golangci/golangci-lint/pkg/logutils.Log).Infof
+          - (github.com/golangci/golangci-lint/pkg/logutils.Log).Warnf
+          - (github.com/golangci/golangci-lint/pkg/logutils.Log).Errorf
+          - (github.com/golangci/golangci-lint/pkg/logutils.Log).Fatalf
+
+  staticcheck:
+    # Select the Go version to target
+    go: "1.26"
+
+  gosimple:
+    # Select the Go version to target
+    go: "1.26"
+
+  gofmt:
+    # Simplify code: gofmt with `-s` option
+    simplify: true
+
+  goimports:
+    # Put imports beginning with prefix after 3rd-party packages
+    local-prefixes: github.com/medisync/medisync
+
+  goconst:
+    # Minimal occurrences count to trigger
+    min-occurrences: 3
+
+    # Ignore tests
+    ignore-tests: true
+
+    # Look for existing constants matching the values
+    match-constant: true
+
+    # Search also for duplicated numbers
+    numbers: false
+
+    # Minimum value, only works with goconst.numbers
+    min: 3
+
+    # Maximum value, only works with goconst.numbers
+    max: 3
+
+    # Ignore when constant is not used as the same type
+    ignore-calls: true
+
+  gocyclo:
+    # Minimal code complexity to report
+    min-complexity: 15
+
+  gosec:
+    # To select a subset of rules to run
+    includes:
+      - G101 # Look for hard coded credentials
+      - G102 # Bind to all interfaces
+      - G103 # Audit the use of unsafe block
+      - G104 # Audit errors not checked
+      - G106 # Audit the use of ssh.InsecureIgnoreHostKey
+      - G107 # Url provided to HTTP request as taint input
+      - G108 # Profiling endpoint automatically exposed
+      - G109 # Potential Integer overflow made by strconv.Atoi result conversion to int16/32
+      - G110 # Potential DoS vulnerability via decompression bomb
+      - G111 # Potential directory traversal
+      - G112 # Potential slowloris attack
+      - G113 # Usage of Rat.SetString in math/big with an overflow
+      - G114 # Use of untrusted path in Java/JNDI
+      - G201 # SQL query construction using format string
+      - G202 # SQL query construction using string concatenation
+      - G203 # Use of unescaped data in HTML templates
+      - G204 # Audit use of command execution
+      - G301 # Poor file permissions used when creating a directory
+      - G302 # Poor file permissions used with chmod
+      - G303 # Creating tempfile using a predictable path
+      - G304 # File path provided as taint input
+      - G305 # File traversal when extracting zip/tar archive
+      - G306 # Poor file permissions used when writing to a new file
+      - G307 # Poor file permissions used when creating a file
+      - G401 # Detect the usage of DES, RC4, MD5 or SHA1
+      - G402 # Look for bad TLS connection settings
+      - G403 # Ensure minimum RSA key length of 2048 bits
+      - G404 # Insecure random number source (rand)
+      - G501 # Import blocklist: crypto/md5
+      - G502 # Import blocklist: crypto/des
+      - G503 # Import blocklist: crypto/rc4
+      - G504 # Import blocklist: net/http/cgi
+      - G505 # Import blocklist: crypto/sha1
+      - G601 # Implicit memory aliasing of items from a range statement
+
+    # Exclude generated files
+    excludes:
+      - G104 # Audit errors not checked (handled by errcheck)
+
+  misspell:
+    # Correct spellings using locale preferences for US or UK
+    locale: US
+
+    # Ignore words
+    ignore-words:
+      - mediSync
+      - keycloak
+
+  nakedret:
+    # Make an issue if func has more lines of code than this setting and it has naked returns
+    max-func-lines: 30
+
+  prealloc:
+    # Report pre-allocation suggestions only on simple loops that have no returns/breaks/continues/gotos in them
+    simple: true
+
+    # Report pre-allocation suggestions on range loops
+    range-loops: true
+
+    # Report pre-allocation suggestions on for loops
+    for-loops: false
+
+  revive:
+    # Maximum number of open files at the same time
+    max-open-files: 2048
+
+    # Confidence level
+    confidence: 0.8
+
+    rules:
+      - name: blank-imports
+      - name: context-as-argument
+      - name: context-keys-type
+      - name: dot-imports
+      - name: error-return
+      - name: error-strings
+      - name: error-naming
+      - name: exported
+      - name: if-return
+      - name: increment-decrement
+      - name: var-naming
+      - name: var-declaration
+      - name: package-comments
+      - name: range
+      - name: receiver-naming
+      - name: time-naming
+      - name: unexported-return
+      - name: indent-error-flow
+      - name: errorf
+      - name: empty-block
+      - name: superfluous-else
+      - name: unused-parameter
+      - name: unreachable-code
+      - name: redefines-builtin-id
+
+  sqlclosecheck:
+    # Remove unused sql.Rows and sql.Stmt from analysis
+    packages:
+      - database/sql
+
+  unconvert:
+    # Remove conversions that do not change the type
+    fast-math: false
+
+  whitespace:
+    # Enforce newlines (or not) at the start or end of functions
+    multi-if: false
+    multi-func: false
+
+issues:
+  # List of regexps of issue texts to exclude
+  exclude:
+    # Exclude some linters from running on tests files
+    - "Error return value of .((os\\.)?std(out|err)\\..*|.*Close|.*Flush|os\\.Remove(All)?|.*printf?|os\\.(Un)?Setenv). is not checked"
+
+  # Excluding configuration per-path, per-linter, per-text and per-source
+  exclude-rules:
+    # Exclude some linters from running on tests files
+    - path: _test\.go
+      linters:
+        - gocyclo
+        - errcheck
+        - dupl
+        - gosec
+        - goconst
+
+    # Exclude known linters from partially hard-vendored code
+    - path: internal/hmac/
+      text: "weak cryptographic primitive"
+      linters:
+        - gosec
+
+    # Exclude linters issues in generated files
+    - path: .*\.pb\.go
+      linters:
+        - govet
+        - golint
+        - stylecheck
+        - gosec
+
+    # Exclude shadow checking on variables named err
+    - text: "shadow: declaration of .err. shadows declaration"
+      linters:
+        - govet
+
+  # Independently from option `exclude` we use default exclude patterns
+  exclude-use-default: false
+
+  # The default value is false
+  exclude-case-sensitive: false
+
+  # The list of ids of default excludes to include or disable
+  include:
+    - EXC0001 # Funlen
+    - EXC0002 # Exclude about imports comments
+    - EXC0003 # Duplicate code
+    - EXC0004 # govet
+    - EXC0005 # C style comments
+    - EXC0011 # Stylecheck
+    - EXC0012 # Revive
+
+  # Maximum issues count per one linter
+  max-issues-per-linter: 0
+
+  # Maximum count of issues with the same text
+  max-same-issues: 0
+
+  # Show only new issues: if there are unstaged changes or untracked files
+  new: false
+
+  # Fix found issues (if it's supported by the linter)
+  fix: false
+
+severity:
+  # Default value is empty string
+  default-severity: error
+
+  # The default value is empty string
+  default-valued-severity: warning
+
+  # Rules for overriding severity
+  rules:
+    - linters:
+        - dupl
+      severity: info
