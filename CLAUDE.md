@@ -448,6 +448,10 @@ When working on this codebase:
 - PostgreSQL 18.2 + pgvector (schema embeddings), Redis (session cache) (001-ai-agent-core)
 - CopilotKit 1.3.6 (streaming chat UI), Apache ECharts 5.6 (charts), i18next 24.2 (i18n) (002-dashboard-advanced-features)
 - NATS JetStream (alert/report scheduling), Puppeteer (PDF generation), excelize (Excel export) (002-dashboard-advanced-features)
+- Go 1.26 (backend), TypeScript 5.9 (frontend) (003-dashboard-advanced-features)
+- PostgreSQL 18.2 + pgvector (warehouse), Redis (session cache) (003-dashboard-advanced-features)
+- Go 1.26 (backend), TypeScript 5.9 (frontend) + go-chi/chi (HTTP), PaddleOCR (OCR engine), NATS JetStream (async processing), Google Genkit (AI flows), React 19 (web), i18next (i18n), Apache ECharts (confidence visualization) (001-document-processing)
+- PostgreSQL 18.2 + pgvector (document metadata, embeddings), Redis (queue status, session), S3-compatible object storage (original documents) (001-document-processing)
 
 ## Recent Changes
 - 001-ai-agent-core: Added Go 1.26 (backend), TypeScript/React 19 (frontend types)

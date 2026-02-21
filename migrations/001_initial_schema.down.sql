@@ -81,15 +81,18 @@ DROP INDEX IF EXISTS app.idx_approval_workflows_due_date;
 DROP INDEX IF EXISTS app.idx_approval_workflows_created_by;
 DROP INDEX IF EXISTS app.idx_approval_workflows_type;
 DROP INDEX IF EXISTS app.idx_approval_workflows_status;
-DROP INDEX IF EXISTS app.idx_scheduled_reports_active;
-DROP INDEX IF EXISTS app.idx_scheduled_reports_next_run;
-DROP INDEX IF EXISTS app.idx_scheduled_reports_user;
-DROP INDEX IF EXISTS app.idx_pinned_charts_dashboard;
-DROP INDEX IF EXISTS app.idx_pinned_charts_user;
+
+
 DROP INDEX IF EXISTS app.idx_notification_queue_type;
 DROP INDEX IF EXISTS app.idx_notification_queue_scheduled;
-DROP INDEX IF EXISTS app.idx_notification_queue_status;
+DROP INDEX IF EXISTS app.idx_notification_queue_read;
 DROP INDEX IF EXISTS app.idx_notification_queue_user;
+
+DROP INDEX IF EXISTS app.idx_audit_log_session;
+DROP INDEX IF EXISTS app.idx_audit_log_created;
+DROP INDEX IF EXISTS app.idx_audit_log_resource;
+DROP INDEX IF EXISTS app.idx_audit_log_action;
+DROP INDEX IF EXISTS app.idx_audit_log_user;
 DROP INDEX IF EXISTS app.idx_etl_state_status;
 DROP INDEX IF EXISTS app.idx_etl_state_source;
 DROP INDEX IF EXISTS app.idx_etl_quality_report_passed;
@@ -100,11 +103,7 @@ DROP INDEX IF EXISTS app.idx_etl_quarantine_batch;
 DROP INDEX IF EXISTS app.idx_etl_quarantine_created;
 DROP INDEX IF EXISTS app.idx_etl_quarantine_status;
 DROP INDEX IF EXISTS app.idx_etl_quarantine_source;
-DROP INDEX IF EXISTS app.idx_audit_log_session;
-DROP INDEX IF EXISTS app.idx_audit_log_created;
-DROP INDEX IF EXISTS app.idx_audit_log_resource;
-DROP INDEX IF EXISTS app.idx_audit_log_action;
-DROP INDEX IF EXISTS app.idx_audit_log_user;
+
 DROP INDEX IF EXISTS app.idx_users_department;
 DROP INDEX IF EXISTS app.idx_users_role;
 DROP INDEX IF EXISTS app.idx_users_keycloak_sub;
@@ -112,14 +111,12 @@ DROP INDEX IF EXISTS app.idx_users_email;
 
 -- Drop tables (order matters due to FK constraints)
 DROP TABLE IF EXISTS app.approval_workflows CASCADE;
-DROP TABLE IF EXISTS app.scheduled_reports CASCADE;
-DROP TABLE IF EXISTS app.pinned_charts CASCADE;
+
+
 DROP TABLE IF EXISTS app.notification_queue CASCADE;
 DROP TABLE IF EXISTS app.etl_state CASCADE;
-DROP TABLE IF EXISTS app.etl_quality_report CASCADE;
 DROP TABLE IF EXISTS app.etl_quarantine CASCADE;
 DROP TABLE IF EXISTS app.audit_log CASCADE;
-DROP TABLE IF EXISTS app.user_preferences CASCADE;
 DROP TABLE IF EXISTS app.users CASCADE;
 
 -- Drop schema
@@ -234,7 +231,7 @@ DROP SCHEMA IF EXISTS hims_analytics CASCADE;
 -- ============================================================================
 
 -- DROP EXTENSION IF EXISTS "pg_stat_statements";
--- DROP EXTENSION IF EXISTS "pgvector";
+-- DROP EXTENSION IF EXISTS "vector";
 -- DROP EXTENSION IF EXISTS "uuid-ossp";
 
 -- ============================================================================

@@ -4,7 +4,7 @@
 -- Schemas: hims_analytics, tally_analytics, app, vectors
 --
 -- This migration establishes:
--- 1. Required PostgreSQL extensions (pgvector, uuid-ossp, pg_stat_statements)
+-- 1. Required PostgreSQL extensions (vector, uuid-ossp, pg_stat_statements)
 -- 2. Four main schemas with their dimension and fact tables
 -- 3. Standard audit columns (_source, _source_id, _synced_at, _created_at, _updated_at)
 -- 4. Appropriate indexes for query performance
@@ -15,7 +15,7 @@
 -- ============================================================================
 
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
-CREATE EXTENSION IF NOT EXISTS "pgvector";
+CREATE EXTENSION IF NOT EXISTS "vector";
 CREATE EXTENSION IF NOT EXISTS "pg_stat_statements";
 
 -- ============================================================================
@@ -490,24 +490,6 @@ CREATE INDEX idx_users_keycloak_sub ON app.users(keycloak_sub);
 CREATE INDEX idx_users_role ON app.users(role);
 CREATE INDEX idx_users_department ON app.users(department);
 
--- User Preferences (extended settings)
-CREATE TABLE app.user_preferences (
-    user_id UUID PRIMARY KEY REFERENCES app.users(user_id) ON DELETE CASCADE,
-    locale VARCHAR(10) NOT NULL DEFAULT 'en',
-    number_format VARCHAR(50) DEFAULT 'en-US', -- locale for number formatting
-    date_format VARCHAR(50) DEFAULT 'YYYY-MM-DD',
-    calendar_system VARCHAR(20) DEFAULT 'gregorian',
-    currency VARCHAR(10) DEFAULT 'SAR',
-    report_language VARCHAR(10) DEFAULT 'en',
-    ai_response_language VARCHAR(10) DEFAULT 'en',
-    dashboard_layout JSONB DEFAULT '{}',
-    notification_preferences JSONB DEFAULT '{"email": true, "sms": false, "push": true}',
-    theme VARCHAR(20) DEFAULT 'light', -- light, dark, auto
-    accessibility_options JSONB DEFAULT '{}',
-    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-    updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
-);
-
 -- Audit Log (append-only, immutable)
 CREATE TABLE app.audit_log (
     log_id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
@@ -535,6 +517,11 @@ CREATE INDEX idx_audit_log_action ON app.audit_log(action);
 CREATE INDEX idx_audit_log_resource ON app.audit_log(resource, resource_id);
 CREATE INDEX idx_audit_log_created ON app.audit_log(created_at);
 CREATE INDEX idx_audit_log_session ON app.audit_log(session_id);
+
+
+
+
+
 
 -- ETL Quarantine (failed/invalid records)
 CREATE TABLE app.etl_quarantine (
@@ -656,60 +643,7 @@ CREATE INDEX idx_notification_queue_status ON app.notification_queue(status);
 CREATE INDEX idx_notification_queue_scheduled ON app.notification_queue(scheduled_at);
 CREATE INDEX idx_notification_queue_type ON app.notification_queue(notification_type);
 
--- Pinned Charts (Dashboard widgets)
-CREATE TABLE app.pinned_charts (
-    pin_id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    user_id UUID NOT NULL REFERENCES app.users(user_id) ON DELETE CASCADE,
-    dashboard_id UUID, -- NULL for default dashboard
-    title_en VARCHAR(255) NOT NULL,
-    title_ar VARCHAR(255),
-    chart_type VARCHAR(50) NOT NULL, -- bar, line, pie, scatter, table, kpi_card, gauge
-    chart_config JSONB NOT NULL, -- ECharts configuration
-    sql_query TEXT, -- Original SQL that generated the chart
-    query_params JSONB,
-    data_source VARCHAR(100), -- 'hims', 'tally', 'combined'
-    refresh_interval INTEGER DEFAULT 300, -- seconds, 0 = manual only
-    last_refreshed_at TIMESTAMPTZ,
-    position_x INTEGER DEFAULT 0,
-    position_y INTEGER DEFAULT 0,
-    width INTEGER DEFAULT 4, -- Grid units
-    height INTEGER DEFAULT 3,
-    is_visible BOOLEAN DEFAULT TRUE,
-    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-    updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
-);
 
-CREATE INDEX idx_pinned_charts_user ON app.pinned_charts(user_id);
-CREATE INDEX idx_pinned_charts_dashboard ON app.pinned_charts(dashboard_id);
-
--- Scheduled Reports
-CREATE TABLE app.scheduled_reports (
-    sched_id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    user_id UUID NOT NULL REFERENCES app.users(user_id) ON DELETE CASCADE,
-    report_name_en VARCHAR(255) NOT NULL,
-    report_name_ar VARCHAR(255),
-    report_type VARCHAR(100) NOT NULL, -- pl_statement, balance_sheet, cash_flow, aging_report, inventory, custom
-    report_template_id UUID,
-    params_json JSONB NOT NULL, -- Report parameters
-    output_format VARCHAR(20) DEFAULT 'pdf', -- pdf, excel, html, csv
-    locale VARCHAR(10) DEFAULT 'en',
-    cron_expr VARCHAR(100) NOT NULL, -- Standard cron expression
-    timezone VARCHAR(100) DEFAULT 'Asia/Riyadh',
-    recipients JSONB, -- [{email, name, locale}]
-    delivery_channel VARCHAR(50) DEFAULT 'email', -- email, slack, in_app
-    is_active BOOLEAN DEFAULT TRUE,
-    last_run_at TIMESTAMPTZ,
-    next_run_at TIMESTAMPTZ,
-    last_run_status VARCHAR(50),
-    last_error TEXT,
-    run_count INTEGER DEFAULT 0,
-    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-    updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
-);
-
-CREATE INDEX idx_scheduled_reports_user ON app.scheduled_reports(user_id);
-CREATE INDEX idx_scheduled_reports_next_run ON app.scheduled_reports(next_run_at);
-CREATE INDEX idx_scheduled_reports_active ON app.scheduled_reports(is_active);
 
 -- Approval Workflows (for B-08 Approval Workflow Agent)
 CREATE TABLE app.approval_workflows (
@@ -755,7 +689,7 @@ CREATE INDEX idx_approval_workflows_created ON app.approval_workflows(created_at
 
 -- ============================================================================
 -- SCHEMA: vectors
--- Vector embeddings for semantic search (pgvector)
+-- Vector embeddings for semantic search (vector extension)
 -- ============================================================================
 
 CREATE SCHEMA IF NOT EXISTS vectors;
@@ -883,7 +817,7 @@ BEGIN
         SELECT schemaname, tablename
         FROM pg_tables
         WHERE schemaname IN ('hims_analytics', 'tally_analytics', 'app', 'vectors')
-        AND tablename NOT IN ('audit_log') -- audit_log is append-only
+        -- Add other special exceptions here
     LOOP
         -- Check if table has _updated_at or updated_at column
         IF EXISTS (
@@ -927,6 +861,7 @@ COMMENT ON TABLE app.audit_log IS 'Immutable, append-only audit trail for all sy
 COMMENT ON TABLE app.etl_quarantine IS 'Quarantined records that failed ETL validation';
 COMMENT ON TABLE app.etl_quality_report IS 'Data quality reports from C-06 validation agent';
 COMMENT ON TABLE app.approval_workflows IS 'Multi-step approval workflows for financial transactions';
+
 
 COMMENT ON TABLE vectors.schema_embeddings IS 'Embeddings of database schema for Text-to-SQL context';
 COMMENT ON TABLE vectors.metric_embeddings IS 'Embeddings of business metrics for semantic search';

@@ -1,0 +1,232 @@
+openapi: 3.1.0
+info:
+  title: MediSync OCR Service API
+  description: |
+    Internal API for OCR processing service.
+    This is an async service triggered by NATS messages, but exposes endpoints for:
+    - Health checks
+    - Manual reprocessing
+    - Service status
+
+    Not exposed to external clients.
+  version: 1.0.0
+
+servers:
+  - url: http://ocr-service:8081/internal
+    description: Internal OCR service
+
+tags:
+  - name: Health
+    description: Service health endpoints
+  - name: Processing
+    description: Document processing endpoints
+
+paths:
+  /health:
+    get:
+      operationId: healthCheck
+      summary: Health check
+      tags:
+        - Health
+      responses:
+        '200':
+          description: Service is healthy
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    enum: [healthy, degraded]
+                  version:
+                    type: string
+                  ocr_engine:
+                    type: string
+                  gpu_available:
+                    type: boolean
+                  queue_depth:
+                    type: integer
+
+  /process/{documentId}:
+    post:
+      operationId: processDocument
+      summary: Trigger document processing
+      description: |
+        Manually trigger OCR processing for a document.
+        Normally triggered by NATS message, this endpoint is for debugging/reprocessing.
+      tags:
+        - Processing
+      parameters:
+        - name: documentId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                force:
+                  type: boolean
+                  description: Force reprocessing even if already processed
+                  default: false
+                options:
+                  type: object
+                  properties:
+                    language_hint:
+                      type: string
+                      enum: [en, ar, auto]
+                      default: auto
+                    detect_handwriting:
+                      type: boolean
+                      default: true
+                    extract_tables:
+                      type: boolean
+                      default: true
+      responses:
+        '202':
+          description: Processing started
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  document_id:
+                    type: string
+                    format: uuid
+                  status:
+                    type: string
+                    enum: [queued, processing]
+                  message:
+                    type: string
+        '404':
+          description: Document not found
+        '409':
+          description: Document already being processed
+
+  /status/{documentId}:
+    get:
+      operationId: getProcessingStatus
+      summary: Get processing status
+      tags:
+        - Processing
+      parameters:
+        - name: documentId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Processing status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProcessingStatus'
+
+  /classify:
+    post:
+      operationId: classifyDocument
+      summary: Classify document type
+      description: Classify document type without full extraction
+      tags:
+        - Processing
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - document_id
+              properties:
+                document_id:
+                  type: string
+                  format: uuid
+                preview_text:
+                  type: string
+                  description: First 1000 characters of OCR text
+      responses:
+        '200':
+          description: Classification result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClassificationResult'
+
+components:
+  schemas:
+    ProcessingStatus:
+      type: object
+      properties:
+        document_id:
+          type: string
+          format: uuid
+        status:
+          type: string
+          enum: [pending, classifying, extracting, completed, failed]
+        progress:
+          type: number
+          minimum: 0
+          maximum: 100
+          description: Percentage complete
+        current_step:
+          type: string
+          description: Human-readable current step
+        started_at:
+          type: string
+          format: date-time
+        completed_at:
+          type: string
+          format: date-time
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+            message:
+              type: string
+        result_summary:
+          type: object
+          properties:
+            pages_processed:
+              type: integer
+            fields_extracted:
+              type: integer
+            avg_confidence:
+              type: number
+            handwriting_detected:
+              type: boolean
+
+    ClassificationResult:
+      type: object
+      properties:
+        document_type:
+          type: string
+          enum: [invoice, receipt, bank_statement, expense_report, credit_note, debit_note, other]
+        confidence:
+          type: number
+          minimum: 0
+          maximum: 1
+        signals:
+          type: array
+          items:
+            type: object
+            properties:
+              type:
+                type: string
+                description: Signal type (keyword, layout, pattern)
+              value:
+                type: string
+              weight:
+                type: number
+        suggested_fields:
+          type: array
+          items:
+            type: string
+          description: Expected fields for this document type

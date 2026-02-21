@@ -71,6 +71,8 @@ func NewPublisher(cfg interface{}, logger *slog.Logger) (*Publisher, error) {
 	var reconnectWait time.Duration
 
 	switch c := cfg.(type) {
+	case string:
+		url = c
 	case map[string]interface{}:
 		if u, ok := c["url"].(string); ok {
 			url = u
@@ -198,34 +200,34 @@ func (p *Publisher) PublishAsync(ctx context.Context, subject string, data inter
 
 // SyncCompletedEvent is published after a successful sync.
 type SyncCompletedEvent struct {
-	EventID             string                 `json:"event_id"`
-	Source              string                 `json:"source"`
-	Entity              string                 `json:"entity"`
-	StartedAt           time.Time              `json:"started_at"`
-	CompletedAt         time.Time              `json:"completed_at"`
-	RecordsProcessed    int                    `json:"records_processed"`
-	RecordsInserted     int                    `json:"records_inserted"`
-	RecordsUpdated      int                    `json:"records_updated"`
-	RecordsQuarantined  int                    `json:"records_quarantined"`
-	DurationSec         float64                `json:"duration_sec"`
-	Status              string                 `json:"status"`
-	BatchID             *string                `json:"batch_id,omitempty"`
-	Metadata            map[string]interface{} `json:"metadata,omitempty"`
+	EventID            string                 `json:"event_id"`
+	Source             string                 `json:"source"`
+	Entity             string                 `json:"entity"`
+	StartedAt          time.Time              `json:"started_at"`
+	CompletedAt        time.Time              `json:"completed_at"`
+	RecordsProcessed   int                    `json:"records_processed"`
+	RecordsInserted    int                    `json:"records_inserted"`
+	RecordsUpdated     int                    `json:"records_updated"`
+	RecordsQuarantined int                    `json:"records_quarantined"`
+	DurationSec        float64                `json:"duration_sec"`
+	Status             string                 `json:"status"`
+	BatchID            *string                `json:"batch_id,omitempty"`
+	Metadata           map[string]interface{} `json:"metadata,omitempty"`
 }
 
 // SyncFailedEvent is published on sync failure.
 type SyncFailedEvent struct {
-	EventID           string                 `json:"event_id"`
-	Source            string                 `json:"source"`
-	Entity            string                 `json:"entity"`
-	StartedAt         time.Time              `json:"started_at"`
-	FailedAt          time.Time              `json:"failed_at"`
-	Error             string                 `json:"error"`
-	ErrorCode         string                 `json:"error_code"`
-	RecordsProcessed  int                    `json:"records_processed"`
-	DurationSec       float64                `json:"duration_sec"`
-	Retryable         bool                   `json:"retryable"`
-	Metadata          map[string]interface{} `json:"metadata,omitempty"`
+	EventID          string                 `json:"event_id"`
+	Source           string                 `json:"source"`
+	Entity           string                 `json:"entity"`
+	StartedAt        time.Time              `json:"started_at"`
+	FailedAt         time.Time              `json:"failed_at"`
+	Error            string                 `json:"error"`
+	ErrorCode        string                 `json:"error_code"`
+	RecordsProcessed int                    `json:"records_processed"`
+	DurationSec      float64                `json:"duration_sec"`
+	Retryable        bool                   `json:"retryable"`
+	Metadata         map[string]interface{} `json:"metadata,omitempty"`
 }
 
 // DataQualityAlertEvent is published for data quality issues.
@@ -238,18 +240,18 @@ type DataQualityAlertEvent struct {
 	AlertType    string                 `json:"alert_type"`
 	Message      string                 `json:"message"`
 	Details      map[string]interface{} `json:"details,omitempty"`
-	QualityScore *float64              `json:"quality_score,omitempty"`
+	QualityScore *float64               `json:"quality_score,omitempty"`
 	CreatedAt    time.Time              `json:"created_at"`
 }
 
 // AlertEvent is for general system alerts.
 type AlertEvent struct {
-	EventID    string                 `json:"event_id"`
-	Level      string                 `json:"level"` // info, warning, error, critical
-	Type       string                 `json:"type"`
-	Message    string                 `json:"message"`
-	Details    map[string]interface{} `json:"details,omitempty"`
-	CreatedAt  time.Time              `json:"created_at"`
+	EventID   string                 `json:"event_id"`
+	Level     string                 `json:"level"` // info, warning, error, critical
+	Type      string                 `json:"type"`
+	Message   string                 `json:"message"`
+	Details   map[string]interface{} `json:"details,omitempty"`
+	CreatedAt time.Time              `json:"created_at"`
 }
 
 // ============================================================================
