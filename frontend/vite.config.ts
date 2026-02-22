@@ -34,7 +34,7 @@ export default defineConfig(({ mode }) => ({
   server: {
     host: true, // Listen on all addresses
     port: 3000,
-    strictPort: false,
+    strictPort: true,
     open: false, // Don't auto-open browser
     // Proxy API requests to backend in development
     proxy: {
@@ -57,7 +57,7 @@ export default defineConfig(({ mode }) => ({
   preview: {
     host: true,
     port: 4173,
-    strictPort: false,
+    strictPort: true,
     // Proxy for preview mode
     proxy: {
       '/api': {

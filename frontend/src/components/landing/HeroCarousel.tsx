@@ -50,7 +50,7 @@ export function HeroCarousel({ isDark, onOpenLeadCapture }: HeroCarouselProps) {
             aria-label="Hero Features Carousel"
         >
             {/* Visually hidden H1 for SEO, prevents multiple H1s */}
-            <h1 className="sr-only">MediSync - Turn Any Legacy Healthcare System into Conversational AI</h1>
+            <h1 className="sr-only">MediSync - Turn Legacy Healthcare System into AI Systems</h1>
 
             {/* Main Carousel Area */}
             <div className={`relative overflow-hidden rounded-[28px] border p-1 ${isDark

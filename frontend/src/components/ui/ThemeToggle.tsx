@@ -240,17 +240,15 @@ export const ThemeToggle = React.forwardRef<HTMLButtonElement, ThemeToggleProps>
             icon={
               <AnimatePresence mode="wait" initial={false}>
                 <motion.div
-                  key={isDark ? 'moon' : 'sun'}
+                  key={isDark ? 'sun' : 'moon'}
                   initial={{ scale: 0, rotate: -90, opacity: 0 }}
                   animate={{ scale: 1, rotate: 0, opacity: 1 }}
                   exit={{ scale: 0, rotate: 90, opacity: 0 }}
                   transition={{ duration: 0.2 }}
-                  className={cn(
-                    'relative z-10',
-                    isDark ? 'text-slate-100' : 'text-slate-700'
-                  )}
+                  className="relative z-10"
+                  style={{ color: isDark ? '#facc15' : '#334155' }}
                 >
-                  {isDark ? <MoonIcon /> : <SunIcon />}
+                  {isDark ? <SunIcon /> : <MoonIcon />}
                 </motion.div>
               </AnimatePresence>
             }

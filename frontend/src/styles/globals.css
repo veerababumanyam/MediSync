@@ -671,6 +671,10 @@ button {
   background-image: linear-gradient(to bottom right, var(--tw-gradient-stops));
 }
 
+.bg-gradient-to-r {
+  background-image: linear-gradient(to right, var(--tw-gradient-stops));
+}
+
 /* Border utilities */
 .border {
   border-width: 1px;
@@ -1039,4 +1043,24 @@ button {
   .animate-float {
     animation: none;
   }
+}
+/* === Hero Marquee Animation === */
+@keyframes heroMarquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.hero-marquee-track {
+  display: flex;
+  width: max-content;
+  animation: heroMarquee 30s linear infinite;
+  will-change: transform;
+}
+
+.hero-marquee-track:hover {
+  animation-play-state: paused;
 }

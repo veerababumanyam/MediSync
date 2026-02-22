@@ -39,7 +39,7 @@ const enResources = {
   translation: {
     app: {
       name: 'MediSync',
-      tagline: 'Turn Any Legacy Healthcare System into Conversational AI',
+      tagline: 'Turn Legacy System into AI Systems',
       toggleLanguage: 'Toggle language',
     },
     welcome: {

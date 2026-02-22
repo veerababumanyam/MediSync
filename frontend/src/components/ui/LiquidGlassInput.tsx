@@ -18,13 +18,13 @@
  * @version 2.0.0
  */
 
-import React, { forwardRef, useState, useCallback, useRef, useEffect, ComponentProps } from 'react'
-import { motion } from 'framer-motion'
+import React, { forwardRef, useState, useCallback, useRef, useEffect } from 'react'
+import { motion, type HTMLMotionProps } from 'framer-motion'
 import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '@/lib/cn'
 
 // Type for motion input props - compatible with framer-motion v12
-type MotionInputProps = ComponentProps<typeof motion.input>
+type MotionInputProps = Omit<HTMLMotionProps<'input'>, 'size' | 'disabled' | 'variants' | 'onAnimationStart'>
 
 /**
  * Liquid glass input variant definitions
@@ -67,9 +67,8 @@ const liquidInputVariants = cva(
  * Props for LiquidGlassInput component
  */
 export interface LiquidGlassInputProps
-  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size' | 'disabled'>,
-    Omit<MotionInputProps, 'disabled' | 'variants'>,
-    VariantProps<typeof liquidInputVariants> {
+  extends MotionInputProps,
+  VariantProps<typeof liquidInputVariants> {
   /** Label text */
   label?: string
   /** Error message */
@@ -299,10 +298,10 @@ export const LiquidGlassInput = forwardRef<HTMLInputElement, LiquidGlassInputPro
                 boxShadow: inputState === 'error'
                   ? '0 0 0 4px rgba(239, 68, 68, 0.15)'
                   : inputState === 'success'
-                  ? '0 0 0 4px rgba(16, 185, 129, 0.15)'
-                  : inputState === 'warning'
-                  ? '0 0 0 4px rgba(245, 158, 11, 0.15)'
-                  : '0 0 0 4px rgba(0, 191, 165, 0.15)',
+                    ? '0 0 0 4px rgba(16, 185, 129, 0.15)'
+                    : inputState === 'warning'
+                      ? '0 0 0 4px rgba(245, 158, 11, 0.15)'
+                      : '0 0 0 4px rgba(0, 191, 165, 0.15)',
               }}
               transition={{ duration: 0.2 }}
             />
@@ -332,11 +331,22 @@ LiquidGlassInput.displayName = 'LiquidGlassInput'
 /**
  * Textarea variant of Liquid Glass Input
  */
+type MotionTextareaProps = Omit<HTMLMotionProps<'textarea'>, 'size' | 'disabled' | 'variants' | 'onAnimationStart'>
+
 export interface LiquidGlassTextareaProps
-  extends Omit<LiquidGlassInputProps, 'maxLength' | 'showCount'> {
+  extends MotionTextareaProps,
+  VariantProps<typeof liquidInputVariants> {
   rows?: number
   maxLength?: number
   showCount?: boolean
+  label?: string
+  error?: string
+  helperText?: string
+  success?: string
+  warning?: string
+  disabled?: boolean
+  isLoading?: boolean
+  containerClassName?: string
 }
 
 export const LiquidGlassTextarea = forwardRef<HTMLTextAreaElement, LiquidGlassTextareaProps>(

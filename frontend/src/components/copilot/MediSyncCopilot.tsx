@@ -15,7 +15,7 @@ import type { UseDashboardReturn } from '../../hooks/useDashboard'
  */
 export interface MediSyncCopilotProps {
   /** Current route name */
-  currentRoute?: 'home' | 'chat' | 'dashboard'
+  currentRoute?: 'home' | 'chat' | 'council' | 'dashboard'
   /** Dashboard hook for actions */
   dashboard?: UseDashboardReturn
   /** Locale for i18n */

@@ -12,10 +12,14 @@ import { DashboardPage } from './pages/DashboardPage'
 // CopilotKit components
 import { MediSyncCopilot, CopilotFloatingButton } from './components/copilot'
 import { AppLogo } from './components/common'
-import { GlassCard, ThemeToggle, AnimatedBackground } from './components/ui'
-import { FadeIn, StaggerChildren } from './components/animations'
-import { ThemeProvider } from './components/theme'
+import { ThemeToggle, AnimatedBackground } from './components/ui'
+import { ThemeProvider, useTheme } from './components/theme'
 import { webMCPService } from './services/WebMCPService'
+
+import { HeroCarousel } from './components/landing/HeroCarousel'
+import { SectorsSection } from './components/landing/SectorsSection'
+import { FinalCTA } from './components/landing/FinalCTA'
+import { FeatureCard } from './components/landing/FeatureCard'
 
 /**
  * Route type definition
@@ -220,6 +224,8 @@ interface HomePageProps {
 
 function HomePage({ isRTL, currentLocale, toggleLanguage, navigateTo }: HomePageProps) {
   const { t } = useTranslation()
+  const { theme } = useTheme()
+  const isDark = theme === 'dark'
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const isArabicLocale = currentLocale === 'ar'
 
@@ -362,13 +368,13 @@ function HomePage({ isRTL, currentLocale, toggleLanguage, navigateTo }: HomePage
                 {t('app.name', 'MediSync')}
               </h1>
               <p className="text-sm text-secondary">
-                {t('app.tagline', 'AI-Powered Business Intelligence')}
+                {t('app.tagline', 'Turn Any Legacy Healthcare System into Conversational AI')}
               </p>
             </div>
           </button>
 
           {/* Navigation Links */}
-          <nav className="flex items-center gap-2 sm:gap-4">
+          <nav className="flex items-center gap-2 sm:gap-3">
             {/* Mobile Menu Toggle */}
             <button
               className="md:hidden p-2 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors mr-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
@@ -386,37 +392,12 @@ function HomePage({ isRTL, currentLocale, toggleLanguage, navigateTo }: HomePage
               </svg>
             </button>
 
-            {/* Section Navigation Links */}
-            <div className="hidden md:flex items-center gap-1">
-              <a
-                href="#features"
-                className="px-3 py-2 text-sm font-semibold text-secondary hover:text-blue-700 dark:hover:text-blue-300 transition-colors rounded-lg hover:bg-surface-glass focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80"
-              >
-                {t('navigation.features', 'Features')}
-              </a>
-              <a
-                href="#pricing"
-                className="px-3 py-2 text-sm font-semibold text-secondary hover:text-blue-700 dark:hover:text-blue-300 transition-colors rounded-lg hover:bg-surface-glass focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80"
-              >
-                {t('navigation.pricing', 'Pricing')}
-              </a>
-              <a
-                href="#about"
-                className="px-3 py-2 text-sm font-semibold text-secondary hover:text-blue-700 dark:hover:text-blue-300 transition-colors rounded-lg hover:bg-surface-glass focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80"
-              >
-                {t('navigation.about', 'About')}
-              </a>
-            </div>
-
-            {/* Divider */}
-            <div className="hidden md:block w-px h-6 bg-slate-200 dark:bg-slate-700 mx-2"></div>
-
             {/* Action Buttons */}
-            <div className="flex items-center gap-2 sm:gap-4">
+            <div className="flex items-center gap-2 sm:gap-3">
               <button
                 type="button"
                 onClick={handleChatNavigation}
-                className="inline-flex items-center justify-center gap-2 min-h-[44px] px-4 py-2 bg-action-primary text-on-brand rounded-lg transition-all hover:scale-105 active:scale-95 text-sm font-medium shadow-sm hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                className="inline-flex items-center justify-center gap-2 min-h-[44px] px-4 py-2 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 text-white transition-all hover:scale-105 active:scale-95 text-sm font-semibold shadow-sm hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
               >
                 <svg
                   className="w-4 h-4"
@@ -436,7 +417,7 @@ function HomePage({ isRTL, currentLocale, toggleLanguage, navigateTo }: HomePage
               <button
                 type="button"
                 onClick={() => navigateTo('dashboard')}
-                className="hidden sm:inline-flex items-center justify-center gap-2 min-h-[44px] px-4 py-2 text-secondary hover:text-blue-700 dark:hover:text-blue-300 hover:bg-surface-glass rounded-lg transition-all text-sm font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80"
+                className="inline-flex items-center justify-center gap-2 min-h-[44px] px-4 py-2 rounded-full border border-glass bg-surface-glass text-white hover:bg-surface-glass-strong transition-colors text-sm font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80"
               >
                 <svg
                   className="w-4 h-4"
@@ -456,21 +437,20 @@ function HomePage({ isRTL, currentLocale, toggleLanguage, navigateTo }: HomePage
             </div>
 
             {/* Action Toggles Group */}
-            <div className="flex items-center gap-2 sm:gap-4 border-l border-slate-200 dark:border-slate-700 pl-2 sm:pl-4">
+            <div className="flex items-center gap-2 sm:gap-3">
               {/* Theme Toggle with Icon (min 44px touch target) */}
-              <ThemeToggle size="lg" className="min-h-[44px] min-w-[44px]" />
+              <div className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full border border-glass bg-surface-glass px-1 hover:bg-surface-glass-strong transition-colors">
+                <ThemeToggle size="lg" className="min-h-[40px] min-w-[40px]" />
+              </div>
 
-              {/* Language Toggle with Globe Icon */}
+              {/* Language Toggle */}
               <button
                 type="button"
                 onClick={toggleLanguage}
-                className="inline-flex items-center justify-center gap-2 min-h-[44px] px-3 py-2 rounded-lg bg-surface-glass border border-glass hover:bg-surface-glass-strong transition-colors text-sm font-medium text-secondary"
+                className="inline-flex items-center justify-center min-h-[44px] px-4 py-2 rounded-full border border-glass bg-surface-glass hover:bg-surface-glass-strong transition-colors text-sm font-semibold text-white"
                 title={t('app.toggleLanguage', 'Toggle language between English and Arabic')}
                 aria-label={t('app.toggleLanguage', 'Toggle language')}
               >
-                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
-                </svg>
                 <span>{currentLocale === 'en' ? 'عربي' : 'EN'}</span>
               </button>
             </div>
@@ -493,263 +473,113 @@ function HomePage({ isRTL, currentLocale, toggleLanguage, navigateTo }: HomePage
         </div>
       )}
 
-      {/* Main Content - Redesigned Healthcare BI Command Center */}
-      <main className="container mx-auto px-4 py-8">
-        {/* Hero Section with Glass Effect */}
-        <FadeIn>
-          <section className="mb-16 text-center">
-            {/* Prominent AI Badge with Better Contrast */}
-            <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-linear-to-r from-blue-700 to-teal-700 backdrop-blur-sm border border-white/30 text-white text-base font-semibold mb-6 shadow-lg shadow-blue-500/20">
-              <span className="relative flex h-2.5 w-2.5">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-300 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-cyan-400"></span>
-              </span>
-              {t('home.hero.badge')}
+      {/* Main Content - Modular Landing Page */}
+      <main className="w-full">
+        <HeroCarousel
+          isDark={isDark}
+          onOpenLeadCapture={() => navigateTo('chat')}
+        />
+
+        <SectorsSection isDark={isDark} />
+
+        <section id="features" className="py-24 relative overflow-hidden bg-slate-50/50 dark:bg-[#0A0F1C]/50">
+          <div className="container mx-auto px-4 relative z-10">
+            <div className="text-center max-w-3xl mx-auto mb-16">
+              <h2 className="text-4xl md:text-5xl font-bold mb-6 text-slate-900 dark:text-white tracking-tight drop-shadow-sm">
+                Everything You Need
+              </h2>
+              <p className="text-xl text-slate-600 dark:text-slate-400 leading-relaxed">
+                From conversational queries to automated accounting, MediSync connects your healthcare data in ways you never thought possible.
+              </p>
             </div>
 
-            <h1 className="text-5xl md:text-6xl font-bold text-slate-900 dark:text-white mb-6 tracking-tight drop-shadow-md">
-              {t('home.hero.title')}<span className="text-transparent bg-clip-text bg-linear-to-r from-logo-blue to-logo-teal font-extrabold">{t('home.hero.titleHighlight')}</span>
-            </h1>
-
-            <p className="text-xl text-secondary max-w-3xl mx-auto mb-8 leading-relaxed drop-shadow-sm">
-              {t('home.hero.subtitle')}
-            </p>
-
-            {/* CTA Buttons - Prominent Pill-Shaped Design (solid primary for readability) */}
-            <div className="flex flex-col sm:flex-row gap-6 justify-center items-stretch sm:items-center mt-8">
-              <button
-                type="button"
-                onClick={() => navigateTo('chat')}
-                className="group inline-flex items-center justify-center gap-3 min-w-[200px] min-h-[56px] px-8 py-4 bg-action-primary text-on-brand drop-shadow-sm rounded-full shadow-lg shadow-blue-500/40 hover:shadow-xl hover:shadow-blue-500/50 hover:scale-105 active:scale-100 transition-all duration-300 text-lg font-semibold ring-1 ring-inset ring-white/20 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-logo-blue/50"
-              >
-                <svg className="w-6 h-6 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden>
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-                </svg>
-                {t('home.hero.ctaChat')}
-              </button>
-
-              {/* Secondary CTA - View Dashboard */}
-              <button
-                type="button"
-                onClick={() => navigateTo('dashboard')}
-                className="group inline-flex items-center justify-center gap-3 min-w-[200px] min-h-[56px] px-8 py-4 liquid-glass-light text-slate-900 dark:text-white rounded-full shadow-md hover:shadow-lg hover:scale-105 active:scale-100 transition-all duration-300 text-lg font-semibold focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-slate-400/50"
-              >
-                <svg className="w-6 h-6 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden>
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                </svg>
-                {t('home.hero.ctaDashboard')}
-              </button>
-            </div>
-
-            {/* Trust Signals - Social Proof */}
-            <div className="mt-12 pt-8 border-t border-slate-300/30 dark:border-white/10">
-              <p className="text-sm font-medium text-slate-800 dark:text-white mb-6">{t('home.hero.trustBy')}</p>
-              <div className="flex flex-wrap items-center justify-center gap-6 md:gap-8 opacity-90">
-                {/* Trust Badges */}
-                <div className="flex items-center gap-2 text-primary bg-surface-glass py-2.5 px-5 rounded-full backdrop-blur-sm border border-glass shadow-sm">
-                  <svg className="w-5 h-5 text-emerald-600 dark:text-emerald-400" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              <FeatureCard
+                isDark={isDark}
+                title={t('features.conversationalBI.title')}
+                description={t('features.conversationalBI.description')}
+                icon={(
+                  <svg className="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
                   </svg>
-                  <span className="text-sm font-semibold">{t('home.hero.hipaa')}</span>
-                </div>
-                <div className="flex items-center gap-2 text-primary bg-surface-glass py-2.5 px-5 rounded-full backdrop-blur-sm border border-glass shadow-sm">
-                  <svg className="w-5 h-5 text-blue-400" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                )}
+                gradient="from-blue-600 to-cyan-500"
+                shadowColor="rgba(59, 130, 246, 0.4)"
+                delay="0ms"
+              />
+              <FeatureCard
+                isDark={isDark}
+                title={t('features.tallySync.title')}
+                description={t('features.tallySync.description')}
+                icon={(
+                  <svg className="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
                   </svg>
-                  <span className="text-sm font-semibold">{t('home.hero.soc2')}</span>
-                </div>
-                <div className="flex items-center gap-2 text-primary bg-surface-glass py-2.5 px-5 rounded-full backdrop-blur-sm border border-glass shadow-sm">
-                  <svg className="w-5 h-5 text-purple-600 dark:text-purple-400" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z" />
+                )}
+                gradient="from-emerald-500 to-teal-400"
+                shadowColor="rgba(16, 185, 129, 0.4)"
+                delay="100ms"
+              />
+              <FeatureCard
+                isDark={isDark}
+                title={t('features.aiAccountant.title')}
+                description={t('features.aiAccountant.description')}
+                icon={(
+                  <svg className="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                   </svg>
-                  <span className="text-sm font-semibold">{t('home.hero.clinics')}</span>
-                </div>
-                <div className="flex items-center gap-2 text-primary bg-surface-glass py-2.5 px-5 rounded-full backdrop-blur-sm border border-glass shadow-sm">
-                  <svg className="w-5 h-5 text-cyan-600 dark:text-cyan-400" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M3 3a1 1 0 000 2v8a2 2 0 002 2h2.586l-1.293 1.293a1 1 0 101.414 1.414L10 15.414l2.293 2.293a1 1 0 001.414-1.414L12.414 15H15a2 2 0 002-2V5a1 1 0 100-2H3zm11.707 4.707a1 1 0 00-1.414-1.414L10 9.586 8.707 8.293a1 1 0 00-1.414 0l-2 2a1 1 0 101.414 1.414L8 10.414l1.293 1.293a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                )}
+                gradient="from-violet-600 to-purple-500"
+                shadowColor="rgba(139, 92, 246, 0.4)"
+                delay="200ms"
+              />
+              <FeatureCard
+                isDark={isDark}
+                title={t('features.piiProtection.title')}
+                description={t('features.piiProtection.description')}
+                icon={(
+                  <svg className="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                   </svg>
-                  <span className="text-sm font-medium">{t('home.hero.queries')}</span>
-                </div>
-              </div>
-            </div>
-          </section>
-        </FadeIn>
-
-        {/* Live Preview Section - What the User Can Actually Do */}
-        <StaggerChildren className="grid lg:grid-cols-3 gap-6 mb-16">
-          <GlassCard intensity="light" shadow="lg" hover="glow" className="p-6">
-            <div className="flex items-start gap-4 mb-4">
-              <div className="w-12 h-12 rounded-xl bg-linear-to-br from-logo-blue to-logo-teal flex items-center justify-center shrink-0">
-                <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
-                </svg>
-              </div>
-              <div>
-                <h3 className="text-lg font-semibold text-slate-900 dark:text-white">{t('home.preview.askAnything')}</h3>
-                <p className="text-sm text-slate-500 dark:text-slate-400">{t('home.preview.askDesc')}</p>
-              </div>
-            </div>
-
-            {/* Simulated Chat Interface */}
-            <div className="space-y-3 mb-4">
-              <div className="flex gap-3">
-                <div className="w-6 h-6 rounded-full bg-slate-200 dark:bg-slate-700 shrink-0 flex items-center justify-center">
-                  <svg className="w-3 h-3 text-slate-500" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" />
+                )}
+                gradient="from-amber-500 to-orange-400"
+                shadowColor="rgba(245, 158, 11, 0.4)"
+                delay="300ms"
+              />
+              <FeatureCard
+                isDark={isDark}
+                title={t('features.prescriptiveAnalytics.title')}
+                description={t('features.prescriptiveAnalytics.description')}
+                icon={(
+                  <svg className="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
                   </svg>
-                </div>
-                <div className="flex-1 bg-slate-100 dark:bg-slate-800/50 rounded-lg px-3 py-2 text-sm text-slate-700 dark:text-slate-300">
-                  "{t('home.preview.revenueQuestion')}"
-                </div>
-              </div>
-              <div className="flex gap-3">
-                <div className="w-6 h-6 rounded-full bg-logo-blue shrink-0 flex items-center justify-center">
-                  <span className="text-white text-xs font-bold">M</span>
-                </div>
-                <div className="flex-1 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg px-3 py-2 text-sm text-blue-700 dark:text-blue-300">
-                  <div className="flex items-center gap-2">
-                    <span>$124,500</span>
-                    <span className="text-green-500 text-xs">
-                      <span className="sr-only">Increased by </span>
-                      ↑ 12%
-                    </span>
-                  </div>
-                </div>
-              </div>
+                )}
+                gradient="from-pink-500 to-rose-400"
+                shadowColor="rgba(236, 72, 153, 0.4)"
+                delay="400ms"
+              />
+              <FeatureCard
+                isDark={isDark}
+                title={t('features.himsConnectivity.title')}
+                description={t('features.himsConnectivity.description')}
+                icon={(
+                  <svg className="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4" />
+                  </svg>
+                )}
+                gradient="from-indigo-500 to-blue-400"
+                shadowColor="rgba(99, 102, 241, 0.4)"
+                delay="500ms"
+              />
             </div>
-
-            <div className="text-xs font-medium text-slate-700 dark:text-slate-300 flex items-center gap-1">
-              <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-              </svg>
-              {t('home.preview.instantResponse')}
-            </div>
-          </GlassCard>
-
-          {/* Preview Card 2: Financial Insights */}
-          <GlassCard intensity="light" shadow="lg" hover="cyanGlow" className="p-6">
-            <div className="flex items-start gap-4 mb-4">
-              <div className="w-12 h-12 rounded-xl bg-linear-to-br from-logo-teal to-[rgba(24,146,157,0.5)] flex items-center justify-center shrink-0">
-                <svg className="w-6 h-6 text-slate-900" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
-                </svg>
-              </div>
-              <div>
-                <h3 className="text-lg font-semibold text-slate-900 dark:text-white">{t('home.preview.financialInsights')}</h3>
-                <p className="text-sm text-slate-500 dark:text-slate-400">{t('home.preview.tallySync')}</p>
-              </div>
-            </div>
-
-            {/* Mini Chart Preview */}
-            <div className="space-y-3 mb-4">
-              <div className="flex items-center justify-between">
-                <span className="text-sm text-slate-600 dark:text-slate-400">{t('home.preview.outstanding')}</span>
-                <span className="text-sm font-semibold text-slate-900 dark:text-white">$45,200</span>
-              </div>
-              <div className="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-2">
-                <div className="bg-linear-to-r from-emerald-500 to-teal-400 h-2 rounded-full" style={{ width: '72%' }}></div>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-sm text-slate-600 dark:text-slate-400">{t('home.preview.collected')}</span>
-                <span className="text-sm font-semibold text-slate-900 dark:text-white">$118,300</span>
-              </div>
-              <div className="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-2">
-                <div className="bg-linear-to-r from-emerald-500 to-teal-400 h-2 rounded-full" style={{ width: '89%' }}></div>
-              </div>
-            </div>
-
-            <div className="text-xs font-medium text-slate-700 dark:text-slate-300 flex items-center gap-1">
-              <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-              </svg>
-              {t('home.preview.autoSynced')}
-            </div>
-          </GlassCard>
-
-          {/* Preview Card 3: Healthcare Metrics */}
-          <GlassCard intensity="light" shadow="lg" hover="glow" className="p-6">
-            <div className="flex items-start gap-4 mb-4">
-              <div className="w-12 h-12 rounded-xl bg-linear-to-br from-logo-blue to-logo-teal flex items-center justify-center shrink-0">
-                <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                </svg>
-              </div>
-              <div>
-                <h3 className="text-lg font-semibold text-slate-900 dark:text-white">{t('home.preview.patientMetrics')}</h3>
-                <p className="text-sm text-slate-500 dark:text-slate-400">{t('home.preview.himsIntegration')}</p>
-              </div>
-            </div>
-
-            {/* Vital Signs Style Metrics */}
-            <div className="grid grid-cols-2 gap-3 mb-4">
-              <div className="bg-slate-50 dark:bg-slate-800/50 rounded-lg p-3">
-                <div className="text-xs font-medium text-slate-500 dark:text-slate-400 mb-0.5">{t('home.preview.today')}</div>
-                <div className="text-xl font-bold text-slate-900 dark:text-white">247</div>
-              </div>
-              <div className="bg-slate-50 dark:bg-slate-800/50 rounded-lg p-3">
-                <div className="text-xs font-medium text-slate-500 dark:text-slate-400 mb-0.5">{t('home.preview.vsYesterday')}</div>
-                <div className="text-sm font-bold text-emerald-600 dark:text-emerald-400 mt-1">
-                  <span className="sr-only">Increased by </span>
-                  ↑ 8%
-                </div>
-              </div>
-              <div className="bg-slate-50 dark:bg-slate-800/50 rounded-lg p-3">
-                <div className="text-xs font-medium text-slate-500 dark:text-slate-400 mb-0.5">{t('home.preview.thisMonth')}</div>
-                <div className="text-xl font-bold text-slate-900 dark:text-white">1,842</div>
-              </div>
-              <div className="bg-slate-50 dark:bg-slate-800/50 rounded-lg p-3">
-                <div className="text-xs font-medium text-slate-500 dark:text-slate-400 mb-0.5">{t('home.preview.depts')}</div>
-                <div className="text-sm font-bold text-blue-600 dark:text-blue-400 mt-1">42</div>
-              </div>
-            </div>
-
-            <div className="text-xs font-medium text-slate-700 dark:text-slate-300 flex items-center gap-1">
-              <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-              {t('home.preview.realTime')}
-            </div>
-          </GlassCard>
-        </StaggerChildren>
-
-        {/* Capabilities Grid - What Makes MediSync Different */}
-        <section className="mb-16">
-          <div className="text-center mb-10">
-            <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-6">
-              {t('home.section.title')}
-            </h2>
-            <p className="text-slate-600 dark:text-slate-400 max-w-2xl mx-auto leading-relaxed">
-              {t('home.section.subtitle')}
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6" id="features">
-            <CapabilityCard
-              icon="chat"
-              title={t('features.conversationalBI.title')}
-              description={t('features.conversationalBI.description')}
-              color="blue"
-            />
-            <CapabilityCard
-              icon="document"
-              title={t('features.aiAccountant.title')}
-              description={t('features.aiAccountant.description')}
-              color="emerald"
-            />
-            <CapabilityCard
-              icon="chart"
-              title={t('features.smartReports.title')}
-              description={t('features.smartReports.description')}
-              color="violet"
-            />
-            <CapabilityCard
-              icon="analytics"
-              title={t('features.deepAnalytics.title')}
-              description={t('features.deepAnalytics.description')}
-              color="amber"
-            />
           </div>
         </section>
+
+        <FinalCTA
+          isDark={isDark}
+          onOpenLeadCapture={() => navigateTo('chat')}
+        />
       </main>
 
       {/* Footer */}
@@ -833,84 +663,6 @@ function HomePage({ isRTL, currentLocale, toggleLanguage, navigateTo }: HomePage
   )
 }
 
-/**
- * Capability Card Component - Glassmorphic variant with SVG icons
- */
-function CapabilityCard({
-  icon,
-  title,
-  description,
-  color,
-}: {
-  icon: 'chat' | 'document' | 'chart' | 'analytics'
-  title: string
-  description: string
-  color: 'blue' | 'emerald' | 'violet' | 'amber'
-}) {
-  const colorClasses = {
-    blue: 'from-blue-500 to-cyan-400',
-    emerald: 'from-emerald-500 to-teal-400',
-    violet: 'from-violet-500 to-purple-400',
-    amber: 'from-amber-500 to-orange-400',
-  }
-
-  const iconBgClasses = {
-    blue: 'bg-linear-to-br from-blue-500 to-cyan-400',
-    emerald: 'bg-linear-to-br from-emerald-500 to-teal-400',
-    violet: 'bg-linear-to-br from-violet-500 to-purple-400',
-    amber: 'bg-linear-to-br from-amber-500 to-orange-400',
-  }
-
-  // SVG Icons for each feature
-  const icons = {
-    chat: (
-      <svg className="w-6 h-6 text-white" role="img" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-        <title>Chat Interface</title>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-      </svg>
-    ),
-    document: (
-      <svg className="w-6 h-6 text-white" role="img" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-        <title>AI Accountant</title>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-      </svg>
-    ),
-    chart: (
-      <svg className="w-6 h-6 text-white" role="img" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-        <title>Smart Reports</title>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-      </svg>
-    ),
-    analytics: (
-      <svg className="w-6 h-6 text-white" role="img" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-        <title>Deep Analytics</title>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-      </svg>
-    ),
-  }
-
-  const ariaIdPrefix = title.toLowerCase().replace(/\s+/g, '-')
-
-  return (
-    <div
-      className="group p-8 rounded-3xl liquid-glass liquid-glass-heavy hover:-translate-y-2 transition-all duration-500 cursor-pointer flex flex-col items-center text-center h-full"
-      role="region"
-      aria-labelledby={`${ariaIdPrefix}-title`}
-      aria-describedby={`${ariaIdPrefix}-desc`}
-    >
-      <div className={`w-14 h-14 rounded-full ${iconBgClasses[color]} flex items-center justify-center mb-6 group-hover:scale-110 group-hover:-translate-y-1 transition-all duration-500 shadow-xl shrink-0`} aria-hidden="true">
-        {icons[icon]}
-      </div>
-      <h3 id={`${ariaIdPrefix}-title`} className="text-xl font-bold text-slate-900 dark:text-white mb-4">
-        {title}
-      </h3>
-      <p id={`${ariaIdPrefix}-desc`} className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed font-medium">
-        {description}
-      </p>
-      <div className={`mt-auto pt-6 w-full h-1.5 rounded-full bg-linear-to-r ${colorClasses[color]} opacity-0 group-hover:opacity-100 transition-opacity duration-500 shadow-lg`} aria-hidden="true"></div>
-    </div>
-  )
-}
 
 /**
  * App Root with Suspense boundary for i18n
