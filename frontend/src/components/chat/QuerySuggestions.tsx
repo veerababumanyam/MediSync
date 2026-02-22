@@ -13,8 +13,8 @@ export const QuerySuggestions: React.FC<QuerySuggestionsProps> = ({
   const { t } = useTranslation('chat');
 
   return (
-    <div className="w-full max-w-2xl">
-      <h3 className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-3">
+    <div className="w-full max-w-2xl" role="list" aria-label={t('suggestions.ariaLabel', 'Suggested queries')}>
+      <h3 className="text-sm font-medium text-slate-600 dark:text-slate-400 mb-3">
         {t('suggestions.title')}
       </h3>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -22,12 +22,16 @@ export const QuerySuggestions: React.FC<QuerySuggestionsProps> = ({
           <button
             key={index}
             onClick={() => onSuggestionClick(suggestion)}
-            className="group flex items-center gap-3 p-4 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl hover:border-primary-300 dark:hover:border-primary-700 hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-900 transition-all text-start"
+            className="liquid-glass-button-prominent group flex items-center gap-3 px-4 py-3 min-h-[44px] text-start liquid-glass-hover-lift focus-visible:outline-[3px] focus-visible:outline-offset-[3px] focus-visible:outline-[var(--color-trust-blue)] dark:focus-visible:outline-cyan-400"
+            role="listitem"
+            aria-label={t('suggestions.suggestionAriaLabel', 'Suggestion: {{suggestion}}', { suggestion })}
           >
-            <div className="shrink-0 w-10 h-10 bg-gray-100 dark:bg-gray-700 rounded-lg flex items-center justify-center group-hover:bg-primary-100 dark:group-hover:bg-primary-900 transition-colors">
+            <div className="shrink-0 w-8 h-8 rounded-lg flex items-center justify-center transition-colors" style={{
+              background: 'linear-gradient(135deg, rgba(39,80,168,0.1) 0%, rgba(24,146,157,0.1) 100%)'
+            }}>
               <SuggestionIcon index={index} />
             </div>
-            <span className="text-sm text-gray-700 dark:text-gray-300 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
+            <span className="text-sm font-medium text-slate-700 dark:text-slate-300 group-hover:text-[#2750a8] dark:group-hover:text-[#18929d] transition-colors">
               {suggestion}
             </span>
           </button>
@@ -37,24 +41,25 @@ export const QuerySuggestions: React.FC<QuerySuggestionsProps> = ({
   );
 };
 
-// Different icons for different suggestion types
+// Different icons for different suggestion types with brand colors
 const SuggestionIcon: React.FC<{ index: number }> = ({ index }) => {
+  const iconColor = '#2750a8'; // Brand deep blue
   const icons = [
     // Revenue/Money
-    <svg key="0" className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+    <svg key="0" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke={iconColor} strokeWidth={2} aria-hidden="true">
+      <path strokeLinecap="round" strokeLinejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
     </svg>,
     // Chart/Departments
-    <svg key="1" className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+    <svg key="1" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="#18929d" strokeWidth={2} aria-hidden="true">
+      <path strokeLinecap="round" strokeLinejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
     </svg>,
     // Trend/Patients
-    <svg key="2" className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+    <svg key="2" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke={iconColor} strokeWidth={2} aria-hidden="true">
+      <path strokeLinecap="round" strokeLinejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
     </svg>,
     // Inventory/Box
-    <svg key="3" className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+    <svg key="3" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="#18929d" strokeWidth={2} aria-hidden="true">
+      <path strokeLinecap="round" strokeLinejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
     </svg>,
   ];
 

@@ -24,7 +24,7 @@ export function LeadCaptureModal({ isOpen, onClose, isDark }: LeadCaptureModalPr
     }
 
     return (
-        <div className="fixed inset-0 z-[200] flex items-center justify-center p-4">
+        <div className="fixed inset-0 z-200 flex items-center justify-center p-4">
             {/* Backdrop */}
             <div
                 className="absolute inset-0 bg-slate-900/40 backdrop-blur-sm transition-opacity"
@@ -81,7 +81,7 @@ export function LeadCaptureModal({ isOpen, onClose, isDark }: LeadCaptureModalPr
                             </div>
                             <button
                                 type="submit"
-                                className="w-full py-3 px-6 rounded-xl font-bold text-white bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 shadow-lg shadow-blue-500/25 transition-all outline-none"
+                                className="w-full py-3 px-6 rounded-xl font-bold text-white bg-linear-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 shadow-lg shadow-blue-500/25 transition-all outline-none"
                             >
                                 Request Demo
                             </button>

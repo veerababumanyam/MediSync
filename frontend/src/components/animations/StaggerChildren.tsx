@@ -6,7 +6,7 @@
  *
  * Features:
  * - Configurable stagger delay between children
- * - Respects prefers-reduced-motion (WCAG 2.2)
+ * - Respects prefers-reduced-motion (WCAG 3.0)
  * - Works with direct children or nested arrays
  * - Customizable animation duration and distance
  *

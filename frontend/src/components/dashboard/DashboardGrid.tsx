@@ -6,7 +6,7 @@ import { useLocale } from '../../hooks/useLocale';
 import { LoadingSkeleton } from '../ui';
 import { LiquidGlassCard } from '../ui/LiquidGlassCard';
 import { ButtonPrimary } from '../ui/LiquidGlassButton';
-import { StaggerChildren, FadeIn } from '../animations';
+import { FadeIn } from '../animations';
 import { dashboardApi } from '../../services/api';
 import type { PinnedChart } from '../../services/api';
 
@@ -103,7 +103,7 @@ export const DashboardGrid: React.FC<DashboardGridProps> = ({
   }
 
   return (
-    <div className={`space-y-6 ${className}`}>
+    <div className={`space-y-6 ${className}`} role="region" aria-label={t('dashboardAriaLabel', 'Dashboard pinned charts')}>
       {/* Header */}
       <FadeIn>
         <div className="flex items-center justify-between">
@@ -112,16 +112,17 @@ export const DashboardGrid: React.FC<DashboardGridProps> = ({
               {t('title')}
             </h2>
             <p className="text-sm liquid-text-secondary mt-1">
-              Your pinned business insights
+              {t('subtitle', 'Your pinned business insights')}
             </p>
           </div>
           <ButtonPrimary
             onClick={() => setShowPinDialog(true)}
+            aria-label={t('pinChartAriaLabel', 'Pin a new chart to dashboard')}
           >
-            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
             </svg>
-            {t('pinChart')}
+            <span>{t('pinChart')}</span>
           </ButtonPrimary>
         </div>
       </FadeIn>
@@ -129,9 +130,9 @@ export const DashboardGrid: React.FC<DashboardGridProps> = ({
       {/* Error Message */}
       {error && (
         <FadeIn>
-          <LiquidGlassCard intensity="light" className="p-4 border-s-4 border-s-red-500">
+          <LiquidGlassCard intensity="light" className="p-4 border-s-4 border-s-red-500" role="alert" aria-live="polite">
             <div className="flex items-center gap-3">
-              <svg className="w-5 h-5 text-red-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg className="w-5 h-5 text-red-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
               <span className="text-red-400 flex-1">{error}</span>
@@ -144,12 +145,13 @@ export const DashboardGrid: React.FC<DashboardGridProps> = ({
       {charts.length === 0 && !error && (
         <FadeIn>
           <LiquidGlassCard intensity="medium" elevation="raised" className="text-center py-16">
-            <div className="w-20 h-20 rounded-2xl liquid-glass flex items-center justify-center mx-auto mb-6">
+            <div className="w-20 h-20 rounded-2xl liquid-glass flex items-center justify-center mx-auto mb-6" aria-hidden="true">
               <svg
                 className="w-10 h-5 liquid-text-secondary"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
+                aria-hidden="true"
               >
                 <path
                   strokeLinecap="round"
@@ -168,11 +170,12 @@ export const DashboardGrid: React.FC<DashboardGridProps> = ({
             <ButtonPrimary
               onClick={() => setShowPinDialog(true)}
               className="mt-6"
+              aria-label={t('pinFirstChartAriaLabel', 'Pin your first chart to the dashboard')}
             >
-              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
               </svg>
-              {t('pinFirstChart')}
+              <span>{t('pinFirstChart')}</span>
             </ButtonPrimary>
           </LiquidGlassCard>
         </FadeIn>
@@ -180,24 +183,27 @@ export const DashboardGrid: React.FC<DashboardGridProps> = ({
 
       {/* Charts Grid */}
       {charts.length > 0 && (
-        <StaggerChildren
+        <ul
           className="grid gap-4"
           style={{
             gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
           }}
+          role="list"
+          aria-label={t('chartsGridAriaLabel', 'Pinned charts list')}
         >
           {charts.map(chart => (
-            <PinnedChartCard
-              key={chart.id}
-              chart={chart}
-              locale={locale}
-              onDelete={() => handleDeleteChart(chart.id)}
-              onRefresh={() => handleRefreshChart(chart.id)}
-              onToggle={(active) => handleToggleChart(chart.id, active)}
-              onClick={() => onChartClick?.(chart)}
-            />
+            <li key={chart.id}>
+              <PinnedChartCard
+                chart={chart}
+                locale={locale}
+                onDelete={() => handleDeleteChart(chart.id)}
+                onRefresh={() => handleRefreshChart(chart.id)}
+                onToggle={(active) => handleToggleChart(chart.id, active)}
+                onClick={() => onChartClick?.(chart)}
+              />
+            </li>
           ))}
-        </StaggerChildren>
+        </ul>
       )}
 
       {/* Pin Dialog */}

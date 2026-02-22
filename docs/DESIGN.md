@@ -1,11 +1,12 @@
 # MediSync — Design System
 
-**Version:** 2.1.0
+**Version:** 3.0.0  
 **Status:** Production Ready  
 **Last Updated:** February 22, 2026  
-**Maintainer:** MediSync Design Team
+**Maintainer:** MediSync Design Team  
+**Standards:** WCAG 3.0,  Apple iOS 26 Liquid Glass HIG
 
-> **Single source of truth.** This file supersedes `DESIGN-GUIDELINES.md` and `LIQUID-GLASS-DESIGN-SYSTEM.md`, both of which have been removed.
+> **Single source of truth.** This file supersedes `DESIGN-GUIDELINES.md` and `LIQUID-GLASS-DESIGN-SYSTEM.md`, both of which have been removed. Updated to align with **WCAG 3.0** (all Guideline 3.3 success criteria) and Apple's **iOS 26 Liquid Glass** design language announced at WWDC 2025.
 
 ---
 
@@ -21,7 +22,7 @@
 8. [UI Components](#8-ui-components)
 9. [Navigation](#9-navigation)
 10. [Animation & Motion](#10-animation--motion)
-11. [Accessibility Standards (WCAG 2.2 AA)](#11-accessibility-standards-wcag-22-aa)
+11. [Accessibility Standards (WCAG 3.0 Bronze + Guideline 3.3)](#11-accessibility-standards-wcag-30-bronze--guideline-33)
 12. [Component Library Reference](#12-component-library-reference)
 13. [AI Accountant Module](#13-ai-accountant-module-dashboard--real-time-tally-integration)
 14. [Design System Maintenance & Evolution](#14-design-system-maintenance--evolution)
@@ -46,7 +47,7 @@ MedMentor AI transforms the overwhelming flood of medical information into a str
 
 ### 1.2 Design Philosophy
 The visual language draws from three pillars:
-*   **Liquid Glassmorphism:** A dynamic material system built on translucency, lensing (light bending), and refraction. It leverages adaptive layers that shift based on background, content, light, and motion for a fluid, volumetric feel across platforms.
+*   **iOS 26 Liquid Glass (WWDC 2025):** Apple’s next-generation material system built on **translucency, specular highlights, physics-driven refraction, lensing (light bending), and adaptive tinting**. UI elements dynamically react to touch, ambient light, device tilt, content, and context — creating a fluid, volumetric feel across platforms. MediSync implements this via `backdrop-filter`, radial inner gradients, dynamic highlights, and the `prefers-reduced-transparency` fallback. The iOS 26.1 **Tinted Mode** (increased opacity + neutral color overlay) is supported as an accessibility option for improved contrast and legibility.
 *   **iOS-Grade Precision:** Apple-level attention to spacing, typography, micro-interactions, and touch targets. Every pixel is intentional, with sharp text layers always positioned above blurred materials.
 *   **Medical Trust & PII Protection**: A palette grounded in deep blues and clean neutrals that conveys clinical authority. This is reinforced by a robust PII protection layer (Microsoft Presidio) that ensures patient data remains anonymized across all AI interactions.
 
@@ -134,7 +135,7 @@ Extended accent colors used for event categories, tags, and data visualization. 
 
 **DO:**
 - Use semantic colors for their intended purpose only
-- Maintain 4.5:1 contrast ratio for all body text (WCAG 2.2 AA)
+- Maintain 4.5:1 contrast ratio for all body text (WCAG 3.0 Bronze)
 - Test color combinations in both light and dark modes
 - Reserve brand colors for primary actions
 
@@ -201,7 +202,7 @@ animation: shineSlide 6s ease-in-out infinite;
 Typography in the Liquid Glass system is optimized for extreme legibility against translucent backgrounds:
 *   **Weight & Alignment**: Prefer **bolder weights** and **left-aligned** layouts to ground the eye.
 *   **Contrast Layering**: Sharp text (Slate 900 or White) must always be layered *above* the glass material. **Never blur typography.**
-*   **WCAG 2.2 AA Fixes**: Ensure ≥4.5:1 text contrast. Use media queries to disable gradients on text for users with vision impairments.
+*   **WCAG 3.0 Bronze Fixes**: Ensure ≥4.5:1 text contrast. Use media queries to disable gradients on text for users with vision impairments. See §11.9 for full Guideline 3.3 Input Assistance requirements.
 *   **Spacing**: Adhere to WCAG 1.4.12 for line height (1.5) and paragraph spacing (2.0) to ensure readability.
 
 ### 3.1.2 Iconography
@@ -292,8 +293,8 @@ In dark/glass mode, text uses opacity-based color hierarchy instead of hex value
 
 ---
 
-## 5. Glassmorphism System
-The liquid glassmorphism system is the signature visual layer of MedMentor AI’s immersive interfaces. It creates a sense of depth, material, and space using layered translucency, blur, and light effects.
+## 5. Glassmorphism System (iOS 26 Liquid Glass)
+The iOS 26 Liquid Glass system is the signature visual layer of MediSync’s immersive interfaces. Announced at WWDC 2025, it evolves traditional glassmorphism into a physics-driven material with **specular highlights, refraction, lensing, and adaptive tinting** that dynamically responds to content, touch, ambient light, and device orientation — creating a sense of depth, material, and space using layered translucency, blur, and light effects.
 
 ### 5.1 Glass Material Classes (Dark / Glass Mode)
 | Class | Background | Blur | Border | Shadow |
@@ -319,22 +320,22 @@ The liquid glassmorphism system is the signature visual layer of MedMentor AI’
 | **Shimmer** | Moving light reflection across surface | 1.5s |
 | **Lift-Glow** | Combination of lift + colored glow | 300ms |
 
-### 5.4 Liquid Glass Technical Implementation (v2.0)
-MedSync adopts Apple's Liquid Glass foundation, emphasizing translucent, adaptive materials that create depth and hierarchy.
+### 5.4 Liquid Glass Technical Implementation (iOS 26)
+MediSync adopts Apple’s iOS 26 Liquid Glass foundation, emphasizing translucent, adaptive materials that create depth and hierarchy through **specular highlights, physics-driven refraction, and dynamic adaptive tinting**.
 
 **Core Web Equivalent:**
 ```css
-/* Liquid Glass Base Material (Apple HIG) */
+/* iOS 26 Liquid Glass Base Material */
 .liquid-glass-regular {
   backdrop-filter: blur(45px) saturate(1.8);
   -webkit-backdrop-filter: blur(45px) saturate(1.8);
   background-color: rgba(255, 255, 255, 0.7); /* Adjust per theme */
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.05); /* Diffuse soft shadow */
   border: 1px solid rgba(255,255,255,0.2);
-  border-top: 1px solid rgba(255, 255, 255, 0.5); /* iOS specular top edge highlight */
+  border-top: 1px solid rgba(255, 255, 255, 0.5); /* iOS 26 specular top edge highlight */
 }
 
-/* Dark Mode Extractor */
+/* Dark Mode */
 .dark .liquid-glass-regular {
   background-color: rgba(45, 45, 45, 0.6);
   border: 1px solid rgba(255, 255, 255, 0.08);
@@ -342,13 +343,27 @@ MedSync adopts Apple's Liquid Glass foundation, emphasizing translucent, adaptiv
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
 }
 
-/* WCAG 2.2 AA Adaptations */
+/* WCAG 3.0 Bronze — Reduced Transparency Fallback */
 @media (prefers-reduced-transparency: reduce) {
   .liquid-glass-regular {
     backdrop-filter: none;
     background-color: var(--surface-opaque);
     opacity: 1;
   }
+}
+
+/* iOS 26.1 Tinted Mode — Accessibility Fallback */
+/* Increases opacity + applies neutral tint for improved contrast & legibility */
+.liquid-glass-tinted {
+  backdrop-filter: blur(30px) saturate(1.2);
+  -webkit-backdrop-filter: blur(30px) saturate(1.2);
+  background-color: rgba(128, 128, 128, 0.65); /* Neutral tint */
+  border: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+.dark .liquid-glass-tinted {
+  background-color: rgba(40, 40, 50, 0.85); /* Higher opacity for readability */
+  border: 1px solid rgba(255, 255, 255, 0.12);
 }
 ```
 
@@ -442,7 +457,7 @@ All interactive elements receive a visible focus ring for keyboard navigation:
 ### 8.1 Buttons (Liquid Glass Context)
 *   **Trait**: Glass with a tint shift on hover/press; specular highlights create a volumetric feel.
 *   **Web Equivalent**: use `radial-gradient` + `scale(1.02)` on hover.
-*   **WCAG 2.2**: Minimum 44x44px touch targets; 3:1 contrast ratio between states; distinct ARIA labels for screen readers.
+*   **WCAG 3.0 Bronze**: Minimum 44x44px touch targets; 3:1 contrast ratio between states; distinct ARIA labels for screen readers. Supports password manager paste (SC 3.3.8).
 
 ### 8.2 Cards (Volumetric Float)
 *   **Apple Trait**: Volumetric floating effect that refracts background content.
@@ -459,7 +474,7 @@ All interactive elements receive a visible focus ring for keyboard navigation:
 ### 8.3 Panels & Sheets (Modal Dynamics)
 *   **Trait**: Backdrop dimming combined with glass material; growth effect on drag.
 *   **Web Equivalent**: Overlay with `position: fixed`, `blur(24px)`.
-*   **WCAG**: Support `Escape` key to close; maintain ≥3:1 contrast for hover/focus; disable elastic animations for `prefers-reduced-motion`.
+*   **WCAG**: Support `Escape` key to close; maintain ≥3:1 contrast for hover/focus; disable elastic animations for `prefers-reduced-motion`. Backdrop dimming must respect `prefers-reduced-transparency` (iOS 26).
 
 ### 8.4 Scroll Views (Edge Effects)
 *   **Trait**: Edge effects with soft blur under pinned controls.
@@ -467,7 +482,7 @@ All interactive elements receive a visible focus ring for keyboard navigation:
 
 ### 8.5 Controls & Inputs
 *   **Sliders/Toggles**: Glass material directly on the control thumb; flex effect on interaction. WCAG: Visible thumb ≥24px; live region announcements for values.
-*   **Text Fields**: Glass container with sharp text; auto-adjusting tint for maximum legibility. WCAG: ≥4.5:1 placeholder/focus contrast; native autocomplete support.
+*   **Text Fields**: Glass container with sharp text; auto-adjusting tint for maximum legibility. WCAG: ≥4.5:1 placeholder/focus contrast; native autocomplete support. Must support password manager paste and autofill per SC 3.3.8. Labels required per SC 3.3.2.
 *   **Switches/Checkboxes**: Subtle glass "lift" on toggle. WCAG: 3:1 checked/unchecked state contrast.
 
 ### 8.6 Alerts & Overlays
@@ -657,27 +672,37 @@ On page load, elements animate in sequence with 50ms delay increments (`delay-1`
 
 ---
 
-## 11. Accessibility Standards (WCAG 2.2 AA)
+## 11. Accessibility Standards (WCAG 3.0 Bronze + Guideline 3.3)
 
-MediSync unifies hierarchy while staying premium and inclusive.
+MediSync unifies hierarchy while staying premium and inclusive. Compliance target: **WCAG 3.0 Bronze** across all outcomes, with explicit coverage of **Guideline 3.3 (Input Assistance)** to help users avoid and correct mistakes, and **iOS 26 Liquid Glass accessibility adaptations** including Tinted Mode.
+
+> **WCAG 3.0 Conformance Model:** WCAG 3.0 replaces the A/AA/AAA levels with **Bronze / Silver / Gold** tiers and uses outcome-based scoring (0–4) instead of binary pass/fail. Bronze is the baseline conformance tier, roughly equivalent to WCAG 2.2 AA. MediSync targets Bronze with aspirational Silver outcomes for critical healthcare and financial flows.
+
+> **Legal context (2026):** The US DOJ ADA Title II rule (April 2024) mandates WCAG 2.1 AA for state/local government digital services by April 24, 2026. MediSync targets the forward-looking **WCAG 3.0 Bronze** standard, which subsumes WCAG 2.2 AA and adds outcome-based scoring and functional categories for visual, auditory, cognitive, and motor accessibility.
 
 ### 11.1 Color Contrast
 | Element | Minimum Ratio | Notes |
 | :--- | :--- | :--- |
 | **Normal text** | 4.5:1 | Slate-900+ on white/light |
-| **Large text (18px+)** | 3:1 | Slate-700+ on white |
-| **Interactive / icons** | 3:1 | Brand color on adjacent bg |
-| **Glass text (dark)** | 7:1+ | `--text-primary` on `#0A0A1A` |
+| **Large text (≥18px regular / ≥14px bold)** | 3:1 | Slate-700+ on white |
+| **Interactive components / icons** | 3:1 | Brand color on adjacent background |
+| **Glass text (dark mode)** | 7:1+ | `--text-primary` on `#0A0A1A` |
+| **Glass text (Tinted Mode)** | 4.5:1+ | Neutral overlay ensures legibility on all glass surfaces |
+| **Non-text contrast (UI components)** | 3:1 | Borders, focus indicators, form controls on adjacent color |
+| **Placeholder text** | 4.5:1 | `--text-tertiary` must pass against glass backgrounds |
 
 ### 11.2 Focus Management
 *   All interactive elements: visible focus ring (3px Trust Blue / System Blue, 20% opacity glow).
 *   Tab order follows visual layout: header → selector → content → CTA → nav.
 *   Modal traps focus; returns to trigger on close.
+*   Focus indicators must be visible on **all glass materials** — test against both light and dark mode glass surfaces.
+*   Focus rings must meet **3:1 contrast** against adjacent colors (WCAG 2.4.7 / 2.4.11).
 
 ### 11.3 Touch Targets
-*   Minimum **44×44px** for all interactive elements (WCAG 2.2 AA).
+*   Minimum **44×44px** for all interactive elements (WCAG 2.5.8 Target Size).
 *   Calendar day cells: `aspect-ratio: 1` ensures adequate tap area.
-*   Icon buttons: 40px diameter + 4px invisible hit area extension.
+*   Icon buttons: 40px diameter + 4px invisible hit area extension (total ≥44px).
+*   Inline links in dense text: minimum **24×24px** active area with adequate spacing (WCAG 2.5.8).
 
 ### 11.4 Motion & Reduced Motion
 ```css
@@ -686,23 +711,170 @@ MediSync unifies hierarchy while staying premium and inclusive.
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
   }
+  /* Disable Liquid Glass lensing/refraction effects */
+  .liquid-glass-regular::after,
+  .glass::after {
+    animation: none !important;
+    background: none !important;
+  }
 }
 ```
 
-### 11.5 High Contrast Mode
-Supports `prefers-contrast: high`: increased border visibility, stronger shadows, maintained brand colors.
+### 11.5 Reduced Transparency (iOS 26 Liquid Glass)
+```css
+/* WCAG adaptation: users who struggle with translucent backgrounds */
+@media (prefers-reduced-transparency: reduce) {
+  .liquid-glass-regular,
+  .glass,
+  .glass-elevated,
+  .glass-subtle {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background-color: var(--surface-opaque) !important;
+    opacity: 1 !important;
+  }
+}
+```
 
-### 11.6 Screen Reader Considerations
+### 11.6 High Contrast Mode
+Supports `prefers-contrast: high`: increased border visibility (2px solid borders), stronger shadows, maintained brand colors. Glass surfaces gain opaque backgrounds and full-strength borders.
+
+### 11.7 iOS 26.1 Tinted Mode (Accessibility Fallback)
+*   When Tinted Mode is active, all Liquid Glass surfaces gain increased opacity and a neutral color overlay.
+*   Use `.liquid-glass-tinted` class variant (see §5.4) for programmatic fallback.
+*   Text contrast must remain ≥4.5:1 against the tinted surface at all times.
+*   Specular highlights and refraction effects are muted (reduced `saturate()`) to avoid visual distraction.
+
+### 11.8 Screen Reader Considerations
 *   Calendar cells: `aria-label` with full date (e.g., *Thursday, February 19, 2026*) + `aria-current="date"` on today.
 *   Dropdown: `aria-expanded` on trigger. Modal: `role="dialog"` + `aria-labelledby`.
+*   Form errors: Announced via `aria-live="assertive"` or `role="alert"` (see §11.9).
+*   Glass surfaces: Decorative glass effects (shine, orbs, gradients) must have `aria-hidden="true"` and `pointer-events: none`.
+*   Authentication steps: Each step must have `aria-describedby` linking to help text (see §11.9.6).
 
-### 11.7 Keyboard Navigation
+### 11.9 Guideline 3.3 — Input Assistance (WCAG 3.0 Bronze)
+
+MediSync implements **all** WCAG 3.0 Guideline 3.3 outcomes at Bronze conformance level. This is critical for healthcare forms, financial data entry (AI Accountant), and authentication flows where input errors can have clinical or financial consequences.
+
+#### 11.9.1 Error Identification — SC 3.3.1 (Level A)
+> *If an input error is automatically detected, the item that is in error is identified and the error is described to the user in text.*
+
+*   **Implementation:**
+    *   All form fields with validation errors display a text error message **adjacent to the field** (below, in `--danger` color, minimum 14px).
+    *   The erroneous field receives a visible red border (`--danger` + 2px) **and** an error icon — color is never the sole indicator.
+    *   Error messages use specific language: *"Invoice amount must be a positive number"* — not *"Invalid input."*
+    *   On form submission with errors, programmatic focus moves to the **first** erroneous field.
+    *   Errors are announced to assistive technology via `aria-invalid="true"` and `aria-describedby` linking to the error message.
+
+```html
+<!-- Correct MediSync error identification pattern -->
+<div class="liquid-glass-input-wrapper">
+  <label for="invoice-amount">Invoice Amount *</label>
+  <input id="invoice-amount"
+         type="number"
+         aria-invalid="true"
+         aria-describedby="invoice-amount-error"
+         class="liquid-glass-input state-error" />
+  <p id="invoice-amount-error" class="field-error" role="alert">
+    ⚠ Invoice amount must be a positive number (e.g., 1500.00)
+  </p>
+</div>
+```
+
+#### 11.9.2 Labels or Instructions — SC 3.3.2 (Level A)
+> *Labels or instructions are provided when content requires user input.*
+
+*   **Implementation:**
+    *   Every form field has a visible `<label>` element with `for` attribute, or uses `aria-label` / `aria-labelledby`.
+    *   Required fields are marked with an asterisk (`*`) **and** the text "required" in the label or via `aria-required="true"`.
+    *   Complex inputs (date ranges, currency amounts, invoicing codes) include helper text below the field explaining expected format.
+    *   Upload zones display accepted file types and size limits prominently.
+    *   Multi-step forms include a step indicator with clear "Step X of Y" labelling.
+
+```html
+<!-- Label + instruction pattern for financial forms -->
+<label for="gst-number">GST Number *</label>
+<input id="gst-number"
+       type="text"
+       aria-required="true"
+       aria-describedby="gst-hint"
+       placeholder="22AAAAA0000A1Z5" />
+<p id="gst-hint" class="field-hint">
+  15-character alphanumeric GST identification number
+</p>
+```
+
+#### 11.9.3 Error Suggestion — SC 3.3.3 (Level AA)
+> *If an input error is automatically detected and suggestions for correction are known, then the suggestions are provided to the user, unless it would jeopardize the security or purpose of the content.*
+
+*   **Implementation:**
+    *   When a field value is rejected, the error message includes a **specific correction suggestion** when feasible:
+        *   Date field: *"Date must be in DD/MM/YYYY format. Did you mean 15/02/2026?"*
+        *   Email field: *"Invalid email address. Did you mean user@hospital.com?"*
+        *   Ledger mapping: *"No matching ledger found for 'Ofice Supplies'. Suggestion: 'Office Supplies' (Ledger 4301)."*
+    *   AI-powered suggestions (OCR corrections, ledger auto-mapping) show confidence scores alongside suggestions.
+    *   Password fields: Show criteria checklist with ✓/✗ indicators for each rule (length, uppercase, number, special char).
+    *   For healthcare-specific inputs (ICD codes, drug names), suggest closest matches from the validated database.
+
+#### 11.9.4 Error Prevention: Legal, Financial, Data — SC 3.3.4 (Level AA)
+> *For pages with legal commitments, financial transactions, or user-controllable data modification, at least one of: submissions are reversible, data is checked and corrected, or a review/confirm step is provided.*
+
+*   **Implementation (Critical for AI Accountant):**
+    *   **Financial transactions** (Tally sync, invoice posting, bill payment):
+        *   **Review step:** Confirmation modal summarizing all data before submission.
+        *   **Reversibility:** "Undo" option available for 30 seconds after submission for non-destructive operations.
+        *   **Data validation:** Server-side validation with inline error feedback before final commit.
+    *   **Bulk operations** (Confirm All, Delete Selected):
+        *   Explicit confirmation dialog: *"You are about to confirm 24 transactions totaling ₹15,40,000. This action will sync to Tally. Continue?"*
+        *   Destructive actions require typing "DELETE" or similar explicit confirmation.
+    *   **Patient data** (EHR uploads, clinical notes):
+        *   PII detection warning before submission if sensitive data is detected.
+        *   Preview/review screen showing anonymization results before AI processing.
+    *   **Account settings changes:** Email change requires verification; password change shows preview of affected sessions.
+
+#### 11.9.5 Redundant Entry — SC 3.3.7 (Bronze, carried from WCAG 2.2)
+> *Information previously entered by or provided to the user that is required to be entered again in the same process is either auto-populated or available for the user to select.*
+
+*   **Implementation:**
+    *   Multi-step form flows (bill upload → mapping → confirmation) carry forward all previously entered data.
+    *   Address / vendor / company fields auto-populate from previous entries or user profile.
+    *   If a user navigates back in a multi-step flow, all fields retain their previous values.
+    *   Search filters persist across pagination and navigation within the same session.
+    *   Exception: Re-entering a password for security confirmation is permitted (not redundant entry).
+
+#### 11.9.6 Accessible Authentication (Minimum) — SC 3.3.8 (Bronze, carried from WCAG 2.2)
+> *A cognitive function test (such as remembering a password) is not required for any step in an authentication process unless an alternative is provided, a mechanism assists the user, or the test involves object recognition.*
+
+*   **Implementation:**
+    *   **Password manager support:** No `autocomplete="off"` on login fields. Native browser autofill and password manager paste must work.
+    *   **Copy/paste allowed:** Users must be able to paste credentials from clipboard into all authentication fields.
+    *   **Alternative authentication methods:** At least one non-memory method is available:
+        *   Magic link (email-based OTP)
+        *   Biometric authentication (Face ID / Touch ID on iOS 26)
+        *   SSO / OAuth (Google Sign-In, Microsoft Entra ID)
+    *   **CAPTCHA:** If used, must provide an audio alternative **and** be solvable without solving a puzzle (e.g., reCAPTCHA v3 silent scoring or Turnstile).
+    *   **2FA:** TOTP codes support paste from authenticator apps. WebAuthn (passkeys) supported as zero-knowledge alternative.
+    *   **Session management:** Reasonable session durations (≥30 minutes active) to avoid frequent re-authentication.
+
+### 11.10 Keyboard Navigation
 | Key | Action |
 | :--- | :--- |
 | `Tab` / `Shift+Tab` | Forward/backward navigation |
-| `Enter` / `Space` | Activate |
-| `Escape` | Close modal/dropdown |
-| Arrow keys | Navigate date pickers, menus |
+| `Enter` / `Space` | Activate button, toggle, or link |
+| `Escape` | Close modal/dropdown/sheet |
+| Arrow keys | Navigate date pickers, menus, comboboxes |
+| `Home` / `End` | Jump to first/last item in lists |
+| `Ctrl+Z` | Undo last action (where supported) |
+
+### 11.11 Glassmorphism-Specific Accessibility Patterns
+| Concern | Mitigation |
+| :--- | :--- |
+| **Blur reduces text legibility** | Text is always in a layer *above* the blur; never blurred. Minimum 4.5:1 contrast verified against blurred background. |
+| **Translucent backgrounds vary** | Color contrast tested against worst-case (lightest) background content behind glass. |
+| **Animated glass shine distracts** | Respects `prefers-reduced-motion`; decorative elements carry `aria-hidden="true"`. |
+| **Low-end device performance** | Progressive enhancement: glass effects degrade to solid backgrounds on devices that don't support `backdrop-filter`. |
+| **iOS 26 Liquid Glass refraction** | Refraction/lensing effects disabled under `prefers-reduced-motion` and `prefers-reduced-transparency`. |
+| **Color-only state indicators** | All status indicators pair color with text label + icon (e.g., red ✗ "Failed" not just red dot). |
 
 ---
 
@@ -1096,7 +1268,7 @@ The AI Accountant module adopts the same glassmorphism and precision-first desig
 ### 18.2 Consistency Audits
 *   **Monthly:** Review new components/screens against the design system. Ensure all glassmorphism effects, spacing, and typography adhere to defined tokens.
 *   **Quarterly:** Usability testing with actual users (doctors, accountants, pharmacists) to validate assumptions and gather feedback.
-*   **Annually:** Comprehensive accessibility audit (WCAG 2.1 AA compliance) and performance review.
+*   **Annually:** Comprehensive accessibility audit (WCAG 3.0 Bronze compliance, including Guideline 3.3 Input Assistance) and performance review.
 
 ### 18.3 Component Library & Storybook
 *   Maintain a Storybook instance documenting all UI components with:
@@ -1112,7 +1284,7 @@ The AI Accountant module adopts the same glassmorphism and precision-first desig
 *   **AI Logic:** Genkit (Go/TS) with structured JSON outputs mapping to design system tokens.
 
 ### 18.5 Accessibility Standards
-*   **Target:** WCAG 2.1 Level AA compliance.
+*   **Target:** WCAG 3.0 Bronze compliance (see §11 for full details, including Guideline 3.3 Input Assistance).
 *   **Key Practices:**
     *   All interactive elements have visible focus indicators (3px accent ring).
     *   Color is never the only means of conveying information (use text labels + icons).
@@ -1204,7 +1376,7 @@ The AI Accountant module adopts the same glassmorphism and precision-first desig
 
 4. **Real-Time Mindset:** Indicators, animations, and notifications are designed for live data updates without overwhelming the user.
 
-5. **Accessibility & Inclusivity:** WCAG 2.1 AA compliance ensures the platform is usable by all users, including those with visual, motor, or cognitive impairments.
+5. **Accessibility & Inclusivity:** WCAG 3.0 Bronze compliance (including Guideline 3.3 Input Assistance — error identification, error suggestions, error prevention for financial data, redundant entry elimination, and accessible authentication) ensures the platform is usable by all users, including those with visual, motor, or cognitive impairments. iOS 26 Liquid Glass adaptations (Tinted Mode, reduced transparency, reduced motion) provide additional accessibility fallbacks.
 
 6. **Scalability & Maintainability:** A living design system with clear documentation, component libraries, and testing protocols ensures consistency as the product grows.
 
@@ -1279,12 +1451,14 @@ Use this checklist when building new screens or components to ensure design syst
 - [ ] Font loaded: Inter (400–800) + Plus Jakarta Sans (700, 800) + Cairo (400–700) + Noto Sans Arabic
 - [ ] CSS custom properties defined in `:root` for both light and glass themes
 - [ ] All spacing on 4px grid — no arbitrary pixel values
-- [ ] Touch targets ≥ 44px on all interactive elements
-- [ ] Color contrast passes WCAG AA (4.5:1 text · 3:1 large text/UI)
+- [ ] Touch targets ≥ 44px on all interactive elements (WCAG 2.5.8)
+- [ ] Color contrast passes WCAG 3.0 Bronze (4.5:1 text · 3:1 large text/UI · 3:1 non-text)
 - [ ] Glassmorphism includes `-webkit-backdrop-filter` prefix for Safari
 - [ ] High contrast mode (`prefers-contrast: high`) tested
 - [ ] Animations respect `prefers-reduced-motion`
-- [ ] Focus rings visible on all buttons, inputs, and interactive elements
+- [ ] Glass surfaces respect `prefers-reduced-transparency` (iOS 26)
+- [ ] iOS 26.1 Tinted Mode fallback tested (`.liquid-glass-tinted`)
+- [ ] Focus rings visible on all buttons, inputs, and interactive elements (3:1 contrast)
 - [ ] Dropdowns use custom glass-elevated panels (not native selects in immersive contexts)
 - [ ] Modals use bottom-sheet pattern on mobile with drag handle
 - [ ] Loading, error, and empty states defined for each component
@@ -1293,7 +1467,19 @@ Use this checklist when building new screens or components to ensure design syst
 - [ ] Visual regression test in both themes before PR merge
 - [ ] No console errors · 60fps animations confirmed
 
-### 14.2 RTL / i18n Checks (append for every new screen)
+### 14.2 WCAG 3.0 Guideline 3.3 Input Assistance Checks
+- [ ] All form fields have visible labels (SC 3.3.2)
+- [ ] Required fields marked with `*` + `aria-required="true"` (SC 3.3.2)
+- [ ] Error messages are text-based, specific, and adjacent to the field (SC 3.3.1)
+- [ ] Erroneous fields identified by border color + icon (not color alone) (SC 3.3.1)
+- [ ] Error messages include correction suggestions where feasible (SC 3.3.3)
+- [ ] Financial/legal/data-modifying forms include review & confirm step (SC 3.3.4)
+- [ ] Multi-step flows carry forward previously entered data (SC 3.3.7)
+- [ ] Login fields support password manager paste & autofill (SC 3.3.8)
+- [ ] Alternative authentication (magic link / biometric / SSO) available (SC 3.3.8)
+- [ ] No `autocomplete="off"` on authentication fields (SC 3.3.8)
+
+### 14.3 RTL / i18n Checks (append for every new screen)
 - [ ] Arabic font loaded: Cairo (400–700) + Noto Sans Arabic fallback
 - [ ] No hardcoded `left`/`right` in CSS — all layout uses logical properties
 - [ ] `dir="auto"` on user-generated text fields (chat input, notes, search)

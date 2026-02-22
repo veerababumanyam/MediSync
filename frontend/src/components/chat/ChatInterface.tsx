@@ -7,7 +7,6 @@ import { StreamingMessage } from './StreamingMessage';
 import { QuerySuggestions } from './QuerySuggestions';
 import { ChatHeader } from './ChatHeader';
 import { useLocale } from '../../hooks/useLocale';
-import { GlassCard } from '../ui';
 import { FadeIn, StaggerChildren } from '../animations';
 import type { SSEEvent, ChatMessage } from '../../services/api';
 import { apiClient, api } from '../../services/api';
@@ -195,29 +194,37 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
   ];
 
   return (
-    <div className={`flex flex-col h-full bg-linear-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800 ${className}`}>
-      {/* Utility Row */}
-      <div className="border-b border-slate-200/60 dark:border-slate-700/60 bg-white/60 dark:bg-slate-900/50 backdrop-blur-md">
+    <div className={`flex flex-col h-full bg-transparent ${className}`}>
+      {/* Visually hidden H1 for proper heading hierarchy */}
+      <h1 className="sr-only">{t('pageTitle')}</h1>
+
+      {/* Utility Row - Liquid Glass Subtle */}
+      <div className="liquid-glass-subtle border-b border-white/10 dark:border-white/5">
         <ChatHeader
           onNewSession={handleNewSession}
         />
       </div>
 
       {/* Messages Area */}
-      <div className="flex-1 overflow-y-auto px-4 py-6">
+      <div id="chat-messages" className="flex-1 overflow-y-auto px-4 py-6 liquid-glass-scroll">
         {messages.length === 0 && !streaming.isStreaming ? (
           <FadeIn>
             <div className="flex flex-col items-center justify-center h-full text-center">
-              <GlassCard intensity="light" shadow="lg" className="p-8 max-w-2xl mb-8">
-                <div className="w-16 h-16 rounded-2xl bg-linear-to-br from-blue-600 to-cyan-500 flex items-center justify-center mx-auto mb-6 shadow-lg">
-                  <svg className="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              {/* Welcome Card - iOS 26 Liquid Glass */}
+              <div className="liquid-glass-content-card p-8 max-w-2xl mb-8">
+                {/* AI Icon with Brand Gradient */}
+                <div className="w-12 h-12 rounded-xl flex items-center justify-center mx-auto mb-6 shadow-lg" style={{
+                  background: 'linear-gradient(135deg, #2750a8 0%, #18929d 100%)',
+                  boxShadow: '0 8px 24px rgba(39, 80, 168, 0.3)'
+                }}>
+                  <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
                   </svg>
                 </div>
-                <h2 className="text-2xl font-semibold text-slate-900 dark:text-white mb-4">
+                <h2 className="hero-gradient-text text-xl font-semibold mb-4">
                   {t('welcome.title')}
                 </h2>
-                <p className="text-slate-600 dark:text-slate-400 mb-8 max-w-md mx-auto">
+                <p className="liquid-text-secondary mb-8 max-w-md mx-auto">
                   {t('welcome.subtitle')}
                 </p>
                 <StaggerChildren className="w-full">
@@ -226,7 +233,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
                     onSuggestionClick={handleSuggestionClick}
                   />
                 </StaggerChildren>
-              </GlassCard>
+              </div>
             </div>
           </FadeIn>
         ) : (
@@ -243,10 +250,8 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
             )}
             {error && (
               <FadeIn>
-                <GlassCard
-                  intensity="light"
-                  shadow="sm"
-                  className="mt-4 p-4 border-s-4 border-s-red-500"
+                <div
+                  className="liquid-glass-content-card mt-4 p-4 border-s-4 border-s-red-500"
                   role="alert"
                   aria-live="assertive"
                 >
@@ -256,7 +261,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
                     </svg>
                     <span className="text-red-600 dark:text-red-400 flex-1">{error}</span>
                   </div>
-                </GlassCard>
+                </div>
               </FadeIn>
             )}
             <div ref={messagesEndRef} />
@@ -264,8 +269,8 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
         )}
       </div>
 
-      {/* Input Area - Glassmorphic */}
-      <GlassCard intensity="light" shadow="lg" className="rounded-none border-t border-slate-300/70 dark:border-slate-600/70 bg-white/85 dark:bg-slate-900/80 p-4">
+      {/* Input Area - Liquid Glass */}
+      <div className="liquid-glass-light border-t border-white/20 dark:border-white/10 p-4">
         <ChatInput
           onSend={handleSendMessage}
           disabled={streaming.isStreaming}
@@ -276,7 +281,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
             'tool-description': 'The text input for natural language BI queries'
           } as React.HTMLAttributes<HTMLDivElement>)}
         />
-      </GlassCard>
+      </div>
     </div>
   );
 };

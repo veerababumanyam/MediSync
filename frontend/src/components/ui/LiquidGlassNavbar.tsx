@@ -20,6 +20,7 @@ export const LiquidGlassNavbar: React.FC<LiquidGlassNavbarProps> = ({
 }) => {
   return (
     <nav
+      aria-label="Main navigation"
       className={cn(
         'liquid-glass-header z-50 px-4 py-3 md:px-6',
         sticky && 'sticky top-0',

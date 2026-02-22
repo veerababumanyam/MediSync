@@ -254,7 +254,7 @@ export const documentApi = {
    * Check if a document can be rejected
    */
   canReject: (document: Document): boolean => {
-    return document.canApprove || document.status === 'ready_for_review'
+    return document.status === 'ready_for_review'
   },
 
   /**

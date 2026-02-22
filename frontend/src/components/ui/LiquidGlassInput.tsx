@@ -2,7 +2,7 @@
  * Liquid Glass Input Component
  *
  * Premium iOS-inspired glassmorphic input field with liquid animations,
- * dynamic focus states, and WCAG 2.2 AA compliance.
+ * dynamic focus states, and WCAG 3.0 Bronze compliance.
  *
  * Features:
  * - Multi-layered glass effect with specular highlights
@@ -18,7 +18,7 @@
  * @version 2.0.0
  */
 
-import React, { forwardRef, useState, useCallback, useRef, useEffect } from 'react'
+import React, { forwardRef, useState, useCallback, useRef, useEffect, useId } from 'react'
 import { motion, type HTMLMotionProps } from 'framer-motion'
 import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '@/lib/cn'
@@ -155,6 +155,12 @@ export const LiquidGlassInput = forwardRef<HTMLInputElement, LiquidGlassInputPro
     const [internalValue, setInternalValue] = useState('')
     const inputRef = useRef<HTMLInputElement>(null)
 
+    // WCAG 3.0 Bronze: Generate stable IDs for aria-describedby linkage
+    const reactId = useId()
+    const inputId = props.id || `lg-input-${reactId}`
+    const errorId = `${inputId}-error`
+    const helperId = `${inputId}-helper`
+
     // Handle ref forwarding
     useEffect(() => {
       if (ref) {
@@ -192,7 +198,7 @@ export const LiquidGlassInput = forwardRef<HTMLInputElement, LiquidGlassInputPro
       className
     )
 
-    // Label classes for WCAG contrast
+    // Label classes for WCAG 3.0 Bronze contrast
     const labelClasses = cn(
       'block text-sm font-medium mb-1.5 transition-colors',
       disabled ? 'text-slate-400 dark:text-slate-500' : 'text-slate-700 dark:text-slate-300',
@@ -221,8 +227,9 @@ export const LiquidGlassInput = forwardRef<HTMLInputElement, LiquidGlassInputPro
     return (
       <div className={containerClassName}>
         {label && (
-          <label className={labelClasses} htmlFor={props.id}>
+          <label className={labelClasses} htmlFor={inputId}>
             {label}
+            {props.required && <span className="text-red-500 ml-0.5" aria-hidden="true">*</span>}
           </label>
         )}
 
@@ -237,6 +244,7 @@ export const LiquidGlassInput = forwardRef<HTMLInputElement, LiquidGlassInputPro
           {/* Input Field */}
           <motion.input
             ref={inputRef}
+            id={inputId}
             className={inputClasses}
             value={currentValue}
             onChange={handleChange}
@@ -250,6 +258,11 @@ export const LiquidGlassInput = forwardRef<HTMLInputElement, LiquidGlassInputPro
             }}
             disabled={disabled || isLoading}
             maxLength={maxLength}
+            aria-invalid={inputState === 'error' ? true : undefined}
+            aria-describedby={
+              error ? errorId : helperText ? helperId : undefined
+            }
+            aria-required={props.required || undefined}
             animate={{
               borderColor: isFocused ? 'var(--ms-teal)' : undefined,
             }}
@@ -308,9 +321,15 @@ export const LiquidGlassInput = forwardRef<HTMLInputElement, LiquidGlassInputPro
           )}
         </div>
 
-        {/* Helper text, error, success, or warning message */}
+        {/* Helper text, error, success, or warning message — WCAG 3.0 SC 3.3.1 */}
         {(error || success || warning || helperText) && (
-          <p className={helperTextClasses}>
+          <p
+            id={error ? errorId : helperId}
+            className={helperTextClasses}
+            role={error ? 'alert' : undefined}
+            aria-live={error ? 'assertive' : undefined}
+          >
+            {error && <span aria-hidden="true">⚠ </span>}
             {error || success || warning || helperText}
           </p>
         )}
@@ -547,12 +566,14 @@ export const LiquidGlassSearch = forwardRef<HTMLInputElement, LiquidGlassSearchP
               onClick={onClear}
               className="hover:text-slate-600 dark:hover:text-slate-300 transition-colors"
               tabIndex={-1}
+              aria-label="Clear search"
             >
               <svg
                 className="w-4 h-4"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
+                aria-hidden="true"
               >
                 <path
                   strokeLinecap="round"

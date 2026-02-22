@@ -11,7 +11,9 @@
  *
  * @module components/theme/useTheme
  */
-import { useTheme as useNextTheme, type Theme as ThemeValue } from 'next-themes'
+import { useTheme as useNextTheme } from 'next-themes'
+
+type ThemeValue = 'light' | 'dark' | 'system'
 
 /**
  * Return type for useTheme hook

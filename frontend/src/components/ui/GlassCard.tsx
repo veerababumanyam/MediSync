@@ -11,13 +11,13 @@
  * - Hover effects (lift, glow)
  * - Built-in entrance/exit animations
  * - Full TypeScript support with CVA variants
- * - WCAG 2.2 AA accessible
+ * - WCAG 3.0 Bronze accessible
  *
  * @module components/ui/GlassCard
  */
 import React from 'react'
 import { motion } from 'framer-motion'
-import type { MotionProps } from 'framer-motion'
+import type { HTMLMotionProps } from 'framer-motion'
 import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '@/lib/cn'
 
@@ -74,8 +74,8 @@ const glassCardVariants = cva(
  * and CVA's VariantProps for type-safe variants.
  */
 export interface GlassCardProps
-  extends Omit<React.PropsWithChildren<MotionProps<'div'>>, 'variants'>,
-    VariantProps<typeof glassCardVariants> {
+  extends Omit<React.PropsWithChildren<HTMLMotionProps<'div'>>, 'variants'>,
+  VariantProps<typeof glassCardVariants> {
   /** Optional HTML tag to render (defaults to div) */
   as?: React.ElementType
   /** Whether to disable entrance animation */

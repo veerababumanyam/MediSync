@@ -22,13 +22,14 @@ export const StreamingMessage: React.FC<StreamingMessageProps> = ({
         return (
           <div
             key={index}
-            className="flex items-center gap-2 text-gray-600 dark:text-gray-400 text-sm"
+            className="flex items-center gap-2 liquid-text-secondary text-sm leading-relaxed"
           >
             <div className="shrink-0">
               <svg
-                className="w-4 h-4 animate-spin"
+                className="w-4 h-4 animate-spin text-logo-teal"
                 fill="none"
                 viewBox="0 0 24 24"
+                aria-hidden="true"
               >
                 <circle
                   className="opacity-25"
@@ -53,19 +54,21 @@ export const StreamingMessage: React.FC<StreamingMessageProps> = ({
         return (
           <div
             key={index}
-            className="bg-gray-900 dark:bg-gray-950 rounded-lg p-3 my-2"
+            className="liquid-glass-subtle rounded-xl p-4 my-2 font-mono"
           >
             <div className="flex items-center justify-between mb-2">
-              <span className="text-xs text-gray-400 font-mono">SQL</span>
+              <span className="text-xs text-slate-400 font-mono">SQL</span>
               <button
                 onClick={() => navigator.clipboard.writeText(event.sql || '')}
-                className="text-gray-400 hover:text-gray-200"
+                className="liquid-glass-button-prominent px-3 py-1.5 min-h-[36px] text-xs text-slate-400! hover:text-slate-200!"
+                aria-label={t('streaming.copySql', 'Copy SQL to clipboard')}
               >
                 <svg
                   className="w-4 h-4"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
+                  aria-hidden="true"
                 >
                   <path
                     strokeLinecap="round"
@@ -76,7 +79,7 @@ export const StreamingMessage: React.FC<StreamingMessageProps> = ({
                 </svg>
               </button>
             </div>
-            <pre className="text-sm text-green-400 font-mono overflow-x-auto">
+            <pre className="text-sm text-logo-teal font-mono overflow-x-auto">
               {event.sql}
             </pre>
           </div>
@@ -85,8 +88,8 @@ export const StreamingMessage: React.FC<StreamingMessageProps> = ({
       case 'result':
         return (
           <div key={index} className="my-2">
-            {event.data && event.chartType && (
-              <div className="bg-white dark:bg-gray-900 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
+            {event.data != null && event.chartType && (
+              <div className="liquid-glass-subtle rounded-xl p-4">
                 <ChartRenderer
                   chartType={event.chartType}
                   data={event.data}
@@ -95,7 +98,7 @@ export const StreamingMessage: React.FC<StreamingMessageProps> = ({
               </div>
             )}
             {event.confidence !== undefined && (
-              <div className="mt-2 text-xs text-gray-500">
+              <div className="liquid-glass-badge mt-2 text-xs">
                 {t('streaming.confidence', {
                   value: Math.round(event.confidence),
                 })}
@@ -108,7 +111,7 @@ export const StreamingMessage: React.FC<StreamingMessageProps> = ({
         return (
           <div
             key={index}
-            className="bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 rounded-lg p-3 my-2"
+            className="liquid-glass-badge bg-red-50! dark:bg-red-900/20! border-red-200! dark:border-red-800! text-red-600 dark:text-red-400 rounded-xl p-4 my-2"
           >
             {event.message}
           </div>
@@ -118,15 +121,15 @@ export const StreamingMessage: React.FC<StreamingMessageProps> = ({
         return (
           <div
             key={index}
-            className="bg-yellow-50 dark:bg-yellow-900/20 text-yellow-700 dark:text-yellow-400 rounded-lg p-3 my-2"
+            className="liquid-glass-badge bg-amber-50! dark:bg-amber-900/20! border-amber-200! dark:border-amber-800! text-amber-700 dark:text-amber-400 rounded-xl p-4 my-2"
           >
-            <p className="mb-2">{event.message}</p>
+            <p className="mb-2 text-sm leading-relaxed">{event.message}</p>
             {event.options && event.options.length > 0 && (
               <div className="space-y-2">
                 {event.options.map((option, optIndex) => (
                   <button
                     key={optIndex}
-                    className="block w-full text-start px-3 py-2 bg-white dark:bg-gray-800 rounded border border-yellow-200 dark:border-yellow-800 hover:bg-yellow-100 dark:hover:bg-gray-700 transition-colors"
+                    className="liquid-glass-button-prominent block w-full text-start px-4 py-3 min-h-[44px] text-sm font-medium"
                   >
                     {option}
                   </button>
@@ -147,17 +150,20 @@ export const StreamingMessage: React.FC<StreamingMessageProps> = ({
     .find((e) => e.type === 'thinking');
 
   return (
-    <div className="flex justify-start">
-      <div className="max-w-[80%] bg-gray-100 dark:bg-gray-800 rounded-2xl rounded-bl-md px-4 py-3">
+    <div className="flex justify-start" aria-live="polite" aria-busy="true">
+      <div className="liquid-glass-content-card max-w-[80%] rounded-2xl rounded-bl-md p-4">
         {/* AI Header */}
         <div className="flex items-center justify-between mb-2">
           <div className="flex items-center gap-2">
-            <div className="w-6 h-6 bg-primary-100 dark:bg-primary-900 rounded-full flex items-center justify-center">
+            <div className="w-5 h-5 rounded-full flex items-center justify-center" style={{
+              background: 'linear-gradient(135deg, #2750a8 0%, #18929d 100%)'
+            }}>
               <svg
-                className="w-4 h-4 text-primary-600 dark:text-primary-400 animate-pulse"
+                className="w-4 h-4 text-white animate-pulse"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
+                aria-hidden="true"
               >
                 <path
                   strokeLinecap="round"
@@ -167,7 +173,7 @@ export const StreamingMessage: React.FC<StreamingMessageProps> = ({
                 />
               </svg>
             </div>
-            <span className="text-xs font-medium text-gray-500 dark:text-gray-400">
+            <span className="text-xs font-medium liquid-text-secondary">
               MediSync BI
             </span>
           </div>
@@ -175,7 +181,8 @@ export const StreamingMessage: React.FC<StreamingMessageProps> = ({
           {/* Cancel Button */}
           <button
             onClick={onCancel}
-            className="text-xs text-gray-400 hover:text-red-500 transition-colors"
+            className="liquid-glass-button-prominent px-3 py-1.5 min-h-[36px] text-xs text-slate-400! hover:text-red-500!"
+            aria-label={t('streaming.cancel')}
           >
             {t('streaming.cancel')}
           </button>
@@ -183,7 +190,7 @@ export const StreamingMessage: React.FC<StreamingMessageProps> = ({
 
         {/* Streaming Status */}
         {latestThinking && (
-          <div className="mb-2 text-sm text-gray-600 dark:text-gray-400">
+          <div className="mb-2 text-sm leading-relaxed liquid-text-secondary">
             {latestThinking.message}
           </div>
         )}
@@ -193,11 +200,11 @@ export const StreamingMessage: React.FC<StreamingMessageProps> = ({
           {events.map((event, index) => renderEvent(event, index))}
         </div>
 
-        {/* Loading Indicator */}
-        <div className="flex items-center gap-1 mt-2">
-          <div className="w-2 h-2 bg-primary-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
-          <div className="w-2 h-2 bg-primary-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
-          <div className="w-2 h-2 bg-primary-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
+        {/* Loading Indicator - Brand Colors */}
+        <div className="flex items-center gap-1 mt-3" aria-hidden="true">
+          <div className="w-2 h-2 rounded-full animate-bounce" style={{ background: '#2750a8', animationDelay: '0ms' }} />
+          <div className="w-2 h-2 rounded-full animate-bounce" style={{ background: '#18929d', animationDelay: '150ms' }} />
+          <div className="w-2 h-2 rounded-full animate-bounce" style={{ background: '#2750a8', animationDelay: '300ms' }} />
         </div>
       </div>
     </div>

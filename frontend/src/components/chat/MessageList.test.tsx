@@ -2,13 +2,7 @@ import { describe, it, expect, vi } from 'vitest'
 import { render, screen } from '@testing-library/react'
 import { MessageList } from './MessageList'
 
-// Mock i18next
-vi.mock('react-i18next', () => ({
-  useTranslation: () => ({
-    t: (key: string, defaultValue?: string) => defaultValue || key,
-    i18n: { language: 'en' },
-  }),
-}))
+// i18n is mocked globally in src/test/setup.ts
 
 // Mock ChartRenderer
 vi.mock('./ChartRenderer', () => ({

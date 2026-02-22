@@ -34,29 +34,33 @@ export const MessageList: React.FC<MessageListProps> = ({ messages, locale }) =>
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6" role="list" aria-label={t('messageList.ariaLabel', 'Chat messages')}>
       {messages.map((message) => (
         <div
           key={message.id}
+          role="listitem"
           className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'
             }`}
         >
           <div
-            className={`max-w-[80%] ${message.role === 'user'
-                ? 'bg-primary-600 text-white rounded-2xl rounded-br-md'
-                : 'bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white rounded-2xl rounded-bl-md'
-              } px-4 py-3`}
+            className={`max-w-[80%] p-4 ${message.role === 'user'
+                ? 'liquid-glass-cta text-white rounded-2xl rounded-br-md'
+                : 'liquid-glass-content-card text-slate-900 dark:text-white rounded-2xl rounded-bl-md'
+              }`}
           >
             {/* Message Content */}
             <div className="prose prose-sm dark:prose-invert max-w-none">
               {message.role === 'assistant' && (
                 <div className="flex items-center gap-2 mb-2">
-                  <div className="w-6 h-6 bg-primary-100 dark:bg-primary-900 rounded-full flex items-center justify-center">
+                  <div className="w-5 h-5 rounded-full flex items-center justify-center" style={{
+                    background: 'linear-gradient(135deg, #2750a8 0%, #18929d 100%)'
+                  }}>
                     <svg
-                      className="w-4 h-4 text-primary-600 dark:text-primary-400"
+                      className="w-4 h-4 text-white"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
+                      aria-hidden="true"
                     >
                       <path
                         strokeLinecap="round"
@@ -66,17 +70,17 @@ export const MessageList: React.FC<MessageListProps> = ({ messages, locale }) =>
                       />
                     </svg>
                   </div>
-                  <span className="text-xs font-medium text-gray-500 dark:text-gray-400">
+                  <span className="text-xs font-medium liquid-text-secondary">
                     MediSync BI
                   </span>
                 </div>
               )}
 
-              <p className="whitespace-pre-wrap">{message.content}</p>
+              <p className="text-sm leading-relaxed whitespace-pre-wrap">{message.content}</p>
 
-              {/* Chart Visualization */}
+              {/* Chart Visualization - Liquid Glass Card */}
               {message.role === 'assistant' && message.chartSpec && (
-                <div className="mt-4 bg-white dark:bg-gray-900 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
+                <div className="mt-4 liquid-glass-subtle rounded-xl p-4">
                   <ChartRenderer
                     chartType={message.chartSpec.type}
                     data={message.chartSpec.chart}
@@ -87,16 +91,16 @@ export const MessageList: React.FC<MessageListProps> = ({ messages, locale }) =>
 
               {/* Confidence Score */}
               {message.role === 'assistant' && (
-                <div className="mt-2 flex items-center justify-between">
+                <div className="mt-3 flex items-center justify-between">
                   {formatConfidence(message.confidence)}
-                  <span className="text-xs text-gray-400">
+                  <span className="text-xs liquid-text-secondary">
                     {formatTime(message.createdAt)}
                   </span>
                 </div>
               )}
 
               {message.role === 'user' && (
-                <span className="text-xs text-primary-200 mt-2 block text-end">
+                <span className="text-xs text-white/70 mt-3 block text-end">
                   {formatTime(message.createdAt)}
                 </span>
               )}

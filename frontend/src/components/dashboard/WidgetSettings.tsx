@@ -141,6 +141,9 @@ export const WidgetSettings: React.FC<WidgetSettingsProps> = ({
       className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50"
       onClick={onClose}
       onKeyDown={handleKeyDown}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="widget-settings-title"
     >
       <div
         className={`bg-white dark:bg-gray-800 rounded-xl shadow-2xl w-full max-w-md overflow-hidden ${
@@ -150,14 +153,15 @@ export const WidgetSettings: React.FC<WidgetSettingsProps> = ({
       >
         {/* Header */}
         <div className="flex items-center justify-between px-4 py-3 border-b border-gray-200 dark:border-gray-700">
-          <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
+          <h2 id="widget-settings-title" className="text-lg font-semibold text-gray-900 dark:text-white">
             {t('settings.title', 'Widget Settings')}
           </h2>
           <button
             onClick={onClose}
             className="p-1 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 rounded-lg"
+            aria-label={t('settings.closeAriaLabel', 'Close settings dialog')}
           >
-            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
             </svg>
           </button>
@@ -167,7 +171,7 @@ export const WidgetSettings: React.FC<WidgetSettingsProps> = ({
         <div className="p-4 space-y-4">
           {/* Error display */}
           {error && (
-            <div className="p-3 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 rounded-lg text-sm">
+            <div className="p-3 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 rounded-lg text-sm" role="alert" aria-live="polite">
               {error}
             </div>
           )}
@@ -230,22 +234,27 @@ export const WidgetSettings: React.FC<WidgetSettingsProps> = ({
             <button
               onClick={() => setShowDeleteConfirm(true)}
               className="w-full flex items-center justify-center gap-2 px-4 py-2 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors text-sm"
+              aria-label={t('settings.deleteWidgetAriaLabel', 'Delete this widget from dashboard')}
             >
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
               </svg>
               {t('settings.deleteWidget', 'Delete widget')}
             </button>
           ) : (
-            <div className="p-4 bg-red-50 dark:bg-red-900/20 rounded-lg space-y-3">
-              <p className="text-sm text-red-800 dark:text-red-200">
+            <div className="p-4 bg-red-50 dark:bg-red-900/20 rounded-lg space-y-3" role="alertdialog" aria-labelledby="delete-confirm-title" aria-describedby="delete-confirm-desc">
+              <p id="delete-confirm-title" className="text-sm text-red-800 dark:text-red-200">
                 {t('settings.deleteConfirm', 'Are you sure you want to delete this widget?')}
+              </p>
+              <p id="delete-confirm-desc" className="sr-only">
+                {t('settings.deleteConfirmDesc', 'This action cannot be undone. The widget will be permanently removed from your dashboard.')}
               </p>
               <div className="flex items-center gap-2">
                 <button
                   onClick={handleDelete}
                   disabled={isDeleting}
                   className="flex-1 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 disabled:opacity-50 text-sm font-medium"
+                  aria-label={t('settings.confirmDeleteAriaLabel', 'Confirm deletion')}
                 >
                   {isDeleting ? t('deleting', 'Deleting...') : t('settings.confirmDelete', 'Yes, delete')}
                 </button>
@@ -253,6 +262,7 @@ export const WidgetSettings: React.FC<WidgetSettingsProps> = ({
                   onClick={() => setShowDeleteConfirm(false)}
                   disabled={isDeleting}
                   className="flex-1 px-4 py-2 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-600 text-sm"
+                  aria-label={t('cancelDeleteAriaLabel', 'Cancel deletion')}
                 >
                   {t('cancel', 'Cancel')}
                 </button>

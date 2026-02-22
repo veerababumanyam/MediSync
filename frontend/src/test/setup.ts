@@ -1,16 +1,9 @@
 import '@testing-library/jest-dom'
 import { vi } from 'vitest'
+import { createI18nMock } from './i18n-mock'
 
-// Mock i18next
-vi.mock('react-i18next', () => ({
-  useTranslation: () => ({
-    t: (key: string, defaultValue?: string) => defaultValue || key,
-    i18n: {
-      language: 'en',
-      changeLanguage: vi.fn(),
-    },
-  }),
-}))
+// Global i18n mock with proper interpolation support
+vi.mock('react-i18next', () => createI18nMock())
 
 // Mock window.matchMedia
 Object.defineProperty(window, 'matchMedia', {
@@ -40,3 +33,19 @@ Object.defineProperty(window, 'matchMedia', {
   unobserve: vi.fn(),
   disconnect: vi.fn(),
 }))
+
+// Mock document.elementFromPoint for tests
+document.elementFromPoint = vi.fn().mockReturnValue(document.body)
+
+// Mock getBoundingClientRect for tests
+Element.prototype.getBoundingClientRect = vi.fn().mockReturnValue({
+  left: 0,
+  top: 0,
+  width: 100,
+  height: 100,
+  right: 100,
+  bottom: 100,
+  x: 0,
+  y: 0,
+  toJSON: () => ({}),
+})

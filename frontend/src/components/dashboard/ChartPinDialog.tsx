@@ -88,49 +88,53 @@ export const ChartPinDialog: React.FC<ChartPinDialogProps> = ({
         </>
       }
     >
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit} className="space-y-4" aria-label={t('dialog.formAriaLabel', 'Pin chart form')}>
         {error && (
-          <div className="p-3 bg-red-500/20 text-red-400 rounded-lg text-sm border border-red-500/30">
+          <div className="p-3 bg-red-500/20 text-red-400 rounded-lg text-sm border border-red-500/30" role="alert" aria-live="polite">
             {error}
           </div>
         )}
 
         {/* Title */}
         <div>
-          <label className="block text-sm font-medium liquid-text-primary mb-1">
+          <label htmlFor="chart-title" className="block text-sm font-medium liquid-text-primary mb-1">
             {t('dialog.titleLabel')} *
           </label>
           <input
+            id="chart-title"
             type="text"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             placeholder={t('dialog.titlePlaceholder')}
             className="w-full px-3 py-2 border border-white/20 rounded-lg bg-white/10 text-white placeholder-white/50 focus:ring-2 focus:ring-blue-500/50 focus:border-transparent"
             dir={locale === 'ar' ? 'rtl' : 'ltr'}
+            aria-required="true"
           />
         </div>
 
         {/* Natural Language Query */}
         <div>
-          <label className="block text-sm font-medium liquid-text-primary mb-1">
+          <label htmlFor="chart-query" className="block text-sm font-medium liquid-text-primary mb-1">
             {t('dialog.queryLabel')} *
           </label>
           <textarea
+            id="chart-query"
             value={naturalLanguageQuery}
             onChange={(e) => setNaturalLanguageQuery(e.target.value)}
             placeholder={t('dialog.queryPlaceholder')}
             rows={3}
             className="w-full px-3 py-2 border border-white/20 rounded-lg bg-white/10 text-white placeholder-white/50 focus:ring-2 focus:ring-blue-500/50 focus:border-transparent resize-none"
             dir={locale === 'ar' ? 'rtl' : 'ltr'}
+            aria-required="true"
           />
         </div>
 
         {/* Chart Type */}
         <div>
-          <label className="block text-sm font-medium liquid-text-primary mb-1">
+          <span id="chart-type-label" className="block text-sm font-medium liquid-text-primary mb-1">
             {t('dialog.chartTypeLabel')}
-          </label>
-          <div className="grid grid-cols-5 gap-2">
+          </span>
+          <div className="grid grid-cols-5 gap-2" role="radiogroup" aria-labelledby="chart-type-label">
             {chartTypes.map((type) => (
               <button
                 key={type.value}
@@ -141,6 +145,8 @@ export const ChartPinDialog: React.FC<ChartPinDialogProps> = ({
                     ? 'border-blue-500/50 bg-blue-500/20 text-blue-400'
                     : 'border-white/20 hover:bg-white/10 liquid-text-primary'
                 }`}
+                role="radio"
+                aria-checked={chartType === type.value}
               >
                 {type.label}
               </button>
@@ -150,10 +156,11 @@ export const ChartPinDialog: React.FC<ChartPinDialogProps> = ({
 
         {/* Refresh Interval */}
         <div>
-          <label className="block text-sm font-medium liquid-text-primary mb-1">
+          <label htmlFor="chart-refresh" className="block text-sm font-medium liquid-text-primary mb-1">
             {t('dialog.refreshLabel')}
           </label>
           <select
+            id="chart-refresh"
             value={refreshInterval}
             onChange={(e) => setRefreshInterval(Number(e.target.value))}
             className="w-full px-3 py-2 border border-white/20 rounded-lg bg-white/10 text-white focus:ring-2 focus:ring-blue-500/50 focus:border-transparent"

@@ -42,6 +42,9 @@ const enResources = {
       tagline: 'Turn Legacy System into AI Systems',
       toggleLanguage: 'Toggle language',
     },
+    announcement: {
+      message: '🎉 New: AI Accountant module is now available!',
+    },
     welcome: {
       badge: 'The Agentic AI Bridge for Legacy Healthcare IT',
     },
@@ -255,6 +258,11 @@ const arResources = {
       name: 'ميدي سنك',
       tagline: 'حول أي نظام صحي قديم إلى ذكاء اصطناعي محادثي',
       toggleLanguage: 'تبديل اللغة',
+    },
+    announcement: {
+      message: '🎉 جديد: وحدة المحاسب بالذكاء الاصطناعي متاحة الآن!',
+      cta: 'اعرف المزيد',
+      dismiss: 'إغلاق الإعلان',
     },
     welcome: {
       badge: 'جسر الذكاء الاصطناعي لتكنولوجيا الرعاية الصحية القديمة',

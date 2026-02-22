@@ -85,7 +85,7 @@ export function LanguageSwitcher({
         <button
           className={cn(
             'px-3 py-1 rounded-full text-sm font-medium transition-all duration-200',
-            'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500',
+            'focus-visible:outline-[3px] focus-visible:outline-offset-[3px] focus-visible:outline-[var(--color-trust-blue)] dark:focus-visible:outline-cyan-400',
             currentLocale === 'en'
               ? 'bg-blue-500 text-white shadow-md'
               : 'liquid-text-secondary hover:text-slate-900 dark:hover:text-white'
@@ -100,7 +100,7 @@ export function LanguageSwitcher({
         <button
           className={cn(
             'px-3 py-1 rounded-full text-sm font-medium transition-all duration-200',
-            'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500',
+            'focus-visible:outline-[3px] focus-visible:outline-offset-[3px] focus-visible:outline-[var(--color-trust-blue)] dark:focus-visible:outline-cyan-400',
             currentLocale === 'ar'
               ? 'bg-blue-500 text-white shadow-md'
               : 'liquid-text-secondary hover:text-slate-900 dark:hover:text-white'

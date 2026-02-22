@@ -16,6 +16,9 @@ import {
   APIError,
   type Deliberation,
   type DeliberationListResponse,
+  type DeliberationStatus,
+  type AgentResponse,
+  type ConsensusRecord,
   type CreateDeliberationRequest,
   type ListDeliberationsParams,
   type CouncilHealthResponse,
@@ -191,7 +194,9 @@ export function useCouncilList(): UseCouncilListReturn {
    */
   const loadMore = useCallback(async () => {
     const { offset, limit } = lastParams
-    const newOffset = offset + (state.deliberations.length || limit)
+    const currentOffset = offset ?? 0
+    const pageSize = limit ?? 20
+    const newOffset = currentOffset + (state.deliberations.length || pageSize)
 
     setState((prev) => ({ ...prev, isLoading: true, error: null }))
 

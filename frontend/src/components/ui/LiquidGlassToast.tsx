@@ -56,6 +56,9 @@ export const LiquidGlassToast: React.FC<LiquidGlassToastProps> = ({
         typeStyles[type],
         className
       )}
+      role="alert"
+      aria-live="assertive"
+      aria-atomic="true"
       initial={{ opacity: 0, y: 50, scale: 0.95 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
       exit={{ opacity: 0, y: 20, scale: 0.95 }}

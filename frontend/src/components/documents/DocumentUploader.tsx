@@ -234,7 +234,7 @@ export function DocumentUploader({
             >
               <div className="flex items-center gap-3">
                 {/* File Icon */}
-                <div className="flex-shrink-0">
+                <div className="shrink-0">
                   <div className="text-2xl">📄</div>
                 </div>
 
@@ -251,7 +251,7 @@ export function DocumentUploader({
                   {fileWithProgress.status === 'uploading' && (
                     <div className="mt-1 h-1.5 bg-white/10 rounded-full overflow-hidden">
                       <div
-                        className="h-full bg-gradient-to-r from-blue-500 to-teal-500 transition-all duration-300"
+                        className="h-full bg-linear-to-r from-blue-500 to-teal-500 transition-all duration-300"
                         style={{ width: `${fileWithProgress.progress}%` }}
                       />
                     </div>
@@ -271,7 +271,7 @@ export function DocumentUploader({
                 </div>
 
                 {/* Status Icon */}
-                <div className="flex-shrink-0">
+                <div className="shrink-0">
                   {fileWithProgress.status === 'success' && (
                     <span className="text-teal-400 text-lg">✓</span>
                   )}

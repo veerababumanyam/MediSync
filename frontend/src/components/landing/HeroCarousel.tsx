@@ -40,7 +40,7 @@ export function HeroCarousel({ isDark, onOpenLeadCapture }: HeroCarouselProps) {
 
     return (
         <div
-            className="relative max-w-7xl mx-auto"
+            className="relative max-w-7xl mx-auto mb-24"
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
             onFocus={() => setIsHovered(true)}
@@ -52,11 +52,9 @@ export function HeroCarousel({ isDark, onOpenLeadCapture }: HeroCarouselProps) {
             {/* Visually hidden H1 for SEO, prevents multiple H1s */}
             <h1 className="sr-only">MediSync - Turn Legacy Healthcare System into AI Systems</h1>
 
-            {/* Main Carousel Area */}
-            <div className={`relative overflow-hidden rounded-[28px] border p-1 ${isDark
-                ? 'border-white/10 bg-gradient-to-br from-slate-800/80 via-slate-900/90 to-slate-800/80'
-                : 'border-slate-200/80 bg-gradient-to-br from-white/95 via-blue-50/50 to-white/95'
-                } shadow-2xl ${isDark ? 'shadow-black/40' : 'shadow-blue-900/10'}`}
+            {/* Main Carousel Area - Using Liquid Glass Design System */}
+            <div
+                className="liquid-glass-content-card hero-carousel-container relative overflow-hidden p-1"
                 aria-live={isHovered ? 'polite' : 'off'}
             >
                 {/* Animated gradient border accent */}
@@ -78,14 +76,17 @@ export function HeroCarousel({ isDark, onOpenLeadCapture }: HeroCarouselProps) {
                                         : 'opacity-0 z-0 pointer-events-none'
                                     }`}
                                 style={isActive ? { animation: 'heroSlideIn 0.7s ease-out forwards' } : undefined}
+                                role="tabpanel"
+                                id={`slide-panel-${index}`}
+                                aria-labelledby={`slide-tab-${index}`}
                                 aria-hidden={!isActive}
                             >
-                                <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-12 px-6 sm:px-10 md:px-14 py-10 sm:py-14 lg:py-16">
+                                <div className="hero-slide-layout px-6 sm:px-10 md:px-14 py-10 sm:py-14 lg:py-16">
                                     {/* LEFT: Text content */}
-                                    <div className="flex-1 text-center lg:text-left order-2 lg:order-1 min-w-0">
+                                    <div className="flex-1 min-w-0 text-center lg:text-left">
                                         {/* Logo + badge row */}
                                         <div className="flex items-center justify-center lg:justify-start gap-3 mb-5">
-                                            <img src="/logo.png" fetchPriority="high" alt="MediSync" className="w-10 h-10 object-contain" />
+                                            <img src="/logo.png" fetchPriority="high" alt="MediSync logo - AI-powered healthcare BI platform" className="w-10 h-10 object-contain" />
                                             <span className={`text-sm font-bold tracking-wide ${isDark ? 'text-white/70' : 'text-slate-500'}`}>MediSync</span>
                                         </div>
 
@@ -108,15 +109,15 @@ export function HeroCarousel({ isDark, onOpenLeadCapture }: HeroCarouselProps) {
 
                                         {/* Stat counters with Top Rated Badge */}
                                         <div className="flex flex-wrap justify-center lg:justify-start gap-4 sm:gap-6 items-center">
-                                            <div className="flex items-center gap-1 bg-amber-100/10 border border-amber-500/20 px-2 py-1 rounded-md" aria-label="Rated 4.9 out of 5 stars based on 154 reviews">
+                                            <div className="liquid-glass-badge flex items-center gap-1 px-3 py-1.5" aria-label="Rated 4.9 out of 5 stars based on 154 reviews">
                                                 <div className="flex text-amber-400">
                                                     {'★'.repeat(5)}
                                                 </div>
-                                                <span className={`text-xs ml-1 font-bold ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>4.9/5</span>
+                                                <span className={`text-xs ml-1 font-bold ${isDark ? 'text-slate-200' : 'text-slate-700'}`}>4.9/5</span>
                                             </div>
 
                                             {['stat1', 'stat2', 'stat3'].map((stat) => (
-                                                <div key={stat} className={`flex items-center gap-2 text-sm font-semibold ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>
+                                                <div key={stat} className={`flex items-center gap-2 text-sm font-semibold ${isDark ? 'text-slate-200' : 'text-slate-700'}`}>
                                                     <div className={`w-2 h-2 rounded-full ${isDark ? 'bg-teal-400' : 'bg-blue-500'}`} />
                                                     {t(`heroCarousel.${item}.${stat}`)}
                                                 </div>
@@ -125,7 +126,7 @@ export function HeroCarousel({ isDark, onOpenLeadCapture }: HeroCarouselProps) {
                                     </div>
 
                                     {/* RIGHT: SVG Illustration */}
-                                    <div className="flex-shrink-0 w-full max-w-[260px] sm:max-w-[300px] lg:max-w-[340px] order-1 lg:order-2">
+                                    <div className="shrink-0 w-full max-w-[260px] sm:max-w-[300px] lg:max-w-[340px]">
                                         <HeroIllustration slide={item} isDark={isDark} />
                                     </div>
                                 </div>
@@ -149,11 +150,15 @@ export function HeroCarousel({ isDark, onOpenLeadCapture }: HeroCarouselProps) {
             </div>
 
             {/* Dot indicators */}
-            <div className="flex justify-center gap-3 mt-6">
+            <div className="flex justify-center gap-2 mt-4" role="tablist" aria-label="Carousel slide controls">
                 {carouselItems.map((_, index) => (
                     <button
                         key={index}
                         type="button"
+                        role="tab"
+                        id={`slide-tab-${index}`}
+                        aria-selected={index === currentIndex}
+                        aria-controls={`slide-panel-${index}`}
                         aria-label={`Go to slide ${index + 1}`}
                         className={`hero-dot ${index === currentIndex ? 'active' : ''}`}
                         onClick={() => goToSlide(index)}
@@ -161,11 +166,9 @@ export function HeroCarousel({ isDark, onOpenLeadCapture }: HeroCarouselProps) {
                 ))}
             </div>
 
-            {/* Trust Marquee Strip */}
-            <div className={`mt-10 rounded-2xl py-4 overflow-hidden border ${isDark
-                ? 'bg-white/[0.03] border-white/5'
-                : 'bg-slate-50/80 border-slate-200/60'
-                }`}
+            {/* Trust Marquee Strip - Using Liquid Glass Subtle */}
+            <div
+                className="liquid-glass-subtle mt-10 rounded-2xl py-4 overflow-hidden"
                 style={{ WebkitMaskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)', maskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)' }}
             >
                 <p className={`text-center text-[10px] uppercase tracking-[0.2em] font-semibold mb-3 ${isDark ? 'text-slate-500' : 'text-slate-400'}`}>
@@ -177,17 +180,14 @@ export function HeroCarousel({ isDark, onOpenLeadCapture }: HeroCarouselProps) {
                         {[...trustItems, ...trustItems].map((item, i) => {
                             const brandColor = getTrustBrandColor(item, isDark)
                             return (
-                                <div key={`${item}-${i}`} className="flex-shrink-0 px-3 sm:px-4">
+                                <div key={`${item}-${i}`} className="shrink-0 px-3 sm:px-4">
                                     <div
-                                        className={`flex items-center gap-2 rounded-full px-4 py-2 border transition-all duration-300 ${isDark
-                                            ? 'bg-white/10 border-white/15 text-slate-200 shadow-[0_0_0_1px_rgba(255,255,255,0.05)]'
-                                            : 'bg-white/95 border-slate-200 text-slate-700 shadow-sm'
-                                            }`}
+                                        className="liquid-glass-button-prominent flex items-center gap-2 rounded-full px-4 py-2"
                                     >
                                         <TrustStripIcon
                                             itemKey={item}
                                             isDark={isDark}
-                                            className="w-5 h-5 flex-shrink-0"
+                                            className="w-5 h-5 shrink-0"
                                             style={{ color: brandColor }}
                                         />
                                         <span className="text-sm font-semibold whitespace-nowrap" style={{ color: brandColor }}>

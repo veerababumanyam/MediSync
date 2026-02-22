@@ -2,8 +2,13 @@ import React from 'react'
 
 export interface FeatureCardProps {
     icon: React.ReactNode
-    gradient: string
-    shadowColor: string
+    gradientLight: string
+    gradientDark: string
+    iconColorLight: string
+    iconColorDark: string
+    shadowLight?: string
+    borderLight?: string
+    borderDark?: string
     title: string
     description: string
     delay?: string
@@ -12,19 +17,28 @@ export interface FeatureCardProps {
 
 export function FeatureCard({
     icon,
-    gradient,
-    shadowColor,
+    gradientLight,
+    gradientDark,
+    iconColorLight,
+    iconColorDark,
+    shadowLight = '',
+    borderLight = '',
+    borderDark = '',
     title,
     description,
     delay = '',
     isDark,
 }: FeatureCardProps) {
     return (
-        <div className={`glass glass-shine rounded-2xl p-6 hover:-translate-y-1 hover:scale-[1.02] transition-all duration-300 group animate-fade-in-up ${delay}`}>
-            <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${gradient} flex items-center justify-center mb-5 text-white shadow-lg ${shadowColor} group-hover:scale-110 transition-transform duration-300`}>
+        <div className={`liquid-glass-content-card rounded-2xl overflow-hidden group animate-fade-in-up p-6 h-full ${delay}`} role="article">
+            <div className={`w-12 h-12 rounded-xl flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-300
+                ${isDark
+                    ? `bg-gradient-to-br ${gradientDark} ${iconColorDark} ${borderDark}`
+                    : `bg-gradient-to-br ${gradientLight} ${iconColorLight} ${shadowLight} ${borderLight}`
+                }`} aria-hidden="true">
                 {icon}
             </div>
-            <h3 className={`text-lg font-semibold mb-2 ${isDark ? 'text-white' : 'text-slate-900'}`}>
+            <h3 className={`text-lg font-semibold mb-3 ${isDark ? 'text-white' : 'text-slate-900'}`}>
                 {title}
             </h3>
             <p className={`text-sm leading-relaxed ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>

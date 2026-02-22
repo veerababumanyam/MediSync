@@ -9,7 +9,7 @@
  * - Shimmer animation using framer-motion
  * - Multiple variants (default, card, chart, text)
  * - Respects prefers-reduced-motion
- * - WCAG 2.2 AA accessible
+ * - WCAG 3.0 Bronze accessible
  *
  * @module components/ui/LoadingSkeleton
  */
@@ -118,7 +118,7 @@ export const LoadingSkeleton = React.forwardRef<HTMLDivElement, LoadingSkeletonP
         {/* Shimmer animation overlay */}
         {shouldAnimate && (
           <motion.div
-            className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
+            className="absolute inset-0 bg-linear-to-r from-transparent via-white/20 to-transparent"
             variants={shimmerVariants}
             initial="initial"
             animate="animate"

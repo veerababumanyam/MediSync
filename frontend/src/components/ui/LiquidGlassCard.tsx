@@ -2,7 +2,7 @@
  * Liquid Glass Card Component
  *
  * Premium iOS-inspired glassmorphic card with liquid animations,
- * dynamic lighting effects, and WCAG 2.2 AA compliance.
+ * dynamic lighting effects, and WCAG 3.0 Bronze compliance.
  *
  * Features:
  * - Multi-layered glass effect with specular highlights

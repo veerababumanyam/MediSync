@@ -11,7 +11,6 @@
  * @module components/council/ResponseDisplay
  */
 
-import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { LiquidGlassCard } from '../ui/LiquidGlassCard'
 import { LiquidGlassBadge } from '../ui/LiquidGlassBadge'
@@ -60,7 +59,6 @@ export function ResponseDisplay({
   const { t } = useTranslation('council')
 
   const {
-    id,
     query,
     status,
     final_response: finalResponse,
@@ -84,7 +82,7 @@ export function ResponseDisplay({
           </h3>
           <p className="text-sm text-secondary mt-1 line-clamp-2">{query}</p>
         </div>
-        <div className="flex items-center gap-2 flex-shrink-0">
+        <div className="flex items-center gap-2 shrink-0">
           <LiquidGlassBadge className={statusColors[status]}>
             {t(`status.${status}`, status)}
           </LiquidGlassBadge>
@@ -284,7 +282,7 @@ function AgentResponseCard({
             {response.response_text}
           </p>
         </div>
-        <div className="flex-shrink-0 text-right">
+        <div className="shrink-0 text-right">
           <span
             className={cn(
               'text-sm font-semibold',

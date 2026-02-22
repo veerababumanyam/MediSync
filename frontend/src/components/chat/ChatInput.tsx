@@ -53,7 +53,7 @@ export const ChatInput: React.FC<ChatInputProps> = ({
   return (
     <div
       dir={isRTL ? 'rtl' : 'ltr'}
-      className={`relative flex items-end gap-3 p-4 rounded-xl border border-glass bg-surface-glass-strong shadow-sm liquid-glass-light backdrop-blur-sm focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-blue-400 dark:focus-within:border-blue-500 focus-within:shadow-md ${isRTL ? 'flex-row-reverse' : ''}`}
+      className={`relative flex items-end gap-3 p-4 rounded-2xl focus-within:ring-2 focus-within:ring-[#18929d]/50 dark:focus-within:ring-[#18929d]/30 bg-gradient-to-b from-white/80 to-white/60 dark:from-slate-800/80 dark:to-slate-800/60 shadow-[0_2px_8px_rgba(0,0,0,0.04),inset_0_1px_0_rgba(255,255,255,0.8)] dark:shadow-[0_2px_8px_rgba(0,0,0,0.2),inset_0_1px_0_rgba(255,255,255,0.08)] border border-white/60 dark:border-white/10 ${isRTL ? 'flex-row-reverse' : ''}`}
     >
       <textarea
         ref={textareaRef}
@@ -64,7 +64,7 @@ export const ChatInput: React.FC<ChatInputProps> = ({
         disabled={disabled}
         rows={1}
         aria-label={placeholderText}
-        className={`flex-1 min-h-[44px] resize-none bg-transparent text-primary placeholder-slate-600 dark:placeholder-slate-300 focus:outline-none focus:ring-0 text-sm disabled:opacity-50 text-start ${isRTL ? 'rounded-e-xl' : 'rounded-s-xl'}`}
+        className={`flex-1 min-h-[44px] resize-none bg-transparent text-slate-900 dark:text-slate-100 placeholder:text-slate-500 dark:placeholder:text-slate-400 focus:outline-none text-sm disabled:opacity-50 text-start ${isRTL ? 'rounded-e-xl' : 'rounded-s-xl'}`}
         dir={isRTL ? 'rtl' : 'ltr'}
       />
 
@@ -72,9 +72,9 @@ export const ChatInput: React.FC<ChatInputProps> = ({
         type="button"
         onClick={handleSend}
         disabled={disabled || !input.trim()}
-        className={`shrink-0 flex items-center justify-center min-h-[44px] min-w-[44px] p-3 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 ${isRTL ? 'rounded-s-xl' : 'rounded-e-xl'} ${disabled || !input.trim()
-            ? 'bg-slate-200 dark:bg-slate-700 text-slate-400 dark:text-slate-500 cursor-not-allowed'
-            : 'bg-action-primary text-on-brand hover:opacity-90 hover:shadow-md active:scale-95'
+        className={`shrink-0 flex items-center justify-center min-h-[44px] min-w-[44px] p-3 rounded-xl transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#18929d] focus-visible:ring-offset-2 ${isRTL ? 'rounded-s-xl' : 'rounded-e-xl'} ${disabled || !input.trim()
+            ? 'bg-slate-200/80 dark:bg-slate-700/80 text-slate-400 dark:text-slate-500 cursor-not-allowed'
+            : 'liquid-glass-button-primary'
           }`}
         aria-label={sendLabel}
       >
@@ -83,6 +83,7 @@ export const ChatInput: React.FC<ChatInputProps> = ({
             className="w-5 h-5 animate-spin"
             fill="none"
             viewBox="0 0 24 24"
+            aria-hidden="true"
           >
             <circle
               className="opacity-25"
@@ -104,6 +105,7 @@ export const ChatInput: React.FC<ChatInputProps> = ({
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
+            aria-hidden="true"
           >
             <path
               strokeLinecap="round"

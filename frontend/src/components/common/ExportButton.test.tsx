@@ -3,13 +3,7 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { ExportButton, type ExportData } from './ExportButton'
 
-// Mock i18next
-vi.mock('react-i18next', () => ({
-  useTranslation: () => ({
-    t: (key: string, defaultValue?: string) => defaultValue || key,
-    i18n: { language: 'en' },
-  }),
-}))
+// i18n is mocked globally in src/test/setup.ts
 
 // Mock LoadingSpinner
 vi.mock('./LoadingSpinner', () => ({

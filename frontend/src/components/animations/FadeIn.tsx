@@ -6,7 +6,7 @@
  *
  * Features:
  * - Configurable delay for staggered animations
- * - Respects prefers-reduced-motion (WCAG 2.2)
+ * - Respects prefers-reduced-motion (WCAG 3.0)
  * - Customizable duration and easing
  * - Works with any React element
  *

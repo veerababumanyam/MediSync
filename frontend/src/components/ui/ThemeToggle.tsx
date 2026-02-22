@@ -7,7 +7,7 @@
  * Features:
  * - Glass icon button design
  * - Animated sun/moon icons
- * - WCAG 2.2 AA accessible with proper ARIA attributes
+ * - WCAG 3.0 Bronze accessible with proper ARIA attributes
  * - Keyboard navigation support
  * - Focus-visible indicators
  * - System theme detection support
@@ -18,7 +18,6 @@
 import React from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useTheme } from '@/components/theme'
-import { IconButton } from './LiquidGlassButton'
 import { cn } from '@/lib/cn'
 
 const sendDebugLog = (payload: {
@@ -231,40 +230,51 @@ export const ThemeToggle = React.forwardRef<HTMLButtonElement, ThemeToggleProps>
 
     // Glass icon button style (default for Liquid Glass design)
     if (!useSwitchStyle) {
+      const sizeMap = {
+        sm: 'w-8 h-8',
+        md: 'w-10 h-10',
+        lg: 'w-12 h-12',
+      }
+
       return (
-        <div className={cn('flex items-center gap-2 flex-wrap', className)}>
-          <IconButton
-            ref={ref}
-            type="button"
-            data-debug-theme-toggle="1"
-            icon={
-              <AnimatePresence mode="wait" initial={false}>
-                <motion.div
-                  key={isDark ? 'sun' : 'moon'}
-                  initial={{ scale: 0, rotate: -90, opacity: 0 }}
-                  animate={{ scale: 1, rotate: 0, opacity: 1 }}
-                  exit={{ scale: 0, rotate: 90, opacity: 0 }}
-                  transition={{ duration: 0.2 }}
-                  className="relative z-10"
-                  style={{ color: isDark ? '#facc15' : '#334155' }}
-                >
-                  {isDark ? <SunIcon /> : <MoonIcon />}
-                </motion.div>
-              </AnimatePresence>
-            }
-            onClick={toggleTheme}
-            size={size}
-            aria-label={`Switch to ${isDark ? 'light' : 'dark'} mode`}
-            title={`Switch to ${isDark ? 'light' : 'dark'} mode`}
-          />
+        <motion.button
+          ref={ref}
+          type="button"
+          data-debug-theme-toggle="1"
+          className={cn(
+            'inline-flex items-center justify-center rounded-full',
+            'bg-transparent hover:bg-white/10 dark:hover:bg-white/10',
+            'transition-all duration-200',
+            'focus-visible:outline-[3px] focus-visible:outline-offset-[3px] focus-visible:outline-[var(--color-trust-blue)] dark:focus-visible:outline-cyan-400',
+            'disabled:opacity-50 disabled:cursor-not-allowed',
+            sizeMap[size],
+            className
+          )}
+          onClick={toggleTheme}
+          aria-label={`Switch to ${isDark ? 'light' : 'dark'} mode`}
+          title={`Switch to ${isDark ? 'light' : 'dark'} mode`}
+          whileTap={{ scale: 0.95 }}
+        >
+          <AnimatePresence mode="wait" initial={false}>
+            <motion.div
+              key={isDark ? 'sun' : 'moon'}
+              initial={{ scale: 0, rotate: -90, opacity: 0 }}
+              animate={{ scale: 1, rotate: 0, opacity: 1 }}
+              exit={{ scale: 0, rotate: 90, opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              style={{ color: isDark ? '#facc15' : '#334155' }}
+            >
+              {isDark ? <SunIcon /> : <MoonIcon />}
+            </motion.div>
+          </AnimatePresence>
 
           {/* Optional labels */}
           {showLabels && (
-            <span className="text-sm text-slate-600 dark:text-slate-400">
+            <span className="ml-2 text-sm text-slate-600 dark:text-slate-400">
               {isDark ? 'Dark' : 'Light'}
             </span>
           )}
-        </div>
+        </motion.button>
       )
     }
 
@@ -285,7 +295,7 @@ export const ThemeToggle = React.forwardRef<HTMLButtonElement, ThemeToggleProps>
           className={cn(
             'relative rounded-full p-1 transition-colors duration-300',
             'bg-slate-200 dark:bg-slate-700',
-            'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500',
+            'focus-visible:outline-[3px] focus-visible:outline-offset-[3px] focus-visible:outline-[var(--color-trust-blue)] dark:focus-visible:outline-cyan-400',
             config.width,
             config.height
           )}

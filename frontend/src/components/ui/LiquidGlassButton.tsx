@@ -2,7 +2,7 @@
  * Liquid Glass Button Component
  *
  * Premium iOS-inspired glassmorphic button with liquid animations,
- * dynamic lighting effects, and WCAG 2.2 AA compliance.
+ * dynamic lighting effects, and WCAG 3.0 Bronze compliance.
  *
  * Features:
  * - Multiple visual variants (glass, primary, secondary, ghost)
@@ -30,19 +30,21 @@ type MotionButtonProps = ComponentProps<typeof motion.button>
  * Liquid glass button variant definitions
  */
 const liquidButtonVariants = cva(
-  // Base classes
-  'liquid-glass-button inline-flex items-center justify-center gap-2 font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-1 disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none',
+  // Base classes - focus-visible uses global CSS :focus-visible from globals.css
+  'liquid-glass-button inline-flex items-center justify-center gap-2 font-medium transition-all duration-200 focus-visible:outline-[3px] focus-visible:outline-offset-[3px] focus-visible:outline-[var(--color-trust-blue)] dark:focus-visible:outline-cyan-400 disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none min-h-[44px] min-w-[44px]',
   {
     variants: {
       // Button style variants
       variant: {
-        // Glass button with transparent background
-        glass: 'liquid-glass px-4 py-2',
+        // Glass button with transparent background - theme-aware text (legacy)
+        glass: 'liquid-glass px-4 py-2 text-slate-700 dark:text-white hover:text-slate-900 dark:hover:text-white',
+        // iOS 26-style prominent glass for headers/navigation - enhanced visibility
+        prominent: 'liquid-glass-button-prominent',
         // Primary button with brand gradient
         primary: 'liquid-glass-button-primary px-5 py-2.5 text-white',
-        // Secondary button with border
+        // Secondary button with border - uses semantic text-primary token
         secondary: 'px-4 py-2 border-2 border-glass text-primary bg-surface-glass hover:bg-surface-glass-strong rounded-lg',
-        // Ghost button (minimal styling)
+        // Ghost button (minimal styling) - uses semantic text-secondary token
         ghost: 'px-4 py-2 text-secondary hover:bg-surface-glass rounded-lg',
         // Danger button
         danger: 'px-5 py-2.5 bg-red-500 text-white hover:bg-red-600 rounded-lg shadow-lg shadow-red-500/25',
@@ -226,6 +228,8 @@ export const LiquidGlassButton = forwardRef<HTMLButtonElement, LiquidGlassButton
         className={buttonClasses}
         style={style}
         disabled={disabled || isLoading}
+        aria-busy={isLoading || undefined}
+        aria-disabled={disabled || undefined}
         onClick={onClick}
         onMouseDown={handleMouseDown}
         onMouseUp={handleMouseUp}

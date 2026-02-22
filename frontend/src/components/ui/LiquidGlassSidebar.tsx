@@ -2,7 +2,7 @@
  * Liquid Glass Sidebar Component
  *
  * Premium iOS-inspired glassmorphic sidebar with liquid animations,
- * dynamic lighting effects, and WCAG 2.2 AA compliance.
+ * dynamic lighting effects, and WCAG 3.0 Bronze compliance.
  *
  * Features:
  * - Multi-layered glass effect with specular highlights
@@ -57,6 +57,8 @@ export const LiquidGlassSidebar: React.FC<LiquidGlassSidebarProps> = ({
 }) => {
   return (
     <aside
+      aria-label="Sidebar navigation"
+      aria-expanded={!collapsed}
       className={cn(
         'liquid-glass h-full transition-all duration-300',
         collapsed ? 'w-16' : 'w-64',

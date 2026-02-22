@@ -1,7 +1,8 @@
-import React, { useEffect, useRef, useMemo } from 'react';
+import React, { useEffect, useRef, useMemo, useState } from 'react';
 import * as echarts from 'echarts';
 import { useTranslation } from 'react-i18next';
 import { formatNumber, formatDate } from '../../utils/localeUtils';
+import { LoadingSkeleton } from '../ui/LoadingSkeleton';
 
 interface ChartRendererProps {
   chartType: string;
@@ -174,7 +175,7 @@ function createPieChartOption(data: ChartData, isRTL: boolean): echarts.EChartsO
 const KPICard: React.FC<{ chartData: ChartData }> = ({ chartData }) => {
   const { t } = useTranslation('dashboard');
   return (
-    <div className="text-center py-6">
+    <div className="text-center py-6 p-4">
       <div className="text-4xl font-bold text-primary-600 dark:text-primary-400">
         {chartData.formatted || String(chartData.value || '')}
       </div>
@@ -190,7 +191,7 @@ const DataTable: React.FC<{ chartData: ChartData; locale: string }> = ({ chartDa
   if (!chartData.columns || !chartData.rows) return null;
 
   return (
-    <div className="overflow-x-auto">
+    <div className="overflow-x-auto p-4">
       <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
         <thead>
           <tr>
@@ -223,6 +224,21 @@ const DataTable: React.FC<{ chartData: ChartData; locale: string }> = ({ chartDa
   );
 };
 
+// Error state component
+const ChartError: React.FC<{ message: string }> = ({ message }) => {
+  const { t } = useTranslation('dashboard');
+  return (
+    <div className="liquid-glass-badge bg-red-50! dark:bg-red-900/20! border-red-200! dark:border-red-800! text-red-600 dark:text-red-400 rounded-xl p-4 text-sm" role="alert">
+      <div className="flex items-center gap-2">
+        <svg className="w-5 h-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        <span>{message || t('chart.error', 'Failed to load chart')}</span>
+      </div>
+    </div>
+  );
+};
+
 export const ChartRenderer: React.FC<ChartRendererProps> = ({
   chartType,
   data,
@@ -230,6 +246,8 @@ export const ChartRenderer: React.FC<ChartRendererProps> = ({
 }) => {
   const chartRef = useRef<HTMLDivElement>(null);
   const chartInstance = useRef<echarts.ECharts | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   const chartData = useMemo(() => data as ChartData, [data]);
   const isRTL = locale === 'ar';
@@ -238,14 +256,24 @@ export const ChartRenderer: React.FC<ChartRendererProps> = ({
   useEffect(() => {
     // Skip for non-chart types
     if (chartType === 'kpiCard' || chartType === 'dataTable') {
+      setIsLoading(false);
       return;
     }
 
-    if (!chartRef.current || !chartData) return;
+    if (!chartRef.current || !chartData) {
+      setIsLoading(false);
+      return;
+    }
 
     // Initialize chart
     if (!chartInstance.current) {
-      chartInstance.current = echarts.init(chartRef.current);
+      try {
+        chartInstance.current = echarts.init(chartRef.current);
+      } catch (err) {
+        setError('Failed to initialize chart');
+        setIsLoading(false);
+        return;
+      }
     }
 
     let option: echarts.EChartsOption;
@@ -262,7 +290,14 @@ export const ChartRenderer: React.FC<ChartRendererProps> = ({
         option = createBarChartOption(chartData, isRTL);
     }
 
-    chartInstance.current.setOption(option);
+    try {
+      chartInstance.current.setOption(option);
+      setIsLoading(false);
+      setError(null);
+    } catch (err) {
+      setError('Failed to render chart');
+      setIsLoading(false);
+    }
 
     // Handle resize
     const handleResize = () => {
@@ -292,12 +327,28 @@ export const ChartRenderer: React.FC<ChartRendererProps> = ({
     return <DataTable chartData={chartData} locale={locale} />;
   }
 
+  // Render loading state
+  if (isLoading) {
+    return (
+      <div className="p-4">
+        <LoadingSkeleton variant="chart" height="300px" />
+      </div>
+    );
+  }
+
+  // Render error state
+  if (error) {
+    return <ChartError message={error} />;
+  }
+
   // Render ECharts container
   return (
     <div
       ref={chartRef}
       style={{ width: '100%', height: '300px' }}
       dir={locale === 'ar' ? 'rtl' : 'ltr'}
+      role="img"
+      aria-label={`${chartType} visualization`}
     />
   );
 };

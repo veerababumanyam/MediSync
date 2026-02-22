@@ -6,16 +6,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { renderHook, act, waitFor } from '@testing-library/react'
 
-// Mock react-i18next
-vi.mock('react-i18next', () => ({
-  useTranslation: () => ({
-    t: (key: string) => key,
-    i18n: {
-      language: 'en',
-      changeLanguage: vi.fn().mockResolvedValue(undefined),
-    },
-  }),
-}))
+// i18n is mocked globally in src/test/setup.ts
 
 // Mock the API module
 vi.mock('../services/api', () => ({

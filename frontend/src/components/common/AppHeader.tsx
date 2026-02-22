@@ -39,38 +39,38 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
 
     return (
         <header
-            className={`glass-subtle glass-border sticky top-0 z-[100] transition-shadow duration-300 backdrop-blur-md bg-white/70 dark:bg-slate-900/70 border-b flex items-center h-14 sm:h-16 lg:h-[72px] ${!isDark ? 'shadow-sm shadow-slate-200/50' : 'border-white/10'
+            className={`glass-subtle glass-border sticky top-0 z-100 transition-shadow duration-300 backdrop-blur-md bg-white/70 dark:bg-slate-900/70 border-b flex items-center h-14 sm:h-16 lg:h-[72px] ${!isDark ? 'shadow-sm shadow-slate-200/50' : 'border-white/10'
                 }`}
         >
             <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-2 flex items-center justify-between">
-                {/* Logo */}
-                <div
-                    className="flex items-center gap-2 sm:gap-3 cursor-pointer group shrink-0"
+                {/* Logo - WCAG 2.5.5 compliant with 44px minimum touch target */}
+                <button
+                    className="flex items-center gap-2 sm:gap-3 cursor-pointer group shrink-0 min-h-11 px-1 -mx-1 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                     onClick={() => navigateTo('home')}
-                    role="button"
-                    tabIndex={0}
-                    onKeyDown={(e) => e.key === 'Enter' && navigateTo('home')}
+                    aria-label="MediSync - Home"
+                    type="button"
                 >
                     <img
                         src="/logo.png"
-                        alt="MediSync Logo"
+                        alt=""
+                        aria-hidden="true"
                         className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl object-contain group-hover:scale-105 transition-transform duration-300"
                     />
                     <div className="flex flex-col justify-center">
-                        <h1
+                        <span
                             className={`text-base sm:text-lg font-bold leading-tight ${isDark ? 'text-white' : 'text-slate-900'
                                 }`}
                         >
                             {t('app.name', 'MediSync')}
-                        </h1>
+                        </span>
                         <p
-                            className={`text-[10px] sm:text-xs hidden md:block pt-0.5 ${isDark ? 'text-slate-400' : 'text-slate-500'
+                            className={`text-xs hidden md:block pt-0.5 ${isDark ? 'text-slate-400' : 'text-slate-500'
                                 }`}
                         >
                             {t('app.tagline', 'AI-Powered Business Intelligence')}
                         </p>
                     </div>
-                </div>
+                </button>
 
                 {/* Navigation */}
                 <nav className="flex items-center gap-1 sm:gap-2">
@@ -79,8 +79,8 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
                         onClick={() => navigateTo('chat')}
                         className={
                             currentRoute === 'chat'
-                                ? 'inline-flex items-center justify-center gap-1.5 sm:gap-2 px-2.5 sm:px-3.5 py-1.5 sm:py-2 bg-gradient-to-r from-blue-600 to-cyan-500 text-white rounded-xl transition-all duration-300 text-xs sm:text-sm font-semibold shadow-lg shadow-blue-500/25 ring-2 ring-blue-400/40 min-w-10 min-h-10'
-                                : 'inline-flex items-center justify-center gap-1.5 sm:gap-2 px-2.5 sm:px-3.5 py-1.5 sm:py-2 bg-gradient-to-r from-blue-600 to-cyan-500 text-white rounded-xl hover:from-blue-500 hover:to-cyan-400 transition-all duration-300 text-xs sm:text-sm font-semibold shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 hover:-translate-y-0.5 active:scale-95 min-w-10 min-h-10'
+                                ? 'inline-flex items-center justify-center gap-1.5 sm:gap-2 px-2.5 sm:px-3.5 py-1.5 sm:py-2 bg-linear-to-r from-blue-600 to-cyan-500 text-white rounded-xl transition-all duration-300 text-xs sm:text-sm font-semibold shadow-lg shadow-blue-500/25 ring-2 ring-blue-400/40 min-w-10 min-h-10'
+                                : 'inline-flex items-center justify-center gap-1.5 sm:gap-2 px-2.5 sm:px-3.5 py-1.5 sm:py-2 bg-linear-to-r from-blue-600 to-cyan-500 text-white rounded-xl hover:from-blue-500 hover:to-cyan-400 transition-all duration-300 text-xs sm:text-sm font-semibold shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 hover:-translate-y-0.5 active:scale-95 min-w-10 min-h-10'
                         }
                     >
                         <svg

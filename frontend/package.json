@@ -1,7 +1,7 @@
 {
   "name": "@medisync/frontend",
   "private": true,
-  "version": "0.0.3",
+  "version": "0.0.5",
   "type": "module",
   "description": "MediSync React Web Application - AI-Powered Conversational BI & Intelligent Accounting for Healthcare",
   "author": "MediSync Team",

@@ -13,14 +13,28 @@ vi.mock('../services/api', () => ({
   },
 }))
 
-// Mock i18next
+// i18n is mocked globally in src/test/setup.ts
+// We need access to changeLanguage, so override the global mock
 const mockChangeLanguage = vi.fn().mockResolvedValue(undefined)
 
 vi.mock('react-i18next', () => ({
   useTranslation: () => ({
-    t: (key: string, defaultValue?: string) => defaultValue || key,
+    t: (key: string, options?: string | Record<string, unknown>) => {
+      if (typeof options === 'string') return options
+      if (typeof options === 'object' && options !== null) {
+        let text = (options.defaultValue as string) ?? key
+        Object.entries(options).forEach(([k, v]) => {
+          if (k !== 'defaultValue') {
+            text = text.replace(new RegExp(`\\{\\{\\s*${k}\\s*\\}\\}`, 'g'), String(v))
+          }
+        })
+        return text
+      }
+      return key
+    },
     i18n: {
       language: 'en',
+      dir: () => 'ltr',
       changeLanguage: (lang: string) => mockChangeLanguage(lang),
     },
   }),

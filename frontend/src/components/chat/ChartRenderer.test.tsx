@@ -2,13 +2,7 @@ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { render, screen, cleanup } from '@testing-library/react'
 import { ChartRenderer } from './ChartRenderer'
 
-// Mock i18next
-vi.mock('react-i18next', () => ({
-  useTranslation: () => ({
-    t: (key: string, defaultValue?: string) => defaultValue || key,
-    i18n: { language: 'en' },
-  }),
-}))
+// i18n is mocked globally in src/test/setup.ts
 
 // Mock echarts
 const mockChartInstance = {

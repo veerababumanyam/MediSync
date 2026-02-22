@@ -109,6 +109,18 @@ export {
 } from './LiquidGlassNavbar'
 
 /**
+ * Liquid Glass Header
+ *
+ * Shared header component with iOS 26-style liquid glassmorphism.
+ * Used across all pages (Home, Chat, Dashboard, Council) for consistency.
+ */
+export {
+  LiquidGlassHeader,
+  type Route,
+  type LiquidGlassHeaderProps,
+} from './LiquidGlassHeader'
+
+/**
  * Liquid Glass Sidebar
  *
  * Premium glassmorphic sidebar with collapsible functionality.

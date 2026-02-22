@@ -17,9 +17,9 @@
 import React, { useCallback, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useCouncil, useCouncilHealth } from '../hooks/useCouncil'
-import { QueryInput, ResponseDisplay, ConfidenceIndicator } from '../components/council'
+import { QueryInput, ResponseDisplay } from '../components/council'
 import { useLocale } from '../hooks/useLocale'
-import { AppLogo, LoadingSpinner } from '../components/common'
+import { AppLogo } from '../components/common'
 import { ThemeToggle, AnimatedBackground } from '../components/ui'
 import { cn } from '../lib/cn'
 

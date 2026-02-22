@@ -11,7 +11,6 @@
  * @module components/council/ConfidenceIndicator
  */
 
-import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { cn } from '@/lib/cn'
 
@@ -151,7 +150,7 @@ export function ConfidenceIndicator({
       </div>
 
       {/* Value Display */}
-      <div className="flex items-baseline gap-1 flex-shrink-0">
+      <div className="flex items-baseline gap-1 shrink-0">
         <span className={cn('font-bold tabular-nums', text, sizeConfig.text)}>
           {Math.round(clampedValue)}
         </span>
