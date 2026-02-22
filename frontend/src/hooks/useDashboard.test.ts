@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { renderHook, act, waitFor } from '@testing-library/react'
 import { useDashboard } from './useDashboard'
-import { PinnedChart } from '../services/api'
+import type { PinnedChart } from '../services/api'
 
 // Mock the dashboard API
 const mockGetCharts = vi.fn()
@@ -211,7 +211,7 @@ describe('useDashboard', () => {
       mockUpdateChart.mockImplementation(
         () =>
           new Promise(resolve => {
-            resolveUpdate = resolve
+            resolveUpdate = resolve as (value: PinnedChart) => void
           })
       )
 
@@ -278,11 +278,11 @@ describe('useDashboard', () => {
       mockGetCharts.mockResolvedValue([chart1])
 
       // Delay the API response
-      let resolveDelete: () => void
+      let resolveDelete: (value?: unknown) => void
       mockDeleteChart.mockImplementation(
         () =>
           new Promise(resolve => {
-            resolveDelete = resolve
+            resolveDelete = resolve as (value?: unknown) => void
           })
       )
 
@@ -414,11 +414,11 @@ describe('useDashboard', () => {
       mockGetCharts.mockResolvedValue([chart1, chart2])
 
       // Delay the API response
-      let resolveReorder: () => void
+      let resolveReorder: (value?: unknown) => void
       mockReorderCharts.mockImplementation(
         () =>
           new Promise(resolve => {
-            resolveReorder = resolve
+            resolveReorder = resolve as (value?: unknown) => void
           })
       )
 
@@ -523,7 +523,7 @@ describe('useDashboard', () => {
       mockGetCharts.mockImplementation(
         () =>
           new Promise(resolve => {
-            resolveGetCharts = resolve
+            resolveGetCharts = resolve as (value: PinnedChart[]) => void
           })
       )
 

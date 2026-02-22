@@ -6,6 +6,7 @@ interface ChatInputProps {
   disabled?: boolean;
   locale: string;
   placeholder?: string;
+  isDark?: boolean;
 }
 
 export const ChatInput: React.FC<ChatInputProps> = ({
@@ -13,6 +14,7 @@ export const ChatInput: React.FC<ChatInputProps> = ({
   disabled = false,
   locale,
   placeholder,
+  isDark = true,
 }) => {
   const { t } = useTranslation('chat');
   const [input, setInput] = useState('');
@@ -50,7 +52,10 @@ export const ChatInput: React.FC<ChatInputProps> = ({
 
   return (
     <div
-      className={`flex items-end gap-3 bg-white dark:bg-gray-800 rounded-xl border border-gray-300 dark:border-gray-600 p-3 ${isRTL ? 'flex-row-reverse' : ''}`}
+      className={`flex items-end gap-3 rounded-xl border p-3 transition-colors duration-300 ${isDark
+          ? 'bg-white/10 border-white/15 backdrop-blur-sm'
+          : 'bg-white border-slate-200 shadow-sm'
+        } ${isRTL ? 'flex-row-reverse' : ''}`}
     >
       <textarea
         ref={textareaRef}
@@ -60,18 +65,22 @@ export const ChatInput: React.FC<ChatInputProps> = ({
         disabled={disabled}
         placeholder={placeholder || t('input.placeholder')}
         rows={1}
-        className={`flex-1 resize-none bg-transparent text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none text-sm ${isRTL ? 'text-right' : 'text-left'}`}
+        className={`flex-1 resize-none bg-transparent focus:outline-none text-sm ${isDark
+            ? 'text-white placeholder-slate-500'
+            : 'text-slate-900 placeholder-slate-400'
+          } ${isRTL ? 'text-right' : 'text-left'}`}
         dir={isRTL ? 'rtl' : 'ltr'}
       />
 
       <button
         onClick={handleSend}
         disabled={disabled || !input.trim()}
-        className={`flex-shrink-0 p-2 rounded-lg transition-colors ${
-          disabled || !input.trim()
-            ? 'bg-gray-200 dark:bg-gray-700 text-gray-400 dark:text-gray-500 cursor-not-allowed'
-            : 'bg-primary-600 text-white hover:bg-primary-700'
-        }`}
+        className={`flex-shrink-0 p-2 rounded-lg transition-all duration-300 ${disabled || !input.trim()
+            ? isDark
+              ? 'bg-white/10 text-slate-600 cursor-not-allowed'
+              : 'bg-slate-100 text-slate-400 cursor-not-allowed'
+            : 'bg-gradient-to-r from-blue-600 to-cyan-500 text-white shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 hover:scale-105 active:scale-95'
+          }`}
         aria-label={t('input.send')}
       >
         {disabled ? (

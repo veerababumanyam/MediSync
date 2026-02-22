@@ -21,15 +21,17 @@ describe('MessageList', () => {
   const mockMessages = [
     {
       id: '1',
+      sessionId: 'session-1',
       role: 'user' as const,
       content: 'Show me revenue',
       createdAt: '2024-01-01T10:00:00Z',
     },
     {
       id: '2',
+      sessionId: 'session-1',
       role: 'assistant' as const,
       content: 'Here is the revenue data',
-      chartSpec: { chartType: 'bar' },
+      chartSpec: { type: 'bar', chart: { chartType: 'bar' } },
       createdAt: '2024-01-01T10:01:00Z',
     },
   ]

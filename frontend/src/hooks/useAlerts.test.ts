@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { renderHook, act, waitFor } from '@testing-library/react'
-import { useAlerts, NewAlert } from './useAlerts'
-import { AlertRule, Notification } from '../services/api'
+import { useAlerts, type NewAlert } from './useAlerts'
+import type { AlertRule, Notification } from '../services/api'
 
 // Mock data
 const mockAlerts: AlertRule[] = [
@@ -116,7 +116,7 @@ describe('useAlerts', () => {
     // Reset mock implementations to default values
     mockGetRules.mockResolvedValue(mockAlerts)
     mockGetNotifications.mockResolvedValue(mockNotifications)
-    mockCreateRule.mockResolvedValue({ id: 'new-alert', ...mockAlerts[0] })
+    mockCreateRule.mockResolvedValue({ ...mockAlerts[0], id: 'new-alert' })
     mockUpdateRule.mockResolvedValue(mockAlerts[0])
     mockDeleteRule.mockResolvedValue(undefined)
     mockToggleRule.mockResolvedValue(mockAlerts[0])
@@ -287,7 +287,7 @@ describe('useAlerts', () => {
 
   describe('updateAlert', () => {
     it('updates an alert optimistically', async () => {
-      mockUpdateRule.mockImplementation(async (id: string, updates: Partial<AlertRule>) => ({
+      mockUpdateRule.mockImplementation(async (_id: string, updates: Partial<AlertRule>) => ({
         ...mockAlerts[0],
         ...updates,
       }))
@@ -500,8 +500,8 @@ describe('useAlerts', () => {
 
   describe('notification polling', () => {
     it('sets up polling interval when enabled', async () => {
-      const setIntervalSpy = vi.spyOn(global, 'setInterval')
-      const clearIntervalSpy = vi.spyOn(global, 'clearInterval')
+      const setIntervalSpy = vi.spyOn(globalThis, 'setInterval')
+      const clearIntervalSpy = vi.spyOn(globalThis, 'clearInterval')
 
       const { unmount } = renderHook(() => useAlerts(true))
 
@@ -525,14 +525,15 @@ describe('useAlerts', () => {
     it('does not set up polling interval when disabled', async () => {
       // Track intervals with our specific duration
       const pollingIntervals: number[] = []
-      const originalSetInterval = global.setInterval
+      const originalSetInterval = globalThis.setInterval
 
-      global.setInterval = vi.fn((callback: TimerHandler, delay?: number) => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      ;(globalThis as any).setInterval = vi.fn((callback: TimerHandler, delay?: number) => {
         // Track intervals with the polling duration (30000ms)
         if (typeof delay === 'number' && delay === 30000) {
           pollingIntervals.push(delay)
         }
-        return originalSetInterval.call(global, callback, delay)
+        return originalSetInterval(callback as () => void, delay)
       })
 
       const { unmount } = renderHook(() => useAlerts(false))
@@ -547,11 +548,11 @@ describe('useAlerts', () => {
 
       unmount()
 
-      global.setInterval = originalSetInterval
+      globalThis.setInterval = originalSetInterval
     })
 
     it('cleans up polling on unmount', async () => {
-      const clearIntervalSpy = vi.spyOn(global, 'clearInterval')
+      const clearIntervalSpy = vi.spyOn(globalThis, 'clearInterval')
 
       const { unmount } = renderHook(() => useAlerts(true))
 

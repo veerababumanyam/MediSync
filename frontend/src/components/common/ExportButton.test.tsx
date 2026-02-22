@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { ExportButton, ExportData } from './ExportButton'
+import { ExportButton, type ExportData } from './ExportButton'
 
 // Mock i18next
 vi.mock('react-i18next', () => ({
@@ -24,12 +24,12 @@ describe('ExportButton', () => {
 
   beforeEach(() => {
     vi.clearAllMocks()
-    global.fetch = vi.fn().mockResolvedValue({
+    ;(globalThis as unknown as { fetch: typeof fetch }).fetch = vi.fn().mockResolvedValue({
       ok: true,
       blob: () => Promise.resolve(new Blob()),
     })
-    global.URL.createObjectURL = vi.fn(() => 'blob:test')
-    global.URL.revokeObjectURL = vi.fn()
+    ;(globalThis as unknown as { URL: typeof URL }).URL.createObjectURL = vi.fn(() => 'blob:test')
+    ;(globalThis as unknown as { URL: typeof URL }).URL.revokeObjectURL = vi.fn()
   })
 
   it('renders without crashing', () => {

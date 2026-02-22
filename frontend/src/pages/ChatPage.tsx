@@ -2,7 +2,7 @@
  * ChatPage Component
  *
  * Main chat interface page for MediSync's conversational BI feature.
- * Provides natural language interaction with healthcare and accounting data.
+ * Uses the shared AppHeader and glassmorphism design from the landing page.
  *
  * @module pages/ChatPage
  */
@@ -11,30 +11,23 @@ import { useTranslation } from 'react-i18next'
 import { CopilotKit } from '@copilotkit/react-core'
 import { ChatInterface } from '../components/chat/ChatInterface'
 import { useChat } from '../hooks/useChat'
-import { useLocale } from '../hooks/useLocale'
 import { LoadingSpinner } from '../components/common/LoadingSpinner'
 
 /**
  * Props for the ChatPage component
  */
 interface ChatPageProps {
+  /** Whether dark mode is active */
+  isDark: boolean
   /** Optional CSS class name */
   className?: string
 }
 
 /**
  * ChatPage - Main conversational BI interface
- *
- * Features:
- * - Natural language queries
- * - Streaming responses with SSE
- * - Chart visualizations
- * - RTL support
- * - Session persistence
  */
-export const ChatPage: React.FC<ChatPageProps> = ({ className = '' }) => {
+export const ChatPage: React.FC<ChatPageProps> = ({ isDark }) => {
   const { t } = useTranslation('chat')
-  const { isRTL } = useLocale()
   const {
     isLoading,
     error,
@@ -53,103 +46,75 @@ export const ChatPage: React.FC<ChatPageProps> = ({ className = '' }) => {
 
   // CopilotKit configuration
   const copilotConfig = {
-    endpoint: import.meta.env.VITE_COPILOT_API_URL || '/api/copilotkit',
+    runtimeUrl: import.meta.env.VITE_COPILOT_API_URL || '/api/copilotkit',
   }
 
   return (
     <CopilotKit {...copilotConfig}>
-      <div
-        className={`min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800 ${
-          isRTL ? 'rtl' : 'ltr'
-        } ${className}`}
-      >
-        {/* Header */}
-        <header className="border-b border-slate-200 dark:border-slate-700 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm">
-          <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-blue-600 to-cyan-500 flex items-center justify-center">
-                <span className="text-white font-bold text-xl">M</span>
+      {/* Main Content */}
+      <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 relative z-10">
+        <div className={`rounded-2xl h-[calc(100vh-200px)] overflow-hidden ${isDark
+          ? 'glass glass-shine'
+          : 'bg-white/90 backdrop-blur-sm border border-slate-200 shadow-lg'
+          }`}>
+          <ChatInterface
+            initialSessionId={sessionId}
+            className="h-full"
+            isDark={isDark}
+          />
+        </div>
+
+        {/* Error Display */}
+        {error && (
+          <div className={`mt-4 p-4 rounded-xl flex items-center justify-between ${isDark
+            ? 'bg-red-500/10 border border-red-500/20 text-red-400'
+            : 'bg-red-50 border border-red-200 text-red-600'
+            }`}>
+            <span>{error}</span>
+            <button
+              onClick={clearMessages}
+              className="text-sm underline hover:no-underline"
+            >
+              {t('error.dismiss', 'Dismiss')}
+            </button>
+          </div>
+        )}
+      </main>
+
+      {/* Status Footer */}
+      <div className={`fixed bottom-0 left-0 right-0 z-40 border-t transition-colors duration-300 ${isDark
+        ? 'border-white/10 bg-white/5 backdrop-blur-xl'
+        : 'border-slate-200 bg-white/80 backdrop-blur-xl'
+        }`}>
+        <div className={`max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between text-sm ${isDark ? 'text-slate-500' : 'text-slate-400'
+          }`}>
+          <span>
+            {t('footer.session', 'Session')}: {sessionId.slice(0, 8)}...
+          </span>
+          <div className="flex items-center gap-4">
+            {isLoading && (
+              <div className="flex items-center gap-2">
+                <LoadingSpinner size="sm" />
+                <span>{t('footer.processing', 'Processing...')}</span>
               </div>
-              <div>
-                <h1 className="text-xl font-bold text-slate-900 dark:text-white">
-                  {t('header.title', 'MediSync Chat')}
-                </h1>
-                <p className="text-sm text-slate-500 dark:text-slate-400">
-                  {t('header.subtitle', 'AI-Powered Business Intelligence')}
-                </p>
-              </div>
-            </div>
-
-            <nav className="flex items-center gap-4">
-              <a
-                href="/"
-                className="text-sm text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-              >
-                {t('nav.home', 'Home')}
-              </a>
-              <a
-                href="/dashboard"
-                className="text-sm text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-              >
-                {t('nav.dashboard', 'Dashboard')}
-              </a>
-            </nav>
-          </div>
-        </header>
-
-        {/* Main Content */}
-        <main className="container mx-auto px-4 py-6">
-          <div className="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 h-[calc(100vh-180px)]">
-            <ChatInterface
-              initialSessionId={sessionId}
-              className="h-full"
-            />
-          </div>
-
-          {/* Error Display */}
-          {error && (
-            <div className="mt-4 p-4 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 rounded-lg flex items-center justify-between">
-              <span>{error}</span>
+            )}
+            {isLoading && (
               <button
-                onClick={clearMessages}
-                className="text-sm underline hover:no-underline"
+                onClick={abort}
+                className="text-red-400 hover:underline"
               >
-                {t('error.dismiss', 'Dismiss')}
+                {t('footer.cancel', 'Cancel')}
               </button>
-            </div>
-          )}
-        </main>
-
-        {/* Footer */}
-        <footer className="fixed bottom-0 left-0 right-0 border-t border-slate-200 dark:border-slate-700 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm">
-          <div className="container mx-auto px-4 py-3 flex items-center justify-between text-sm text-slate-500 dark:text-slate-400">
-            <span>
-              {t('footer.session', 'Session')}: {sessionId.slice(0, 8)}...
-            </span>
-            <div className="flex items-center gap-4">
-              {isLoading && (
-                <div className="flex items-center gap-2">
-                  <LoadingSpinner size="sm" />
-                  <span>{t('footer.processing', 'Processing...')}</span>
-                </div>
-              )}
-              {isLoading && (
-                <button
-                  onClick={abort}
-                  className="text-red-600 dark:text-red-400 hover:underline"
-                >
-                  {t('footer.cancel', 'Cancel')}
-                </button>
-              )}
-              <button
-                onClick={clearMessages}
-                className="hover:text-slate-700 dark:hover:text-slate-300"
-              >
-                {t('footer.newChat', 'New Chat')}
-              </button>
-            </div>
+            )}
+            <button
+              onClick={clearMessages}
+              className={`transition-colors ${isDark ? 'hover:text-slate-300' : 'hover:text-slate-600'
+                }`}
+            >
+              {t('footer.newChat', 'New Chat')}
+            </button>
           </div>
-        </footer>
+        </div>
       </div>
     </CopilotKit>
   )

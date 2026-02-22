@@ -24,6 +24,14 @@ vi.mock('react-i18next', () => ({
 // Mock i18n initialization
 vi.mock('./i18n', () => ({}))
 
+// Mock useTheme hook
+vi.mock('./hooks/useTheme', () => ({
+  useTheme: () => ({
+    isDark: true,
+    toggleTheme: vi.fn(),
+  }),
+}))
+
 describe('App', () => {
   beforeEach(() => {
     vi.clearAllMocks()

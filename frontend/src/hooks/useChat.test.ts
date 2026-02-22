@@ -16,13 +16,13 @@ vi.mock('../services/api', () => ({
     streamChat: (...args: unknown[]) => mockStreamChat(...args),
   },
   APIError: class APIError extends Error {
-    constructor(
-      public status: number,
-      public statusText: string,
-      message: string
-    ) {
+    status: number
+    statusText: string
+    constructor(status: number, statusText: string, message: string) {
       super(message)
       this.name = 'APIError'
+      this.status = status
+      this.statusText = statusText
     }
   },
 }))

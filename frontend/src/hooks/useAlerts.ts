@@ -11,7 +11,7 @@
  * @module hooks/useAlerts
  */
 import { useCallback, useEffect, useState, useRef } from 'react'
-import { alertsApi, AlertRule, Notification } from '../services/api'
+import { alertsApi, type AlertRule, type Notification } from '../services/api'
 
 /**
  * Type for creating a new alert rule

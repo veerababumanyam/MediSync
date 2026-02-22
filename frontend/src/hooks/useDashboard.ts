@@ -10,7 +10,7 @@
  * @module hooks/useDashboard
  */
 import { useCallback, useEffect, useState } from 'react'
-import { dashboardApi, PinnedChart } from '../services/api'
+import { dashboardApi, type PinnedChart } from '../services/api'
 
 /**
  * Type for creating a new chart (excludes auto-generated fields)

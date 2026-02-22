@@ -48,15 +48,13 @@ vi.mock('uuid', () => ({
 // Mock apiClient
 vi.mock('../../services/api', () => ({
   apiClient: {
-    getChatMessages: vi.fn().mockResolvedValue({ messages: [] }),
+    getChatMessages: vi.fn().mockResolvedValue({ messages: [], total: 0, hasMore: false }),
     streamChat: vi.fn().mockResolvedValue({
       message: 'Query completed',
-      chartSpec: null,
+      chartSpec: undefined,
       confidence: 0.95,
     }),
   },
-  SSEEvent: vi.fn(),
-  ChatMessage: vi.fn(),
 }))
 
 // Mock ChatHeader
@@ -135,10 +133,10 @@ vi.mock('./QuerySuggestions', () => ({
 describe('ChatInterface', () => {
   beforeEach(() => {
     vi.clearAllMocks()
-    vi.mocked(apiClient.getChatMessages).mockResolvedValue({ messages: [] })
+    vi.mocked(apiClient.getChatMessages).mockResolvedValue({ messages: [], total: 0, hasMore: false })
     vi.mocked(apiClient.streamChat).mockResolvedValue({
       message: 'Query completed',
-      chartSpec: null,
+      chartSpec: { type: 'bar', chart: {} },
       confidence: 0.95,
     })
   })

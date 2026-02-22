@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { renderHook, act, waitFor } from '@testing-library/react'
-import { useReports, Report, ReportRun, NewReport } from './useReports'
+import { useReports, type Report, type ReportRun, type NewReport } from './useReports'
 import { APIError } from '../services/api'
 
 // Mock the reports API
@@ -23,9 +23,13 @@ vi.mock('../services/api', () => ({
     downloadRun: (runId: string) => mockDownloadRun(runId),
   },
   APIError: class APIError extends Error {
-    constructor(public status: number, public statusText: string, message: string) {
+    status: number
+    statusText: string
+    constructor(status: number, statusText: string, message: string) {
       super(message)
       this.name = 'APIError'
+      this.status = status
+      this.statusText = statusText
     }
   },
 }))
@@ -426,8 +430,8 @@ describe('useReports', () => {
       // Mock URL methods
       const mockCreateObjectURL = vi.fn(() => 'blob:mock-url')
       const mockRevokeObjectURL = vi.fn()
-      global.URL.createObjectURL = mockCreateObjectURL
-      global.URL.revokeObjectURL = mockRevokeObjectURL
+      ;(globalThis as unknown as { URL: { createObjectURL: typeof mockCreateObjectURL; revokeObjectURL: typeof mockRevokeObjectURL } }).URL.createObjectURL = mockCreateObjectURL
+      ;(globalThis as unknown as { URL: { createObjectURL: typeof mockCreateObjectURL; revokeObjectURL: typeof mockRevokeObjectURL } }).URL.revokeObjectURL = mockRevokeObjectURL
 
       const { result } = renderHook(() => useReports())
 

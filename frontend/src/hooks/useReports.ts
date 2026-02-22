@@ -10,7 +10,7 @@
  * @module hooks/useReports
  */
 import { useCallback, useEffect, useState } from 'react'
-import { reportsApi, ScheduledReport, APIError } from '../services/api'
+import { reportsApi, type ScheduledReport, APIError } from '../services/api'
 
 /**
  * Report type matching ScheduledReport from API

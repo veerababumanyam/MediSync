@@ -7,12 +7,13 @@ import { StreamingMessage } from './StreamingMessage';
 import { QuerySuggestions } from './QuerySuggestions';
 import { ChatHeader } from './ChatHeader';
 import { useLocale } from '../../hooks/useLocale';
-import { apiClient, SSEEvent, ChatMessage } from '../../services/api';
+import { apiClient, type SSEEvent, type ChatMessage } from '../../services/api';
 
 interface ChatInterfaceProps {
   initialSessionId?: string;
   onSessionChange?: (sessionId: string) => void;
   className?: string;
+  isDark?: boolean;
 }
 
 interface StreamingState {
@@ -25,6 +26,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
   initialSessionId,
   onSessionChange,
   className = '',
+  isDark = true,
 }) => {
   const { t } = useTranslation('chat');
   const { locale } = useLocale();
@@ -55,7 +57,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
   }, [sessionId]);
 
   const loadMessages = async (sid: string) => {
-    setError(null);    try {
+    setError(null); try {
       const response = await apiClient.getChatMessages(sid);
       setMessages(response.messages);
     } catch (err) {
@@ -165,41 +167,48 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
   ];
 
   return (
-    <div className={`flex flex-col h-full bg-white dark:bg-gray-900 ${className}`}>
+    <div className={`flex flex-col h-full ${className}`}>
       {/* Header */}
       <ChatHeader
         sessionId={sessionId}
         onNewSession={handleNewSession}
-        locale={locale}
+        isDark={isDark}
       />
 
       {/* Messages Area */}
       <div className="flex-1 overflow-y-auto px-4 py-6">
         {messages.length === 0 && !streaming.isStreaming ? (
           <div className="flex flex-col items-center justify-center h-full text-center">
-            <h2 className="text-2xl font-semibold text-gray-800 dark:text-white mb-4">
+            <h2 className={`text-2xl font-semibold mb-4 ${isDark ? 'text-white' : 'text-slate-900'
+              }`}>
               {t('welcome.title')}
             </h2>
-            <p className="text-gray-600 dark:text-gray-400 mb-8 max-w-md">
+            <p className={`mb-8 max-w-md ${isDark ? 'text-slate-400' : 'text-slate-600'
+              }`}>
               {t('welcome.subtitle')}
             </p>
             <QuerySuggestions
               suggestions={suggestions}
               onSuggestionClick={handleSuggestionClick}
+              isDark={isDark}
             />
           </div>
         ) : (
           <>
-            <MessageList messages={messages} locale={locale} />
+            <MessageList messages={messages} locale={locale} isDark={isDark} />
             {streaming.isStreaming && (
               <StreamingMessage
                 events={streaming.events}
                 locale={locale}
                 onCancel={handleCancel}
+                isDark={isDark}
               />
             )}
             {error && (
-              <div className="mt-4 p-4 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 rounded-lg">
+              <div className={`mt-4 p-4 rounded-xl ${isDark
+                  ? 'bg-red-500/10 border border-red-500/20 text-red-400'
+                  : 'bg-red-50 border border-red-200 text-red-600'
+                }`}>
                 {error}
               </div>
             )}
@@ -209,12 +218,14 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
       </div>
 
       {/* Input Area */}
-      <div className="border-t border-gray-200 dark:border-gray-700 p-4">
+      <div className={`border-t p-4 ${isDark ? 'border-white/10' : 'border-slate-200'
+        }`}>
         <ChatInput
           onSend={handleSendMessage}
           disabled={streaming.isStreaming}
           locale={locale}
           placeholder={t('input.placeholder')}
+          isDark={isDark}
         />
       </div>
     </div>

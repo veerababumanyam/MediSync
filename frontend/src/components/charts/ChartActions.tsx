@@ -24,7 +24,7 @@ export interface ChartActionsProps {
   /** SQL query used to generate this chart */
   sqlQuery: string
   /** Chart type (line, bar, pie, kpi-card, etc.) */
-  chartType: string
+  chartType: 'bar' | 'line' | 'pie' | 'table' | 'kpi'
   /** Chart specification data */
   chartSpec: Record<string, unknown>
   /** Callback when chart is pinned successfully */

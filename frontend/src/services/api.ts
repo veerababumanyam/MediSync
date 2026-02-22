@@ -16,14 +16,16 @@ const API_BASE_URL = import.meta.env.VITE_API_URL || '/api/v1'
  * API Error class for structured error handling
  */
 export class APIError extends Error {
-  constructor(
-    public status: number,
-    public statusText: string,
-    message: string,
-    public data?: unknown
-  ) {
+  status: number
+  statusText: string
+  data?: unknown
+
+  constructor(status: number, statusText: string, message: string, data?: unknown) {
     super(message)
     this.name = 'APIError'
+    this.status = status
+    this.statusText = statusText
+    this.data = data
   }
 }
 

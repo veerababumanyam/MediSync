@@ -1,18 +1,20 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { SSEEvent } from '../../services/api';
+import type { SSEEvent } from '../../services/api';
 import { ChartRenderer } from './ChartRenderer';
 
 interface StreamingMessageProps {
   events: SSEEvent[];
   locale: string;
   onCancel: () => void;
+  isDark?: boolean;
 }
 
 export const StreamingMessage: React.FC<StreamingMessageProps> = ({
   events,
   locale,
   onCancel,
+  isDark = true,
 }) => {
   const { t } = useTranslation('chat');
 
@@ -22,7 +24,8 @@ export const StreamingMessage: React.FC<StreamingMessageProps> = ({
         return (
           <div
             key={index}
-            className="flex items-center gap-2 text-gray-600 dark:text-gray-400 text-sm"
+            className={`flex items-center gap-2 text-sm ${isDark ? 'text-slate-400' : 'text-slate-500'
+              }`}
           >
             <div className="flex-shrink-0">
               <svg
@@ -53,13 +56,16 @@ export const StreamingMessage: React.FC<StreamingMessageProps> = ({
         return (
           <div
             key={index}
-            className="bg-gray-900 dark:bg-gray-950 rounded-lg p-3 my-2"
+            className={`rounded-xl p-3 my-2 ${isDark
+                ? 'bg-slate-900/80 border border-white/10'
+                : 'bg-slate-900 border border-slate-700'
+              }`}
           >
             <div className="flex items-center justify-between mb-2">
-              <span className="text-xs text-gray-400 font-mono">SQL</span>
+              <span className="text-xs text-slate-400 font-mono">SQL</span>
               <button
                 onClick={() => navigator.clipboard.writeText(event.sql || '')}
-                className="text-gray-400 hover:text-gray-200"
+                className="text-slate-400 hover:text-slate-200 transition-colors"
               >
                 <svg
                   className="w-4 h-4"
@@ -76,7 +82,7 @@ export const StreamingMessage: React.FC<StreamingMessageProps> = ({
                 </svg>
               </button>
             </div>
-            <pre className="text-sm text-green-400 font-mono overflow-x-auto">
+            <pre className="text-sm text-emerald-400 font-mono overflow-x-auto">
               {event.sql}
             </pre>
           </div>
@@ -85,17 +91,21 @@ export const StreamingMessage: React.FC<StreamingMessageProps> = ({
       case 'result':
         return (
           <div key={index} className="my-2">
-            {event.data && event.chartType && (
-              <div className="bg-white dark:bg-gray-900 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
+            {event.data && event.chartType ? (
+              <div className={`rounded-xl p-4 border ${isDark
+                  ? 'bg-white/5 border-white/10'
+                  : 'bg-white border-slate-200'
+                }`}>
                 <ChartRenderer
                   chartType={event.chartType}
                   data={event.data}
                   locale={locale}
                 />
               </div>
-            )}
+            ) : null}
             {event.confidence !== undefined && (
-              <div className="mt-2 text-xs text-gray-500">
+              <div className={`mt-2 text-xs ${isDark ? 'text-slate-500' : 'text-slate-400'
+                }`}>
                 {t('streaming.confidence', {
                   value: Math.round(event.confidence),
                 })}
@@ -108,7 +118,10 @@ export const StreamingMessage: React.FC<StreamingMessageProps> = ({
         return (
           <div
             key={index}
-            className="bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 rounded-lg p-3 my-2"
+            className={`rounded-xl p-3 my-2 ${isDark
+                ? 'bg-red-500/10 border border-red-500/20 text-red-400'
+                : 'bg-red-50 border border-red-200 text-red-600'
+              }`}
           >
             {event.message}
           </div>
@@ -118,7 +131,10 @@ export const StreamingMessage: React.FC<StreamingMessageProps> = ({
         return (
           <div
             key={index}
-            className="bg-yellow-50 dark:bg-yellow-900/20 text-yellow-700 dark:text-yellow-400 rounded-lg p-3 my-2"
+            className={`rounded-xl p-3 my-2 ${isDark
+                ? 'bg-amber-500/10 border border-amber-500/20 text-amber-400'
+                : 'bg-amber-50 border border-amber-200 text-amber-700'
+              }`}
           >
             <p className="mb-2">{event.message}</p>
             {event.options && event.options.length > 0 && (
@@ -126,7 +142,10 @@ export const StreamingMessage: React.FC<StreamingMessageProps> = ({
                 {event.options.map((option, optIndex) => (
                   <button
                     key={optIndex}
-                    className="block w-full text-left px-3 py-2 bg-white dark:bg-gray-800 rounded border border-yellow-200 dark:border-yellow-800 hover:bg-yellow-100 dark:hover:bg-gray-700 transition-colors"
+                    className={`block w-full text-left px-3 py-2 rounded-lg border transition-all duration-200 ${isDark
+                        ? 'bg-white/5 border-amber-500/20 hover:bg-white/10'
+                        : 'bg-white border-amber-200 hover:bg-amber-50'
+                      }`}
                   >
                     {option}
                   </button>
@@ -148,13 +167,16 @@ export const StreamingMessage: React.FC<StreamingMessageProps> = ({
 
   return (
     <div className="flex justify-start">
-      <div className="max-w-[80%] bg-gray-100 dark:bg-gray-800 rounded-2xl rounded-bl-md px-4 py-3">
+      <div className={`max-w-[80%] rounded-2xl rounded-bl-md px-4 py-3 ${isDark
+          ? 'bg-white/10 backdrop-blur-md border border-white/15'
+          : 'bg-white border border-slate-200 shadow-sm'
+        }`}>
         {/* AI Header */}
         <div className="flex items-center justify-between mb-2">
           <div className="flex items-center gap-2">
-            <div className="w-6 h-6 bg-primary-100 dark:bg-primary-900 rounded-full flex items-center justify-center">
+            <div className="w-6 h-6 bg-gradient-to-br from-blue-500 to-cyan-400 rounded-full flex items-center justify-center shadow-sm">
               <svg
-                className="w-4 h-4 text-primary-600 dark:text-primary-400 animate-pulse"
+                className="w-3.5 h-3.5 text-white animate-pulse"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -167,7 +189,8 @@ export const StreamingMessage: React.FC<StreamingMessageProps> = ({
                 />
               </svg>
             </div>
-            <span className="text-xs font-medium text-gray-500 dark:text-gray-400">
+            <span className={`text-xs font-medium ${isDark ? 'text-slate-400' : 'text-slate-500'
+              }`}>
               MediSync BI
             </span>
           </div>
@@ -175,7 +198,7 @@ export const StreamingMessage: React.FC<StreamingMessageProps> = ({
           {/* Cancel Button */}
           <button
             onClick={onCancel}
-            className="text-xs text-gray-400 hover:text-red-500 transition-colors"
+            className="text-xs text-slate-400 hover:text-red-400 transition-colors"
           >
             {t('streaming.cancel')}
           </button>
@@ -183,7 +206,8 @@ export const StreamingMessage: React.FC<StreamingMessageProps> = ({
 
         {/* Streaming Status */}
         {latestThinking && (
-          <div className="mb-2 text-sm text-gray-600 dark:text-gray-400">
+          <div className={`mb-2 text-sm ${isDark ? 'text-slate-400' : 'text-slate-500'
+            }`}>
             {latestThinking.message}
           </div>
         )}
@@ -195,9 +219,9 @@ export const StreamingMessage: React.FC<StreamingMessageProps> = ({
 
         {/* Loading Indicator */}
         <div className="flex items-center gap-1 mt-2">
-          <div className="w-2 h-2 bg-primary-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
-          <div className="w-2 h-2 bg-primary-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
-          <div className="w-2 h-2 bg-primary-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
+          <div className="w-2 h-2 bg-blue-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
+          <div className="w-2 h-2 bg-cyan-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
+          <div className="w-2 h-2 bg-blue-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
         </div>
       </div>
     </div>

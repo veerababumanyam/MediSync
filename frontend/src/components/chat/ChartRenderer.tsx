@@ -51,14 +51,13 @@ function formatCellValue(value: unknown, type: string): string {
 }
 
 // Chart option creators (moved outside component)
-function createLineChartOption(data: ChartData, isRTL: boolean): echarts.EChartsOption {
+function createLineChartOption(data: ChartData, _isRTL: boolean): echarts.EChartsOption {
   return {
     tooltip: {
       trigger: 'axis',
     },
     legend: {
       data: data.series?.map((s) => s.name) || [],
-      rtl: isRTL,
     },
     grid: {
       left: '3%',
@@ -69,17 +68,15 @@ function createLineChartOption(data: ChartData, isRTL: boolean): echarts.ECharts
     xAxis: {
       type: 'category',
       data: data.labels || [],
-      inverse: isRTL,
     },
     yAxis: {
       type: 'value',
-      inverse: isRTL,
     },
     series:
       data.series?.map((s, idx) => ({
         name: s.name,
-        type: 'line',
-        data: s.values,
+        type: 'line' as const,
+        data: s.values as number[],
         smooth: true,
         itemStyle: {
           color: getChartColor(idx),
@@ -88,7 +85,7 @@ function createLineChartOption(data: ChartData, isRTL: boolean): echarts.ECharts
   };
 }
 
-function createBarChartOption(data: ChartData, isRTL: boolean): echarts.EChartsOption {
+function createBarChartOption(data: ChartData, _isRTL: boolean): echarts.EChartsOption {
   return {
     tooltip: {
       trigger: 'axis',
@@ -98,7 +95,6 @@ function createBarChartOption(data: ChartData, isRTL: boolean): echarts.EChartsO
     },
     legend: {
       data: data.series?.map((s) => s.name) || [],
-      rtl: isRTL,
     },
     grid: {
       left: '3%',
@@ -109,17 +105,15 @@ function createBarChartOption(data: ChartData, isRTL: boolean): echarts.EChartsO
     xAxis: {
       type: 'category',
       data: data.labels || [],
-      inverse: isRTL,
     },
     yAxis: {
       type: 'value',
-      inverse: isRTL,
     },
     series:
       data.series?.map((s, idx) => ({
         name: s.name,
-        type: 'bar',
-        data: s.values,
+        type: 'bar' as const,
+        data: s.values as number[],
         itemStyle: {
           color: getChartColor(idx),
         },
@@ -142,12 +136,11 @@ function createPieChartOption(data: ChartData, isRTL: boolean): echarts.EChartsO
     legend: {
       orient: 'vertical',
       left: isRTL ? 'right' : 'left',
-      rtl: isRTL,
     },
     series: [
       {
         name: data.series?.[0]?.name || 'Distribution',
-        type: 'pie',
+        type: 'pie' as const,
         radius: ['40%', '70%'],
         center: [isRTL ? '35%' : '65%', '50%'],
         avoidLabelOverlap: false,
@@ -177,7 +170,7 @@ const KPICard: React.FC<{ chartData: ChartData }> = ({ chartData }) => {
   return (
     <div className="text-center py-6">
       <div className="text-4xl font-bold text-primary-600 dark:text-primary-400">
-        {chartData.formatted || chartData.value}
+        {chartData.formatted || String(chartData.value ?? '')}
       </div>
       <div className="text-sm text-gray-500 dark:text-gray-400 mt-2">
         {t('kpi.totalValue')}

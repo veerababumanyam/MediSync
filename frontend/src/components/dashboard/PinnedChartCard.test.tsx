@@ -2,7 +2,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { PinnedChartCard } from './PinnedChartCard'
-import { PinnedChart } from '../../services/api'
+import type { PinnedChart } from '../../services/api'
 
 // Mock i18next
 vi.mock('react-i18next', () => ({
@@ -35,12 +35,18 @@ vi.mock('../chat/ChartRenderer', () => ({
 describe('PinnedChartCard', () => {
   const mockChart: PinnedChart = {
     id: '1',
+    userId: 'user-1',
     title: 'Revenue Overview',
+    queryId: 'query-1',
+    naturalLanguageQuery: 'Show revenue',
+    sqlQuery: 'SELECT * FROM revenue',
     chartType: 'bar',
     chartSpec: { labels: ['A', 'B'], series: [{ name: 'Revenue', values: [100, 200] }] },
-    isActive: true,
-    lastRefreshedAt: new Date().toISOString(),
     refreshInterval: 5,
+    locale: 'en',
+    position: { row: 0, col: 0, size: 1 },
+    lastRefreshedAt: new Date().toISOString(),
+    isActive: true,
     createdAt: '2024-01-01T00:00:00Z',
     updatedAt: '2024-01-01T00:00:00Z',
   }

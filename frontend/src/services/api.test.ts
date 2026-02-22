@@ -3,7 +3,7 @@ import { APIError, preferencesApi, chatApi, dashboardApi, alertsApi, reportsApi 
 
 // Mock fetch
 const mockFetch = vi.fn()
-global.fetch = mockFetch
+;(globalThis as unknown as { fetch: typeof fetch }).fetch = mockFetch
 
 // Mock localStorage
 const localStorageMock = (() => {

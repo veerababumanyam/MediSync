@@ -2,7 +2,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { DashboardGrid } from './DashboardGrid'
-import { dashboardApi, PinnedChart } from '../../services/api'
+import { dashboardApi, type PinnedChart } from '../../services/api'
 
 // Mock i18next
 vi.mock('react-i18next', () => ({
@@ -84,18 +84,34 @@ describe('DashboardGrid', () => {
   const mockCharts: PinnedChart[] = [
     {
       id: '1',
+      userId: 'user-1',
       title: 'Revenue Chart',
+      queryId: 'query-1',
+      naturalLanguageQuery: 'Show revenue',
+      sqlQuery: 'SELECT * FROM revenue',
       chartType: 'bar',
       chartSpec: { labels: ['A'], series: [{ name: 'Revenue', values: [100] }] },
+      refreshInterval: 0,
+      locale: 'en',
+      position: { row: 0, col: 0, size: 1 },
+      lastRefreshedAt: null,
       isActive: true,
       createdAt: '2024-01-01T00:00:00Z',
       updatedAt: '2024-01-01T00:00:00Z',
     },
     {
       id: '2',
+      userId: 'user-1',
       title: 'Patient Trend',
+      queryId: 'query-2',
+      naturalLanguageQuery: 'Show patient trend',
+      sqlQuery: 'SELECT * FROM patients',
       chartType: 'line',
       chartSpec: { labels: ['Jan', 'Feb'], series: [{ name: 'Patients', values: [10, 20] }] },
+      refreshInterval: 0,
+      locale: 'en',
+      position: { row: 0, col: 1, size: 1 },
+      lastRefreshedAt: null,
       isActive: true,
       createdAt: '2024-01-01T00:00:00Z',
       updatedAt: '2024-01-01T00:00:00Z',
@@ -110,9 +126,17 @@ describe('DashboardGrid', () => {
     vi.mocked(dashboardApi.updateChart).mockResolvedValue(mockCharts[0])
     vi.mocked(dashboardApi.pinChart).mockResolvedValue({
       id: '3',
+      userId: 'user-1',
       title: 'New Chart',
+      queryId: null,
+      naturalLanguageQuery: '',
+      sqlQuery: '',
       chartType: 'bar',
       chartSpec: {},
+      refreshInterval: 0,
+      locale: 'en',
+      position: { row: 0, col: 0, size: 1 },
+      lastRefreshedAt: null,
       isActive: true,
       createdAt: '2024-01-01T00:00:00Z',
       updatedAt: '2024-01-01T00:00:00Z',

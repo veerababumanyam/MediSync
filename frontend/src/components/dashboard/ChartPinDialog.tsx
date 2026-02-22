@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { PinnedChart } from '../../services/api';
+import type { PinnedChart } from '../../services/api';
 
 interface ChartPinDialogProps {
   onClose: () => void;
