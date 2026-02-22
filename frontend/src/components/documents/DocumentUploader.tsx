@@ -8,6 +8,8 @@
 import { useState, useCallback, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { documentApi } from '../../services/documents'
+import { LiquidGlassCard } from '../ui/LiquidGlassCard'
+import { LiquidGlassButton } from '../ui/LiquidGlassButton'
 import type { BulkUploadResponse } from '../../types/documents'
 
 interface DocumentUploaderProps {
@@ -180,13 +182,12 @@ export function DocumentUploader({
   return (
     <div className={`document-uploader ${isRTL ? 'rtl' : 'ltr'} ${className}`} dir={isRTL ? 'rtl' : 'ltr'}>
       {/* Drop Zone */}
-      <div
-        className={`
-          border-2 border-dashed rounded-lg p-8 text-center cursor-pointer transition-colors
-          ${isDragging ? 'border-blue-500 bg-blue-50' : 'border-gray-300 hover:border-gray-400'}
-          dark:border-gray-600 dark:hover:border-gray-500
-          ${isDragging ? 'dark:bg-blue-900/20' : ''}
-        `}
+      <LiquidGlassCard
+        intensity="medium"
+        hover="shimmer"
+        className={`border-2 border-dashed p-8 text-center cursor-pointer ${
+          isDragging ? 'border-blue-400/50' : 'border-white/20'
+        }`}
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
@@ -203,115 +204,96 @@ export function DocumentUploader({
         />
 
         <div className="flex flex-col items-center gap-2">
-          <svg
-            className={`w-12 h-12 ${isDragging ? 'text-blue-500' : 'text-gray-400'}`}
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
-            />
-          </svg>
+          <div className="text-4xl mb-4">
+            {isDragging ? '📥' : '📄'}
+          </div>
 
-          <p className="text-lg font-medium text-gray-700 dark:text-gray-200">
+          <p className="liquid-text-primary font-medium text-lg">
             {t('documents.upload.dropzone', 'Drag and drop files here')}
           </p>
-          <p className="text-sm text-gray-500 dark:text-gray-400">
+          <p className="liquid-text-secondary text-sm mt-1">
             {t('documents.upload.or', 'or')}{' '}
-            <span className="text-blue-600 dark:text-blue-400 hover:underline">
+            <span className="text-blue-500 hover:underline">
               {t('documents.upload.browse', 'browse files')}
             </span>
           </p>
-          <p className="text-xs text-gray-400 dark:text-gray-500 mt-2">
+          <p className="liquid-text-muted text-xs mt-2">
             {t('documents.upload.formats', 'PDF, JPEG, PNG, TIFF, XLSX, CSV • Max {{max}}MB', { max: maxSizeMB })}
           </p>
         </div>
-      </div>
+      </LiquidGlassCard>
 
       {/* File List */}
       {files.length > 0 && (
         <div className="mt-4 space-y-2">
           {files.map((fileWithProgress, index) => (
-            <div
+            <LiquidGlassCard
               key={`${fileWithProgress.file.name}-${index}`}
-              className="flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-800 rounded-lg"
+              intensity="subtle"
+              hover="lift"
+              className="p-3"
             >
-              {/* File Icon */}
-              <div className="flex-shrink-0">
-                <svg className="w-8 h-8 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                  />
-                </svg>
-              </div>
+              <div className="flex items-center gap-3">
+                {/* File Icon */}
+                <div className="flex-shrink-0">
+                  <div className="text-2xl">📄</div>
+                </div>
 
-              {/* File Info */}
-              <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium text-gray-900 dark:text-gray-100 truncate">
-                  {fileWithProgress.file.name}
-                </p>
-                <p className="text-xs text-gray-500 dark:text-gray-400">
-                  {formatFileSize(fileWithProgress.file.size)}
-                </p>
-
-                {/* Progress Bar */}
-                {fileWithProgress.status === 'uploading' && (
-                  <div className="mt-1 h-1.5 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
-                    <div
-                      className="h-full bg-blue-500 transition-all duration-300"
-                      style={{ width: `${fileWithProgress.progress}%` }}
-                    />
-                  </div>
-                )}
-
-                {/* Error Message */}
-                {fileWithProgress.status === 'error' && (
-                  <p className="text-xs text-red-500 mt-1">{fileWithProgress.error}</p>
-                )}
-
-                {/* Success Message */}
-                {fileWithProgress.status === 'success' && (
-                  <p className="text-xs text-green-500 mt-1">
-                    {t('documents.upload.success', 'Uploaded successfully')}
+                {/* File Info */}
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-medium liquid-text-primary truncate">
+                    {fileWithProgress.file.name}
                   </p>
-                )}
-              </div>
+                  <p className="text-xs liquid-text-muted">
+                    {formatFileSize(fileWithProgress.file.size)}
+                  </p>
 
-              {/* Status Icon */}
-              <div className="flex-shrink-0">
-                {fileWithProgress.status === 'success' && (
-                  <svg className="w-5 h-5 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                  </svg>
-                )}
-                {fileWithProgress.status === 'error' && (
-                  <svg className="w-5 h-5 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                  </svg>
-                )}
-                {fileWithProgress.status === 'pending' && !isUploading && (
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation()
-                      removeFile(index)
-                    }}
-                    className="text-gray-400 hover:text-red-500"
-                    aria-label={t('documents.upload.remove', 'Remove file')}
-                  >
-                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                  </button>
-                )}
+                  {/* Progress Bar */}
+                  {fileWithProgress.status === 'uploading' && (
+                    <div className="mt-1 h-1.5 bg-white/10 rounded-full overflow-hidden">
+                      <div
+                        className="h-full bg-gradient-to-r from-blue-500 to-teal-500 transition-all duration-300"
+                        style={{ width: `${fileWithProgress.progress}%` }}
+                      />
+                    </div>
+                  )}
+
+                  {/* Error Message */}
+                  {fileWithProgress.status === 'error' && (
+                    <p className="text-xs text-red-400 mt-1">{fileWithProgress.error}</p>
+                  )}
+
+                  {/* Success Message */}
+                  {fileWithProgress.status === 'success' && (
+                    <p className="text-xs text-teal-400 mt-1">
+                      {t('documents.upload.success', 'Uploaded successfully')}
+                    </p>
+                  )}
+                </div>
+
+                {/* Status Icon */}
+                <div className="flex-shrink-0">
+                  {fileWithProgress.status === 'success' && (
+                    <span className="text-teal-400 text-lg">✓</span>
+                  )}
+                  {fileWithProgress.status === 'error' && (
+                    <span className="text-red-400 text-lg">✕</span>
+                  )}
+                  {fileWithProgress.status === 'pending' && !isUploading && (
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        removeFile(index)
+                      }}
+                      className="liquid-text-muted hover:text-red-400 transition-colors"
+                      aria-label={t('documents.upload.remove', 'Remove file')}
+                    >
+                      <span className="text-lg">✕</span>
+                    </button>
+                  )}
+                </div>
               </div>
-            </div>
+            </LiquidGlassCard>
           ))}
         </div>
       )}
@@ -319,15 +301,16 @@ export function DocumentUploader({
       {/* Upload Button */}
       {files.some((f) => f.status === 'pending') && (
         <div className="mt-4 flex justify-end">
-          <button
+          <LiquidGlassButton
+            variant="primary"
             onClick={uploadFiles}
             disabled={isUploading}
-            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            isLoading={isUploading}
           >
             {isUploading
               ? t('documents.upload.uploading', 'Uploading...')
               : t('documents.upload.start', 'Start Upload')}
-          </button>
+          </LiquidGlassButton>
         </div>
       )}
     </div>

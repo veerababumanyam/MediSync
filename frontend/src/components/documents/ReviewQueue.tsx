@@ -2,12 +2,17 @@
  * ReviewQueue Component
  *
  * Table display of documents pending review with filtering and sorting.
+ * Styled with Liquid Glass design system for premium glassmorphic aesthetics.
  */
 
 import { useState, useEffect, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { documentApi } from '../../services/documents'
 import { ConfidenceBadge } from './ConfidenceIndicator'
+import { LiquidGlassCard } from '../ui/LiquidGlassCard'
+import { LiquidGlassBadge } from '../ui/LiquidGlassBadge'
+import { LiquidGlassButton } from '../ui/LiquidGlassButton'
+import { LiquidGlassInput } from '../ui/LiquidGlassInput'
 import type { Document, DocumentListFilter, DocumentStatus } from '../../types/documents'
 
 interface ReviewQueueProps {
@@ -58,21 +63,6 @@ export function ReviewQueue({ onSelectDocument, refreshTrigger, className = '' }
     fetchDocuments()
   }, [fetchDocuments, refreshTrigger])
 
-  const getStatusBadgeClasses = (status: DocumentStatus) => {
-    switch (status) {
-      case 'ready_for_review':
-        return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400'
-      case 'under_review':
-        return 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400'
-      case 'approved':
-        return 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400'
-      case 'rejected':
-        return 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400'
-      default:
-        return 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-400'
-    }
-  }
-
   const formatDate = (dateStr: string) => {
     const date = new Date(dateStr)
     return date.toLocaleDateString(i18n.language === 'ar' ? 'ar-SA' : 'en-US', {
@@ -97,153 +87,156 @@ export function ReviewQueue({ onSelectDocument, refreshTrigger, className = '' }
         <StatCard
           label={t('documents.queue.pending', 'Pending Review')}
           value={documents.filter((d) => d.status === 'ready_for_review').length}
-          color="yellow"
+          variant="warning"
         />
         <StatCard
           label={t('documents.queue.underReview', 'Under Review')}
           value={documents.filter((d) => d.status === 'under_review').length}
-          color="blue"
+          variant="blue"
         />
         <StatCard
           label={t('documents.queue.highPriority', 'High Priority')}
           value={documents.filter((d) => d.overallConfidence < 0.7).length}
-          color="red"
+          variant="error"
         />
         <StatCard
           label={t('documents.queue.total', 'Total')}
           value={total}
-          color="gray"
+          variant="default"
         />
       </div>
 
       {/* Search and Filter */}
       <div className="flex flex-col sm:flex-row gap-4 mb-4">
         <div className="flex-1">
-          <input
-            type="text"
+          <LiquidGlassInput
             placeholder={t('documents.queue.searchPlaceholder', 'Search documents...')}
             value={filter.search || ''}
             onChange={(e) => {
               setFilter((prev) => ({ ...prev, search: e.target.value }))
               setPage(1)
             }}
-            className="w-full px-4 py-2 border rounded-lg bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-blue-500"
+            className="w-full"
           />
         </div>
         <div className="flex gap-2">
-          <select
-            value={filter.status?.[0] || ''}
-            onChange={(e) => {
-              const status = e.target.value as DocumentStatus
-              setFilter((prev) => ({
-                ...prev,
-                status: status ? [status] : undefined,
-              }))
-              setPage(1)
-            }}
-            className="px-4 py-2 border rounded-lg bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600"
+          <LiquidGlassCard
+            intensity="subtle"
+            className="px-4 py-2"
           >
-            <option value="">{t('documents.queue.allStatus', 'All Status')}</option>
-            <option value="ready_for_review">{t('documents.status.readyForReview', 'Ready for Review')}</option>
-            <option value="under_review">{t('documents.status.underReview', 'Under Review')}</option>
-            <option value="approved">{t('documents.status.approved', 'Approved')}</option>
-            <option value="rejected">{t('documents.status.rejected', 'Rejected')}</option>
-          </select>
+            <select
+              value={filter.status?.[0] || ''}
+              onChange={(e) => {
+                const status = e.target.value as DocumentStatus
+                setFilter((prev) => ({
+                  ...prev,
+                  status: status ? [status] : undefined,
+                }))
+                setPage(1)
+              }}
+              className="bg-transparent liquid-text-primary focus:outline-none cursor-pointer"
+            >
+              <option value="">{t('documents.queue.allStatus', 'All Status')}</option>
+              <option value="ready_for_review">{t('documents.status.readyForReview', 'Ready for Review')}</option>
+              <option value="under_review">{t('documents.status.underReview', 'Under Review')}</option>
+              <option value="approved">{t('documents.status.approved', 'Approved')}</option>
+              <option value="rejected">{t('documents.status.rejected', 'Rejected')}</option>
+            </select>
+          </LiquidGlassCard>
         </div>
       </div>
 
       {/* Table */}
       {isLoading ? (
-        <div className="text-center py-8">
+        <LiquidGlassCard intensity="subtle" className="text-center py-8">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500 mx-auto" />
-          <p className="mt-2 text-gray-500">{t('common.loading', 'Loading...')}</p>
-        </div>
+          <p className="mt-2 liquid-text-secondary">{t('common.loading', 'Loading...')}</p>
+        </LiquidGlassCard>
       ) : error ? (
-        <div className="text-center py-8 text-red-500">{error}</div>
+        <LiquidGlassCard intensity="subtle" className="text-center py-8 text-red-400">{error}</LiquidGlassCard>
       ) : documents.length === 0 ? (
-        <div className="text-center py-8 text-gray-500">
+        <LiquidGlassCard intensity="subtle" className="text-center py-8 liquid-text-muted">
           {t('documents.queue.empty', 'No documents found')}
-        </div>
+        </LiquidGlassCard>
       ) : (
-        <div className="overflow-x-auto">
-          <table className="w-full">
-            <thead>
-              <tr className="border-b dark:border-gray-700">
-                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                  {t('documents.queue.filename', 'Filename')}
-                </th>
-                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                  {t('documents.queue.type', 'Type')}
-                </th>
-                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                  {t('documents.queue.status', 'Status')}
-                </th>
-                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                  {t('documents.queue.confidence', 'Confidence')}
-                </th>
-                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                  {t('documents.queue.date', 'Date')}
-                </th>
-                <th className="px-4 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                  {t('documents.queue.actions', 'Actions')}
-                </th>
-              </tr>
-            </thead>
-            <tbody className="divide-y dark:divide-gray-700">
-              {documents.map((doc) => (
-                <tr
-                  key={doc.id}
-                  className="hover:bg-gray-50 dark:hover:bg-gray-800/50 cursor-pointer"
-                  onClick={() => onSelectDocument?.(doc)}
-                >
-                  <td className="px-4 py-4">
-                    <div>
-                      <p className="text-sm font-medium text-gray-900 dark:text-gray-100">
-                        {doc.originalFilename}
-                      </p>
-                      <p className="text-xs text-gray-500">{formatFileSize(doc.fileSizeBytes)}</p>
-                    </div>
-                  </td>
-                  <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-400">
-                    {doc.documentType || '-'}
-                  </td>
-                  <td className="px-4 py-4">
-                    <span
-                      className={`inline-flex px-2 py-1 text-xs font-medium rounded-full ${getStatusBadgeClasses(
-                        doc.status
-                      )}`}
-                    >
-                      {documentApi.getStatusText(doc.status, i18n.language)}
-                    </span>
-                  </td>
-                  <td className="px-4 py-4">
-                    <ConfidenceBadge confidence={doc.overallConfidence} />
-                  </td>
-                  <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-400">
-                    {formatDate(doc.createdAt)}
-                  </td>
-                  <td className="px-4 py-4 text-right">
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation()
-                        onSelectDocument?.(doc)
-                      }}
-                      className="text-blue-600 dark:text-blue-400 hover:underline text-sm"
-                    >
-                      {t('documents.queue.review', 'Review')}
-                    </button>
-                  </td>
+        <LiquidGlassCard intensity="subtle" className="overflow-hidden">
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead>
+                <tr className="border-b border-white/10">
+                  <th className="px-4 py-3 text-left text-xs font-medium liquid-text-muted uppercase tracking-wider">
+                    {t('documents.queue.filename', 'Filename')}
+                  </th>
+                  <th className="px-4 py-3 text-left text-xs font-medium liquid-text-muted uppercase tracking-wider">
+                    {t('documents.queue.type', 'Type')}
+                  </th>
+                  <th className="px-4 py-3 text-left text-xs font-medium liquid-text-muted uppercase tracking-wider">
+                    {t('documents.queue.status', 'Status')}
+                  </th>
+                  <th className="px-4 py-3 text-left text-xs font-medium liquid-text-muted uppercase tracking-wider">
+                    {t('documents.queue.confidence', 'Confidence')}
+                  </th>
+                  <th className="px-4 py-3 text-left text-xs font-medium liquid-text-muted uppercase tracking-wider">
+                    {t('documents.queue.date', 'Date')}
+                  </th>
+                  <th className="px-4 py-3 text-right text-xs font-medium liquid-text-muted uppercase tracking-wider">
+                    {t('documents.queue.actions', 'Actions')}
+                  </th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+              </thead>
+              <tbody className="divide-y divide-white/5">
+                {documents.map((doc) => (
+                  <tr
+                    key={doc.id}
+                    className="hover:bg-white/5 cursor-pointer transition-colors"
+                    onClick={() => onSelectDocument?.(doc)}
+                  >
+                    <td className="px-4 py-4">
+                      <div>
+                        <p className="text-sm font-medium liquid-text-primary">
+                          {doc.originalFilename}
+                        </p>
+                        <p className="text-xs liquid-text-muted">{formatFileSize(doc.fileSizeBytes)}</p>
+                      </div>
+                    </td>
+                    <td className="px-4 py-4 text-sm liquid-text-secondary">
+                      {doc.documentType || '-'}
+                    </td>
+                    <td className="px-4 py-4">
+                      <LiquidGlassBadge variant={getStatusBadgeVariant(doc.status)}>
+                        {documentApi.getStatusText(doc.status, i18n.language)}
+                      </LiquidGlassBadge>
+                    </td>
+                    <td className="px-4 py-4">
+                      <ConfidenceBadge confidence={doc.overallConfidence} />
+                    </td>
+                    <td className="px-4 py-4 text-sm liquid-text-secondary">
+                      {formatDate(doc.createdAt)}
+                    </td>
+                    <td className="px-4 py-4 text-right">
+                      <LiquidGlassButton
+                        variant="primary"
+                        size="sm"
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          onSelectDocument?.(doc)
+                        }}
+                      >
+                        {t('documents.queue.review', 'Review')}
+                      </LiquidGlassButton>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </LiquidGlassCard>
       )}
 
       {/* Pagination */}
       {totalPages > 1 && (
         <div className="flex items-center justify-between mt-4">
-          <p className="text-sm text-gray-500">
+          <p className="text-sm liquid-text-muted">
             {t('documents.queue.showing', 'Showing {{from}}-{{to}} of {{total}}', {
               from: (page - 1) * pageSize + 1,
               to: Math.min(page * pageSize, total),
@@ -251,20 +244,22 @@ export function ReviewQueue({ onSelectDocument, refreshTrigger, className = '' }
             })}
           </p>
           <div className="flex gap-2">
-            <button
+            <LiquidGlassButton
+              variant="glass"
+              size="sm"
               onClick={() => setPage((p) => Math.max(1, p - 1))}
               disabled={page === 1}
-              className="px-3 py-1 text-sm border rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50 dark:hover:bg-gray-800"
             >
               {t('common.previous', 'Previous')}
-            </button>
-            <button
+            </LiquidGlassButton>
+            <LiquidGlassButton
+              variant="glass"
+              size="sm"
               onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
               disabled={page === totalPages}
-              className="px-3 py-1 text-sm border rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50 dark:hover:bg-gray-800"
             >
               {t('common.next', 'Next')}
-            </button>
+            </LiquidGlassButton>
           </div>
         </div>
       )}
@@ -272,27 +267,49 @@ export function ReviewQueue({ onSelectDocument, refreshTrigger, className = '' }
   )
 }
 
+/**
+ * Map document status to badge variant
+ */
+function getStatusBadgeVariant(status: DocumentStatus): 'warning' | 'blue' | 'success' | 'error' | 'default' {
+  switch (status) {
+    case 'ready_for_review':
+      return 'warning'
+    case 'under_review':
+      return 'blue'
+    case 'approved':
+      return 'success'
+    case 'rejected':
+      return 'error'
+    default:
+      return 'default'
+  }
+}
+
 function StatCard({
   label,
   value,
-  color,
+  variant,
 }: {
   label: string
   value: number
-  color: 'yellow' | 'blue' | 'red' | 'gray'
+  variant: 'warning' | 'blue' | 'error' | 'default'
 }) {
-  const colorClasses = {
-    yellow: 'bg-yellow-50 dark:bg-yellow-900/20 text-yellow-600 dark:text-yellow-400',
-    blue: 'bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400',
-    red: 'bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400',
-    gray: 'bg-gray-50 dark:bg-gray-800 text-gray-600 dark:text-gray-400',
+  const variantClasses = {
+    warning: 'liquid-glass-badge-yellow',
+    blue: 'liquid-glass-badge-blue',
+    error: 'liquid-glass-badge-red',
+    default: '',
   }
 
   return (
-    <div className={`p-4 rounded-lg ${colorClasses[color]}`}>
-      <p className="text-2xl font-bold">{value}</p>
-      <p className="text-sm opacity-75">{label}</p>
-    </div>
+    <LiquidGlassCard
+      intensity="subtle"
+      hover="lift"
+      className={`p-4 ${variantClasses[variant]}`}
+    >
+      <p className="text-2xl font-bold liquid-text-primary">{value}</p>
+      <p className="text-sm liquid-text-secondary">{label}</p>
+    </LiquidGlassCard>
   )
 }
 
