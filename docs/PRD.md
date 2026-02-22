@@ -43,27 +43,26 @@
 To ensure Tally and HIMS performance isn't impacted by heavy AI queries, the system will use a decoupled architecture (ETL to a Data Warehouse).
 
 * **Data Extraction Layer (ETL):**
-* **Tally:** Tally API using TDL (Tally Definition Language) to expose data via XML/JSON HTTP POST/GET requests.
+* **Tally:** Tally API using TDL to expose data via XML/JSON.
 * **HIMS:** Native REST APIs from the HIMS provider.
-* **Orchestration:** **Go (for performance)** or Apache Airflow to sync data incrementally every 15–60 minutes.
+* **Orchestration:** **Go 1.26** for performance.
 
-
-* **Data Warehouse:** **Local PostgreSQL** (Self-hosted on-premises).
+* **Data Warehouse:** **PostgreSQL 18.2** (Self-hosted on-premises).
 * **AI & LLM Engine:**
-* **Framework:** **Genkit** (Standardizing on Go/TS for type-safe AI flows) and **Agent ADK** for multi-agent coordination.
-* **Communication:** **Google A2A Protocol** for standardized inter-agent discovery and collaboration across the 14+ agent ecosystem.
-* **Vector Storage:** **pgvector** (Local Postgres extension) or **Milvus** for dedicated vector indexing.
-* **Cache & Message Broker:** **Redis** (Local instance).
-* **UI Pattern:** **Generative UI** orchestrated via **CopilotKit** (Ref: [official CopilotKit GenUI Guide](https://github.com/CopilotKit/generative-ui/blob/main/assets/generative-ui-guide.pdf)).
-* **LLM:** GPT-4o, Claude 3.5 Sonnet, or Gemini 1.5 Pro (via local gateway or strictly local models like Llama 3 on Ollama).
+* **Framework:** **Genkit** (Standardizing on Go/TS for type-safe AI flows) and **Agent ADK**.
+* **Communication:** **Google A2A Protocol**.
+* **Vector Storage:** **pgvector** (Local Postgres extension) or **Milvus**.
+* **Cache & Message Broker:** **Redis 8.6** (Local instance).
+* **UI Pattern:** **Generative UI** orchestrated via **CopilotKit**.
+* **LLM:** GPT-4o, Claude 3.5 Sonnet, or Gemini 1.5 Pro.
 
-
-* **Frontend UI:** React.js for Web, **Flutter** for Mobile.
-* **Visualization Library:** **Apache ECharts** or Plotly (rendered dynamically via go-echarts or React components).
+* **Frontend UI:** **React 19.2** for Web, **Flutter 3.42** for Mobile.
+* **Node.js**: **24.x LTS (Required)**.
+* **Visualization Library:** **Apache ECharts**.
 * **Internationalisation (i18n):**
-  * **Web:** `i18next` + `react-i18next` for namespace-based JSON translations with lazy-loading.
-  * **Mobile:** Flutter `flutter_localizations` + `intl` package with ARB files for compile-time type-safe strings.
-  * **RTL Layout:** Tailwind CSS logical properties (`inline-start/end`) + HTML `dir="rtl"` on root for Arabic; Flutter `Directionality` + `EdgeInsetsDirectional`.
+  * **Web:** `i18next` 25.x + `react-i18next`.
+  * **Mobile:** Flutter `flutter_localizations` + `intl`.
+  * **RTL Layout:** Tailwind CSS v4 logical properties + HTML `dir="rtl"`.
   * **Default Locale:** `en` (English, LTR). Phase 1 also ships `ar` (Arabic, RTL).
 
 ---

@@ -3,7 +3,7 @@
 # 1. Setup & Criteria
 
 **Feature Context**:
-*   **Target Feature**: `002-dashboard-advanced-features`
+*   **Target Feature**: `001-document-processing`
 *   **Note**: Use appropriate skills and claude agents where necessary.
 *   **Context**: Context7 MCP
 
@@ -26,7 +26,7 @@ The workflow is complete ONLY when:
 
 ### Phase 1: Discovery & Planning
 **Goal**: Define the work and phases.
-*   Read 'specs/002-dashboard-advanced-features/tasks.md'
+*   Read 'specs/001-document-processing/tasks.md'
 *   Identify constraints and unchecked tasks.
 *   **Plan**: Break task into clear phases if complex (e.g., Logic -> UI -> Refinement).
 
@@ -74,7 +74,7 @@ The workflow is complete ONLY when:
     4.  Write missing tests for edge cases.
 
 **[5] PROJECT MANAGER (Verification)**
-*   **Task**: Verify acceptance criteria against `/specs/002-dashboard-advanced-features/tasks.md`.
+*   **Task**: Verify acceptance criteria against `specs/001-document-processing/tasks.md`.
 *   **Action**: Document implementation gaps and trigger fixes.
 
 **[6] BUSINESS ANALYST (User Flow)**

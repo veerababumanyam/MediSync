@@ -2,7 +2,7 @@
 # Docker Compose configuration for local development
 #
 # Services:
-#   - postgres: PostgreSQL 16 with pgvector extension (data warehouse)
+#   - postgres: PostgreSQL 18.2 with pgvector extension (data warehouse)
 #   - nats: NATS server with JetStream for event streaming
 #   - redis: Redis for caching and session storage
 #   - keycloak: Keycloak for authentication and authorization
@@ -14,7 +14,7 @@
 #   docker-compose logs -f      # View logs
 #   docker-compose ps           # Check service status
 #
-# Note: PostgreSQL 18.2 is not yet available; using PostgreSQL 16 with pgvector as stable alternative
+# Note: Standard developer environment configuration.
 
 services:
   # ============================================================================
@@ -23,7 +23,7 @@ services:
   # Using pgvector-enabled image for vector similarity search
   # Schemas: hims_analytics, tally_analytics, app, vectors
   postgres:
-    image: pgvector/pgvector:pg16
+    image: pgvector/pgvector:pg18-bookworm
     container_name: medisync-postgres
     restart: unless-stopped
     environment:
@@ -42,18 +42,9 @@ services:
       # Initialization scripts (run in alphabetical order)
       - ./deployments/postgres/init:/docker-entrypoint-initdb.d:ro
     command: >
-      postgres
-      -c shared_preload_libraries=pg_stat_statements
-      -c pg_stat_statements.track=all
-      -c log_statement=all
-      -c log_min_duration_statement=100
-      -c shared_buffers=256MB
-      -c effective_cache_size=768MB
-      -c maintenance_work_mem=128MB
-      -c work_mem=16MB
-      -c max_connections=100
+      postgres -c shared_preload_libraries=pg_stat_statements -c pg_stat_statements.track=all -c log_statement=all -c log_min_duration_statement=100 -c shared_buffers=256MB -c effective_cache_size=768MB -c maintenance_work_mem=128MB -c work_mem=16MB -c max_connections=100
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-medisync} -d ${POSTGRES_DB:-medisync}"]
+      test: [ "CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-medisync} -d ${POSTGRES_DB:-medisync}" ]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -72,7 +63,7 @@ services:
   #   - Agent communication
   #   - Real-time notifications
   nats:
-    image: nats:2.10-alpine
+    image: nats:2.12-alpine
     container_name: medisync-nats
     restart: unless-stopped
     ports:
@@ -87,9 +78,9 @@ services:
       - ./deployments/nats/nats.conf:/etc/nats/nats.conf:ro
       # JetStream storage
       - nats_data:/data
-    command: ["-c", "/etc/nats/nats.conf"]
+    command: [ "-c", "/etc/nats/nats.conf" ]
     healthcheck:
-      test: ["CMD", "wget", "--spider", "-q", "http://localhost:8222/healthz"]
+      test: [ "CMD", "wget", "--spider", "-q", "http://localhost:8222/healthz" ]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -109,7 +100,7 @@ services:
   #   - Rate limiting
   #   - Temporary data
   redis:
-    image: redis:7-alpine
+    image: redis:8-alpine
     container_name: medisync-redis
     restart: unless-stopped
     ports:
@@ -119,9 +110,9 @@ services:
       - redis_data:/data
       # Custom Redis configuration
       - ./deployments/redis/redis.conf:/usr/local/etc/redis/redis.conf:ro
-    command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
+    command: [ "redis-server", "/usr/local/etc/redis/redis.conf" ]
     healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
+      test: [ "CMD", "redis-cli", "ping" ]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -140,7 +131,7 @@ services:
   #   - Role-based access control
   #   - JWT token issuance
   keycloak:
-    image: quay.io/keycloak/keycloak:23.0
+    image: quay.io/keycloak/keycloak:26.5.4
     container_name: medisync-keycloak
     restart: unless-stopped
     environment:
@@ -167,9 +158,9 @@ services:
       - ./deployments/keycloak:/opt/keycloak/data/import:ro
       # Persistent data
       - keycloak_data:/opt/keycloak/data
-    command: ["start-dev", "--import-realm"]
+    command: [ "start-dev", "--import-realm" ]
     healthcheck:
-      test: ["CMD-SHELL", "exec 3<>/dev/tcp/localhost/8180 && echo -e 'GET /health/ready HTTP/1.1\\r\\nHost: localhost\\r\\n\\r\\n' >&3 && cat <&3 | grep -q '200 OK'"]
+      test: [ "CMD-SHELL", "exec 3<>/dev/tcp/localhost/8180 && echo -e 'GET /health/ready HTTP/1.1\\r\\nHost: localhost\\r\\n\\r\\n' >&3 && cat <&3 | grep -q '200 OK'" ]
       interval: 30s
       timeout: 10s
       retries: 5
@@ -208,7 +199,7 @@ services:
       TALLY_HOST: ${TALLY_HOST:-localhost}
       TALLY_PORT: ${TALLY_PORT:-9000}
       # HIMS API connection (configure with actual values)
-      HIMS_API_URL: ${HIMS_API_URL:-http://localhost:8080}
+      HIMS_API_URL: http://host.docker.internal:8082/api
       HIMS_API_KEY: ${HIMS_API_KEY:-}
       # Logging configuration
       LOG_LEVEL: ${LOG_LEVEL:-info}
@@ -230,6 +221,8 @@ services:
         condition: service_healthy
     networks:
       - medisync-network
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     labels:
       - "com.medisync.service=etl"
       - "com.medisync.description=ETL service for Tally and HIMS data sync"
@@ -238,7 +231,7 @@ services:
   # Prometheus - Metrics Collection (Optional)
   # ============================================================================
   prometheus:
-    image: prom/prometheus:v2.49.0
+    image: prom/prometheus:v3.9.1
     container_name: medisync-prometheus
     restart: unless-stopped
     profiles:
@@ -254,7 +247,7 @@ services:
       - "--storage.tsdb.retention.time=7d"
       - "--web.enable-lifecycle"
     healthcheck:
-      test: ["CMD", "wget", "--spider", "-q", "http://localhost:9090/-/healthy"]
+      test: [ "CMD", "wget", "--spider", "-q", "http://localhost:9090/-/healthy" ]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -268,7 +261,7 @@ services:
   # Grafana - Dashboards and Visualization (Optional)
   # ============================================================================
   grafana:
-    image: grafana/grafana:10.3.0
+    image: grafana/grafana:12.3.3
     container_name: medisync-grafana
     restart: unless-stopped
     profiles:
@@ -287,7 +280,7 @@ services:
     depends_on:
       - prometheus
     healthcheck:
-      test: ["CMD-SHELL", "wget --spider -q http://localhost:3001/api/health"]
+      test: [ "CMD-SHELL", "wget --spider -q http://localhost:3001/api/health" ]
       interval: 30s
       timeout: 10s
       retries: 3

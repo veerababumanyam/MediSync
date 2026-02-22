@@ -64,6 +64,12 @@ describe('PinnedChartCard', () => {
     vi.clearAllMocks()
   })
 
+  // Helper to get the menu button (the one with the kebab icon)
+  const getMenuButton = (container: HTMLElement) => {
+    // The menu button is the one inside the .relative div with hover:bg-white/10 class
+    return container.querySelector('.relative button.hover\\:bg-white\\/10') as HTMLElement
+  }
+
   it('renders chart title', () => {
     render(<PinnedChartCard {...defaultProps} />)
 
@@ -77,9 +83,9 @@ describe('PinnedChartCard', () => {
   })
 
   it('shows menu when menu button clicked', async () => {
-    render(<PinnedChartCard {...defaultProps} />)
+    const { container } = render(<PinnedChartCard {...defaultProps} />)
 
-    const menuButton = screen.getByRole('button')
+    const menuButton = getMenuButton(container)
     await userEvent.click(menuButton)
 
     expect(screen.getByText('Refresh')).toBeInTheDocument()
@@ -88,9 +94,9 @@ describe('PinnedChartCard', () => {
   })
 
   it('calls onDelete when delete clicked', async () => {
-    render(<PinnedChartCard {...defaultProps} />)
+    const { container } = render(<PinnedChartCard {...defaultProps} />)
 
-    const menuButton = screen.getByRole('button')
+    const menuButton = getMenuButton(container)
     await userEvent.click(menuButton)
     await userEvent.click(screen.getByText('Delete'))
 
@@ -98,9 +104,9 @@ describe('PinnedChartCard', () => {
   })
 
   it('calls onRefresh when refresh clicked', async () => {
-    render(<PinnedChartCard {...defaultProps} />)
+    const { container } = render(<PinnedChartCard {...defaultProps} />)
 
-    const menuButton = screen.getByRole('button')
+    const menuButton = getMenuButton(container)
     await userEvent.click(menuButton)
     await userEvent.click(screen.getByText('Refresh'))
 
@@ -110,9 +116,9 @@ describe('PinnedChartCard', () => {
   })
 
   it('calls onToggle with false when unpin clicked', async () => {
-    render(<PinnedChartCard {...defaultProps} />)
+    const { container } = render(<PinnedChartCard {...defaultProps} />)
 
-    const menuButton = screen.getByRole('button')
+    const menuButton = getMenuButton(container)
     await userEvent.click(menuButton)
     await userEvent.click(screen.getByText('Unpin'))
 
@@ -129,9 +135,9 @@ describe('PinnedChartCard', () => {
   })
 
   it('does not call onClick when menu button clicked', async () => {
-    render(<PinnedChartCard {...defaultProps} />)
+    const { container } = render(<PinnedChartCard {...defaultProps} />)
 
-    const menuButton = screen.getByRole('button')
+    const menuButton = getMenuButton(container)
     await userEvent.click(menuButton)
 
     // onClick should not be called when clicking the menu button
@@ -140,12 +146,12 @@ describe('PinnedChartCard', () => {
 
   it('disables refresh button while refreshing', async () => {
     const slowRefresh = vi.fn().mockImplementation(() => new Promise(resolve => setTimeout(resolve, 100)))
-    render(<PinnedChartCard {...defaultProps} onRefresh={slowRefresh} />)
+    const { container } = render(<PinnedChartCard {...defaultProps} onRefresh={slowRefresh} />)
 
-    const menuButton = screen.getByRole('button')
+    const menuButton = getMenuButton(container)
     await userEvent.click(menuButton)
 
-    const refreshButton = screen.getByText('Refresh')
+    const refreshButton = screen.getByText('Refresh').closest('button') as HTMLElement
     await userEvent.click(refreshButton)
 
     // Button should be disabled during refresh
@@ -153,9 +159,9 @@ describe('PinnedChartCard', () => {
   })
 
   it('closes menu after action', async () => {
-    render(<PinnedChartCard {...defaultProps} />)
+    const { container } = render(<PinnedChartCard {...defaultProps} />)
 
-    const menuButton = screen.getByRole('button')
+    const menuButton = getMenuButton(container)
     await userEvent.click(menuButton)
     await userEvent.click(screen.getByText('Delete'))
 
@@ -212,14 +218,14 @@ describe('PinnedChartCard', () => {
   })
 
   it('closes menu when clicking outside', async () => {
-    render(
+    const { container } = render(
       <div>
         <PinnedChartCard {...defaultProps} />
         <div data-testid="outside">Outside</div>
       </div>
     )
 
-    const menuButton = screen.getByRole('button')
+    const menuButton = getMenuButton(container)
     await userEvent.click(menuButton)
 
     expect(screen.getByText('Unpin')).toBeInTheDocument()

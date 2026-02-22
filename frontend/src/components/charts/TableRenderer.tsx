@@ -9,6 +9,7 @@
 import React, { useMemo, useState, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useLocale } from '../../hooks/useLocale'
+import { formatNumber } from '../../utils/localeUtils'
 
 /**
  * Sort direction type
@@ -68,7 +69,7 @@ export const TableRenderer: React.FC<TableRendererProps> = ({
   onRowClick,
 }) => {
   const { t } = useTranslation('common')
-  const { isRTL } = useLocale()
+  const { locale } = useLocale()
   const [sortState, setSortState] = useState<SortState>({
     column: null,
     direction: null,
@@ -101,12 +102,9 @@ export const TableRenderer: React.FC<TableRendererProps> = ({
       if (bVal == null) return sortState.direction === 'asc' ? -1 : 1
 
       // Compare values
-      let comparison = 0
-      if (typeof aVal === 'number' && typeof bVal === 'number') {
-        comparison = aVal - bVal
-      } else {
-        comparison = String(aVal).localeCompare(String(bVal))
-      }
+      const comparison = typeof aVal === 'number' && typeof bVal === 'number'
+        ? aVal - bVal
+        : String(aVal).localeCompare(String(bVal))
 
       return sortState.direction === 'asc' ? comparison : -comparison
     })
@@ -137,12 +135,11 @@ export const TableRenderer: React.FC<TableRendererProps> = ({
     })
   }, [sortable])
 
-  // Format cell value for display
+  // Format cell value for display (BCP 47 locale for numbers)
   const formatValue = useCallback((value: unknown): string => {
     if (value == null) return '-'
     if (typeof value === 'number') {
-      // Format numbers with locale-appropriate separators
-      return value.toLocaleString(isRTL ? 'ar-SA' : 'en-US')
+      return formatNumber(value, locale)
     }
     if (typeof value === 'boolean') {
       return value ? t('yes', 'Yes') : t('no', 'No')
@@ -151,7 +148,7 @@ export const TableRenderer: React.FC<TableRendererProps> = ({
       return JSON.stringify(value)
     }
     return String(value)
-  }, [isRTL, t])
+  }, [locale, t])
 
   // Get sort icon for column header
   const getSortIcon = useCallback((column: string) => {
@@ -255,9 +252,8 @@ export const TableRenderer: React.FC<TableRendererProps> = ({
             {columns.map((column) => (
               <th
                 key={column}
-                className={`px-4 py-3 text-start text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider ${
-                  sortable ? 'cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors select-none' : ''
-                }`}
+                className={`px-4 py-3 text-start text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider ${sortable ? 'cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors select-none' : ''
+                  }`}
                 scope="col"
                 onClick={() => handleSort(column)}
                 aria-sort={
@@ -281,11 +277,10 @@ export const TableRenderer: React.FC<TableRendererProps> = ({
           {displayData.map((row, rowIndex) => (
             <tr
               key={rowIndex}
-              className={`${
-                onRowClick
+              className={`${onRowClick
                   ? 'cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors'
                   : ''
-              }`}
+                }`}
               onClick={() => onRowClick?.(row, rowIndex)}
             >
               {/* Row number cell */}

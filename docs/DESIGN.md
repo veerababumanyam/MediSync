@@ -1,8 +1,37 @@
-# MedMentor AI — Design System
+# MediSync — Design System
 
-**Version:** 0.0.1
+**Version:** 2.1.0
 **Status:** Production Ready  
-**Last Updated:** February 19, 2026
+**Last Updated:** February 22, 2026  
+**Maintainer:** MediSync Design Team
+
+> **Single source of truth.** This file supersedes `DESIGN-GUIDELINES.md` and `LIQUID-GLASS-DESIGN-SYSTEM.md`, both of which have been removed.
+
+---
+
+## Table of Contents
+
+1. [Brand Identity](#1-brand-identity)
+2. [Color System](#2-color-system)
+3. [Typography](#3-typography)
+4. [Spacing & Layout](#4-spacing--layout)
+5. [Glassmorphism System](#5-glassmorphism-system)
+6. [Elevation & Shadows](#6-elevation--shadows)
+7. [Border Radius](#7-border-radius)
+8. [UI Components](#8-ui-components)
+9. [Navigation](#9-navigation)
+10. [Animation & Motion](#10-animation--motion)
+11. [Accessibility Standards (WCAG 2.2 AA)](#11-accessibility-standards-wcag-22-aa)
+12. [Component Library Reference](#12-component-library-reference)
+13. [AI Accountant Module](#13-ai-accountant-module-dashboard--real-time-tally-integration)
+14. [Design System Maintenance & Evolution](#14-design-system-maintenance--evolution)
+15. [Testing & Quality Assurance](#15-testing--quality-assurance)
+16. [Implementation Handoff to Development](#16-implementation-handoff-to-development)
+17. [Key Takeaways](#17-key-takeaways)
+18. [CSS Custom Properties Reference](#18-css-custom-properties-reference)
+19. [Implementation Checklist](#19-implementation-checklist)
+20. [Internationalisation & RTL Design System](#20-internationalisation--rtl-design-system)
+21. [Future Spatial Design (v2.0)](#21-future-spatial-design-v20)
 
 ---
 
@@ -17,15 +46,20 @@ MedMentor AI transforms the overwhelming flood of medical information into a str
 
 ### 1.2 Design Philosophy
 The visual language draws from three pillars:
-*   **Liquid Glassmorphism:** Layered translucent surfaces with deep backdrop blur, creating depth and hierarchy through light and material rather than heavy borders.
-*   **iOS-Grade Precision:** Apple-level attention to spacing, typography, micro-interactions, and touch targets. Every pixel is intentional.
-*   **Medical Trust:** A palette grounded in deep blues and clean neutrals that conveys clinical authority while remaining warm and approachable.
+*   **Liquid Glassmorphism:** A dynamic material system built on translucency, lensing (light bending), and refraction. It leverages adaptive layers that shift based on background, content, light, and motion for a fluid, volumetric feel across platforms.
+*   **iOS-Grade Precision:** Apple-level attention to spacing, typography, micro-interactions, and touch targets. Every pixel is intentional, with sharp text layers always positioned above blurred materials.
+*   **Medical Trust & PII Protection**: A palette grounded in deep blues and clean neutrals that conveys clinical authority. This is reinforced by a robust PII protection layer (Microsoft Presidio) that ensures patient data remains anonymized across all AI interactions.
 
-### 1.4 Generative UI
-The MedMentor dashboard is a **Living UI**. It utilizes **Generative UI** patterns orchestrated via **CopilotKit** to dynamically construct interfaces based on agent reasoning and user data context.
+### 1.3 Generative UI
+The MedMentor dashboard is a **Living UI**. It utilizes **Generative UI** patterns orchestrated via **CopilotKit** and the **WebMCP** standard to dynamically construct interfaces based on agent reasoning and user data context.
 *   **Adaptability:** Interfaces change based on the complexity of the medical query.
 *   **Predictive Layouts:** Components are rendered JUST-IN-TIME based on agentic confidence.
 *   **Reference:** All generative components follow the [CopilotKit Generative UI Guide](https://github.com/CopilotKit/generative-ui/blob/main/assets/generative-ui-guide.pdf).
+
+### 1.4 WebMCP (Agent-Responsive UI)
+Interactive elements are enhanced with **WebMCP** attributes for autonomous discovery by browser-based AI agents.
+*   **Declarative discovery**: Standardized `tool-name` and `tool-description` attributes on glass surfaces.
+*   **Reference:** [WebMCP Explainer](https://github.com/web-mcp/explainer) | [MediSync WEBMCP.md](file:///Users/v13478/Desktop/MediSync/docs/WEBMCP.md)
 
 ### 1.5 Logo Concept
 *   **Symbol:** A stylized neural network where nodes and connections form a medical cross in negative space.
@@ -41,13 +75,13 @@ The palette uses a trustworthy medical blue base with energetic teal accents to 
 
 ### 2.1 Primary Brand Colors
 
-| Color Name | Hex | RGB | Usage |
-| :--- | :--- | :--- | :--- |
-| **Trust Blue** | `#0056D2` | `0, 86, 210` | Core brand. Primary buttons, active states, key headers. |
-| **Growth Teal** | `#00E8C6` | `0, 232, 198` | Accent. Success states, learning sparks, progress bars. |
-| **Midnight Navy** | `#0F172A` | `15, 23, 42` | Primary text, deep backgrounds, dark mode base. |
+| Color Name | Hex | RGB | Contrast (white) | Usage |
+| :--- | :--- | :--- | :--- | :--- |
+| **Logo Blue** | `#2750a8` | `39, 80, 168` | 5.37:1 ✅ | Core brand identity. Primary buttons, active states, key highlights. Replaces old Trust Blue. |
+| **Logo Teal** | `#18929d` | `24, 146, 157` | 3.51:1 ⚠️ | Secondary brand context. Gradient endpoints, secondary glow, badges. Used carefully with large text or dark backgrounds. |
+| **Midnight Navy** | `#0f172a` | `15, 23, 42` | 17.85:1 ✅ | Primary text, deep backgrounds, dark mode base. |
 
-### 2.2 Glass / Dark Mode Palette
+### 2.2 Apple HIG Liquid Glass Palette
 Used for immersive experiences like the calendar, dashboards, and focus mode. Built on layered transparency over animated mesh backgrounds.
 
 | Color Name | Hex / Value | Opacity | Usage |
@@ -89,37 +123,55 @@ Extended accent colors used for event categories, tags, and data visualization. 
 
 ### 2.5 Semantic Colors
 
-| Context | Color Name | Hex | Usage |
+| Context | Light Mode | Dark Mode | Usage |
 | :--- | :--- | :--- | :--- |
-| **Success** | **Emerald** | `#10B981` | Correct answers, passed quizzes, completion. |
-| **Warning** | **Amber** | `#F59E0B` | Low confidence, uncertainty flags, streaks at risk. |
-| **Error** | **Rose** | `#EF4444` | Incorrect answers, destructive actions, validation. |
-| **Info** | **Sky** | `#0EA5E9` | Tooltips, guidance, "did you know" hints. |
+| **Success** | `#10B981` | `#34C759` | Synced, correct answers, completion |
+| **Warning** | `#F59E0B` | `#FF9500` | Pending, low confidence, uncertainty |
+| **Error** | `#EF4444` | `#FF3B30` | Invalid, destructive actions, failed |
+| **Info** | `#0EA5E9` | `#007AFF` | Tooltips, guidance, help |
 
-### 2.6 Gradients
+### 2.6 Color Usage Rules
+
+**DO:**
+- Use semantic colors for their intended purpose only
+- Maintain 4.5:1 contrast ratio for all body text (WCAG 2.2 AA)
+- Test color combinations in both light and dark modes
+- Reserve brand colors for primary actions
+
+**DON'T:**
+- Use color as the *only* indicator of state — always pair with an icon or text label
+- Use red/green as the only visual differentiation (color-blind users)
+- Use more than 3 brand colors in a single view
+- Set brand color opacity below 20% for text
+
+### 2.7 Gradients
 
 **Light Mode Surface Gradient**
 ```css
 background: linear-gradient(135deg, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.4));
 ```
 
-**Dark Mode Accent Gradient**
+**Dark Mode Accent Gradient (Text-Bearing — WCAG-Safe)**
 ```css
-background: linear-gradient(135deg, #007AFF, #5856D6);
+background: linear-gradient(135deg, #0056D2, #0F766E);
+```
+
+**Dark Mode Accent Glow (Decorative Only — No Text)**
+```css
+background: linear-gradient(135deg, #2750a8, #18929d);
 ```
 
 **Study Card Gradient (Cardiology)**
 ```css
-background: linear-gradient(135deg, #1e3a8a 0%, #7c3aed 100%); /* Deep Blue to Vivid Purple */
+background: linear-gradient(135deg, #1e3a8a 0%, #0891b2 100%); /* Deep Blue to Cyan-Teal */
 ```
 
-**Animated Mesh Background (Calendar/Dashboard)**
+**Animated Background Orbs (Premium Canvas)**
 ```css
+/* Deep blurred orbs acting as light sources */
 background:
-  radial-gradient(ellipse 80% 60% at 10% 20%, rgba(88, 86, 214, 0.4) 0%, transparent 60%),
-  radial-gradient(ellipse 60% 80% at 80% 80%, rgba(0, 122, 255, 0.3) 0%, transparent 60%),
-  radial-gradient(ellipse 50% 50% at 50% 50%, rgba(175, 82, 222, 0.15) 0%, transparent 50%),
-  #0A0A1A;
+  radial-gradient(circle at 10% 20%, rgba(39, 80, 168, 0.45) 0%, transparent 60%), /* Logo Blue */
+  radial-gradient(circle at 80% 80%, rgba(24, 146, 157, 0.35) 0%, transparent 60%); /* Logo Teal */
 ```
 
 **Glass Shine (Liquid Effect)**
@@ -144,6 +196,17 @@ animation: shineSlide 6s ease-in-out infinite;
 *   **Arabic Primary:** [Cairo](https://fonts.google.com/specimen/Cairo) — Geometric, professional Arabic sans-serif. Matches Inter's clean proportions. Used for all Arabic UI text, report body, and chat.
 *   **Arabic Fallback:** [Noto Sans Arabic](https://fonts.google.com/noto/specimen/Noto+Sans+Arabic) — Universal coverage, multi-weight, ideal as fallback and for technical labels.
 *   **Arabic Display:** [Tajawal](https://fonts.google.com/specimen/Tajawal) — Optionally used for Arabic hero/headline text (dashboard titles, empty-state headings).
+
+### 3.1.1 Liquid Glass Typography Rules
+Typography in the Liquid Glass system is optimized for extreme legibility against translucent backgrounds:
+*   **Weight & Alignment**: Prefer **bolder weights** and **left-aligned** layouts to ground the eye.
+*   **Contrast Layering**: Sharp text (Slate 900 or White) must always be layered *above* the glass material. **Never blur typography.**
+*   **WCAG 2.2 AA Fixes**: Ensure ≥4.5:1 text contrast. Use media queries to disable gradients on text for users with vision impairments.
+*   **Spacing**: Adhere to WCAG 1.4.12 for line height (1.5) and paragraph spacing (2.0) to ensure readability.
+
+### 3.1.2 Iconography
+*   **Solid & Filled**: Use solid or filled icons for primary actions to ensure ≥3:1 contrast against glass backdrops.
+*   **Layering**: Place icons in a distinct functional layer above the glass surface.
 
 > All Arabic fonts are available on Google Fonts under the SIL Open Font License (OFL) — free for commercial use.
 
@@ -221,12 +284,18 @@ In dark/glass mode, text uses opacity-based color hierarchy instead of hex value
 | **Icon + text** | `6–12px` | Inline label pairs |
 | **Nav items** | `space-around` | Bottom navigation |
 
+### 4.4 Alignment & RTL
+*   **Text alignment:** Use `text-start` / `text-end` (not `text-left` / `text-right`) so content flips correctly in RTL. Use `text-end` for numeric columns and end-aligned UI (e.g. helper text under inputs).
+*   **Logical borders:** Use `border-s-*` (inline-start) for accent bars (e.g. error cards) so the bar stays on the correct side in RTL.
+*   **Positioning:** Use `start-0` / `end-0` (or Tailwind logical insets) for dropdowns and anchored UI so they open on the correct side in RTL.
+*   **Implementation:** See `frontend/src/styles/liquid-glass.css` for `.liquid-text-start`, `.liquid-text-end`, and spacing utility comments.
+
 ---
 
 ## 5. Glassmorphism System
 The liquid glassmorphism system is the signature visual layer of MedMentor AI’s immersive interfaces. It creates a sense of depth, material, and space using layered translucency, blur, and light effects.
 
-### 5.1 Glass Material Classes
+### 5.1 Glass Material Classes (Dark / Glass Mode)
 | Class | Background | Blur | Border | Shadow |
 | :--- | :--- | :--- | :--- | :--- |
 | `.glass` | `rgba(255,255,255,0.12)` | `blur(40px)` | `rgba(255,255,255,0.20)` | `0 8px 32px rgba(0,0,0,0.3)` |
@@ -234,13 +303,65 @@ The liquid glassmorphism system is the signature visual layer of MedMentor AI’
 | `.glass-subtle` | `rgba(255,255,255,0.05)` | `blur(20px)` | `rgba(255,255,255,0.08)` | None |
 | `.glass-panel` (light) | `rgba(255,255,255,0.70)` | `blur(12px)` | `rgba(255,255,255,0.30)` | Level 1 |
 
-### 5.2 Glass Shine (Liquid Reflection)
+### 5.2 Glass Materials (Apple HIG Equivalent)
+| Material | Background (Light) | Background (Dark) | Blur | Stroke/Border | Usage |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **Ultra Thin** | `rgba(255,255,255,0.4)` | `rgba(30,30,30,0.3)` | `blur(20px)` | `rgba(255,255,255,0.4)` top edge | Subtle backdrop regions |
+| **Thin** | `rgba(255,255,255,0.55)` | `rgba(35,35,35,0.4)` | `blur(30px)` | `rgba(255,255,255,0.5)` top edge | Default cards, panels |
+| **Regular** | `rgba(255,255,255,0.7)` | `rgba(45,45,45,0.6)` | `blur(45px)` | `rgba(255,255,255,0.6)` top edge | Modals, Prominent surfaces |
+| **Thick** | `rgba(255,255,255,0.85)` | `rgba(60,60,60,0.8)` | `blur(60px)` | `rgba(255,255,255,0.7)` top edge | Navbars, highly readable zones |
+
+### 5.3 Hover Effects
+| Effect | Description | Duration |
+| :--- | :--- | :--- |
+| **Lift** | `translateY(-4px)` + stronger shadow | 300ms |
+| **Glow** | Colored ambient light (teal/blue/green) | 300ms |
+| **Shimmer** | Moving light reflection across surface | 1.5s |
+| **Lift-Glow** | Combination of lift + colored glow | 300ms |
+
+### 5.4 Liquid Glass Technical Implementation (v2.0)
+MedSync adopts Apple's Liquid Glass foundation, emphasizing translucent, adaptive materials that create depth and hierarchy.
+
+**Core Web Equivalent:**
+```css
+/* Liquid Glass Base Material (Apple HIG) */
+.liquid-glass-regular {
+  backdrop-filter: blur(45px) saturate(1.8);
+  -webkit-backdrop-filter: blur(45px) saturate(1.8);
+  background-color: rgba(255, 255, 255, 0.7); /* Adjust per theme */
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.05); /* Diffuse soft shadow */
+  border: 1px solid rgba(255,255,255,0.2);
+  border-top: 1px solid rgba(255, 255, 255, 0.5); /* iOS specular top edge highlight */
+}
+
+/* Dark Mode Extractor */
+.dark .liquid-glass-regular {
+  background-color: rgba(45, 45, 45, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
+}
+
+/* WCAG 2.2 AA Adaptations */
+@media (prefers-reduced-transparency: reduce) {
+  .liquid-glass-regular {
+    backdrop-filter: none;
+    background-color: var(--surface-opaque);
+    opacity: 1;
+  }
+}
+```
+
+*   **Lensing & Refraction**: Simulated via radial inner gradients and dynamic highlights that shift based on background or scroll position.
+*   **Adaptive Tinting**: Materials brighten at the center and vignetted at the edges to maintain volumetric depth.
+
+### 5.5 Glass Shine (Liquid Reflection)
 A signature animated gradient overlay that simulates light passing across a glass surface. Applied via the `::after` pseudo-element with `pointer-events: none`.
 *   **Gradient angle:** 135deg diagonal sweep.
 *   **Animation:** `shineSlide`, 6s ease-in-out infinite.
 *   **Peak opacity:** 8% (`rgba(255,255,255,0.08)`) to maintain subtlety.
 
-### Immersive Study Workspace (Agent Studio)
+### 5.6 Immersive Study Workspace (Agent Studio)
 - **Agent-First Layout**:
 -    - **Center**: Dynamic AI Chat Integrated with Deep Research Specialists (Primary focus).
 -    - **Left**: Collapsible Source Library (Document ingestion as an additive feature).
@@ -250,16 +371,15 @@ A signature animated gradient overlay that simulates light passing across a glas
 - **Visual Pinpointing**: AI citations from both internet sources and uploaded documents must trigger visual highlights or link-outs.
 - **Responsive Behavior**: Sidebars collapse to allow for a focused chat experience on small screens.
 
-### 5.3 Animated Background Orbs
+### 5.7 Animated Background Orbs
 Floating radial gradient orbs create a living, breathing canvas behind glass surfaces. Three orbs with different colors, sizes, and animation timings prevent visual repetition.
 
 | Orb | Size | Color Base | Blur | Animation Duration |
 | :--- | :--- | :--- | :--- | :--- |
-| **Orb 1 (Blue)** | 500px | `rgba(0,122,255,0.35)` | 80px | 20s |
-| **Orb 2 (Purple)** | 400px | `rgba(175,82,222,0.30)` | 80px | 25s |
-| **Orb 3 (Pink)** | 350px | `rgba(255,45,85,0.20)` | 80px | 18s |
+| **Orb 1 (Logo Blue)** | 500px | `rgba(39, 80, 168, 0.45)` | 100px | 20s |
+| **Orb 2 (Logo Teal)** | 400px | `rgba(24, 146, 157, 0.35)` | 100px | 25s |
 
-### 5.4 CSS Implementation
+### 5.8 CSS Implementation
 ```css
 .glass {
   background: rgba(255, 255, 255, 0.12);
@@ -319,32 +439,48 @@ All interactive elements receive a visible focus ring for keyboard navigation:
 
 ## 8. UI Components
 
-### 8.1 Buttons
-| Variant | Background | Text | Border | Shadow | Hover |
-| :--- | :--- | :--- | :--- | :--- | :--- |
-| **Primary** | Trust Blue `#0056D2` | White | None | `shadow-sm` | Darken blue |
-| **Accent (CTA)** | Gradient: `#007AFF` → `#5856D6` | White | None | `0 4px 15px rgba(0,122,255,0.4)` | `translateY(-1px)` |
-| **Secondary** | White / `glass-subtle` | Slate 700 | Slate 200 | None | Slate 50 bg |
-| **Ghost** | Transparent | Trust Blue | None | None | Blue-50 bg |
-| **Destructive** | Rose `#EF4444` | White | None | `shadow-sm` | Darken rose |
-| **Icon Button** | `rgba(255,255,255,0.1)` + blur | White | `rgba(255,255,255,0.15)` | None | `scale(1.08)` |
+### 8.1 Buttons (Liquid Glass Context)
+*   **Trait**: Glass with a tint shift on hover/press; specular highlights create a volumetric feel.
+*   **Web Equivalent**: use `radial-gradient` + `scale(1.02)` on hover.
+*   **WCAG 2.2**: Minimum 44x44px touch targets; 3:1 contrast ratio between states; distinct ARIA labels for screen readers.
 
-*All buttons: `radius-sm` (8px), min-height 44px, font-weight 600, transition 0.3s cubic-bezier(0.4, 0, 0.2, 1). Active state: `scale(0.95)` for tactile feedback.*
+### 8.2 Cards (Volumetric Float)
+*   **Apple Trait**: Volumetric floating effect that refracts background content.
+*   **Web Equivalent**: 
+    ```css
+    .card-glass {
+      backdrop-filter: blur(16px);
+      border-radius: 20px;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+    }
+    ```
+*   **WCAG**: Ensure text is ≥14px bold or 18px regular; use high-contrast color overrides for legibility.
 
-### 8.2 Cards
-**Light Mode Cards**
+### 8.3 Panels & Sheets (Modal Dynamics)
+*   **Trait**: Backdrop dimming combined with glass material; growth effect on drag.
+*   **Web Equivalent**: Overlay with `position: fixed`, `blur(24px)`.
+*   **WCAG**: Support `Escape` key to close; maintain ≥3:1 contrast for hover/focus; disable elastic animations for `prefers-reduced-motion`.
+
+### 8.4 Scroll Views (Edge Effects)
+*   **Trait**: Edge effects with soft blur under pinned controls.
+*   **WCAG**: Ensure no blur is applied directly to readable text. Support WCAG 1.4.10 reflow.
+
+### 8.5 Controls & Inputs
+*   **Sliders/Toggles**: Glass material directly on the control thumb; flex effect on interaction. WCAG: Visible thumb ≥24px; live region announcements for values.
+*   **Text Fields**: Glass container with sharp text; auto-adjusting tint for maximum legibility. WCAG: ≥4.5:1 placeholder/focus contrast; native autocomplete support.
+*   **Switches/Checkboxes**: Subtle glass "lift" on toggle. WCAG: 3:1 checked/unchecked state contrast.
+
+### 8.6 Alerts & Overlays
+*   **Trait**: Glass with a dimming scrim; opacity ramps ensure focus on the message.
+*   **WCAG**: Must be interruptible (Escape/Dismiss); ARIA `role="alert"` or `aria-live="polite"`.
+
+### 8.7 Light Mode Card Variants
+**Standard Light Cards**
 *   Background: White (`#FFFFFF`)
 *   Border: 1px solid Slate 200
 *   Radius: 16px (`radius-md`)
 *   Shadow: `shadow-sm`
 *   Hover: `translateY(-2px)`, `shadow-md`, border Blue-200
-
-**Glass Mode Cards**
-*   Background: `rgba(255,255,255,0.12)` with glass-shine overlay
-*   Border: 1px solid `rgba(255,255,255,0.20)`
-*   Radius: 22px (`radius-lg`)
-*   Shadow: `0 8px 32px rgba(0,0,0,0.3)`
-*   Hover: `translateY(-2px)`, border-strong, shadow deepened
 
 **Event Cards**
 *   Layout: Horizontal flex with 4px colored accent bar on the left edge.
@@ -352,7 +488,7 @@ All interactive elements receive a visible focus ring for keyboard navigation:
 *   Avatar: 36px circle with category emoji, background matches event color at 13% opacity.
 *   Active: `scale(0.98)` on press for haptic-style feedback.
 
-### 8.3 Calendar Grid
+### 8.8 Calendar Grid
 **Day Cells**
 *   Size: Square (aspect-ratio: 1), in a 7-column CSS Grid with 3px gap.
 *   Default: 15px/500 weight, `--text-primary` color.
@@ -365,7 +501,7 @@ All interactive elements receive a visible focus ring for keyboard navigation:
 **Weekday Row**
 *   12px uppercase, font-weight 600, `--text-tertiary`, letter-spacing 0.5px. Consistent 8px vertical padding.
 
-### 8.4 Dropdown Menus
+### 8.9 Dropdown Menus
 Custom dropdown panels with iOS-grade presentation and clear visibility.
 
 **Month Selector Trigger**
@@ -398,7 +534,7 @@ Custom dropdown panels with iOS-grade presentation and clear visibility.
 *   Focus: Accent border + 3px accent glow ring.
 *   Options: Background `#1A1A30`, white text for native dropdown readability.
 
-### 8.5 Form Inputs
+### 8.10 Form Inputs
 **Light Mode**
 *   Background: Slate 50 (`#F8FAFC`).
 *   Border: 1px solid Slate 300.
@@ -413,7 +549,7 @@ Custom dropdown panels with iOS-grade presentation and clear visibility.
 *   Placeholder: `--text-tertiary` (35% white).
 *   Text: 15px/500, `--text-primary`.
 
-### 8.6 Modal / Bottom Sheet
+### 8.11 Modal / Bottom Sheet
 *   Overlay: `rgba(0,0,0,0.5)` with `blur(8px)` backdrop.
 *   Sheet: Slides up from bottom, `rgba(25,25,45,0.92)` with `blur(60px)`.
 *   Handle: Centered 40px × 4px bar, `rgba(255,255,255,0.2)`, radius 4px.
@@ -421,19 +557,19 @@ Custom dropdown panels with iOS-grade presentation and clear visibility.
 *   Animation: `translateY(100%)`→0 over 0.4s cubic-bezier(0.4, 0, 0.2, 1).
 *   Shadow: `0 -20px 60px rgba(0,0,0,0.4)`.
 
-### 8.7 Color Picker
+### 8.12 Color Picker
 *   Layout: Flex row with 10px gap, wrapping.
 *   Options: 32px circles with 2px transparent border.
 *   Hover: `scale(1.15)`.
 *   Selected: 2px white border + 3px white ring (20% opacity) + checkmark overlay.
 
-### 8.8 View Toggle (Segmented Control)
+### 8.13 View Toggle (Segmented Control)
 *   Container: `glass-subtle` background, `radius-md` (16px), 4px padding.
 *   Buttons: Equal flex, 10px 16px padding, `radius-sm` (12px).
 *   Active: Accent gradient background, white text, 0 4px 15px blue shadow.
 *   Inactive hover: `rgba(255,255,255,0.08)`, promote text to `--text-primary`.
 
-### 8.9 Dashboard Widgets (Analytics)
+### 8.14 Dashboard Widgets (Analytics)
 **Retention Card**
 *   **Visuals:** Dark glass card with a vibrant teal/green smooth curve graph.
 *   **Data:** "RETENTION [XX]%" header.
@@ -444,35 +580,38 @@ Custom dropdown panels with iOS-grade presentation and clear visibility.
 *   **Visuals:** Dark glass card containing a circular progress ring.
 *   **Data:** Large central number (e.g., "245"), Label "Step 1" or "Step 2".
 *   **Badge:** "ON TRACK" pill badge (Teal background, low opacity).
-*   **Progress Ring:** Gradient blue to purple glow.
+*   **Progress Ring:** Gradient blue to teal glow.
 
 **Technical Note:** All charts and analytics widgets are standardized on **Apache ECharts** for cross-platform consistency. The `go-echarts` library is used for server-side configuration in the Go backend.
 
-### 8.10 Daily Queue Card
+### 8.15 Daily Queue Card
 A primary action area for the Space Repetition System (SRS).
 *   **Header:** "Daily Queue" + "Space Repetition System" subtext.
 *   **Stat:** Large counter "120 CARDS DUE" (White display type).
 *   **Content:**
     *   **Inner Glass Card:** "Mixed Review" container with icon and 3-dot complexity indicator (Orange, Yellow, Green).
-    *   **Action Button:** Full-width "Start Review" button (Primary Blue/Purple gradient).
+    *   **Action Button:** Full-width "Start Review" button (Primary Blue/Teal gradient).
 
 ---
 
 ## 9. Navigation
 
-### 9.1 Bottom Tab Bar
-*   **Background:** `rgba(15,15,30,0.8)` with `blur(40px)`.
-*   **Border:** 1px solid `rgba(255,255,255,0.08)` top only.
-*   **Layout:** 5 Icons evenly spaced:
-    1.  **Home** (Grid icon) - Active styling (Teal/Cyan glow).
-    2.  **Learn** (Graduation cap).
-    3.  **FAB** (Center floating action button).
-    4.  **Library** (Folder icon).
-    5.  **Profile** (User avatar icon).
-*   **Active State:** Icon color shifts to Teal (`#00E8C6`) or brand gradient + text label color change.
-*   **Inactive:** `--text-tertiary` (35% white).
+### 9.1 Bottom Tab Bar (Liquid Lift)
+*   **Behavior**: Liquid Glass lifts navigation above content. As content scrolls, the material adapts its opacity and blur dynamically.
+*   **WCAG Fixes**: 
+    *   Minimum 48px touch targets.
+    *   Icons and labels must maintain ≥4.5:1 contrast.
+    *   Active icons use a distinct glow (`#00E8C6`) for clear state communication.
 
-### 9.2 Floating Action Button (FAB)
+### 9.2 Sidebars (Content Inset)
+*   **Visuals**: Inset panels that allow underlying content to flow behind.
+*   **Accessibility**: High-contrast text only; must be fully keyboard-navigable with clear focus rings.
+
+### 9.3 Top Nav Bars (Adaptive Dimming)
+*   **Scroll Behavior**: Translucent over hero sections, dimming dynamically on scroll to prioritize foreground content.
+*   **WCAG**: Bold labels only; ensure no overlap with interactive search inputs.
+
+### 9.4 Floating Action Button (FAB)
 *   **Size:** 56px circle (prominent overlap on tab bar).
 *   **Background:** **Cyan/Teal Gradient** (distinct from the purple/blue brand gradient).
     *   Matches "Growth Teal" aesthetic.
@@ -494,7 +633,12 @@ Simulated iOS status bar with time (15px/700), and system icons (WiFi, battery) 
 | `ease-spring` | `cubic-bezier(0.4, 0, 0.2, 1)` | Buttons, cards, scale interactions |
 | `ease-bounce` | `cubic-bezier(0.34, 1.56, 0.64, 1)` | Playful feedback, checkmarks |
 
-### 10.2 Transition Defaults
+### 10.2 Liquid Dynamics
+*   **Spring Flex**: Use spring-based timing for transforms to create an organic, physical feel.
+*   **Lensing Effect**: Dynamic shifts in `backdrop-filter` values during motion to simulate light bending.
+*   **Reduced Motion**: Automatically disable elastic animations and lensing when `@prefers-reduced-motion` is active.
+
+### 10.3 Transition Defaults
 *   **Duration:** 0.25–0.35s for micro-interactions, 0.4s for layout shifts.
 *   **Properties:** `all` (for simple elements) or explicit (`transform`, `opacity`, `background`).
 
@@ -513,11 +657,173 @@ On page load, elements animate in sequence with 50ms delay increments (`delay-1`
 
 ---
 
-## 12. AI Accountant Module: Dashboard & Real-Time Tally Integration
+## 11. Accessibility Standards (WCAG 2.2 AA)
+
+MediSync unifies hierarchy while staying premium and inclusive.
+
+### 11.1 Color Contrast
+| Element | Minimum Ratio | Notes |
+| :--- | :--- | :--- |
+| **Normal text** | 4.5:1 | Slate-900+ on white/light |
+| **Large text (18px+)** | 3:1 | Slate-700+ on white |
+| **Interactive / icons** | 3:1 | Brand color on adjacent bg |
+| **Glass text (dark)** | 7:1+ | `--text-primary` on `#0A0A1A` |
+
+### 11.2 Focus Management
+*   All interactive elements: visible focus ring (3px Trust Blue / System Blue, 20% opacity glow).
+*   Tab order follows visual layout: header → selector → content → CTA → nav.
+*   Modal traps focus; returns to trigger on close.
+
+### 11.3 Touch Targets
+*   Minimum **44×44px** for all interactive elements (WCAG 2.2 AA).
+*   Calendar day cells: `aspect-ratio: 1` ensures adequate tap area.
+*   Icon buttons: 40px diameter + 4px invisible hit area extension.
+
+### 11.4 Motion & Reduced Motion
+```css
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+```
+
+### 11.5 High Contrast Mode
+Supports `prefers-contrast: high`: increased border visibility, stronger shadows, maintained brand colors.
+
+### 11.6 Screen Reader Considerations
+*   Calendar cells: `aria-label` with full date (e.g., *Thursday, February 19, 2026*) + `aria-current="date"` on today.
+*   Dropdown: `aria-expanded` on trigger. Modal: `role="dialog"` + `aria-labelledby`.
+
+### 11.7 Keyboard Navigation
+| Key | Action |
+| :--- | :--- |
+| `Tab` / `Shift+Tab` | Forward/backward navigation |
+| `Enter` / `Space` | Activate |
+| `Escape` | Close modal/dropdown |
+| Arrow keys | Navigate date pickers, menus |
+
+---
+
+## 12. Component Library Reference
+
+### 12.1 File Structure
+```
+frontend/src/
+├── components/
+│   ├── ui/
+│   │   ├── LiquidGlassCard.tsx
+│   │   ├── LiquidGlassButton.tsx
+│   │   ├── LiquidGlassInput.tsx
+│   │   └── index.ts
+│   ├── chat/
+│   ├── dashboard/
+│   └── ...
+├── styles/
+│   ├── liquid-glass.css
+│   └── globals.css
+└── lib/
+    └── cn.ts
+```
+
+### 12.2 Naming Conventions
+| Type | Convention | Example |
+| :--- | :--- | :--- |
+| Components | PascalCase | `LiquidGlassCard` |
+| Props interface | PascalCase + `Props` | `LiquidGlassCardProps` |
+| CSS classes | kebab-case prefixed | `.liquid-glass-card` |
+| CSS variables | `--ms-` prefix | `--ms-teal-light` |
+| Files | PascalCase | `LiquidGlassCard.tsx` |
+
+### 12.3 Component Template
+```tsx
+import React from 'react'
+import { cn } from '@/lib/cn'
+
+export interface ComponentNameProps {
+  className?: string
+}
+
+export const ComponentName: React.FC<ComponentNameProps> = ({ className, ...props }) => {
+  return (
+    <div className={cn('liquid-glass', className)}>
+      {/* Content */}
+    </div>
+  )
+}
+
+ComponentName.displayName = 'ComponentName'
+```
+
+### 12.4 Component Props Reference
+
+**LiquidGlassCard**
+```tsx
+import { LiquidGlassCard, GlassBrandCard, GlassTealCard } from '@/components/ui'
+
+<LiquidGlassCard intensity="medium" elevation="raised" hover="lift-glow" brand="teal" interactive>
+  Content
+</LiquidGlassCard>
+```
+*Props:* `intensity` (`subtle|light|medium|heavy`) · `elevation` (`none|base|raised|floating`) · `hover` (`none|lift|glow|glow-blue|glow-green|shimmer|lift-glow`) · `brand` (`none|blue|teal|green|brand`) · `radius` (`sm|md|lg|xl|2xl|full`) · `interactive` · `pulseGlow` · `float` · `gradientOverlay`
+
+*Presets:* `GlassCard` · `GlassHeader` · `GlassModal` · `GlassInteractiveCard` · `GlassBrandCard` · `GlassBlueCard` · `GlassTealCard` · `GlassGreenCard`
+
+**LiquidGlassButton**
+```tsx
+import { LiquidGlassButton, ButtonPrimary, IconButton } from '@/components/ui'
+
+<ButtonPrimary icon={<PlusIcon />} isLoading={isLoading}>Create New</ButtonPrimary>
+<IconButton icon={<SearchIcon />} onClick={handleSearch} />
+```
+*Props:* `variant` (`glass|primary|secondary|ghost|danger`) · `size` (`xs|sm|md|lg|xl`) · `radius` · `hover` (`none|lift|glow|scale`) · `icon` · `iconPosition` (`left|right|only`) · `isLoading` · `disabled`
+
+*Presets:* `ButtonPrimary` · `ButtonSecondary` · `ButtonGhost` · `ButtonDanger` · `IconButton`
+
+**LiquidGlassInput**
+```tsx
+import { LiquidGlassInput, LiquidGlassSearch, LiquidGlassTextarea } from '@/components/ui'
+
+<LiquidGlassInput label="Email" placeholder="you@example.com" error={err} prefixIcon={<MailIcon />} />
+<LiquidGlassSearch placeholder="Search..." value={q} onChange={setQ} onClear={() => setQ('')} />
+<LiquidGlassTextarea label="Notes" maxLength={500} showCount rows={4} />
+```
+*Props:* `size` (`sm|md|lg`) · `state` (`default|error|success|warning`) · `label` · `error` · `helperText` · `prefixIcon` · `suffixIcon` · `showCount` · `maxLength` · `isLoading` · `disabled`
+
+### 12.5 CSS Utility Classes
+```css
+.liquid-glass                     /* Base glass */
+.liquid-glass-subtle|light|heavy  /* Intensity */
+.liquid-shadow-ambient|elevation|float  /* Shadows */
+.liquid-glass-hover-lift|glow|glow-blue|glow-green|shimmer /* Hover */
+.liquid-glass-blue|teal|green|brand     /* Brand variants */
+.liquid-radius-sm|md|lg|xl|2xl|full     /* Radius */
+.liquid-blur-xs|sm|md|lg|xl             /* Blur */
+.liquid-text-primary|secondary|tertiary|inverted|blue|teal|green
+.liquid-animate-in  .liquid-pulse-glow  .liquid-float
+.liquid-delay-100|200|300|400|500
+.liquid-glass-scroll  .liquid-glass-divider  .liquid-skeleton  .liquid-spinner
+```
+
+### 12.6 Browser Support
+| Browser | Min Version |
+| :--- | :--- |
+| Chrome / Edge | 90+ |
+| Safari | 14+ |
+| Firefox | 88+ |
+| Mobile Safari (iOS) | 14+ |
+| Chrome Android | 90+ |
+
+> Graceful degradation: falls back to solid backgrounds, maintaining accessibility.
+
+---
+
+## 13. AI Accountant Module: Dashboard & Real-Time Tally Integration
 
 This section defines the design patterns and UI components specific to the AI Accountant cloud dashboard, which powers real-time financial data synchronization, automated transaction mapping, and intelligent reconciliation workflows.
 
-### 12.1 Core Design Philosophy for Accounting Interface
+### 13.1 Core Design Philosophy for Accounting Interface
 The AI Accountant module adopts the same glassmorphism and precision-first design language while introducing financial-specific patterns:
 
 * **Real-Time Status Indicators:** Pulsing sync badges, connection status monitors, and refresh timestamps.
@@ -525,7 +831,7 @@ The AI Accountant module adopts the same glassmorphism and precision-first desig
 * **Color-Coded Transactions:** Success (Green), Pending (Amber), Error (Red), Under Review (Blue) state indicators.
 * **Hierarchical Data Views:** Drill-down from summary dashboards → ledgers → transaction details → supporting documents.
 
-### 12.2 Real-Time Synchronization UI
+### 13.2 Real-Time Synchronization UI
 
 **Sync Status Badge**
 *   **Position:** Top-right of dashboard header.
@@ -544,7 +850,7 @@ The AI Accountant module adopts the same glassmorphism and precision-first desig
     *   **Connecting (Blue):** `#007AFF` animated rotation of loading spinner.
 *   **Hover Tooltip:** Shows API endpoint, last activity timestamp, connection uptime, and manual sync button.
 
-### 12.3 Dashboard Overview (Main Analytics View)
+### 13.3 Dashboard Overview (Main Analytics View)
 
 **Header Structure**
 *   **Company/Period Selector:** Dropdown to switch between company instances (for multi-entity firms) and date ranges (Monthly, YTD, Custom).
@@ -568,7 +874,7 @@ The AI Accountant module adopts the same glassmorphism and precision-first desig
     *   **"Reconciliation Items":** Count badge, link to reconciliation workflow.
 *   **Design:** Each section is a 2-line item (title, count), stacked vertically, clickable to navigate.
 
-### 12.4 Bill & Statement Upload Interface
+### 13.4 Bill & Statement Upload Interface
 
 **Upload Zone (Drag-and-Drop)**
 *   **Container:** 320px × 200px glassmorphic card with centered dashed border (2px, `rgba(255,255,255,0.2)`).
@@ -600,7 +906,7 @@ The AI Accountant module adopts the same glassmorphism and precision-first desig
         *   "Download Details" (secondary, exports CSV).
         *   "Delete Selected" (destructive, red, requires confirmation modal).
 
-### 12.5 Transaction Mapping & Reconciliation
+### 13.5 Transaction Mapping & Reconciliation
 
 **Mapping Review Card**
 *   **Layout:** 3-column view (responsive stacking on mobile):
@@ -632,7 +938,7 @@ The AI Accountant module adopts the same glassmorphism and precision-first desig
         *   "⟳ Pending Review" (amber).
     *   **Interaction:** Clicking "Unmatched" opens a modal to manually select a matching Tally transaction or create a new entry.
 
-### 12.6 Document Management & OCR
+### 13.6 Document Management & OCR
 
 **Document Library View**
 *   **Left Sidebar (Collapsible):**
@@ -671,7 +977,7 @@ The AI Accountant module adopts the same glassmorphism and precision-first desig
     *   "Try again" button.
     *   "Download original & manually enter" link.
 
-### 12.7 Compliance & Audit Reports
+### 13.7 Compliance & Audit Reports
 
 **Report Builder**
 *   **Type Selector:** Dropdown menu (P&L Board, Balance Sheet, Cash Flow, GST Report, TDS Report, Audit Trail, Aging Reports, etc.).
@@ -692,7 +998,7 @@ The AI Accountant module adopts the same glassmorphism and precision-first desig
 *   **Expandable Rows:** Clicking shows full change details in JSON format.
 *   **Download Audit Report:** CTA button exports to CSV with legal timestamp.
 
-### 12.8 Real-Time Data Sync Configuration
+### 13.8 Real-Time Data Sync Configuration
 
 **Sync Settings Panel** (Settings > Data Integration)
 *   **Tally Connection Status:** Shows "Connected to [Company Name] | Last sync: 2 mins ago | Uptime: 99.8% (last 30 days)."
@@ -714,7 +1020,7 @@ The AI Accountant module adopts the same glassmorphism and precision-first desig
     *   Delete button
 *   **Add Webhook:** CTA button opens form to create new webhook.
 
-### 12.9 Color & Badge System for Financial Data
+### 13.9 Color & Badge System for Financial Data
 
 **Transaction/Invoice Status Badges**
 *   **"Synced"** → Green (`#34C759`) background, white text, checkmark icon.
@@ -728,7 +1034,7 @@ The AI Accountant module adopts the same glassmorphism and precision-first desig
 *   **Medium Confidence (70–90%):** Blue badge `#007AFF` with exclamation icon.
 *   **Low Confidence (<70%):** Red badge `#FF3B30` with alert icon.
 
-### 12.10 Mobile Optimization for Accountant
+### 13.10 Mobile Optimization for Accountant
 
 **Responsive Breakpoints**
 *   **Mobile (<640px):**
@@ -755,7 +1061,7 @@ The AI Accountant module adopts the same glassmorphism and precision-first desig
 *   Disable all sync-dependent features (e.g., "Sync Now" button grayed out).
 *   Local-first caching ensures previously loaded data remains visible.
 
-### 12.11 Animation & Transitions for Financial Data
+### 13.11 Animation & Transitions for Financial Data
 
 **Real-Time Number Updates**
 *   When a metric (e.g., "Total Receivable") updates live, the number briefly flashes (`opacity: 1 → 0.7 → 1`, 0.3s).
@@ -776,9 +1082,9 @@ The AI Accountant module adopts the same glassmorphism and precision-first desig
 
 ---
 
-## 13. Design System Maintenance & Evolution
+## 14. Design System Maintenance & Evolution
 
-### 13.1 Version Control & Changelogs
+### 18.1 Version Control & Changelogs
 *   **Current Version:** 1.0 (Released Feb 2026)
 *   **Update Frequency:** Quarterly design audit, with hot-fixes for critical UI bugs released ad-hoc.
 *   **Change Log:** Maintain a CHANGELOG.md file tracking:
@@ -787,12 +1093,12 @@ The AI Accountant module adopts the same glassmorphism and precision-first desig
     *   Breaking changes (e.g., spacing token value changes).
     *   Migration guides for designers/developers.
 
-### 13.2 Consistency Audits
+### 18.2 Consistency Audits
 *   **Monthly:** Review new components/screens against the design system. Ensure all glassmorphism effects, spacing, and typography adhere to defined tokens.
 *   **Quarterly:** Usability testing with actual users (doctors, accountants, pharmacists) to validate assumptions and gather feedback.
 *   **Annually:** Comprehensive accessibility audit (WCAG 2.1 AA compliance) and performance review.
 
-### 13.3 Component Library & Storybook
+### 18.3 Component Library & Storybook
 *   Maintain a Storybook instance documenting all UI components with:
     *   Visual snapshots.
     *   Code examples (React, Vue, etc.).
@@ -800,12 +1106,12 @@ The AI Accountant module adopts the same glassmorphism and precision-first desig
     *   Common use cases and anti-patterns.
     *   Real-time preview with all design tokens applied.
 
-### 13.4 Platform Standards
+### 18.4 Platform Standards
 *   **Web:** React.js + Tailwind CSS + Apache ECharts.
 *   **Mobile:** Flutter + Custom Slivers + Apache ECharts (SVG).
 *   **AI Logic:** Genkit (Go/TS) with structured JSON outputs mapping to design system tokens.
 
-### 13.5 Accessibility Standards
+### 18.5 Accessibility Standards
 *   **Target:** WCAG 2.1 Level AA compliance.
 *   **Key Practices:**
     *   All interactive elements have visible focus indicators (3px accent ring).
@@ -815,13 +1121,13 @@ The AI Accountant module adopts the same glassmorphism and precision-first desig
     *   Form errors are announced to screen readers.
     *   Keyboard navigation is fully supported (Tab, Shift+Tab, Enter, Escape).
 
-### 13.5 Performance Optimization
+### 18.6 Performance Optimization
 *   **CSS Animations:** Prefer `transform` and `opacity` changes (GPU-accelerated) over `width`, `height`, or `left`/`right` changes.
 *   **Glassmorphism:** Use `backdrop-filter: blur()` judiciously; test on lower-end devices (iOS 13+, Android 9+).
 *   **Icon Loading:** Lazy-load icon libraries; prefer SVG inline or symbol references.
 *   **Image Optimization:** Use WebP with fallbacks (JPG/PNG); apply responsive `srcset` for different screen sizes.
 
-### 13.6 Design System In-Product Documentation
+### 18.7 Design System In-Product Documentation
 *   **Quick Reference Widget:** A small "?" icon in the app's header links users to:
     *   Glossary of terms (e.g., "What is a Daily Queue?").
     *   Keyboard shortcuts guide.
@@ -830,31 +1136,31 @@ The AI Accountant module adopts the same glassmorphism and precision-first desig
 
 ---
 
-## 14. Testing & Quality Assurance
+## 15. Testing & Quality Assurance
 
-### 14.1 Visual Regression Testing
+### 15.1 Visual Regression Testing
 *   **Tools:** Percy, Chromatic, or BackstopJS for pixel-level screenshot comparisons.
 *   **Workflow:** Every PR automatically captures screenshots on key pages/components. Team reviews visual diffs for unintended changes.
 *   **Coverage:** Dashboard, calendar view, modals, mobile breakpoints.
 
-### 14.2 Cross-Browser & Device Testing
+### 15.2 Cross-Browser & Device Testing
 *   **Desktop Browsers:** Chrome (latest), Safari (latest), Firefox (latest), Edge (latest).
 *   **Mobile:** iOS 14+, Android 9+. Test glassmorphism effects and touch interactions.
 *   **Devices:** iPhone 12, iPhone 15 Pro, iPad (gen 5+), Samsung Galaxy A12, Galaxy S23, Pixel 6 (example baseline).
 *   **Tools:** BrowserStack, local device testing, or Chromatic.
 
-### 14.3 Interaction Testing
+### 15.3 Interaction Testing
 *   **Touch Gestures:** Tap, long-press, swipe, pinch-zoom on mobile.
 *   **Hover States:** Ensure all interactive elements have clear hover feedback (background change, shadow, scale).
 *   **Keyboard Navigation:** Tab through all interactive elements; ensure logical tab order; test Escape key closing modals.
 *   **Animation Smoothness:** Verify animations run at 60 FPS with no janky transitions.
 
-### 14.4 Accessibility Testing
+### 15.4 Accessibility Testing
 *   **Automated Tools:** Axe, Lighthouse, WAVE to flag common issues (missing alt-text, color contrast, missing labels).
 *   **Manual Testing:** Screen reader testing with NVDA (Windows) or VoiceOver (macOS/iOS). Test with actual users who rely on assistive technologies.
 *   **Keyboard-Only Navigation:** Ensure all features are accessible without a mouse.
 
-### 14.5 Performance Testing
+### 15.5 Performance Testing
 *   **Lighthouse Audits:** Target scores of 90+ on Performance and Accessibility.
 *   **Core Web Vitals:** LCP <2.5s, FID <100ms, CLS <0.1.
 *   **Load Time:** Dashboard initial load <3s on 4G connection.
@@ -862,16 +1168,16 @@ The AI Accountant module adopts the same glassmorphism and precision-first desig
 
 ---
 
-## 15. Implementation Handoff to Development
+## 16. Implementation Handoff to Development
 
-### 15.1 Design Assets & Exports
+### 16.1 Design Assets & Exports
 *   **Figma File:** Single source of truth for all designs. Organized with clear naming conventions, locked components, and comprehensive annotations.
 *   **Exports:**
     *   **CSS Variables File:** All colors, fonts, spacing, shadows as CSS custom properties.
     *   **Icon SVG Sprite:** All 18px, 22px, 28px icon sizes in a single sprite or folder.
     *   **Gradient Definitions:** Pre-written CSS gradients for common use cases.
 
-### 15.2 Developer Handoff Documentation
+### 16.2 Developer Handoff Documentation
 *   Create a detailed **IMPLEMENTATION_GUIDE.md** for developers including:
     *   Component naming conventions (e.g., `glass-card`, `button-primary`).
     *   How to apply design tokens in code (CSS custom properties, design tokens JSON, etc.).
@@ -879,14 +1185,14 @@ The AI Accountant module adopts the same glassmorphism and precision-first desig
     *   Spacing grid guidelines with practical examples.
     *   Animation/transition implementation examples.
 
-### 15.3 Ongoing Collaboration
+### 16.3 Ongoing Collaboration
 *   **Weekly Design-Dev Sync:** 15-min standup to discuss blockers, new feature specs, and design system updates.
 *   **Design Review:** Every feature implementation review with designer present to ensure fidelity to design.
 *   **Feedback Loop:** Developers flag design edge cases or technical constraints early. Designers iterate quickly.
 
 ---
 
-## 16. Key Takeaways
+## 17. Key Takeaways
 
 **MedMentor AI + AI Accountant Design System Summary:**
 
@@ -904,49 +1210,7 @@ The AI Accountant module adopts the same glassmorphism and precision-first desig
 
 ---
 
-**Document Version:** 1.1 | **Last Updated:** February 19, 2026 | **Maintainer:** Design Team
-
-## 12. Accessibility (WCAG 2.2 AA)
-
-### 12.1 Color Contrast
-*   **Light mode text:** Slate 600+ on White (minimum 4.5:1 ratio). Avoid Slate 400 on White for body text.
-*   **Glass mode text:** `--text-primary` (95% white) on glass surfaces ensures 7:1+ ratio against dark backgrounds.
-*   **Glass mode secondary:** `--text-secondary` (60% white) maintains 4.5:1 minimum against `#0A0A1A` base.
-*   **Interactive states:** All hover/active/focus states have visible contrast change.
-
-### 12.2 Focus Management
-*   All interactive elements have a visible focus ring (Trust Blue / System Blue).
-*   Focus ring: 3px solid with 20% opacity glow — visible on both light and dark surfaces.
-*   Tab order follows visual layout: header → selector → calendar → toggle → events → nav.
-*   Modal traps focus and returns focus to trigger element on close.
-
-### 12.3 Touch Targets
-*   Minimum **44px × 44px** for all interactive elements (WCAG 2.2 AA).
-*   Calendar day cells: square aspect-ratio ensures adequate tap area.
-*   Icon buttons: 40px diameter with 4px invisible hit area extension.
-*   Bottom nav items: 16px horizontal padding creates generous touch zones.
-
-### 12.4 Motion & Reduced Motion
-All animations respect `prefers-reduced-motion` media query:
-```css
-@media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after {
-      animation-duration: 0.01ms !important;
-      transition-duration: 0.01ms !important;
-    }
-}
-```
-
-### 12.5 Screen Reader Considerations
-*   Calendar cells include `aria-label` with full date (e.g., “Thursday, February 19, 2026”).
-*   Today’s cell includes `aria-current="date"`.
-*   Event cards include `aria-label` combining title, time, and date.
-*   Dropdown state communicated via `aria-expanded` on trigger.
-*   Modal uses `role="dialog"` with `aria-labelledby` for the title.
-
----
-
-## 13. CSS Custom Properties Reference
+## 18. CSS Custom Properties Reference
 Complete token map for both light and glass/dark mode implementations:
 
 ### 13.1 Glass Mode Variables
@@ -965,7 +1229,8 @@ Complete token map for both light and glass/dark mode implementations:
     /* Accent colors */
     --accent: #007AFF;
     --accent-light: #5AC8FA;
-    --accent-gradient: linear-gradient(135deg, #007AFF, #5856D6);
+    --accent-gradient: linear-gradient(135deg, #0056D2, #0F766E);      /* WCAG-safe: white text OK (5.47:1+) */
+    --accent-glow: linear-gradient(135deg, #0056D2, #00E8C6);          /* Decorative only: glows, orbs, borders */
 
     /* Text hierarchy */
     --text-primary: rgba(255, 255, 255, 0.95);
@@ -977,8 +1242,9 @@ Complete token map for both light and glass/dark mode implementations:
     --success: #34C759;
     --warning: #FF9500;
     --pink: #FF2D55;
-    --purple: #AF52DE;
     --teal: #5AC8FA;
+    --teal-accent: #00E8C6;           /* Decorative glow only — FAILS WCAG with white text */
+    --teal-safe: #0F766E;             /* WCAG-safe teal for text-bearing surfaces (5.47:1) */
 
     /* Radii */
     --radius-sm: 12px;
@@ -1006,32 +1272,39 @@ Complete token map for both light and glass/dark mode implementations:
 
 ---
 
-## 14. Implementation Checklist
-Use this checklist when building new screens or components to ensure design system compliance:
-1.  Font loaded: Inter (400, 500, 600, 700, 800) + Plus Jakarta Sans (700, 800) + **Cairo (400, 500, 600, 700) + Noto Sans Arabic**.
-2.  CSS custom properties defined in `:root` for both light and glass themes.
-3.  All spacing on 4px grid. No arbitrary pixel values.
-4.  Touch targets ≥ 44px on all interactive elements.
-5.  Color contrast passes WCAG AA (4.5:1 for text, 3:1 for large text/UI).
-6.  Glassmorphism includes `-webkit-backdrop-filter` prefix for Safari.
-7.  Animations respect `prefers-reduced-motion`.
-8.  Focus rings visible on all buttons, inputs, and interactive elements.
-9.  Dropdowns use custom glass-elevated panels, not native browser selects (except in form contexts).
-10. Modals use bottom-sheet pattern on mobile with drag handle.
+## 19. Implementation Checklist
+Use this checklist when building new screens or components to ensure design system compliance.
 
-**Additional RTL / i18n checks — see §17.9 for full list:**
+### 14.1 Core Checks
+- [ ] Font loaded: Inter (400–800) + Plus Jakarta Sans (700, 800) + Cairo (400–700) + Noto Sans Arabic
+- [ ] CSS custom properties defined in `:root` for both light and glass themes
+- [ ] All spacing on 4px grid — no arbitrary pixel values
+- [ ] Touch targets ≥ 44px on all interactive elements
+- [ ] Color contrast passes WCAG AA (4.5:1 text · 3:1 large text/UI)
+- [ ] Glassmorphism includes `-webkit-backdrop-filter` prefix for Safari
+- [ ] High contrast mode (`prefers-contrast: high`) tested
+- [ ] Animations respect `prefers-reduced-motion`
+- [ ] Focus rings visible on all buttons, inputs, and interactive elements
+- [ ] Dropdowns use custom glass-elevated panels (not native selects in immersive contexts)
+- [ ] Modals use bottom-sheet pattern on mobile with drag handle
+- [ ] Loading, error, and empty states defined for each component
+- [ ] Dark mode supported
+- [ ] RTL compatible (logical CSS properties throughout)
+- [ ] Visual regression test in both themes before PR merge
+- [ ] No console errors · 60fps animations confirmed
 
-11. Arabic font loaded (Cairo + Noto Sans Arabic fallback).
-12. No hardcoded `left`/`right` in CSS — all layout uses logical properties.
-13. Directional icons have `rtl:rotate-180` or `rtl:scale-x-[-1]` applied.
-14. Arabic translation keys added to all `ar/` namespace JSON files.
-15. Playwright RTL visual regression test added for new screen.
+### 14.2 RTL / i18n Checks (append for every new screen)
+- [ ] Arabic font loaded: Cairo (400–700) + Noto Sans Arabic fallback
+- [ ] No hardcoded `left`/`right` in CSS — all layout uses logical properties
+- [ ] `dir="auto"` on user-generated text fields (chat input, notes, search)
+- [ ] All directional icons have `rtl:rotate-180` or `rtl:scale-x-[-1]` applied
+- [ ] Chart configuration includes `isRTL` branch (see §19.6)
+- [ ] Arabic translation keys added to all `ar/` namespace JSON files
+- [ ] Playwright RTL visual regression test added before PR merge
 
 ---
 
----
-
-## 17. Internationalisation & RTL Design System
+## 20. Internationalisation & RTL Design System
 
 **Cross-ref:** [docs/i18n-architecture.md](../i18n-architecture.md) | [PRD §6.10](../PRD.md)
 
@@ -1039,7 +1312,7 @@ The MediSync design system natively supports Arabic (RTL) alongside English (LTR
 
 ---
 
-### 17.1 Core RTL Principle — Mirror, Don't Translate
+### 19.1 Core RTL Principle — Mirror, Don't Translate
 
 Layout is **fluid** — it mirrors around the vertical axis when the locale changes. The conceptual model:
 
@@ -1073,7 +1346,7 @@ LTR (English)                      RTL (Arabic)
 
 ---
 
-### 17.2 Typography Adjustments for Arabic
+### 19.2 Typography Adjustments for Arabic
 
 | Property | English (LTR) | Arabic (RTL) | Rationale |
 |----------|--------------|-------------|-----------|
@@ -1108,7 +1381,7 @@ LTR (English)                      RTL (Arabic)
 
 ---
 
-### 17.3 Spacing & Layout Adjustments for RTL
+### 19.3 Spacing & Layout Adjustments for RTL
 
 All components use **CSS Logical Properties**. No physical `left`/`right` in new code.
 
@@ -1151,7 +1424,7 @@ All components use **CSS Logical Properties**. No physical `left`/`right` in new
 
 ---
 
-### 17.4 Chat Interface RTL Design
+### 19.4 Chat Interface RTL Design
 
 ```
 LTR (English)                         RTL (Arabic)
@@ -1172,7 +1445,7 @@ LTR (English)                         RTL (Arabic)
 
 ---
 
-### 17.5 Data Tables & Reports RTL
+### 19.5 Data Tables & Reports RTL
 
 | Element | LTR | RTL |
 |---------|-----|-----|
@@ -1187,7 +1460,7 @@ Note: **Right-aligning numbers is identical in LTR and RTL** — use `text-align
 
 ---
 
-### 17.6 Charts & Visualisations (Apache ECharts) RTL
+### 19.6 Charts & Visualisations (Apache ECharts) RTL
 
 ```js
 // echarts locale-aware configuration
@@ -1222,7 +1495,7 @@ const option = {
 
 ---
 
-### 17.7 Language Switcher Component
+### 19.7 Language Switcher Component
 
 A persistent control appears in the top navigation bar and on the Profile Settings screen.
 
@@ -1252,7 +1525,7 @@ showModalBottomSheet(
 
 ---
 
-### 17.8 Glassmorphism in RTL Context
+### 19.8 Glassmorphism in RTL Context
 
 The glassmorphism system requires no colour changes for RTL. Only the glass shine animation direction is adjusted:
 
@@ -1272,7 +1545,7 @@ The glassmorphism system requires no colour changes for RTL. Only the glass shin
 
 ---
 
-### 17.9 Implementation Checklist — RTL / i18n Addition
+### 19.9 Implementation Checklist — RTL / i18n Addition
 
 Append these checks to the existing Implementation Checklist (§14) for every new screen or component:
 
@@ -1289,23 +1562,23 @@ Append these checks to the existing Implementation Checklist (§14) for every ne
 
 ---
 
-## 18. Future Spatial Design (v2.0)
+## 21. Future Spatial Design (v2.0)
 
 *(Replaces former §15)*
 
 As MedMentor moves to "Sherlock Mode" (AR) and Vision Pro, the design system extends beyond 2D:
 
-### 18.1 Spatial Glass (Z-Depth)
+### 20.1 Spatial Glass (Z-Depth)
 *   **Layer 0 (Reality)**: The physical world (textbook, patient model).
 *   **Layer 1 (Ambient)**: "Glass" panels floating 1m away (Notes, simple Q&A).
 *   **Layer 2 (Focus)**: Interactive 3D models (Hearts, Molecules) instantiated 0.5m away for manipulation.
 
-### 18.2 Ambient Interactions
+### 20.2 Ambient Interactions
 *   **Gaze-Driven**: UI elements expand slightly when looked at (Eye tracking).
 *   **Air Gestures**: "Pinch to extract" text from a physical book into the digital notebook.
 *   **Bio-Feedback UI**: The interface "breathes" (subtle pulse animation) to match the user's stress level, guiding them to calmness.
 
-### 15.3 Immersive Learning UI (Student Features)
+### 20.3 Immersive Learning UI (Student Features)
 *   **OSCE Mode**: Minimalist UI. "Voice-first" interaction. The patient is a full-screen video avatar (or 3D model). Design must hide all text prompts to force active recall.
 *   **Memory Palace**: World-scale AR. Labels must use **billboarding** (always face user) and maintain legibility against variable real-world backgrounds (dynamic contrast/shadows).
 *   **Neuro-Flashcards**: Invisible UI. No "grade yourself" buttons. The card simply *knows* and swipes itself away when mastery is detected.

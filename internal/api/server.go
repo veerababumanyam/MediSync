@@ -61,6 +61,7 @@ type Server struct {
 	preferencesHandler *handlers.PreferencesHandler
 	dashboardHandler   *handlers.DashboardHandler
 	alertsHandler      *handlers.AlertsHandler
+	councilHandler     *handlers.CouncilHandler
 }
 
 // Dependencies holds the required dependencies for the API server.
@@ -258,6 +259,13 @@ func (s *Server) registerRoutes() {
 		r.Route("/alerts", func(r chi.Router) {
 			if s.alertsHandler != nil {
 				s.alertsHandler.RegisterRoutes(r)
+			}
+		})
+
+		// Council of AIs endpoints (multi-agent consensus)
+		r.Route("/council", func(r chi.Router) {
+			if s.councilHandler != nil {
+				s.councilHandler.RegisterRoutes(r)
 			}
 		})
 

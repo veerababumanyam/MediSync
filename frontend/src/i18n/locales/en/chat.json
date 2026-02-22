@@ -1,6 +1,30 @@
 {
+  "pageTitle": "Chat",
   "header": {
-    "newSession": "New Chat"
+    "title": "MediSync Chat",
+    "panelTitle": "Chat",
+    "subtitle": "AI-Powered Business Intelligence",
+    "newSession": "New Chat",
+    "sessionStatus": "Session active"
+  },
+  "welcome": {
+    "title": "Welcome to MediSync",
+    "subtitle": "Ask questions about your healthcare and accounting data in plain language."
+  },
+  "input": {
+    "placeholder": "Type your question...",
+    "send": "Send Message"
+  },
+  "suggestions": {
+    "title": "Try asking:",
+    "revenue": "What's today's revenue?",
+    "topDepartments": "Show top 5 departments",
+    "patientTrend": "Show patient visits trend",
+    "inventory": "Any low stock alerts?"
+  },
+  "nav": {
+    "home": "Home",
+    "dashboard": "Dashboard"
   },
   "placeholder": "Ask a question about your data...",
   "placeholderExamples": {
@@ -17,7 +41,10 @@
     "queryFailed": "Failed to process your query",
     "noResults": "No results found",
     "clarification": "I need more information",
-    "suggestions": "Did you mean:"
+    "suggestions": "Did you mean:",
+    "loadMessages": "Failed to load chat history",
+    "send": "Failed to send message",
+    "dismiss": "Dismiss"
   },
   "message": {
     "user": "You",
@@ -61,5 +88,11 @@
     "title": "Start a conversation",
     "description": "Ask questions about your healthcare and accounting data in plain language.",
     "examples": "Try asking:"
+  },
+  "footer": {
+    "sessionStatus": "Session active",
+    "processing": "Processing...",
+    "cancel": "Cancel",
+    "newChat": "New Chat"
   }
 }

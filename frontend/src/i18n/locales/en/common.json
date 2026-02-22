@@ -2,7 +2,8 @@
   "loading": "Loading...",
   "language": {
     "switchTo": "Switch language",
-    "current": "Current language"
+    "current": "Current language",
+    "selectLanguage": "Select language"
   },
   "export": {
     "label": "Export",

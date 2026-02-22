@@ -10,13 +10,14 @@
 //	go run cmd/etl/main.go
 //
 // Environment Variables:
-//   APP_ENV - Application environment (development, staging, production)
-//   DATABASE_URL - PostgreSQL connection string
-//   NATS_URL - NATS server URL
-//   REDIS_URL - Redis connection URL
-//   TALLY_HOST - Tally ERP server hostname
-//   HIMS_API_URL - HIMS API base URL
-//   HIMS_API_KEY - HIMS API authentication key
+//
+//	APP_ENV - Application environment (development, staging, production)
+//	DATABASE_URL - PostgreSQL connection string
+//	NATS_URL - NATS server URL
+//	REDIS_URL - Redis connection URL
+//	TALLY_HOST - Tally ERP server hostname
+//	HIMS_API_URL - HIMS API base URL
+//	HIMS_API_KEY - HIMS API authentication key
 package main
 
 import (
@@ -31,9 +32,9 @@ import (
 	"time"
 
 	"github.com/medisync/medisync/internal/config"
+	"github.com/medisync/medisync/internal/etl/hims"
 	"github.com/medisync/medisync/internal/etl/orchestrator"
 	"github.com/medisync/medisync/internal/etl/tally"
-	"github.com/medisync/medisync/internal/etl/hims"
 	"github.com/medisync/medisync/internal/events"
 	"github.com/medisync/medisync/internal/warehouse"
 )
@@ -60,7 +61,7 @@ func main() {
 	)
 
 	// Create dependencies
-	repo, err := warehouse.NewRepo(cfg.Database, logger)
+	repo, err := warehouse.NewRepo(cfg.DatabaseDSN(), logger)
 	if err != nil {
 		logger.Error("failed to create warehouse repository", slog.String("error", err.Error()))
 		os.Exit(1)
@@ -74,7 +75,7 @@ func main() {
 	}
 
 	// Create NATS publisher
-	eventsPub, err := events.NewPublisher(cfg.NATS, logger)
+	eventsPub, err := events.NewPublisher(cfg.NATS.URL, logger)
 	if err != nil {
 		logger.Warn("failed to create NATS publisher", slog.String("error", err.Error()))
 		// Continue without events
@@ -172,12 +173,12 @@ func setupHTTPServer(cfg *config.Config, repo *warehouse.Repo, orch *orchestrato
 		}
 
 		health := map[string]interface{}{
-			"status":         "up",
-			"service":        ServiceName,
-			"version":        ServiceVersion,
-			"environment":    string(cfg.App.Environment),
-			"database":       dbStatus,
-			"orchestrator":   orch.GetStats(),
+			"status":       "up",
+			"service":      ServiceName,
+			"version":      ServiceVersion,
+			"environment":  string(cfg.App.Environment),
+			"database":     dbStatus,
+			"orchestrator": orch.GetStats(),
 		}
 
 		w.Header().Set("Content-Type", "application/json")
@@ -253,9 +254,9 @@ func setupHTTPServer(cfg *config.Config, repo *warehouse.Repo, orch *orchestrato
 		// Trigger sync (implementation would be in orchestrator)
 		w.Header().Set("Content-Type", "application/json")
 		json.NewEncoder(w).Encode(map[string]interface{}{
-			"status":  "triggered",
-			"source":  req.Source,
-			"entity":  req.Entity,
+			"status": "triggered",
+			"source": req.Source,
+			"entity": req.Entity,
 		})
 	})
 

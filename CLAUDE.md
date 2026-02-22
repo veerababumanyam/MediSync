@@ -11,7 +11,7 @@
 | Aspect | Details |
 |--------|---------|
 | **Purpose** | AI-powered platform unifying HIMS (clinic operations) and Tally ERP (accounting) data |
-| **Tech Stack** | Go 1.26 (backend), React 19 (web), Flutter 3.42 (mobile), PostgreSQL 18.2, Genkit + Agent ADK |
+| **Tech Stack** | Go 1.26 (backend), React 19.2 (web), Flutter 3.42 (mobile), PostgreSQL 18.2, Genkit + Agent ADK |
 | **AI Agents** | 58 specialized agents across 5 modules (BI, Accounting, Reports, Analytics, i18n) |
 | **Architecture** | Decoupled data plane, read-only intelligence plane, human-gated action plane |
 | **i18n** | First-class English (LTR) and Arabic (RTL) support from Phase 1 |
@@ -34,7 +34,7 @@ MediSync is an AI-powered, chat-based Business Intelligence platform for healthc
 - **Read-only intelligence plane**: All AI agents connect with SELECT-only credentials
 - **Human-in-the-loop for write-backs**: No AI can autonomously push data to Tally; humans must approve
 - **Policy as code**: All authorization via OPA Rego — auditable, version-controlled
-- **Open-source only**: Every component has an OSI-approved license
+- **Source-available**: Licensed under Polyform NonCommercial 1.0.0 — free for non-commercial use, contact for commercial licensing
 
 ---
 
@@ -127,9 +127,10 @@ MediSync is an AI-powered, chat-based Business Intelligence platform for healthc
 |-----------|------------|---------|
 | Web Framework | React 19.2.4 | MIT |
 | Generative UI | CopilotKit | MIT |
-| Build Tool | Vite 7.3 | MIT |
-| Charts | Apache ECharts | Apache-2.0 |
-| Web i18n | i18next + react-i18next | MIT |
+| Build Tool | Vite 7.3.1 | MIT |
+| Charts | Apache ECharts 5.6.0 | Apache-2.0 |
+| Web i18n | i18next 25.8 + react-i18next | MIT |
+| CSS | Tailwind CSS 4.2.0 | MIT |
 | Mobile | Flutter 3.42 | BSD-3 |
 | Mobile i18n | flutter_localizations | BSD-3 |
 
@@ -435,7 +436,7 @@ cd mobile && flutter test
 When working on this codebase:
 - **Security first**: Never compromise on HITL gates for write-backs
 - **i18n by default**: Every feature must work in both English and Arabic
-- **Open source**: Always choose OSI-approved licenses
+- **Source-available**: Free for non-commercial use under Polyform NonCommercial 1.0.0; commercial use requires explicit permission
 - **Incremental delivery**: Ship value early, iterate often
 - **User trust**: Confidence scores, audit trails, and transparency
 
@@ -444,10 +445,11 @@ When working on this codebase:
 *This guide is maintained by the MediSync engineering team. For questions or updates, please refer to the project documentation or contact the team lead.*
 
 ## Active Technologies
-- Go 1.26 (backend), TypeScript/React 19 (frontend types) (001-ai-agent-core)
-- PostgreSQL 18.2 + pgvector (schema embeddings), Redis (session cache) (001-ai-agent-core)
-- CopilotKit 1.3.6 (streaming chat UI), Apache ECharts 5.6 (charts), i18next 24.2 (i18n) (002-dashboard-advanced-features)
-- NATS JetStream (alert/report scheduling), Puppeteer (PDF generation), excelize (Excel export) (002-dashboard-advanced-features)
+- Go 1.26 (backend), TypeScript 5.9 / React 19.2 (frontend)
+- PostgreSQL 18.2 + pgvector (warehouse), Redis 8.6 (cache)
+- Tailwind CSS 4.2.0 (styling)
+- i18next 25.8 (i18n), Vitest 4.0.18 (testing), ESLint 10.0.1 (linting)
+- Keycloak 26.5.4 (auth), Prometheus 3.9.1 (metrics), Grafana 12.3.3 (dashboards)
 
 ## Recent Changes
 - 001-ai-agent-core: Added Go 1.26 (backend), TypeScript/React 19 (frontend types)

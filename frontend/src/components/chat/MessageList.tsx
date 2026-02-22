@@ -2,22 +2,19 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import type { ChatMessage } from '../../services/api';
 import { ChartRenderer } from './ChartRenderer';
+import { formatTime as formatTimeLocale } from '../../utils/localeUtils';
 
 interface MessageListProps {
   messages: ChatMessage[];
   locale: string;
-  isDark?: boolean;
 }
 
-export const MessageList: React.FC<MessageListProps> = ({ messages, locale, isDark = true }) => {
+export const MessageList: React.FC<MessageListProps> = ({ messages, locale }) => {
   const { t } = useTranslation('chat');
 
   const formatTime = (timestamp: string) => {
     const date = new Date(timestamp);
-    return date.toLocaleTimeString(locale === 'ar' ? 'ar-SA' : 'en-US', {
-      hour: '2-digit',
-      minute: '2-digit',
-    });
+    return formatTimeLocale(date, locale);
   };
 
   const formatConfidence = (confidence?: number) => {
@@ -25,10 +22,10 @@ export const MessageList: React.FC<MessageListProps> = ({ messages, locale, isDa
     const percentage = Math.round(confidence);
     const colorClass =
       percentage >= 90
-        ? 'text-emerald-400'
+        ? 'text-green-600 dark:text-green-400'
         : percentage >= 70
-          ? 'text-amber-400'
-          : 'text-rose-400';
+          ? 'text-yellow-600 dark:text-yellow-400'
+          : 'text-red-600 dark:text-red-400';
     return (
       <span className={`text-xs ${colorClass}`}>
         {t('message.confidence', { value: percentage })}
@@ -37,7 +34,7 @@ export const MessageList: React.FC<MessageListProps> = ({ messages, locale, isDa
   };
 
   return (
-    <div className="space-y-3 sm:space-y-4 lg:space-y-6">
+    <div className="space-y-6">
       {messages.map((message) => (
         <div
           key={message.id}
@@ -45,18 +42,18 @@ export const MessageList: React.FC<MessageListProps> = ({ messages, locale, isDa
             }`}
         >
           <div
-            className={`glass max-w-[85%] sm:max-w-[75%] lg:max-w-[65%] ${message.role === 'user'
-              ? 'bg-gradient-to-r from-blue-600 to-cyan-500 text-white rounded-2xl rounded-br-md shadow-lg shadow-blue-500/20'
-              : 'text-slate-900 dark:text-white rounded-2xl rounded-bl-md'
-              } px-3 py-2 sm:px-4 sm:py-3`}
+            className={`max-w-[80%] ${message.role === 'user'
+                ? 'bg-primary-600 text-white rounded-2xl rounded-br-md'
+                : 'bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white rounded-2xl rounded-bl-md'
+              } px-4 py-3`}
           >
             {/* Message Content */}
-            <div className="prose prose-sm max-w-none">
+            <div className="prose prose-sm dark:prose-invert max-w-none">
               {message.role === 'assistant' && (
                 <div className="flex items-center gap-2 mb-2">
-                  <div className="w-6 h-6 bg-gradient-to-br from-blue-500 to-cyan-400 rounded-full flex items-center justify-center shadow-sm">
+                  <div className="w-6 h-6 bg-primary-100 dark:bg-primary-900 rounded-full flex items-center justify-center">
                     <svg
-                      className="w-3.5 h-3.5 text-white"
+                      className="w-4 h-4 text-primary-600 dark:text-primary-400"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
@@ -69,8 +66,7 @@ export const MessageList: React.FC<MessageListProps> = ({ messages, locale, isDa
                       />
                     </svg>
                   </div>
-                  <span className={`text-xs font-medium ${isDark ? 'text-slate-400' : 'text-slate-500'
-                    }`}>
+                  <span className="text-xs font-medium text-gray-500 dark:text-gray-400">
                     MediSync BI
                   </span>
                 </div>
@@ -80,7 +76,7 @@ export const MessageList: React.FC<MessageListProps> = ({ messages, locale, isDa
 
               {/* Chart Visualization */}
               {message.role === 'assistant' && message.chartSpec && (
-                <div className="glass-subtle mt-4 rounded-xl p-4">
+                <div className="mt-4 bg-white dark:bg-gray-900 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
                   <ChartRenderer
                     chartType={message.chartSpec.type}
                     data={message.chartSpec.chart}
@@ -93,15 +89,14 @@ export const MessageList: React.FC<MessageListProps> = ({ messages, locale, isDa
               {message.role === 'assistant' && (
                 <div className="mt-2 flex items-center justify-between">
                   {formatConfidence(message.confidence)}
-                  <span className={`text-xs ${isDark ? 'text-slate-500' : 'text-slate-400'
-                    }`}>
+                  <span className="text-xs text-gray-400">
                     {formatTime(message.createdAt)}
                   </span>
                 </div>
               )}
 
               {message.role === 'user' && (
-                <span className="text-xs text-white/60 mt-2 block text-right">
+                <span className="text-xs text-primary-200 mt-2 block text-end">
                   {formatTime(message.createdAt)}
                 </span>
               )}

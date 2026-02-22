@@ -61,15 +61,15 @@ export function useLocale(): UseLocaleReturn {
     loadPreferences()
   }, [i18n])
 
-  // Update document direction when locale changes
+  // Update document direction when locale changes (W3C i18n: use i18n.dir for dir)
   useEffect(() => {
-    document.documentElement.dir = isRTL ? 'rtl' : 'ltr'
+    document.documentElement.dir = i18n.dir(locale)
     document.documentElement.lang = locale
 
     // Update body class for RTL-specific styling
     document.body.classList.toggle('rtl', isRTL)
     document.body.classList.toggle('ltr', !isRTL)
-  }, [locale, isRTL])
+  }, [locale, isRTL, i18n])
 
   /**
    * Set locale and persist to API

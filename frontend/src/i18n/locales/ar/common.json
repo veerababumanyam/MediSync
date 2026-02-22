@@ -2,7 +2,8 @@
   "loading": "جاري التحميل...",
   "language": {
     "switchTo": "تبديل اللغة",
-    "current": "اللغة الحالية"
+    "current": "اللغة الحالية",
+    "selectLanguage": "اختر اللغة"
   },
   "export": {
     "label": "تصدير",

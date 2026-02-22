@@ -143,11 +143,13 @@ describe('DashboardGrid', () => {
     })
   })
 
-  it('shows loading spinner initially', () => {
+  it('shows loading state initially', () => {
     vi.mocked(dashboardApi.getCharts).mockImplementation(() => new Promise(() => {}))
     render(<DashboardGrid />)
 
-    expect(screen.getByTestId('loading-spinner-lg')).toBeInTheDocument()
+    // Loading skeleton should be shown - check for skeleton role or aria-label
+    const loadingElements = screen.getAllByText(/loading/i)
+    expect(loadingElements.length).toBeGreaterThan(0)
   })
 
   it('renders charts after loading', async () => {

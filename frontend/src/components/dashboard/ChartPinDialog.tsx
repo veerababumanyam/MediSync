@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { LiquidGlassModal } from '../ui/LiquidGlassModal';
+import { ButtonPrimary, ButtonSecondary } from '../ui/LiquidGlassButton';
 import type { PinnedChart } from '../../services/api';
 
 interface ChartPinDialogProps {
@@ -67,125 +69,104 @@ export const ChartPinDialog: React.FC<ChartPinDialogProps> = ({
   ];
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
-      <div
-        className="glass-elevated max-w-md w-full mx-4 overflow-hidden"
-        onClick={(e) => e.stopPropagation()}
-      >
-        {/* Header */}
-        <div className="glass-subtle flex items-center justify-between px-6 py-4 border-b border-white/10 dark:border-gray-700">
-          <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
-            {t('dialog.title')}
-          </h2>
-          <button
-            onClick={onClose}
-            className="glass-interactive p-1 rounded-lg"
+    <LiquidGlassModal
+      isOpen={true}
+      onClose={onClose}
+      title={t('dialog.title')}
+      size="md"
+      actions={
+        <>
+          <ButtonSecondary onClick={onClose}>
+            {t('dialog.cancel')}
+          </ButtonSecondary>
+          <ButtonPrimary
+            onClick={handleSubmit}
+            disabled={isSubmitting}
           >
-            <svg className="w-5 h-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
+            {isSubmitting ? t('dialog.pinning') : t('dialog.pin')}
+          </ButtonPrimary>
+        </>
+      }
+    >
+      <form onSubmit={handleSubmit} className="space-y-4">
+        {error && (
+          <div className="p-3 bg-red-500/20 text-red-400 rounded-lg text-sm border border-red-500/30">
+            {error}
+          </div>
+        )}
+
+        {/* Title */}
+        <div>
+          <label className="block text-sm font-medium liquid-text-primary mb-1">
+            {t('dialog.titleLabel')} *
+          </label>
+          <input
+            type="text"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            placeholder={t('dialog.titlePlaceholder')}
+            className="w-full px-3 py-2 border border-white/20 rounded-lg bg-white/10 text-white placeholder-white/50 focus:ring-2 focus:ring-blue-500/50 focus:border-transparent"
+            dir={locale === 'ar' ? 'rtl' : 'ltr'}
+          />
         </div>
 
-        {/* Form */}
-        <form onSubmit={handleSubmit} className="p-6 space-y-4">
-          {error && (
-            <div className="glass-subtle p-3 border-red-300 dark:border-red-500/30 text-red-600 dark:text-red-400 rounded-xl text-sm">
-              {error}
-            </div>
-          )}
+        {/* Natural Language Query */}
+        <div>
+          <label className="block text-sm font-medium liquid-text-primary mb-1">
+            {t('dialog.queryLabel')} *
+          </label>
+          <textarea
+            value={naturalLanguageQuery}
+            onChange={(e) => setNaturalLanguageQuery(e.target.value)}
+            placeholder={t('dialog.queryPlaceholder')}
+            rows={3}
+            className="w-full px-3 py-2 border border-white/20 rounded-lg bg-white/10 text-white placeholder-white/50 focus:ring-2 focus:ring-blue-500/50 focus:border-transparent resize-none"
+            dir={locale === 'ar' ? 'rtl' : 'ltr'}
+          />
+        </div>
 
-          {/* Title */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
-              {t('dialog.titleLabel')} *
-            </label>
-            <input
-              type="text"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              placeholder={t('dialog.titlePlaceholder')}
-              className="glass-interactive w-full px-3 py-2 rounded-xl text-slate-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-              dir={locale === 'ar' ? 'rtl' : 'ltr'}
-            />
+        {/* Chart Type */}
+        <div>
+          <label className="block text-sm font-medium liquid-text-primary mb-1">
+            {t('dialog.chartTypeLabel')}
+          </label>
+          <div className="grid grid-cols-5 gap-2">
+            {chartTypes.map((type) => (
+              <button
+                key={type.value}
+                type="button"
+                onClick={() => setChartType(type.value as typeof chartType)}
+                className={`p-2 rounded-lg border text-center text-sm transition-colors ${
+                  chartType === type.value
+                    ? 'border-blue-500/50 bg-blue-500/20 text-blue-400'
+                    : 'border-white/20 hover:bg-white/10 liquid-text-primary'
+                }`}
+              >
+                {type.label}
+              </button>
+            ))}
           </div>
+        </div>
 
-          {/* Natural Language Query */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
-              {t('dialog.queryLabel')} *
-            </label>
-            <textarea
-              value={naturalLanguageQuery}
-              onChange={(e) => setNaturalLanguageQuery(e.target.value)}
-              placeholder={t('dialog.queryPlaceholder')}
-              rows={3}
-              className="glass-interactive w-full px-3 py-2 rounded-xl text-slate-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent resize-none"
-              dir={locale === 'ar' ? 'rtl' : 'ltr'}
-            />
-          </div>
-
-          {/* Chart Type */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
-              {t('dialog.chartTypeLabel')}
-            </label>
-            <div className="grid grid-cols-5 gap-2">
-              {chartTypes.map((type) => (
-                <button
-                  key={type.value}
-                  type="button"
-                  onClick={() => setChartType(type.value as typeof chartType)}
-                  className={`glass-interactive p-2 rounded-xl text-center text-sm transition-all ${
-                    chartType === type.value
-                      ? 'ring-2 ring-blue-500 bg-blue-50/50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400'
-                      : 'text-slate-600 dark:text-gray-300'
-                  }`}
-                >
-                  {type.label}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Refresh Interval */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
-              {t('dialog.refreshLabel')}
-            </label>
-            <select
-              value={refreshInterval}
-              onChange={(e) => setRefreshInterval(Number(e.target.value))}
-              className="glass-interactive w-full px-3 py-2 rounded-xl text-slate-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-            >
-              {refreshOptions.map((option) => (
-                <option key={option.value} value={option.value}>
-                  {option.label}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          {/* Actions */}
-          <div className="flex justify-end gap-3 pt-4">
-            <button
-              type="button"
-              onClick={onClose}
-              className="glass-interactive px-4 py-2 text-slate-700 dark:text-gray-200 rounded-xl transition-all"
-            >
-              {t('dialog.cancel')}
-            </button>
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              className="px-4 py-2 bg-gradient-to-r from-blue-600 to-cyan-500 text-white rounded-xl hover:from-blue-500 hover:to-cyan-400 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-lg shadow-blue-500/25"
-            >
-              {isSubmitting ? t('dialog.pinning') : t('dialog.pin')}
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
+        {/* Refresh Interval */}
+        <div>
+          <label className="block text-sm font-medium liquid-text-primary mb-1">
+            {t('dialog.refreshLabel')}
+          </label>
+          <select
+            value={refreshInterval}
+            onChange={(e) => setRefreshInterval(Number(e.target.value))}
+            className="w-full px-3 py-2 border border-white/20 rounded-lg bg-white/10 text-white focus:ring-2 focus:ring-blue-500/50 focus:border-transparent"
+          >
+            {refreshOptions.map((option) => (
+              <option key={option.value} value={option.value} className="bg-slate-900">
+                {option.label}
+              </option>
+            ))}
+          </select>
+        </div>
+      </form>
+    </LiquidGlassModal>
   );
 };
 

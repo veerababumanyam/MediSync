@@ -1,0 +1,758 @@
+openapi: 3.1.0
+info:
+  title: Council of AIs Consensus API
+  description: |
+    API for the multi-agent consensus system that eradicates hallucinations
+    through deliberation and Knowledge Graph grounding.
+
+    ## Authentication
+    All endpoints require JWT authentication via Keycloak.
+
+    ## Authorization
+    Role-based access control enforced via OPA policies:
+    - `user`: Can submit queries and view own deliberations
+    - `admin`: Can view all deliberations and audit trails
+  version: 1.0.0
+  contact:
+    name: MediSync Engineering
+
+servers:
+  - url: /api/v1/council
+    description: Council of AIs API
+
+tags:
+  - name: Deliberations
+    description: Query submission and consensus operations
+  - name: Evidence
+    description: Knowledge Graph evidence exploration
+  - name: Audit
+    description: Compliance and quality assurance (admin only)
+  - name: Health
+    description: System and agent health monitoring
+
+paths:
+  /deliberations:
+    post:
+      operationId: createDeliberation
+      summary: Submit a query for Council deliberation
+      description: |
+        Submits a natural language query to the Council of AIs.
+        Multiple agents will deliberate and reach consensus before responding.
+      tags:
+        - Deliberations
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateDeliberationRequest'
+            examples:
+              revenue_query:
+                summary: Revenue trend query
+                value:
+                  query: "What were the top 5 medications by revenue last quarter?"
+                  consensusThreshold: 0.80
+      responses:
+        '201':
+          description: Deliberation created and started
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeliberationResponse'
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+        '503':
+          description: Service unavailable (Knowledge Graph down)
+
+    get:
+      operationId: listDeliberations
+      summary: List deliberations
+      description: |
+        Lists deliberations. Users see only their own; admins see all.
+      tags:
+        - Deliberations
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: status
+          in: query
+          schema:
+            $ref: '#/components/schemas/DeliberationStatus'
+        - name: fromDate
+          in: query
+          schema:
+            type: string
+            format: date-time
+        - name: toDate
+          in: query
+          schema:
+            type: string
+            format: date-time
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 20
+            maximum: 100
+        - name: offset
+          in: query
+          schema:
+            type: integer
+            default: 0
+      responses:
+        '200':
+          description: List of deliberations
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeliberationListResponse'
+
+  /deliberations/{deliberationId}:
+    get:
+      operationId: getDeliberation
+      summary: Get deliberation details
+      description: |
+        Returns full deliberation details including consensus outcome.
+        Users can only access their own deliberations.
+      tags:
+        - Deliberations
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: deliberationId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Deliberation details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeliberationDetailResponse'
+        '403':
+          description: Access denied (not your deliberation)
+        '404':
+          description: Deliberation not found
+
+  /deliberations/{deliberationId}/evidence:
+    get:
+      operationId: getEvidence
+      summary: Get evidence trail for deliberation
+      description: |
+        Returns the Knowledge Graph evidence trail that supported the consensus.
+        Includes all traversed nodes, relevance scores, and reasoning paths.
+      tags:
+        - Evidence
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: deliberationId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Evidence trail
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EvidenceTrailResponse'
+        '403':
+          description: Access denied
+        '404':
+          description: Deliberation not found
+
+  /deliberations/{deliberationId}/evidence/nodes/{nodeId}:
+    get:
+      operationId: getEvidenceNode
+      summary: Get specific evidence node details
+      description: |
+        Returns details of a specific Knowledge Graph node including
+        related concepts and relationships.
+      tags:
+        - Evidence
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: deliberationId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: nodeId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Evidence node details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KnowledgeGraphNodeResponse'
+        '403':
+          description: Access denied
+        '404':
+          description: Node not found
+
+  /audit/deliberations:
+    get:
+      operationId: listAuditDeliberations
+      summary: List all deliberations for audit (admin only)
+      description: |
+        Admin-only endpoint to list all deliberations for compliance review.
+        Supports filtering and pagination.
+      tags:
+        - Audit
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: userId
+          in: query
+          schema:
+            type: string
+            format: uuid
+        - name: status
+          in: query
+          schema:
+            $ref: '#/components/schemas/DeliberationStatus'
+        - name: flagged
+          in: query
+          schema:
+            type: boolean
+        - name: fromDate
+          in: query
+          schema:
+            type: string
+            format: date-time
+        - name: toDate
+          in: query
+          schema:
+            type: string
+            format: date-time
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 50
+        - name: offset
+          in: query
+          schema:
+            type: integer
+            default: 0
+      responses:
+        '200':
+          description: List of all deliberations
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuditDeliberationListResponse'
+        '403':
+          description: Admin access required
+
+  /audit/deliberations/{deliberationId}/flag:
+    post:
+      operationId: flagDeliberation
+      summary: Flag a deliberation for review (admin only)
+      description: |
+        Flags a deliberation as potentially containing hallucination
+        or other quality issues for quality improvement analysis.
+      tags:
+        - Audit
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: deliberationId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FlagDeliberationRequest'
+      responses:
+        '200':
+          description: Deliberation flagged
+        '403':
+          description: Admin access required
+        '404':
+          description: Deliberation not found
+
+  /health:
+    get:
+      operationId: getSystemHealth
+      summary: Get system health status
+      description: |
+        Returns overall system health including agent quorum status
+        and Knowledge Graph availability.
+      tags:
+        - Health
+      responses:
+        '200':
+          description: System health
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SystemHealthResponse'
+
+  /health/agents:
+    get:
+      operationId: getAgentHealth
+      summary: Get agent health status
+      description: |
+        Returns health status of all Council agent instances.
+      tags:
+        - Health
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Agent health statuses
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AgentHealthListResponse'
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: Keycloak JWT token
+
+  schemas:
+    DeliberationStatus:
+      type: string
+      enum:
+        - pending
+        - deliberating
+        - consensus
+        - uncertain
+        - failed
+
+    CreateDeliberationRequest:
+      type: object
+      required:
+        - query
+      properties:
+        query:
+          type: string
+          minLength: 10
+          maxLength: 5000
+          description: Natural language query for the Council
+        consensusThreshold:
+          type: number
+          format: double
+          minimum: 0.5
+          maximum: 1.0
+          default: 0.80
+          description: Required consensus threshold
+        metadata:
+          type: object
+          additionalProperties: true
+          description: Optional metadata for the query
+
+    DeliberationResponse:
+      type: object
+      required:
+        - id
+        - status
+        - createdAt
+      properties:
+        id:
+          type: string
+          format: uuid
+        status:
+          $ref: '#/components/schemas/DeliberationStatus'
+        createdAt:
+          type: string
+          format: date-time
+        estimatedCompletionSeconds:
+          type: integer
+          description: Estimated time to complete deliberation
+
+    DeliberationListResponse:
+      type: object
+      required:
+        - data
+        - pagination
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/DeliberationSummary'
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+
+    DeliberationSummary:
+      type: object
+      required:
+        - id
+        - query
+        - status
+        - createdAt
+      properties:
+        id:
+          type: string
+          format: uuid
+        query:
+          type: string
+          maxLength: 200
+          description: Truncated query preview
+        status:
+          $ref: '#/components/schemas/DeliberationStatus'
+        confidenceScore:
+          type: number
+          format: double
+        createdAt:
+          type: string
+          format: date-time
+        completedAt:
+          type: string
+          format: date-time
+
+    DeliberationDetailResponse:
+      type: object
+      required:
+        - id
+        - query
+        - status
+        - consensusThreshold
+        - createdAt
+      properties:
+        id:
+          type: string
+          format: uuid
+        query:
+          type: string
+        status:
+          $ref: '#/components/schemas/DeliberationStatus'
+        consensusThreshold:
+          type: number
+          format: double
+        finalResponse:
+          type: string
+          description: Consensus response (if consensus reached)
+        confidenceScore:
+          type: number
+          format: double
+          description: Overall confidence (0-100)
+        agentResponses:
+          type: array
+          items:
+            $ref: '#/components/schemas/AgentResponseSummary'
+        consensusRecord:
+          $ref: '#/components/schemas/ConsensusRecordSummary'
+        createdAt:
+          type: string
+          format: date-time
+        completedAt:
+          type: string
+          format: date-time
+
+    AgentResponseSummary:
+      type: object
+      required:
+        - agentId
+        - agentName
+        - confidence
+      properties:
+        agentId:
+          type: string
+          format: uuid
+        agentName:
+          type: string
+        responsePreview:
+          type: string
+          maxLength: 200
+        confidence:
+          type: number
+          format: double
+        equivalenceGroup:
+          type: integer
+          description: Group ID for semantically equivalent responses
+
+    ConsensusRecordSummary:
+      type: object
+      required:
+        - agreementScore
+        - thresholdMet
+      properties:
+        agreementScore:
+          type: number
+          format: double
+        thresholdMet:
+          type: boolean
+        equivalenceGroupCount:
+          type: integer
+          description: Number of distinct response groups
+
+    EvidenceTrailResponse:
+      type: object
+      required:
+        - deliberationId
+        - nodes
+        - traversalPath
+      properties:
+        deliberationId:
+          type: string
+          format: uuid
+        nodes:
+          type: array
+          items:
+            $ref: '#/components/schemas/EvidenceNodeSummary'
+        traversalPath:
+          type: array
+          items:
+            $ref: '#/components/schemas/TraversalStep'
+        cachedAt:
+          type: string
+          format: date-time
+        expiresAt:
+          type: string
+          format: date-time
+
+    EvidenceNodeSummary:
+      type: object
+      required:
+        - id
+        - concept
+        - nodeType
+        - relevanceScore
+      properties:
+        id:
+          type: string
+          format: uuid
+        concept:
+          type: string
+        nodeType:
+          type: string
+          enum: [concept, medication, procedure, condition, organization]
+        definition:
+          type: string
+          maxLength: 300
+        relevanceScore:
+          type: number
+          format: double
+        source:
+          type: string
+
+    TraversalStep:
+      type: object
+      required:
+        - fromNodeId
+        - toNodeId
+        - edgeType
+      properties:
+        fromNodeId:
+          type: string
+          format: uuid
+        toNodeId:
+          type: string
+          format: uuid
+        edgeType:
+          type: string
+          enum: [TREATS, CAUSES, CONTRAINDICATES, RELATED_TO, SUBSUMES, PART_OF]
+        weight:
+          type: number
+          format: double
+
+    KnowledgeGraphNodeResponse:
+      type: object
+      required:
+        - id
+        - concept
+        - nodeType
+        - definition
+      properties:
+        id:
+          type: string
+          format: uuid
+        concept:
+          type: string
+        nodeType:
+          type: string
+          enum: [concept, medication, procedure, condition, organization]
+        definition:
+          type: string
+        source:
+          type: string
+        confidence:
+          type: number
+          format: double
+        lastVerified:
+          type: string
+          format: date-time
+        relatedNodes:
+          type: array
+          items:
+            $ref: '#/components/schemas/RelatedNode'
+
+    RelatedNode:
+      type: object
+      required:
+        - id
+        - concept
+        - relationship
+      properties:
+        id:
+          type: string
+          format: uuid
+        concept:
+          type: string
+        relationship:
+          type: string
+
+    AuditDeliberationListResponse:
+      type: object
+      required:
+        - data
+        - pagination
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/AuditDeliberationSummary'
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+
+    AuditDeliberationSummary:
+      allOf:
+        - $ref: '#/components/schemas/DeliberationDetailResponse'
+        - type: object
+          properties:
+            userId:
+              type: string
+              format: uuid
+            userEmail:
+              type: string
+            flagged:
+              type: boolean
+            flagReason:
+              type: string
+
+    FlagDeliberationRequest:
+      type: object
+      required:
+        - reason
+      properties:
+        reason:
+          type: string
+          minLength: 10
+          maxLength: 1000
+          description: Reason for flagging
+        hallucinationType:
+          type: string
+          enum: [factual_error, fabricated_data, misleading_context, other]
+        severity:
+          type: string
+          enum: [low, medium, high, critical]
+          default: medium
+
+    SystemHealthResponse:
+      type: object
+      required:
+        - status
+        - quorumMaintained
+        - knowledgeGraphAvailable
+      properties:
+        status:
+          type: string
+          enum: [healthy, degraded, unavailable]
+        quorumMaintained:
+          type: boolean
+          description: Whether minimum agent quorum is available
+        knowledgeGraphAvailable:
+          type: boolean
+        healthyAgentCount:
+          type: integer
+        totalAgentCount:
+          type: integer
+        lastHealthCheck:
+          type: string
+          format: date-time
+
+    AgentHealthListResponse:
+      type: object
+      required:
+        - agents
+      properties:
+        agents:
+          type: array
+          items:
+            $ref: '#/components/schemas/AgentHealthStatus'
+
+    AgentHealthStatus:
+      type: object
+      required:
+        - id
+        - name
+        - status
+        - lastHeartbeat
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        status:
+          type: string
+          enum: [healthy, degraded, failed]
+        lastHeartbeat:
+          type: string
+          format: date-time
+        consecutiveFailures:
+          type: integer
+        circuitBreakerOpen:
+          type: boolean
+
+    Pagination:
+      type: object
+      required:
+        - total
+        - limit
+        - offset
+      properties:
+        total:
+          type: integer
+        limit:
+          type: integer
+        offset:
+          type: integer
+        hasMore:
+          type: boolean
+
+    ErrorResponse:
+      type: object
+      required:
+        - error
+        - message
+      properties:
+        error:
+          type: string
+        message:
+          type: string
+        details:
+          type: object
+          additionalProperties: true

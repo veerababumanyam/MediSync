@@ -1,0 +1,838 @@
+openapi: 3.1.0
+info:
+  title: MediSync Documents API
+  description: |
+    API for document upload, management, and review queue operations.
+    Part of the AI Accountant module (Module B).
+  version: 1.0.0
+  contact:
+    name: MediSync Engineering
+    url: https://github.com/medisync/medisync
+
+servers:
+  - url: https://api.medisync.local/v1
+    description: Local development
+  - url: https://api.medisync.io/v1
+    description: Production
+
+tags:
+  - name: Documents
+    description: Document upload and management
+  - name: Review Queue
+    description: Human-in-the-loop review operations
+  - name: Extractions
+    description: Extracted field operations
+
+paths:
+  /documents:
+    get:
+      operationId: listDocuments
+      summary: List documents
+      description: Retrieve paginated list of documents with filtering options
+      tags:
+        - Documents
+      parameters:
+        - name: status
+          in: query
+          schema:
+            $ref: '#/components/schemas/DocumentStatus'
+        - name: document_type
+          in: query
+          schema:
+            $ref: '#/components/schemas/DocumentType'
+        - name: uploaded_after
+          in: query
+          schema:
+            type: string
+            format: date-time
+        - name: uploaded_before
+          in: query
+          schema:
+            type: string
+            format: date-time
+        - name: search
+          in: query
+          description: Search in filename, supplier name, invoice number
+          schema:
+            type: string
+        - name: page
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+        - name: page_size
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+        - name: sort_by
+          in: query
+          schema:
+            type: string
+            enum: [created_at, updated_at, overall_confidence]
+            default: created_at
+        - name: sort_order
+          in: query
+          schema:
+            type: string
+            enum: [asc, desc]
+            default: desc
+      responses:
+        '200':
+          description: Paginated list of documents
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DocumentListResponse'
+      security:
+        - bearerAuth: []
+
+    post:
+      operationId: uploadDocument
+      summary: Upload a document
+      description: |
+        Upload a document for OCR processing. Supports PDF, JPEG, PNG, TIFF, XLSX, CSV.
+        Maximum file size: 25MB. Maximum pages: 20.
+      tags:
+        - Documents
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - file
+              properties:
+                file:
+                  type: string
+                  format: binary
+                  description: Document file
+                document_type_hint:
+                  $ref: '#/components/schemas/DocumentType'
+                metadata:
+                  type: object
+                  additionalProperties:
+                    type: string
+      responses:
+        '201':
+          description: Document uploaded successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Document'
+        '400':
+          description: Invalid file or validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '413':
+          description: File too large (max 25MB)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+        - bearerAuth: []
+
+  /documents/bulk:
+    post:
+      operationId: bulkUploadDocuments
+      summary: Bulk upload documents
+      description: Upload multiple documents at once (max 50 files)
+      tags:
+        - Documents
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - files
+              properties:
+                files:
+                  type: array
+                  maxItems: 50
+                  items:
+                    type: string
+                    format: binary
+      responses:
+        '202':
+          description: Bulk upload accepted for processing
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  upload_id:
+                    type: string
+                    format: uuid
+                  document_ids:
+                    type: array
+                    items:
+                      type: string
+                      format: uuid
+                  message:
+                    type: string
+      security:
+        - bearerAuth: []
+
+  /documents/{documentId}:
+    get:
+      operationId: getDocument
+      summary: Get document details
+      description: Retrieve full document details including extracted fields
+      tags:
+        - Documents
+      parameters:
+        - name: documentId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: include_fields
+          in: query
+          description: Include extracted fields in response
+          schema:
+            type: boolean
+            default: true
+        - name: include_line_items
+          in: query
+          description: Include line items in response
+          schema:
+            type: boolean
+            default: true
+      responses:
+        '200':
+          description: Document details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DocumentDetail'
+        '404':
+          description: Document not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+        - bearerAuth: []
+
+    delete:
+      operationId: deleteDocument
+      summary: Delete a document
+      description: Delete a document that has not been approved
+      tags:
+        - Documents
+      parameters:
+        - name: documentId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '204':
+          description: Document deleted
+        '400':
+          description: Cannot delete approved document
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Document not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+        - bearerAuth: []
+
+  /documents/{documentId}/original:
+    get:
+      operationId: downloadOriginal
+      summary: Download original document
+      description: Download the original uploaded file
+      tags:
+        - Documents
+      parameters:
+        - name: documentId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Original document file
+          content:
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+            image/jpeg:
+              schema:
+                type: string
+                format: binary
+            image/png:
+              schema:
+                type: string
+                format: binary
+        '404':
+          description: Document not found
+      security:
+        - bearerAuth: []
+
+  /documents/{documentId}/pages/{pageNumber}:
+    get:
+      operationId: getPageImage
+      summary: Get page image
+      description: Get rendered page image for preview
+      tags:
+        - Documents
+      parameters:
+        - name: documentId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: pageNumber
+          in: path
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+        - name: size
+          in: query
+          schema:
+            type: string
+            enum: [thumbnail, full]
+            default: full
+      responses:
+        '200':
+          description: Page image
+          content:
+            image/png:
+              schema:
+                type: string
+                format: binary
+        '404':
+          description: Page not found
+      security:
+        - bearerAuth: []
+
+  /review-queue:
+    get:
+      operationId: getReviewQueue
+      summary: Get review queue
+      description: |
+        Get documents awaiting human review, sorted by priority (lowest confidence first).
+      tags:
+        - Review Queue
+      parameters:
+        - name: priority
+          in: query
+          description: Filter by priority level
+          schema:
+            type: string
+            enum: [high, normal, all]
+            default: all
+        - name: document_type
+          in: query
+          schema:
+            $ref: '#/components/schemas/DocumentType'
+        - name: page
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+        - name: page_size
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 50
+            default: 20
+      responses:
+        '200':
+          description: Review queue items
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReviewQueueResponse'
+      security:
+        - bearerAuth: []
+
+  /review-queue/stats:
+    get:
+      operationId: getReviewQueueStats
+      summary: Get review queue statistics
+      tags:
+        - Review Queue
+      responses:
+        '200':
+          description: Queue statistics
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReviewQueueStats'
+      security:
+        - bearerAuth: []
+
+  /documents/{documentId}/review:
+    post:
+      operationId: startReview
+      summary: Start reviewing a document
+      description: Mark document as under review by current user
+      tags:
+        - Review Queue
+      parameters:
+        - name: documentId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Review started
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Document'
+        '409':
+          description: Document already under review by another user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+        - bearerAuth: []
+
+  /documents/{documentId}/fields/{fieldId}:
+    patch:
+      operationId: updateField
+      summary: Update extracted field
+      description: Edit or verify an extracted field value
+      tags:
+        - Extractions
+      parameters:
+        - name: documentId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: fieldId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                value:
+                  description: New value for the field
+                  oneOf:
+                    - type: string
+                    - type: number
+                action:
+                  type: string
+                  enum: [edit, verify, reject]
+                  description: |
+                    edit - Change the value
+                    verify - Confirm current value is correct
+                    reject - Mark field as incorrect/invalid
+                notes:
+                  type: string
+                  description: Optional notes for rejection
+      responses:
+        '200':
+          description: Field updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExtractedField'
+        '404':
+          description: Field not found
+      security:
+        - bearerAuth: []
+
+  /documents/{documentId}/approve:
+    post:
+      operationId: approveDocument
+      summary: Approve document
+      description: |
+        Approve document for ledger mapping. All fields must be verified.
+        Creates audit log entry with snapshot of all field values.
+      tags:
+        - Review Queue
+      parameters:
+        - name: documentId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                notes:
+                  type: string
+                  description: Optional approval notes
+      responses:
+        '200':
+          description: Document approved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Document'
+        '400':
+          description: Not all fields verified
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+        - bearerAuth: []
+
+  /documents/{documentId}/reject:
+    post:
+      operationId: rejectDocument
+      summary: Reject document
+      description: Reject document with reason
+      tags:
+        - Review Queue
+      parameters:
+        - name: documentId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - reason
+              properties:
+                reason:
+                  type: string
+                  description: Rejection reason
+                notes:
+                  type: string
+                  description: Additional notes
+      responses:
+        '200':
+          description: Document rejected
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Document'
+      security:
+        - bearerAuth: []
+
+  /documents/{documentId}/reprocess:
+    post:
+      operationId: reprocessDocument
+      summary: Reprocess document
+      description: Re-run OCR extraction on a document
+      tags:
+        - Documents
+      parameters:
+        - name: documentId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '202':
+          description: Reprocessing started
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Document'
+        '400':
+          description: Document cannot be reprocessed
+      security:
+        - bearerAuth: []
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: Keycloak JWT token
+
+  schemas:
+    DocumentStatus:
+      type: string
+      enum:
+        - uploading
+        - uploaded
+        - classifying
+        - extracting
+        - ready_for_review
+        - under_review
+        - reviewed
+        - approved
+        - rejected
+        - failed
+
+    DocumentType:
+      type: string
+      enum:
+        - invoice
+        - receipt
+        - bank_statement
+        - expense_report
+        - credit_note
+        - debit_note
+        - other
+
+    FileFormat:
+      type: string
+      enum:
+        - pdf
+        - jpeg
+        - png
+        - tiff
+        - xlsx
+        - csv
+
+    VerificationStatus:
+      type: string
+      enum:
+        - pending
+        - auto_accepted
+        - needs_review
+        - high_priority
+        - manually_verified
+        - manually_corrected
+        - rejected
+
+    Document:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        tenant_id:
+          type: string
+          format: uuid
+        uploaded_by:
+          type: string
+          format: uuid
+        status:
+          $ref: '#/components/schemas/DocumentStatus'
+        document_type:
+          $ref: '#/components/schemas/DocumentType'
+        original_filename:
+          type: string
+        file_size_bytes:
+          type: integer
+          format: int64
+        file_format:
+          $ref: '#/components/schemas/FileFormat'
+        page_count:
+          type: integer
+        classification_confidence:
+          type: number
+          format: decimal
+          minimum: 0
+          maximum: 1
+        overall_confidence:
+          type: number
+          format: decimal
+          minimum: 0
+          maximum: 1
+        rejection_reason:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+
+    DocumentDetail:
+      allOf:
+        - $ref: '#/components/schemas/Document'
+        - type: object
+          properties:
+            fields:
+              type: array
+              items:
+                $ref: '#/components/schemas/ExtractedField'
+            line_items:
+              type: array
+              items:
+                $ref: '#/components/schemas/LineItem'
+
+    ExtractedField:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        document_id:
+          type: string
+          format: uuid
+        page_number:
+          type: integer
+        field_name:
+          type: string
+        field_type:
+          type: string
+          enum: [string, number, currency, date, percentage, identifier, tax_id]
+        extracted_value:
+          type: string
+        confidence_score:
+          type: number
+          format: decimal
+          minimum: 0
+          maximum: 1
+        bounding_box:
+          type: object
+          properties:
+            x:
+              type: number
+            y:
+              type: number
+            width:
+              type: number
+            height:
+              type: number
+        is_handwritten:
+          type: boolean
+        verification_status:
+          $ref: '#/components/schemas/VerificationStatus'
+        verified_by:
+          type: string
+          format: uuid
+        verified_at:
+          type: string
+          format: date-time
+        original_value:
+          type: string
+          description: Original value before any edits
+
+    LineItem:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        document_id:
+          type: string
+          format: uuid
+        line_number:
+          type: integer
+        description:
+          type: string
+        quantity:
+          type: number
+          format: decimal
+        unit_price:
+          type: number
+          format: decimal
+        amount:
+          type: number
+          format: decimal
+        tax_rate:
+          type: number
+          format: decimal
+
+    DocumentListResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Document'
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+
+    ReviewQueueResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReviewQueueItem'
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+
+    ReviewQueueItem:
+      allOf:
+        - $ref: '#/components/schemas/Document'
+        - type: object
+          properties:
+            high_priority_field_count:
+              type: integer
+            needs_review_field_count:
+              type: integer
+            auto_accepted_field_count:
+              type: integer
+
+    ReviewQueueStats:
+      type: object
+      properties:
+        total_pending:
+          type: integer
+        high_priority:
+          type: integer
+        needs_review:
+          type: integer
+        by_document_type:
+          type: object
+          additionalProperties:
+            type: integer
+        oldest_unreviewed:
+          type: string
+          format: date-time
+
+    Pagination:
+      type: object
+      properties:
+        page:
+          type: integer
+        page_size:
+          type: integer
+        total_items:
+          type: integer
+        total_pages:
+          type: integer
+
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        details:
+          type: object
+          additionalProperties: true

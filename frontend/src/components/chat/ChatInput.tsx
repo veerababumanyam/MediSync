@@ -6,7 +6,6 @@ interface ChatInputProps {
   disabled?: boolean;
   locale: string;
   placeholder?: string;
-  isDark?: boolean;
 }
 
 export const ChatInput: React.FC<ChatInputProps> = ({
@@ -14,7 +13,6 @@ export const ChatInput: React.FC<ChatInputProps> = ({
   disabled = false,
   locale,
   placeholder,
-  isDark = true,
 }) => {
   const { t } = useTranslation('chat');
   const [input, setInput] = useState('');
@@ -24,8 +22,7 @@ export const ChatInput: React.FC<ChatInputProps> = ({
   useEffect(() => {
     if (textareaRef.current) {
       textareaRef.current.style.height = 'auto';
-      const maxH = window.innerWidth < 640 ? 120 : 200;
-      textareaRef.current.style.height = `${Math.min(textareaRef.current.scrollHeight, maxH)}px`;
+      textareaRef.current.style.height = `${Math.min(textareaRef.current.scrollHeight, 200)}px`;
     }
   }, [input]);
 
@@ -50,38 +47,40 @@ export const ChatInput: React.FC<ChatInputProps> = ({
   );
 
   const isRTL = locale === 'ar';
+  const sendLabel = t('input.send', 'Send');
+  const placeholderText = placeholder || t('input.placeholder', 'Type your question...');
 
   return (
     <div
-      className={`glass flex items-end gap-2 sm:gap-3 rounded-xl p-2 sm:p-3 ${isRTL ? 'flex-row-reverse' : ''}`}
+      dir={isRTL ? 'rtl' : 'ltr'}
+      className={`relative flex items-end gap-3 p-4 rounded-xl border border-glass bg-surface-glass-strong shadow-sm liquid-glass-light backdrop-blur-sm focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-blue-400 dark:focus-within:border-blue-500 focus-within:shadow-md ${isRTL ? 'flex-row-reverse' : ''}`}
     >
       <textarea
         ref={textareaRef}
         value={input}
         onChange={(e) => setInput(e.target.value)}
         onKeyDown={handleKeyDown}
+        placeholder={placeholderText}
         disabled={disabled}
-        placeholder={placeholder || t('input.placeholder')}
         rows={1}
-        className={`flex-1 resize-none bg-transparent focus:outline-none text-sm ${isDark
-          ? 'text-white placeholder-slate-500'
-          : 'text-slate-900 placeholder-slate-400'
-          } ${isRTL ? 'text-right' : 'text-left'}`}
+        aria-label={placeholderText}
+        className={`flex-1 min-h-[44px] resize-none bg-transparent text-primary placeholder-slate-600 dark:placeholder-slate-300 focus:outline-none focus:ring-0 text-sm disabled:opacity-50 text-start ${isRTL ? 'rounded-e-xl' : 'rounded-s-xl'}`}
         dir={isRTL ? 'rtl' : 'ltr'}
       />
 
       <button
+        type="button"
         onClick={handleSend}
         disabled={disabled || !input.trim()}
-        className={`flex-shrink-0 p-2 rounded-lg transition-all duration-300 ${disabled || !input.trim()
-          ? 'glass-interactive text-slate-400 cursor-not-allowed'
-          : 'bg-gradient-to-r from-blue-600 to-cyan-500 text-white shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 hover:scale-105 active:scale-95'
+        className={`shrink-0 flex items-center justify-center min-h-[44px] min-w-[44px] p-3 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 ${isRTL ? 'rounded-s-xl' : 'rounded-e-xl'} ${disabled || !input.trim()
+            ? 'bg-slate-200 dark:bg-slate-700 text-slate-400 dark:text-slate-500 cursor-not-allowed'
+            : 'bg-action-primary text-on-brand hover:opacity-90 hover:shadow-md active:scale-95'
           }`}
-        aria-label={t('input.send')}
+        aria-label={sendLabel}
       >
         {disabled ? (
           <svg
-            className="w-5 h-5 animate-spin text-inherit"
+            className="w-5 h-5 animate-spin"
             fill="none"
             viewBox="0 0 24 24"
           >
@@ -101,18 +100,17 @@ export const ChatInput: React.FC<ChatInputProps> = ({
           </svg>
         ) : (
           <svg
-            className={`w-5 h-5 text-inherit ${isRTL ? 'rotate-180' : ''}`}
+            className={`w-5 h-5 ${isRTL ? 'rotate-180' : ''}`}
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
-            strokeWidth={2}
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            aria-hidden
           >
-            {/* Modern send: minimal paper plane (Heroicons 2 / Lucide style) */}
-            <path d="m22 2-7 20-4-9-9-4Z" />
-            <path d="M22 2 11 13" />
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"
+            />
           </svg>
         )}
       </button>
@@ -121,3 +119,4 @@ export const ChatInput: React.FC<ChatInputProps> = ({
 };
 
 export default ChatInput;
+

@@ -3,19 +3,21 @@ import { useTranslation } from 'react-i18next';
 import { PinnedChartCard } from './PinnedChartCard';
 import { ChartPinDialog } from './ChartPinDialog';
 import { useLocale } from '../../hooks/useLocale';
-import { dashboardApi, type PinnedChart } from '../../services/api';
-import { LoadingSpinner } from '../common/LoadingSpinner';
+import { LoadingSkeleton } from '../ui';
+import { LiquidGlassCard } from '../ui/LiquidGlassCard';
+import { ButtonPrimary } from '../ui/LiquidGlassButton';
+import { StaggerChildren, FadeIn } from '../animations';
+import { dashboardApi } from '../../services/api';
+import type { PinnedChart } from '../../services/api';
 
 interface DashboardGridProps {
   onChartClick?: (chart: PinnedChart) => void;
   className?: string;
-  isDark?: boolean;
 }
 
 export const DashboardGrid: React.FC<DashboardGridProps> = ({
   onChartClick,
   className = '',
-  isDark = true,
 }) => {
   const { t } = useTranslation('dashboard');
   const { locale } = useLocale();
@@ -89,71 +91,96 @@ export const DashboardGrid: React.FC<DashboardGridProps> = ({
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center h-64">
-        <LoadingSpinner size="lg" />
+      <div className="space-y-4">
+        <LoadingSkeleton variant="card" className="h-24" />
+        <div className="grid gap-4" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))' }}>
+          <LoadingSkeleton variant="chart" />
+          <LoadingSkeleton variant="chart" />
+          <LoadingSkeleton variant="chart" />
+        </div>
       </div>
     );
   }
 
   return (
-    <div className={`space-y-4 ${className}`}>
+    <div className={`space-y-6 ${className}`}>
       {/* Header */}
-      <div className="flex items-center justify-between">
-        <h2 className={`text-xl font-semibold ${isDark ? 'text-white' : 'text-slate-900'}`}>
-          {t('title')}
-        </h2>
-        <button
-          onClick={() => setShowPinDialog(true)}
-          className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-600 to-cyan-500 text-white rounded-xl hover:from-blue-500 hover:to-cyan-400 transition-all duration-300 text-sm font-semibold shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40"
-        >
-          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-          </svg>
-          {t('pinChart')}
-        </button>
-      </div>
+      <FadeIn>
+        <div className="flex items-center justify-between">
+          <div>
+            <h2 className="text-xl font-semibold liquid-text-primary">
+              {t('title')}
+            </h2>
+            <p className="text-sm liquid-text-secondary mt-1">
+              Your pinned business insights
+            </p>
+          </div>
+          <ButtonPrimary
+            onClick={() => setShowPinDialog(true)}
+          >
+            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+            </svg>
+            {t('pinChart')}
+          </ButtonPrimary>
+        </div>
+      </FadeIn>
 
       {/* Error Message */}
       {error && (
-        <div className={`p-4 rounded-xl ${isDark ? 'bg-red-500/10 border border-red-500/20 text-red-400' : 'bg-red-50 border border-red-200 text-red-600'}`}>
-          {error}
-        </div>
+        <FadeIn>
+          <LiquidGlassCard intensity="light" className="p-4 border-s-4 border-s-red-500">
+            <div className="flex items-center gap-3">
+              <svg className="w-5 h-5 text-red-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <span className="text-red-400 flex-1">{error}</span>
+            </div>
+          </LiquidGlassCard>
+        </FadeIn>
       )}
 
       {/* Empty State */}
       {charts.length === 0 && !error && (
-        <div className="text-center py-12">
-          <svg
-            className={`w-16 h-16 mx-auto ${isDark ? 'text-slate-600' : 'text-slate-400'}`}
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={1.5}
-              d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
-            />
-          </svg>
-          <h3 className={`mt-4 text-lg font-medium ${isDark ? 'text-white' : 'text-slate-900'}`}>
-            {t('empty.title')}
-          </h3>
-          <p className={`mt-2 ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
-            {t('empty.description')}
-          </p>
-          <button
-            onClick={() => setShowPinDialog(true)}
-            className="mt-4 inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-600 to-cyan-500 text-white rounded-xl hover:from-blue-500 hover:to-cyan-400 transition-all duration-300 text-sm font-semibold shadow-lg shadow-blue-500/25"
-          >
-            {t('pinFirstChart')}
-          </button>
-        </div>
+        <FadeIn>
+          <LiquidGlassCard intensity="medium" elevation="raised" className="text-center py-16">
+            <div className="w-20 h-20 rounded-2xl liquid-glass flex items-center justify-center mx-auto mb-6">
+              <svg
+                className="w-10 h-5 liquid-text-secondary"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={1.5}
+                  d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+                />
+              </svg>
+            </div>
+            <h3 className="mt-4 text-lg font-semibold liquid-text-primary">
+              {t('empty.title')}
+            </h3>
+            <p className="mt-2 liquid-text-secondary max-w-sm mx-auto">
+              {t('empty.description')}
+            </p>
+            <ButtonPrimary
+              onClick={() => setShowPinDialog(true)}
+              className="mt-6"
+            >
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+              </svg>
+              {t('pinFirstChart')}
+            </ButtonPrimary>
+          </LiquidGlassCard>
+        </FadeIn>
       )}
 
       {/* Charts Grid */}
       {charts.length > 0 && (
-        <div
+        <StaggerChildren
           className="grid gap-4"
           style={{
             gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
@@ -170,7 +197,7 @@ export const DashboardGrid: React.FC<DashboardGridProps> = ({
               onClick={() => onChartClick?.(chart)}
             />
           ))}
-        </div>
+        </StaggerChildren>
       )}
 
       {/* Pin Dialog */}

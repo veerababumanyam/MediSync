@@ -7,13 +7,16 @@ import { StreamingMessage } from './StreamingMessage';
 import { QuerySuggestions } from './QuerySuggestions';
 import { ChatHeader } from './ChatHeader';
 import { useLocale } from '../../hooks/useLocale';
-import { apiClient, type SSEEvent, type ChatMessage } from '../../services/api';
+import { GlassCard } from '../ui';
+import { FadeIn, StaggerChildren } from '../animations';
+import type { SSEEvent, ChatMessage } from '../../services/api';
+import { apiClient, api } from '../../services/api';
+import { webMCPService } from '../../services/WebMCPService';
 
 interface ChatInterfaceProps {
   initialSessionId?: string;
   onSessionChange?: (sessionId: string) => void;
   className?: string;
-  isDark?: boolean;
 }
 
 interface StreamingState {
@@ -26,7 +29,6 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
   initialSessionId,
   onSessionChange,
   className = '',
-  isDark = true,
 }) => {
   const { t } = useTranslation('chat');
   const { locale } = useLocale();
@@ -55,6 +57,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sessionId]);
+
 
   const loadMessages = async (sid: string) => {
     setError(null); try {
@@ -158,6 +161,31 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
     }
   }, []);
 
+  // Register WebMCP tools
+  useEffect(() => {
+    webMCPService.registerChatTools({
+      onQuery: (query: string) => {
+        handleSendMessage(query);
+      },
+      onSyncTally: async () => {
+        try {
+          await api.post('/sync/now');
+        } catch (err) {
+          console.error('WebMCP syncTally failed:', err);
+          throw err;
+        }
+      },
+      onShowDashboard: () => {
+        console.log(`WebMCP: Navigating to dashboard`);
+        window.location.href = '/dashboard';
+      }
+    });
+
+    return () => {
+      webMCPService.cleanup();
+    };
+  }, [handleSendMessage]);
+
   // Default query suggestions
   const suggestions = [
     t('suggestions.revenue'),
@@ -167,66 +195,88 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
   ];
 
   return (
-    <div className={`flex flex-col min-h-0 ${className}`}>
-      {/* Header */}
-      <ChatHeader
-        sessionId={sessionId}
-        onNewSession={handleNewSession}
-        isDark={isDark}
-      />
+    <div className={`flex flex-col h-full bg-linear-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800 ${className}`}>
+      {/* Utility Row */}
+      <div className="border-b border-slate-200/60 dark:border-slate-700/60 bg-white/60 dark:bg-slate-900/50 backdrop-blur-md">
+        <ChatHeader
+          onNewSession={handleNewSession}
+        />
+      </div>
 
-      {/* Messages Area — takes all space; input stays at bottom */}
-      <div className="flex-1 min-h-0 overflow-y-auto chat-scrollbar px-3 py-3 sm:px-6 sm:py-4">
+      {/* Messages Area */}
+      <div className="flex-1 overflow-y-auto px-4 py-6">
         {messages.length === 0 && !streaming.isStreaming ? (
-          <div className="flex flex-col items-center justify-center h-full text-center px-2">
-            <h2 className={`text-xl sm:text-2xl font-semibold mb-3 sm:mb-4 ${isDark ? 'text-white' : 'text-slate-900'
-              }`}>
-              {t('welcome.title')}
-            </h2>
-            <p className={`mb-6 sm:mb-8 max-w-md text-sm sm:text-base ${isDark ? 'text-slate-400' : 'text-slate-600'
-              }`}>
-              {t('welcome.subtitle')}
-            </p>
-            <QuerySuggestions
-              suggestions={suggestions}
-              onSuggestionClick={handleSuggestionClick}
-              isDark={isDark}
-            />
-          </div>
+          <FadeIn>
+            <div className="flex flex-col items-center justify-center h-full text-center">
+              <GlassCard intensity="light" shadow="lg" className="p-8 max-w-2xl mb-8">
+                <div className="w-16 h-16 rounded-2xl bg-linear-to-br from-blue-600 to-cyan-500 flex items-center justify-center mx-auto mb-6 shadow-lg">
+                  <svg className="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+                  </svg>
+                </div>
+                <h2 className="text-2xl font-semibold text-slate-900 dark:text-white mb-4">
+                  {t('welcome.title')}
+                </h2>
+                <p className="text-slate-600 dark:text-slate-400 mb-8 max-w-md mx-auto">
+                  {t('welcome.subtitle')}
+                </p>
+                <StaggerChildren className="w-full">
+                  <QuerySuggestions
+                    suggestions={suggestions}
+                    onSuggestionClick={handleSuggestionClick}
+                  />
+                </StaggerChildren>
+              </GlassCard>
+            </div>
+          </FadeIn>
         ) : (
           <>
-            <MessageList messages={messages} locale={locale} isDark={isDark} />
+            <MessageList messages={messages} locale={locale} />
             {streaming.isStreaming && (
-              <StreamingMessage
-                events={streaming.events}
-                locale={locale}
-                onCancel={handleCancel}
-                isDark={isDark}
-              />
+              <FadeIn>
+                <StreamingMessage
+                  events={streaming.events}
+                  locale={locale}
+                  onCancel={handleCancel}
+                />
+              </FadeIn>
             )}
             {error && (
-              <div className={`glass-subtle mt-3 sm:mt-4 p-3 sm:p-4 rounded-xl text-sm ${isDark
-                ? 'border-red-500/30 text-red-400'
-                : 'border-red-300 text-red-600'
-                }`}>
-                {error}
-              </div>
+              <FadeIn>
+                <GlassCard
+                  intensity="light"
+                  shadow="sm"
+                  className="mt-4 p-4 border-s-4 border-s-red-500"
+                  role="alert"
+                  aria-live="assertive"
+                >
+                  <div className="flex items-center gap-3">
+                    <svg className="w-5 h-5 text-red-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <span className="text-red-600 dark:text-red-400 flex-1">{error}</span>
+                  </div>
+                </GlassCard>
+              </FadeIn>
             )}
             <div ref={messagesEndRef} />
           </>
         )}
       </div>
 
-      {/* Input Area — pinned to bottom, never shrinks */}
-      <div className="flex-shrink-0 glass-border border-t p-2 sm:p-3 lg:p-4 safe-bottom">
+      {/* Input Area - Glassmorphic */}
+      <GlassCard intensity="light" shadow="lg" className="rounded-none border-t border-slate-300/70 dark:border-slate-600/70 bg-white/85 dark:bg-slate-900/80 p-4">
         <ChatInput
           onSend={handleSendMessage}
           disabled={streaming.isStreaming}
           locale={locale}
           placeholder={t('input.placeholder')}
-          isDark={isDark}
+          {...({
+            'tool-name': 'medi-chat-input',
+            'tool-description': 'The text input for natural language BI queries'
+          } as React.HTMLAttributes<HTMLDivElement>)}
         />
-      </div>
+      </GlassCard>
     </div>
   );
 };
