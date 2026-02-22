@@ -47,32 +47,36 @@ export const ChatInput: React.FC<ChatInputProps> = ({
   );
 
   const isRTL = locale === 'ar';
+  const sendLabel = t('input.send', 'Send');
+  const placeholderText = placeholder || t('input.placeholder', 'Type your question...');
 
   return (
     <div
-      className={`flex items-end gap-3 bg-white dark:bg-gray-800 rounded-xl border border-gray-300 dark:border-gray-600 p-3 ${isRTL ? 'flex-row-reverse' : ''}`}
+      dir={isRTL ? 'rtl' : 'ltr'}
+      className={`relative flex items-end gap-3 p-4 rounded-xl border border-glass bg-surface-glass-strong shadow-sm liquid-glass-light backdrop-blur-sm focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-blue-400 dark:focus-within:border-blue-500 focus-within:shadow-md ${isRTL ? 'flex-row-reverse' : ''}`}
     >
       <textarea
         ref={textareaRef}
         value={input}
         onChange={(e) => setInput(e.target.value)}
         onKeyDown={handleKeyDown}
+        placeholder={placeholderText}
         disabled={disabled}
-        placeholder={placeholder || t('input.placeholder')}
         rows={1}
-        className={`flex-1 resize-none bg-transparent text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none text-sm ${isRTL ? 'text-right' : 'text-left'}`}
+        aria-label={placeholderText}
+        className={`flex-1 min-h-[44px] resize-none bg-transparent text-primary placeholder-slate-600 dark:placeholder-slate-300 focus:outline-none focus:ring-0 text-sm disabled:opacity-50 text-start ${isRTL ? 'rounded-e-xl' : 'rounded-s-xl'}`}
         dir={isRTL ? 'rtl' : 'ltr'}
       />
 
       <button
+        type="button"
         onClick={handleSend}
         disabled={disabled || !input.trim()}
-        className={`flex-shrink-0 p-2 rounded-lg transition-colors ${
-          disabled || !input.trim()
-            ? 'bg-gray-200 dark:bg-gray-700 text-gray-400 dark:text-gray-500 cursor-not-allowed'
-            : 'bg-primary-600 text-white hover:bg-primary-700'
-        }`}
-        aria-label={t('input.send')}
+        className={`shrink-0 flex items-center justify-center min-h-[44px] min-w-[44px] p-3 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 ${isRTL ? 'rounded-s-xl' : 'rounded-e-xl'} ${disabled || !input.trim()
+            ? 'bg-slate-200 dark:bg-slate-700 text-slate-400 dark:text-slate-500 cursor-not-allowed'
+            : 'bg-action-primary text-on-brand hover:opacity-90 hover:shadow-md active:scale-95'
+          }`}
+        aria-label={sendLabel}
       >
         {disabled ? (
           <svg
@@ -115,3 +119,4 @@ export const ChatInput: React.FC<ChatInputProps> = ({
 };
 
 export default ChatInput;
+

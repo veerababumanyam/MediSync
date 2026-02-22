@@ -21,7 +21,7 @@ This ensures analytics never impact operational systems.
 | Aspect | Details |
 |--------|---------|
 | **Purpose** | Conversational BI + AI Accountant for healthcare |
-| **Tech Stack** | Go 1.26, React 19, Flutter 3.42, PostgreSQL 18.2, Genkit |
+| **Tech Stack** | Go 1.26, React 19.2, Flutter 3.42, PostgreSQL 18.2, Node 24 LTS |
 | **AI Agents** | 58 specialized agents across 5 modules |
 | **Security** | Keycloak auth, OPA policies, HITL gates for writes |
 | **i18n** | English (LTR) and Arabic (RTL) from Phase 1 |

@@ -8,6 +8,15 @@
     "threshold": "Consensus Threshold",
     "thresholdHelp": "Minimum agreement required among agents"
   },
+  "queryInput": {
+    "label": "Your Question",
+    "placeholder": "Ask a medical question...",
+    "threshold": "Consensus Threshold",
+    "thresholdHint": "Higher = more agreement required",
+    "clear": "Clear",
+    "processing": "Processing...",
+    "submit": "Ask Council"
+  },
   "response": {
     "title": "Consensus Response",
     "confidence": "Confidence Score",
@@ -15,6 +24,23 @@
     "uncertain": "Uncertainty Detected",
     "pending": "Deliberating...",
     "noResponse": "No response generated"
+  },
+  "responseDisplay": {
+    "title": "Council Response",
+    "deliberating": "Council is deliberating...",
+    "agreement": "Agreement Score",
+    "response": "Consensus Response",
+    "agentResponses": "{{count}} Agent Responses",
+    "agentResponses_other": "{{count}} Agent Responses",
+    "canonical": "Canonical",
+    "confidence": "confidence",
+    "evidence": "Supporting Evidence",
+    "nodes": "knowledge nodes",
+    "hops": "hops",
+    "created": "Created",
+    "completed": "Completed",
+    "failed": "Deliberation failed. Please try again.",
+    "uncertain": "The Council could not reach consensus. Review the individual agent responses below."
   },
   "uncertainty": {
     "title": "Response Uncertainty",
@@ -38,10 +64,18 @@
     "noEvidence": "No evidence available"
   },
   "confidence": {
+    "label": "Confidence",
     "high": "High Confidence",
     "medium": "Medium Confidence",
     "low": "Low Confidence",
-    "score": "{{score}}% confidence"
+    "score": "{{score}}% confidence",
+    "status": {
+      "high": "High",
+      "good": "Good",
+      "moderate": "Moderate",
+      "low": "Low",
+      "very-low": "Very Low"
+    }
   },
   "audit": {
     "title": "Audit Trail",
@@ -56,7 +90,22 @@
     "severityHigh": "High",
     "severityCritical": "Critical",
     "submitFlag": "Submit Flag",
-    "cancelFlag": "Cancel"
+    "cancelFlag": "Cancel",
+    "comingSoon": "Deliberation history will appear here"
+  },
+  "tips": {
+    "title": "Tips for Best Results",
+    "tip1": "Be specific with medical terms",
+    "tip2": "Ask one question at a time",
+    "tip3": "Higher thresholds require more agent agreement"
+  },
+  "footer": {
+    "copyright": "© 2026 MediSync. AI-Powered Healthcare Intelligence."
+  },
+  "navigation": {
+    "home": "Home",
+    "chat": "Chat",
+    "dashboard": "Dashboard"
   },
   "health": {
     "title": "System Health",

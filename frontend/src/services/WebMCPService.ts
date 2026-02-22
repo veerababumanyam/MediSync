@@ -14,10 +14,10 @@ interface WebMCPTool {
     description: string;
     parameters: {
         type: 'object';
-        properties: Record<string, any>;
+        properties: Record<string, unknown>;
         required?: string[];
     };
-    handler: (args: any) => Promise<any> | any;
+    handler: (args: Record<string, unknown>) => Promise<unknown> | unknown;
 }
 
 interface ModelContext {
@@ -56,6 +56,8 @@ class WebMCPService {
         return 'WebMCP requires Chrome 146+ with chrome://flags/#web-mcp enabled';
     }
 
+    private static hasLoggedSupportWarning = false;
+
     /**
      * Register core MediSync tools for Chat functionality
      */
@@ -65,7 +67,10 @@ class WebMCPService {
         onShowDashboard: (id: string) => void;
     }) {
         if (!this.isSupported()) {
-            console.warn('WebMCP is not supported in this browser. Ensure you are using Chrome 146+ with #web-mcp enabled.');
+            if (!WebMCPService.hasLoggedSupportWarning) {
+                console.info('WebMCP is not supported in this browser. Some AI agent features may be unavailable. Ensure you are using Chrome 146+ with #web-mcp enabled if you need these features.');
+                WebMCPService.hasLoggedSupportWarning = true;
+            }
             return;
         }
 
@@ -86,8 +91,8 @@ class WebMCPService {
                 required: ['query']
             },
             handler: async ({ query }) => {
-                callbacks.onQuery(query);
-                return { success: true, message: `Query "${query}" submitted to MediSync.` };
+                callbacks.onQuery(query as string);
+                return { success: true, message: `Query "${query as string}" submitted to MediSync.` };
             }
         }, 'chat');
 
@@ -120,8 +125,8 @@ class WebMCPService {
                 required: ['dashboardId']
             },
             handler: async ({ dashboardId }) => {
-                callbacks.onShowDashboard(dashboardId);
-                return { success: true, message: `Navigating to dashboard ${dashboardId}.` };
+                callbacks.onShowDashboard(dashboardId as string);
+                return { success: true, message: `Navigating to dashboard ${dashboardId as string}.` };
             }
         }, 'chat');
 
@@ -136,9 +141,10 @@ class WebMCPService {
         onPinChart: (query: string, title: string) => Promise<void>;
         onNavigateToChat: (query: string) => void;
         onRefreshAll: () => Promise<void>;
+        onNavigateToSettings: (section: string) => void; // Added based on instruction
+        onOpenDashboardModal: (id: string) => void; // Added based on instruction
     }) {
         if (!this.isSupported()) {
-            console.warn('WebMCP is not supported in this browser.');
             return;
         }
 
@@ -159,8 +165,8 @@ class WebMCPService {
                 required: ['chartId']
             },
             handler: async ({ chartId }) => {
-                await callbacks.onRefreshChart(chartId);
-                return { success: true, message: `Chart ${chartId} refreshed.` };
+                await callbacks.onRefreshChart(chartId as string);
+                return { success: true, message: `Chart ${chartId as string} refreshed.` };
             }
         }, 'dashboard');
 
@@ -183,8 +189,8 @@ class WebMCPService {
                 required: ['query']
             },
             handler: async ({ query, title }) => {
-                await callbacks.onPinChart(query, title || 'Untitled Chart');
-                return { success: true, message: `Chart "${title}" pinned to dashboard.` };
+                await callbacks.onPinChart(query as string, (title || 'Untitled Chart') as string);
+                return { success: true, message: `Chart "${title as string}" pinned to dashboard.` };
             }
         }, 'dashboard');
 
@@ -203,8 +209,28 @@ class WebMCPService {
                 required: ['query']
             },
             handler: async ({ query }) => {
-                callbacks.onNavigateToChat(query);
-                return { success: true, message: `Navigating to chat with query: ${query}` };
+                callbacks.onNavigateToChat(query as string);
+                return { success: true, message: `Navigating to chat with query: ${query as string}` };
+            }
+        }, 'dashboard');
+
+        // New tool: navigateToSettings (inferred from instruction)
+        this.registerTool({
+            name: 'navigateToSettings',
+            description: 'Navigate to a specific section within the application settings',
+            parameters: {
+                type: 'object',
+                properties: {
+                    section: {
+                        type: 'string',
+                        description: 'The settings section to navigate to (e.g., "profile", "security", "notifications")'
+                    }
+                },
+                required: ['section']
+            },
+            handler: async ({ section }) => {
+                callbacks.onNavigateToSettings(section as string);
+                return { success: true, message: `Navigating to settings section ${section as string}` };
             }
         }, 'dashboard');
 
@@ -222,6 +248,26 @@ class WebMCPService {
             }
         }, 'dashboard');
 
+        // New tool: openDashboardModal (inferred from instruction)
+        this.registerTool({
+            name: 'openDashboardModal',
+            description: 'Open a specific modal on the dashboard',
+            parameters: {
+                type: 'object',
+                properties: {
+                    id: {
+                        type: 'string',
+                        description: 'The ID of the modal to open'
+                    }
+                },
+                required: ['id']
+            },
+            handler: async ({ id }) => {
+                callbacks.onOpenDashboardModal(id as string);
+                return { success: true, message: `Opening dashboard modal for ${id as string}` };
+            }
+        }, 'dashboard');
+
         console.log('MediSync WebMCP Dashboard tools registered successfully.');
     }
 
@@ -231,6 +277,7 @@ class WebMCPService {
     public registerNavigationTools(callbacks: {
         onNavigate: (route: string) => void;
         onToggleLanguage: () => void;
+        onShowRecommendations: (category: string) => void; // Added based on instruction
     }) {
         if (!this.isSupported()) {
             return;
@@ -254,8 +301,28 @@ class WebMCPService {
                 required: ['route']
             },
             handler: async ({ route }) => {
-                callbacks.onNavigate(route);
-                return { success: true, message: `Navigating to ${route}.` };
+                callbacks.onNavigate(route as string);
+                return { success: true, message: `Navigating to ${route as string}.` };
+            }
+        }, 'navigation');
+
+        // New tool: showRecommendations (inferred from instruction)
+        this.registerTool({
+            name: 'showRecommendations',
+            description: 'Display recommendations based on a specific category',
+            parameters: {
+                type: 'object',
+                properties: {
+                    category: {
+                        type: 'string',
+                        description: 'The category for which to show recommendations (e.g., "products", "services")'
+                    }
+                },
+                required: ['category']
+            },
+            handler: async ({ category }) => {
+                callbacks.onShowRecommendations(category as string);
+                return { success: true, message: `Showing recommendations for ${category as string}` };
             }
         }, 'navigation');
 
@@ -308,7 +375,7 @@ class WebMCPService {
                 required: ['query']
             },
             handler: async ({ query, schedule }) => {
-                await callbacks.onCreateReport(query, schedule || 'daily');
+                await callbacks.onCreateReport(query as string, (schedule as string) || 'daily');
                 return { success: true, message: `Scheduled report created.` };
             }
         }, 'reports');
@@ -328,8 +395,8 @@ class WebMCPService {
                 required: ['format']
             },
             handler: async ({ format }) => {
-                await callbacks.onExportReport(format);
-                return { success: true, message: `Exported as ${format}.` };
+                await callbacks.onExportReport(format as string);
+                return { success: true, message: `Exported as ${format as string}.` };
             }
         }, 'reports');
 
@@ -372,8 +439,8 @@ class WebMCPService {
                 required: ['metric', 'threshold']
             },
             handler: async ({ metric, threshold, operator }) => {
-                await callbacks.onCreateAlert(metric, threshold, operator || 'gt');
-                return { success: true, message: `Alert created for ${metric}.` };
+                await callbacks.onCreateAlert(metric as string, threshold as number, (operator as string) || 'gt');
+                return { success: true, message: `Alert created for ${metric as string}.` };
             }
         }, 'alerts');
 

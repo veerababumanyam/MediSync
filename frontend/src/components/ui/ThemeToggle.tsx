@@ -21,6 +21,35 @@ import { useTheme } from '@/components/theme'
 import { IconButton } from './LiquidGlassButton'
 import { cn } from '@/lib/cn'
 
+const sendDebugLog = (payload: {
+  runId: string
+  hypothesisId: string
+  location: string
+  message: string
+  data: Record<string, unknown>
+}) => {
+  // #region agent log
+  // Disabled to prevent ERR_CONNECTION_REFUSED in environments where the debug server is not running
+  /*
+  fetch('http://127.0.0.1:7583/ingest/d551f5e1-ee3b-4b67-a81f-cb9e9d8d73e8', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Debug-Session-Id': 'aeb0a5',
+    },
+    body: JSON.stringify({
+      sessionId: 'aeb0a5',
+      timestamp: Date.now(),
+      ...payload,
+    }),
+  }).catch(() => { })
+  */
+  if (import.meta.env.DEV && false) {
+    console.debug('[DebugLog]', payload);
+  }
+  // #endregion
+}
+
 /**
  * Props for ThemeToggle component
  */
@@ -92,13 +121,78 @@ const MoonIcon = () => (
  */
 export const ThemeToggle = React.forwardRef<HTMLButtonElement, ThemeToggleProps>(
   ({ className, size = 'md', showLabels = false, useSwitchStyle = false }, ref) => {
-    const { theme, setTheme } = useTheme()
+    const { theme, resolvedTheme, setTheme } = useTheme()
     const [mounted, setMounted] = React.useState(false)
 
     // Prevent hydration mismatch
     React.useEffect(() => {
       setMounted(true)
     }, [])
+
+    const effectiveTheme = theme === 'system' ? resolvedTheme : theme
+    const isDark = effectiveTheme === 'dark'
+
+    React.useEffect(() => {
+      sendDebugLog({
+        runId: 'initial',
+        hypothesisId: 'H5',
+        location: 'frontend/src/components/ui/ThemeToggle.tsx:stateSnapshot',
+        message: 'theme toggle state snapshot',
+        data: {
+          mounted,
+          theme,
+          resolvedTheme,
+          effectiveTheme: effectiveTheme ?? null,
+          isDark,
+          useSwitchStyle,
+          size,
+        },
+      })
+    }, [effectiveTheme, isDark, mounted, resolvedTheme, size, theme, useSwitchStyle])
+
+    React.useEffect(() => {
+      const button = document.querySelector('[data-debug-theme-toggle="1"]')
+      if (!(button instanceof HTMLElement)) {
+        sendDebugLog({
+          runId: 'initial',
+          hypothesisId: 'H6',
+          location: 'frontend/src/components/ui/ThemeToggle.tsx:domProbe',
+          message: 'theme toggle button not found in DOM probe',
+          data: {
+            mounted,
+            useSwitchStyle,
+          },
+        })
+        return
+      }
+      const style = window.getComputedStyle(button)
+      const rect = button.getBoundingClientRect()
+      sendDebugLog({
+        runId: 'initial',
+        hypothesisId: 'H6',
+        location: 'frontend/src/components/ui/ThemeToggle.tsx:domProbe',
+        message: 'theme toggle button DOM probe',
+        data: {
+          mounted,
+          useSwitchStyle,
+          tagName: button.tagName,
+          className: button.className,
+          title: button.getAttribute('title'),
+          ariaLabel: button.getAttribute('aria-label'),
+          pointerEvents: style.pointerEvents,
+          opacity: style.opacity,
+          visibility: style.visibility,
+          color: style.color,
+          backgroundColor: style.backgroundColor,
+          rect: {
+            left: rect.left,
+            top: rect.top,
+            width: rect.width,
+            height: rect.height,
+          },
+        },
+      })
+    }, [mounted, isDark, useSwitchStyle])
 
     if (!mounted) {
       // Return placeholder during SSR to prevent hydration mismatch
@@ -115,11 +209,24 @@ export const ThemeToggle = React.forwardRef<HTMLButtonElement, ThemeToggleProps>
       )
     }
 
-    const isDark = theme === 'dark'
-
     // Handle theme toggle
     const toggleTheme = () => {
-      setTheme(isDark ? 'light' : 'dark')
+      const targetTheme = isDark ? 'light' : 'dark'
+      sendDebugLog({
+        runId: 'initial',
+        hypothesisId: 'H7',
+        location: 'frontend/src/components/ui/ThemeToggle.tsx:toggleTheme',
+        message: 'theme toggle click handler fired',
+        data: {
+          theme,
+          resolvedTheme,
+          effectiveTheme: effectiveTheme ?? null,
+          isDark,
+          targetTheme,
+          useSwitchStyle,
+        },
+      })
+      setTheme(targetTheme)
     }
 
     // Glass icon button style (default for Liquid Glass design)
@@ -129,6 +236,7 @@ export const ThemeToggle = React.forwardRef<HTMLButtonElement, ThemeToggleProps>
           <IconButton
             ref={ref}
             type="button"
+            data-debug-theme-toggle="1"
             icon={
               <AnimatePresence mode="wait" initial={false}>
                 <motion.div
@@ -137,7 +245,10 @@ export const ThemeToggle = React.forwardRef<HTMLButtonElement, ThemeToggleProps>
                   animate={{ scale: 1, rotate: 0, opacity: 1 }}
                   exit={{ scale: 0, rotate: 90, opacity: 0 }}
                   transition={{ duration: 0.2 }}
-                  className="text-amber-500 dark:text-slate-300"
+                  className={cn(
+                    'relative z-10',
+                    isDark ? 'text-slate-100' : 'text-slate-700'
+                  )}
                 >
                   {isDark ? <MoonIcon /> : <SunIcon />}
                 </motion.div>
@@ -172,6 +283,7 @@ export const ThemeToggle = React.forwardRef<HTMLButtonElement, ThemeToggleProps>
       <div className={cn('flex items-center gap-2 flex-wrap', className)}>
         <motion.button
           ref={ref}
+          data-debug-theme-toggle="1"
           className={cn(
             'relative rounded-full p-1 transition-colors duration-300',
             'bg-slate-200 dark:bg-slate-700',

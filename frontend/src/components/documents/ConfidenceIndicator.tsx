@@ -86,9 +86,17 @@ export function ConfidenceIndicator({
 /**
  * ConfidenceBadge - A compact badge version for table cells
  */
+/** Status label so level is not conveyed by color alone (WCAG 1.4.1) */
+function getBadgeLabel(percentage: number, t: (key: string, fallback: string) => string) {
+  if (percentage >= 95) return t('documents.confidence.high', 'High')
+  if (percentage >= 70) return t('documents.confidence.medium', 'Medium')
+  return t('documents.confidence.low', 'Low')
+}
+
 export function ConfidenceBadge({ confidence }: { confidence: number }) {
   const { t } = useTranslation()
   const percentage = Math.round(confidence * 100)
+  const label = getBadgeLabel(percentage, t)
 
   const getClasses = () => {
     if (percentage >= 95) {
@@ -102,10 +110,10 @@ export function ConfidenceBadge({ confidence }: { confidence: number }) {
 
   return (
     <span
-      className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium ${getClasses()}`}
+      className={`inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs font-medium ${getClasses()}`}
       title={t('documents.confidence.tooltip', '{{percent}}% confidence', { percent: percentage })}
     >
-      {percentage}%
+      {percentage}% {label}
     </span>
   )
 }

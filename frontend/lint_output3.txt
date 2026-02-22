@@ -1,0 +1,66 @@
+
+> @medisync/frontend@0.0.3 lint
+> eslint .
+
+
+/Users/v13478/Desktop/MediSync/frontend/src/components/chat/ChatInterface.tsx
+   10:10  error  'LiquidGlassCard' is defined but never used  @typescript-eslint/no-unused-vars
+  178:25  error  '_id' is defined but never used              @typescript-eslint/no-unused-vars
+  273:16  error  Unexpected any. Specify a different type     @typescript-eslint/no-explicit-any
+
+/Users/v13478/Desktop/MediSync/frontend/src/components/copilot/MediSyncCopilot.tsx
+  176:20  warning  Consider using t() for aria-label to support i18n        no-restricted-syntax
+  256:31  warning  Consider using t() for placeholder text to support i18n  no-restricted-syntax
+
+/Users/v13478/Desktop/MediSync/frontend/src/components/copilot/MediSyncTools.tsx
+  374:14  error  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+  546:16  error  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+/Users/v13478/Desktop/MediSync/frontend/src/components/dashboard/DashboardGrid.tsx
+  7:27  error  'GlassBrandCard' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/v13478/Desktop/MediSync/frontend/src/components/documents/DocumentUploader.tsx
+  142:16  error  'id' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/v13478/Desktop/MediSync/frontend/src/components/ui/AnimatedBackground.test.tsx
+  1:18  error  'screen' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/v13478/Desktop/MediSync/frontend/src/components/ui/LiquidGlassCard.tsx
+  180:7  error  'containerClassName' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/v13478/Desktop/MediSync/frontend/src/components/ui/LiquidGlassModal.test.tsx
+  37:57  warning  Consider using t() for title text to support i18n  no-restricted-syntax
+
+/Users/v13478/Desktop/MediSync/frontend/src/components/ui/LiquidGlassToast.tsx
+  68:20  warning  Consider using t() for aria-label to support i18n  no-restricted-syntax
+
+/Users/v13478/Desktop/MediSync/frontend/src/components/ui/LoadingSkeleton.tsx
+  114:20  warning  Consider using t() for aria-label to support i18n  no-restricted-syntax
+
+/Users/v13478/Desktop/MediSync/frontend/src/pages/ChatPage.tsx
+  73:25  error  '_id' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/v13478/Desktop/MediSync/frontend/src/pages/DashboardPage.tsx
+   25:25  error  'ButtonSecondary' is defined but never used  @typescript-eslint/no-unused-vars
+  136:12  error  Unexpected any. Specify a different type     @typescript-eslint/no-explicit-any
+  172:20  error  Unexpected any. Specify a different type     @typescript-eslint/no-explicit-any
+  292:16  error  Unexpected any. Specify a different type     @typescript-eslint/no-explicit-any
+  310:18  error  Unexpected any. Specify a different type     @typescript-eslint/no-explicit-any
+  406:12  error  Unexpected any. Specify a different type     @typescript-eslint/no-explicit-any
+
+/Users/v13478/Desktop/MediSync/frontend/src/services/WebMCPService.test.ts
+  15:27  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  23:30  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  33:30  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  57:30  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  75:30  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  91:30  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/v13478/Desktop/MediSync/frontend/src/services/WebMCPService.ts
+  17:36  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  20:21  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  20:37  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  20:44  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+✖ 31 problems (26 errors, 5 warnings)
+

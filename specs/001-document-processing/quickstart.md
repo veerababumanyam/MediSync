@@ -10,11 +10,11 @@ This guide helps developers quickly understand and start working on the document
 ## Prerequisites
 
 1. **Go 1.26** installed
-2. **Node.js 20+** and **npm** for frontend
+2. **Node.js 24.x LTS** and **npm 10.x+** for frontend
 3. **Docker** and **docker-compose** for local infrastructure
 4. **PaddleOCR** (run via Docker container)
 5. **PostgreSQL 18.2** with pgvector extension
-6. **Redis** for queue status caching
+6. **Redis 8.6** for queue status caching
 7. **MinIO** (S3-compatible local storage)
 
 ---

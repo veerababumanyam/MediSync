@@ -2,7 +2,7 @@
 
 **Version:** 1.0  
 **Status:** Approved — Engineering Baseline  
-**Last Updated:** February 19, 2026  
+**Last Updated:** February 22, 2026  
 **Cross-ref:** [PRD.md](./PRD.md) | [DESIGN.md](./DESIGN.md) | [agents/BLUEPRINTS.md](./agents/BLUEPRINTS.md) | [i18n-architecture.md](./i18n-architecture.md) | [agents/03-governance-security.md](./agents/03-governance-security.md)
 
 ---
@@ -1115,7 +1115,7 @@ Offline capabilities:
 | Data warehouse | PostgreSQL 18.2 | PostgreSQL | Primary analytics store |
 | Vector search | pgvector | PostgreSQL | Embedding storage and similarity |
 | Dedicated vector DB | Milvus | Apache-2.0 | High-volume vector indexing |
-| Cache | Redis | BSD-3 | Query cache, session cache, task broker |
+| Cache | Redis | RSALv2/SSPL | Query cache, session cache, task broker |
 | Offline sync | PowerSync | Apache-2.0 | Mobile offline-first sync |
 
 ### Frontend

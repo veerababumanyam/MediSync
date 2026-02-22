@@ -33,14 +33,17 @@ export default defineConfig([
     extends: [
       js.configs.recommended,
       tseslint.configs.recommended,
-      reactHooks.configs.flat.recommended,
       reactRefresh.configs.vite,
     ],
+    plugins: {
+      'react-hooks': reactHooks,
+    },
     languageOptions: {
       ecmaVersion: 2020,
       globals: globals.browser,
     },
     rules: {
+      ...reactHooks.configs.recommended.rules,
       // i18n: Warn on string literals in user-facing props
       'react/no-isolated-mounted-element': 'off',
 
@@ -52,15 +55,15 @@ export default defineConfig([
       'no-restricted-syntax': [
         'warn',
         {
-          selector: 'JSXAttribute[name.name="placeholder"] Literal[value=/[A-Z][a-z]+/]',
+          selector: 'JSXAttribute[name.name="placeholder"] Literal[value=/[A-Z][a-z]+/]:not(CallExpression[callee.name="t"] Literal)',
           message: 'Consider using t() for placeholder text to support i18n',
         },
         {
-          selector: 'JSXAttribute[name.name="title"] Literal[value=/[A-Z][a-z]+/]',
+          selector: 'JSXAttribute[name.name="title"] Literal[value=/[A-Z][a-z]+/]:not(CallExpression[callee.name="t"] Literal)',
           message: 'Consider using t() for title text to support i18n',
         },
         {
-          selector: 'JSXAttribute[name.name="aria-label"] Literal[value=/[A-Z][a-z]+/]',
+          selector: 'JSXAttribute[name.name="aria-label"] Literal[value=/[A-Z][a-z]+/]:not(CallExpression[callee.name="t"] Literal)',
           message: 'Consider using t() for aria-label to support i18n',
         },
       ],

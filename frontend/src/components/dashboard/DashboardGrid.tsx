@@ -4,7 +4,7 @@ import { PinnedChartCard } from './PinnedChartCard';
 import { ChartPinDialog } from './ChartPinDialog';
 import { useLocale } from '../../hooks/useLocale';
 import { LoadingSkeleton } from '../ui';
-import { LiquidGlassCard, GlassBrandCard } from '../ui/LiquidGlassCard';
+import { LiquidGlassCard } from '../ui/LiquidGlassCard';
 import { ButtonPrimary } from '../ui/LiquidGlassButton';
 import { StaggerChildren, FadeIn } from '../animations';
 import { dashboardApi } from '../../services/api';
@@ -129,9 +129,9 @@ export const DashboardGrid: React.FC<DashboardGridProps> = ({
       {/* Error Message */}
       {error && (
         <FadeIn>
-          <LiquidGlassCard intensity="light" className="p-4 border-l-4 border-l-red-500">
+          <LiquidGlassCard intensity="light" className="p-4 border-s-4 border-s-red-500">
             <div className="flex items-center gap-3">
-              <svg className="w-5 h-5 text-red-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg className="w-5 h-5 text-red-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
               <span className="text-red-400 flex-1">{error}</span>

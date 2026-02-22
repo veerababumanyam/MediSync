@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useMemo } from 'react';
 import * as echarts from 'echarts';
 import { useTranslation } from 'react-i18next';
+import { formatNumber, formatDate } from '../../utils/localeUtils';
 
 interface ChartRendererProps {
   chartType: string;
@@ -31,18 +32,19 @@ function getChartColor(index: number): string {
   return CHART_COLORS[index % CHART_COLORS.length];
 }
 
-function formatCellValue(value: unknown, type: string): string {
+function formatCellValue(value: unknown, type: string, appLocale?: string): string {
   if (value === null || value === undefined) return '-';
+  const locale = appLocale ?? 'en';
 
   switch (type) {
     case 'number':
       if (typeof value === 'number') {
-        return value.toLocaleString();
+        return formatNumber(value, locale);
       }
       return String(value);
     case 'date':
       if (value instanceof Date) {
-        return value.toLocaleDateString();
+        return formatDate(value, locale);
       }
       return String(value);
     default:
@@ -58,7 +60,6 @@ function createLineChartOption(data: ChartData, isRTL: boolean): echarts.ECharts
     },
     legend: {
       data: data.series?.map((s) => s.name) || [],
-      rtl: isRTL,
     },
     grid: {
       left: '3%',
@@ -79,7 +80,7 @@ function createLineChartOption(data: ChartData, isRTL: boolean): echarts.ECharts
       data.series?.map((s, idx) => ({
         name: s.name,
         type: 'line',
-        data: s.values,
+        data: s.values as number[],
         smooth: true,
         itemStyle: {
           color: getChartColor(idx),
@@ -98,7 +99,6 @@ function createBarChartOption(data: ChartData, isRTL: boolean): echarts.EChartsO
     },
     legend: {
       data: data.series?.map((s) => s.name) || [],
-      rtl: isRTL,
     },
     grid: {
       left: '3%',
@@ -119,7 +119,7 @@ function createBarChartOption(data: ChartData, isRTL: boolean): echarts.EChartsO
       data.series?.map((s, idx) => ({
         name: s.name,
         type: 'bar',
-        data: s.values,
+        data: s.values as number[],
         itemStyle: {
           color: getChartColor(idx),
         },
@@ -142,7 +142,6 @@ function createPieChartOption(data: ChartData, isRTL: boolean): echarts.EChartsO
     legend: {
       orient: 'vertical',
       left: isRTL ? 'right' : 'left',
-      rtl: isRTL,
     },
     series: [
       {
@@ -177,7 +176,7 @@ const KPICard: React.FC<{ chartData: ChartData }> = ({ chartData }) => {
   return (
     <div className="text-center py-6">
       <div className="text-4xl font-bold text-primary-600 dark:text-primary-400">
-        {chartData.formatted || chartData.value}
+        {chartData.formatted || String(chartData.value || '')}
       </div>
       <div className="text-sm text-gray-500 dark:text-gray-400 mt-2">
         {t('kpi.totalValue')}
@@ -187,7 +186,7 @@ const KPICard: React.FC<{ chartData: ChartData }> = ({ chartData }) => {
 };
 
 // Data Table component
-const DataTable: React.FC<{ chartData: ChartData }> = ({ chartData }) => {
+const DataTable: React.FC<{ chartData: ChartData; locale: string }> = ({ chartData, locale }) => {
   if (!chartData.columns || !chartData.rows) return null;
 
   return (
@@ -198,7 +197,7 @@ const DataTable: React.FC<{ chartData: ChartData }> = ({ chartData }) => {
             {chartData.columns.map((col, idx) => (
               <th
                 key={idx}
-                className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider"
+                className="px-4 py-3 text-start text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider"
               >
                 {col.name}
               </th>
@@ -213,7 +212,7 @@ const DataTable: React.FC<{ chartData: ChartData }> = ({ chartData }) => {
                   key={colIdx}
                   className="px-4 py-3 text-sm text-gray-900 dark:text-gray-100 whitespace-nowrap"
                 >
-                  {formatCellValue(row[col.name], col.type)}
+                  {formatCellValue(row[col.name], col.type, locale)}
                 </td>
               ))}
             </tr>
@@ -249,7 +248,7 @@ export const ChartRenderer: React.FC<ChartRendererProps> = ({
       chartInstance.current = echarts.init(chartRef.current);
     }
 
-    let option: echarts.EChartsOption = {};
+    let option: echarts.EChartsOption;
 
     switch (chartType) {
       case 'lineChart':
@@ -290,7 +289,7 @@ export const ChartRenderer: React.FC<ChartRendererProps> = ({
 
   // Render Data Table
   if (chartType === 'dataTable') {
-    return <DataTable chartData={chartData} />;
+    return <DataTable chartData={chartData} locale={locale} />;
   }
 
   // Render ECharts container

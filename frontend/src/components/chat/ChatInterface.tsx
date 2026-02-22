@@ -7,7 +7,7 @@ import { StreamingMessage } from './StreamingMessage';
 import { QuerySuggestions } from './QuerySuggestions';
 import { ChatHeader } from './ChatHeader';
 import { useLocale } from '../../hooks/useLocale';
-import { LiquidGlassCard, GlassCard } from '../ui';
+import { GlassCard } from '../ui';
 import { FadeIn, StaggerChildren } from '../animations';
 import type { SSEEvent, ChatMessage } from '../../services/api';
 import { apiClient, api } from '../../services/api';
@@ -175,7 +175,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
           throw err;
         }
       },
-      onShowDashboard: (_id: string) => {
+      onShowDashboard: () => {
         console.log(`WebMCP: Navigating to dashboard`);
         window.location.href = '/dashboard';
       }
@@ -195,13 +195,11 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
   ];
 
   return (
-    <div className={`flex flex-col h-full bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800 ${className}`}>
-      {/* Header - Glassmorphic */}
-      <div className="border-b border-slate-200/50 dark:border-slate-700/50 bg-white/70 dark:bg-slate-900/70 backdrop-blur-md">
+    <div className={`flex flex-col h-full bg-linear-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800 ${className}`}>
+      {/* Utility Row */}
+      <div className="border-b border-slate-200/60 dark:border-slate-700/60 bg-white/60 dark:bg-slate-900/50 backdrop-blur-md">
         <ChatHeader
-          sessionId={sessionId}
           onNewSession={handleNewSession}
-          locale={locale}
         />
       </div>
 
@@ -211,7 +209,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
           <FadeIn>
             <div className="flex flex-col items-center justify-center h-full text-center">
               <GlassCard intensity="light" shadow="lg" className="p-8 max-w-2xl mb-8">
-                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-600 to-cyan-500 flex items-center justify-center mx-auto mb-6 shadow-lg">
+                <div className="w-16 h-16 rounded-2xl bg-linear-to-br from-blue-600 to-cyan-500 flex items-center justify-center mx-auto mb-6 shadow-lg">
                   <svg className="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
                   </svg>
@@ -245,9 +243,15 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
             )}
             {error && (
               <FadeIn>
-                <GlassCard intensity="light" shadow="sm" className="mt-4 p-4 border-l-4 border-l-red-500">
+                <GlassCard
+                  intensity="light"
+                  shadow="sm"
+                  className="mt-4 p-4 border-s-4 border-s-red-500"
+                  role="alert"
+                  aria-live="assertive"
+                >
                   <div className="flex items-center gap-3">
-                    <svg className="w-5 h-5 text-red-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg className="w-5 h-5 text-red-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                     <span className="text-red-600 dark:text-red-400 flex-1">{error}</span>
@@ -261,7 +265,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
       </div>
 
       {/* Input Area - Glassmorphic */}
-      <GlassCard intensity="light" shadow="lg" className="rounded-none border-t border-slate-200/50 dark:border-slate-700/50 p-4">
+      <GlassCard intensity="light" shadow="lg" className="rounded-none border-t border-slate-300/70 dark:border-slate-600/70 bg-white/85 dark:bg-slate-900/80 p-4">
         <ChatInput
           onSend={handleSendMessage}
           disabled={streaming.isStreaming}
@@ -270,7 +274,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
           {...({
             'tool-name': 'medi-chat-input',
             'tool-description': 'The text input for natural language BI queries'
-          } as any)}
+          } as React.HTMLAttributes<HTMLDivElement>)}
         />
       </GlassCard>
     </div>

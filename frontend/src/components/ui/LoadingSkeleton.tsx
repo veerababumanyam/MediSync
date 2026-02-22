@@ -15,6 +15,7 @@
  */
 import React from 'react'
 import { motion } from 'framer-motion'
+import { useTranslation } from 'react-i18next'
 import { cn } from '@/lib/cn'
 
 /**
@@ -72,6 +73,7 @@ export const LoadingSkeleton = React.forwardRef<HTMLDivElement, LoadingSkeletonP
     },
     ref
   ) => {
+    const { t } = useTranslation('common')
     // Check for reduced motion preference
     const [prefersReducedMotion, setPrefersReducedMotion] = React.useState(false)
 
@@ -111,7 +113,7 @@ export const LoadingSkeleton = React.forwardRef<HTMLDivElement, LoadingSkeletonP
         className={cn(baseClasses, variantClasses[variant])}
         style={{ height, width }}
         role="status"
-        aria-label="Loading content"
+        aria-label={t('loading.content', 'Loading content')}
       >
         {/* Shimmer animation overlay */}
         {shouldAnimate && (

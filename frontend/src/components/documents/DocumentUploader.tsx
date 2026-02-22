@@ -139,7 +139,7 @@ export function DocumentUploader({
         for (let i = 0; i < updated.length; i++) {
           if (updated[i].status === 'pending') {
             const successId = response.uploadedFiles.find(
-              (id) => updated[i].file.name === pendingFiles[pendingIndex]?.file.name
+              () => updated[i].file.name === pendingFiles[pendingIndex]?.file.name
             )
             const failure = response.failedFiles.find(
               (f) => f.filename === updated[i].file.name
@@ -185,9 +185,8 @@ export function DocumentUploader({
       <LiquidGlassCard
         intensity="medium"
         hover="shimmer"
-        className={`border-2 border-dashed p-8 text-center cursor-pointer ${
-          isDragging ? 'border-blue-400/50' : 'border-white/20'
-        }`}
+        className={`border-2 border-dashed p-8 text-center cursor-pointer ${isDragging ? 'border-blue-400/50' : 'border-white/20'
+          }`}
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}

@@ -11,7 +11,7 @@
 <p align="center">
   <a href="https://github.com/veerababumanyam/MediSync/stargazers"><img src="https://img.shields.io/github/stars/veerababumanyam/MediSync?style=for-the-badge&color=0056D2&logo=github" alt="Stars" /></a>
   <a href="https://github.com/veerababumanyam/MediSync/network/members"><img src="https://img.shields.io/github/forks/veerababumanyam/MediSync?style=for-the-badge&color=00E8C6&logo=github" alt="Forks" /></a>
-  <a href="https://github.com/veerababumanyam/MediSync/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-OSI_Open_Source-green?style=for-the-badge" alt="License" /></a>
+  <a href="https://github.com/veerababumanyam/MediSync/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-Polyform_NonCommercial-blue?style=for-the-badge" alt="License" /></a>
 </p>
 
 <p align="center">
@@ -19,8 +19,8 @@
   <img src="https://img.shields.io/badge/Version-1.0--alpha-orange?style=flat-square" alt="Version" />
   <img src="https://img.shields.io/badge/Backend-Go_1.26-00ADD8?style=flat-square&logo=go&logoColor=white" alt="Go" />
   <img src="https://img.shields.io/badge/AI-Google_Genkit-4285F4?style=flat-square&logo=google&logoColor=white" alt="Genkit" />
-  <img src="https://img.shields.io/badge/Framework-React_19-61DAFB?style=flat-square&logo=react&logoColor=black" alt="React" />
-  <img src="https://img.shields.io/badge/Mobile-Flutter-02569B?style=flat-square&logo=flutter&logoColor=white" alt="Flutter" />
+  <img src="https://img.shields.io/badge/Framework-React_19.2-61DAFB?style=flat-square&logo=react&logoColor=black" alt="React" />
+  <img src="https://img.shields.io/badge/CSS-Tailwind_4.2-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white" alt="Tailwind" />
   <img src="https://img.shields.io/badge/i18n-EN_%7C_AR-blueviolet?style=flat-square" alt="i18n" />
 </p>
 

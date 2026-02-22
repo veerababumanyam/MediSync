@@ -77,12 +77,11 @@ The palette uses a trustworthy medical blue base with energetic teal accents to 
 
 | Color Name | Hex | RGB | Contrast (white) | Usage |
 | :--- | :--- | :--- | :--- | :--- |
-| **Trust Blue** | `#0056D2` | `0, 86, 210` | 6.44:1 ✅ | Core brand. Primary buttons, active states, key headers. |
-| **Growth Teal** | `#00E8C6` | `0, 232, 198` | 1.57:1 ⚠️ | Decorative only. Glow effects, borders, accents on dark backgrounds (12.47:1 on `#0A0A1A`). |
-| **WCAG-Safe Teal** | `#0F766E` | `15, 118, 110` | 5.47:1 ✅ | Text-bearing teal. Gradient endpoints on buttons, badges, interactive elements with white text. |
-| **Midnight Navy** | `#0F172A` | `15, 23, 42` | 17.85:1 ✅ | Primary text, deep backgrounds, dark mode base. |
+| **Logo Blue** | `#2750a8` | `39, 80, 168` | 5.37:1 ✅ | Core brand identity. Primary buttons, active states, key highlights. Replaces old Trust Blue. |
+| **Logo Teal** | `#18929d` | `24, 146, 157` | 3.51:1 ⚠️ | Secondary brand context. Gradient endpoints, secondary glow, badges. Used carefully with large text or dark backgrounds. |
+| **Midnight Navy** | `#0f172a` | `15, 23, 42` | 17.85:1 ✅ | Primary text, deep backgrounds, dark mode base. |
 
-### 2.2 Glass / Dark Mode Palette
+### 2.2 Apple HIG Liquid Glass Palette
 Used for immersive experiences like the calendar, dashboards, and focus mode. Built on layered transparency over animated mesh backgrounds.
 
 | Color Name | Hex / Value | Opacity | Usage |
@@ -138,15 +137,12 @@ Extended accent colors used for event categories, tags, and data visualization. 
 - Maintain 4.5:1 contrast ratio for all body text (WCAG 2.2 AA)
 - Test color combinations in both light and dark modes
 - Reserve brand colors for primary actions
-- Use **WCAG-Safe Teal** (`#0F766E`, 5.47:1) for *any* surface or gradient behind white text
-- Use **Growth Teal** (`#00E8C6`) only for decorative accents: glows, orbs, borders, icon highlights on dark backgrounds
 
 **DON'T:**
 - Use color as the *only* indicator of state — always pair with an icon or text label
 - Use red/green as the only visual differentiation (color-blind users)
 - Use more than 3 brand colors in a single view
 - Set brand color opacity below 20% for text
-- ⚠️ **Never place white text on Growth Teal (`#00E8C6`)** — contrast is only 1.57:1 (FAILS WCAG AA). Use WCAG-Safe Teal (`#0F766E`) instead
 
 ### 2.7 Gradients
 
@@ -162,7 +158,7 @@ background: linear-gradient(135deg, #0056D2, #0F766E);
 
 **Dark Mode Accent Glow (Decorative Only — No Text)**
 ```css
-background: linear-gradient(135deg, #0056D2, #00E8C6);
+background: linear-gradient(135deg, #2750a8, #18929d);
 ```
 
 **Study Card Gradient (Cardiology)**
@@ -170,13 +166,12 @@ background: linear-gradient(135deg, #0056D2, #00E8C6);
 background: linear-gradient(135deg, #1e3a8a 0%, #0891b2 100%); /* Deep Blue to Cyan-Teal */
 ```
 
-**Animated Mesh Background (Calendar/Dashboard)**
+**Animated Background Orbs (Premium Canvas)**
 ```css
+/* Deep blurred orbs acting as light sources */
 background:
-  radial-gradient(ellipse 80% 60% at 10% 20%, rgba(0, 86, 210, 0.4) 0%, transparent 60%),
-  radial-gradient(ellipse 60% 80% at 80% 80%, rgba(0, 122, 255, 0.3) 0%, transparent 60%),
-  radial-gradient(ellipse 50% 50% at 50% 50%, rgba(0, 232, 198, 0.15) 0%, transparent 50%),
-  #0A0A1A;
+  radial-gradient(circle at 10% 20%, rgba(39, 80, 168, 0.45) 0%, transparent 60%), /* Logo Blue */
+  radial-gradient(circle at 80% 80%, rgba(24, 146, 157, 0.35) 0%, transparent 60%); /* Logo Teal */
 ```
 
 **Glass Shine (Liquid Effect)**
@@ -289,6 +284,12 @@ In dark/glass mode, text uses opacity-based color hierarchy instead of hex value
 | **Icon + text** | `6–12px` | Inline label pairs |
 | **Nav items** | `space-around` | Bottom navigation |
 
+### 4.4 Alignment & RTL
+*   **Text alignment:** Use `text-start` / `text-end` (not `text-left` / `text-right`) so content flips correctly in RTL. Use `text-end` for numeric columns and end-aligned UI (e.g. helper text under inputs).
+*   **Logical borders:** Use `border-s-*` (inline-start) for accent bars (e.g. error cards) so the bar stays on the correct side in RTL.
+*   **Positioning:** Use `start-0` / `end-0` (or Tailwind logical insets) for dropdowns and anchored UI so they open on the correct side in RTL.
+*   **Implementation:** See `frontend/src/styles/liquid-glass.css` for `.liquid-text-start`, `.liquid-text-end`, and spacing utility comments.
+
 ---
 
 ## 5. Glassmorphism System
@@ -302,13 +303,13 @@ The liquid glassmorphism system is the signature visual layer of MedMentor AI’
 | `.glass-subtle` | `rgba(255,255,255,0.05)` | `blur(20px)` | `rgba(255,255,255,0.08)` | None |
 | `.glass-panel` (light) | `rgba(255,255,255,0.70)` | `blur(12px)` | `rgba(255,255,255,0.30)` | Level 1 |
 
-### 5.2 Glass Intensities (Light Mode Components)
-| Intensity | Background | Blur | Usage |
-| :--- | :--- | :--- | :--- |
-| **Subtle** | `rgba(255,255,255,0.65)` | `blur(8px)` | Backgrounds, nested cards |
-| **Light** | `rgba(255,255,255,0.75)` | `blur(16px)` | Headers, navigation |
-| **Medium** | `rgba(255,255,255,0.50)` | `blur(16px)` | Default cards |
-| **Heavy** | `rgba(255,255,255,0.25)` | `blur(24px)` | Overlays, modals |
+### 5.2 Glass Materials (Apple HIG Equivalent)
+| Material | Background (Light) | Background (Dark) | Blur | Stroke/Border | Usage |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **Ultra Thin** | `rgba(255,255,255,0.4)` | `rgba(30,30,30,0.3)` | `blur(20px)` | `rgba(255,255,255,0.4)` top edge | Subtle backdrop regions |
+| **Thin** | `rgba(255,255,255,0.55)` | `rgba(35,35,35,0.4)` | `blur(30px)` | `rgba(255,255,255,0.5)` top edge | Default cards, panels |
+| **Regular** | `rgba(255,255,255,0.7)` | `rgba(45,45,45,0.6)` | `blur(45px)` | `rgba(255,255,255,0.6)` top edge | Modals, Prominent surfaces |
+| **Thick** | `rgba(255,255,255,0.85)` | `rgba(60,60,60,0.8)` | `blur(60px)` | `rgba(255,255,255,0.7)` top edge | Navbars, highly readable zones |
 
 ### 5.3 Hover Effects
 | Effect | Description | Duration |
@@ -323,19 +324,29 @@ MedSync adopts Apple's Liquid Glass foundation, emphasizing translucent, adaptiv
 
 **Core Web Equivalent:**
 ```css
-/* Liquid Glass Base Material */
-.liquid-glass {
-  backdrop-filter: blur(16px) saturate(1.8);
-  background: radial-gradient(circle at center, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+/* Liquid Glass Base Material (Apple HIG) */
+.liquid-glass-regular {
+  backdrop-filter: blur(45px) saturate(1.8);
+  -webkit-backdrop-filter: blur(45px) saturate(1.8);
+  background-color: rgba(255, 255, 255, 0.7); /* Adjust per theme */
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.05); /* Diffuse soft shadow */
+  border: 1px solid rgba(255,255,255,0.2);
+  border-top: 1px solid rgba(255, 255, 255, 0.5); /* iOS specular top edge highlight */
+}
+
+/* Dark Mode Extractor */
+.dark .liquid-glass-regular {
+  background-color: rgba(45, 45, 45, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
 }
 
 /* WCAG 2.2 AA Adaptations */
 @media (prefers-reduced-transparency: reduce) {
-  .liquid-glass {
+  .liquid-glass-regular {
     backdrop-filter: none;
-    background: var(--surface-opaque);
+    background-color: var(--surface-opaque);
     opacity: 1;
   }
 }
@@ -365,9 +376,8 @@ Floating radial gradient orbs create a living, breathing canvas behind glass sur
 
 | Orb | Size | Color Base | Blur | Animation Duration |
 | :--- | :--- | :--- | :--- | :--- |
-| **Orb 1 (Blue)** | 500px | `rgba(0,86,210,0.35)` | 80px | 20s |
-| **Orb 2 (Deep Blue)** | 400px | `rgba(0,122,255,0.30)` | 80px | 25s |
-| **Orb 3 (Teal)** | 350px | `rgba(0,232,198,0.25)` | 80px | 18s |
+| **Orb 1 (Logo Blue)** | 500px | `rgba(39, 80, 168, 0.45)` | 100px | 20s |
+| **Orb 2 (Logo Teal)** | 400px | `rgba(24, 146, 157, 0.35)` | 100px | 25s |
 
 ### 5.8 CSS Implementation
 ```css

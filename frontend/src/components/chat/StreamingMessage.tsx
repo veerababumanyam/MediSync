@@ -24,7 +24,7 @@ export const StreamingMessage: React.FC<StreamingMessageProps> = ({
             key={index}
             className="flex items-center gap-2 text-gray-600 dark:text-gray-400 text-sm"
           >
-            <div className="flex-shrink-0">
+            <div className="shrink-0">
               <svg
                 className="w-4 h-4 animate-spin"
                 fill="none"
@@ -126,7 +126,7 @@ export const StreamingMessage: React.FC<StreamingMessageProps> = ({
                 {event.options.map((option, optIndex) => (
                   <button
                     key={optIndex}
-                    className="block w-full text-left px-3 py-2 bg-white dark:bg-gray-800 rounded border border-yellow-200 dark:border-yellow-800 hover:bg-yellow-100 dark:hover:bg-gray-700 transition-colors"
+                    className="block w-full text-start px-3 py-2 bg-white dark:bg-gray-800 rounded border border-yellow-200 dark:border-yellow-800 hover:bg-yellow-100 dark:hover:bg-gray-700 transition-colors"
                   >
                     {option}
                   </button>

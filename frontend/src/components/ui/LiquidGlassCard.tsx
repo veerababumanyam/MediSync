@@ -16,7 +16,7 @@
  * @version 2.0.0
  */
 
-import React, { forwardRef, useState, useCallback, ComponentProps } from 'react'
+import React, { forwardRef, useState, useCallback, type ComponentProps } from 'react'
 import { motion } from 'framer-motion'
 import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '@/lib/cn'
@@ -108,9 +108,8 @@ const liquidGlassVariants = cva(
  * Props for LiquidGlassCard component
  */
 export interface LiquidGlassCardProps
-  extends Omit<React.HTMLAttributes<HTMLDivElement>, 'variants'>,
-    Omit<MotionDivProps, 'variants' | 'transition'>,
-    VariantProps<typeof liquidGlassVariants> {
+  extends Omit<MotionDivProps, 'variants' | 'transition'>,
+  VariantProps<typeof liquidGlassVariants> {
   /** Optional HTML tag to render (defaults to div) */
   as?: React.ElementType
   /** Whether to disable entrance animation */
@@ -127,8 +126,6 @@ export interface LiquidGlassCardProps
   float?: boolean
   /** Custom click handler */
   onClick?: () => void
-  /** Additional className for container */
-  containerClassName?: string
 }
 
 /**
@@ -177,7 +174,6 @@ export const LiquidGlassCard = forwardRef<HTMLDivElement, LiquidGlassCardProps>(
   (
     {
       className,
-      containerClassName,
       intensity,
       elevation,
       hover,
@@ -272,7 +268,7 @@ export const LiquidGlassCard = forwardRef<HTMLDivElement, LiquidGlassCardProps>(
         onClick={onClick}
         role={onClick ? 'button' : undefined}
         tabIndex={onClick ? 0 : undefined}
-        onKeyDown={onClick ? (e) => {
+        onKeyDown={onClick ? (e: React.KeyboardEvent<HTMLDivElement>) => {
           if (e.key === 'Enter' || e.key === ' ') {
             e.preventDefault()
             onClick()

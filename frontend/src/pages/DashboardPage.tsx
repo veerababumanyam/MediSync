@@ -22,7 +22,7 @@ import { LoadingSpinner } from '../components/common/LoadingSpinner'
 import { AnimatedBackground } from '../components/ui/AnimatedBackground'
 import { LiquidGlassNavbar } from '../components/ui/LiquidGlassNavbar'
 import { LiquidGlassCard, GlassBrandCard, GlassTealCard, GlassBlueCard, GlassGreenCard } from '../components/ui/LiquidGlassCard'
-import { ButtonPrimary, ButtonSecondary } from '../components/ui/LiquidGlassButton'
+import { ButtonPrimary } from '../components/ui/LiquidGlassButton'
 import { ThemeToggle } from '../components/ui'
 import { FadeIn } from '../components/animations'
 import { webMCPService } from '../services/WebMCPService'
@@ -99,6 +99,12 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({ className = '' }) 
           console.error('Failed to refresh dashboard:', err)
         }
       },
+      onNavigateToSettings: (section: string) => {
+        console.log(`Navigating to settings section: ${section}`)
+      },
+      onOpenDashboardModal: (id: string) => {
+        console.log(`Opening dashboard modal: ${id}`)
+      }
     })
 
     // Register navigation tools
@@ -110,6 +116,9 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({ className = '' }) 
         // This would be connected to the i18n context
         console.log('Toggle language requested')
       },
+      onShowRecommendations: (category: string) => {
+        console.log(`Showing recommendations for category: ${category}`)
+      }
     })
 
     return () => {
@@ -133,7 +142,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({ className = '' }) 
       {...({
         'tool-name': 'medi-dashboard',
         'tool-description': 'The main dashboard for viewing pinned charts and business insights in MediSync',
-      } as any)}
+      } as { 'tool-name': string; 'tool-description': string })}
     >
       {/* Animated Background */}
       <AnimatedBackground />
@@ -169,7 +178,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({ className = '' }) 
               {...({
                 'tool-name': 'medi-nav-chat',
                 'tool-description': 'Navigate to the conversational BI chat interface',
-              } as any)}
+              } as { 'tool-name': string; 'tool-description': string })}
             >
               <svg
                 className="w-4 h-4"
@@ -197,9 +206,9 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({ className = '' }) 
         <FadeIn>
           <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {/* Revenue Card */}
-            <GlassBrandCard hover="lift-glow" interactive className="p-4">
+            <GlassBrandCard interactive className="p-4">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-blue-500 to-teal-400 flex items-center justify-center text-xl">
+                <div className="w-10 h-10 rounded-lg bg-linear-to-br from-logo-blue to-logo-teal flex items-center justify-center text-xl">
                   💰
                 </div>
                 <div>
@@ -207,13 +216,13 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({ className = '' }) 
                   <p className="text-2xl font-bold liquid-text-primary">$124,500</p>
                 </div>
               </div>
-              <div className="mt-2 text-sm text-emerald-400">↑ 12% from last month</div>
+              <div className="mt-2 text-sm text-emerald-400"><span aria-hidden="true">↑</span> Up 12% from last month</div>
             </GlassBrandCard>
 
             {/* Patients Card */}
-            <GlassTealCard hover="lift" interactive className="p-4">
+            <GlassTealCard interactive className="p-4">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-teal-500 to-cyan-400 flex items-center justify-center text-xl">
+                <div className="w-10 h-10 rounded-lg bg-linear-to-br from-logo-teal to-[rgba(24,146,157,0.5)] flex items-center justify-center text-xl">
                   👥
                 </div>
                 <div>
@@ -221,13 +230,13 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({ className = '' }) 
                   <p className="text-2xl font-bold liquid-text-primary">248</p>
                 </div>
               </div>
-              <div className="mt-2 text-sm text-emerald-400">↑ 8% from yesterday</div>
+              <div className="mt-2 text-sm text-emerald-400"><span aria-hidden="true">↑</span> Up 8% from yesterday</div>
             </GlassTealCard>
 
             {/* Appointments Card */}
-            <GlassBlueCard hover="lift" interactive className="p-4">
+            <GlassBlueCard interactive className="p-4">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-blue-500 to-indigo-400 flex items-center justify-center text-xl">
+                <div className="w-10 h-10 rounded-lg bg-linear-to-br from-logo-blue to-[rgba(39,80,168,0.5)] flex items-center justify-center text-xl">
                   📅
                 </div>
                 <div>
@@ -239,9 +248,9 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({ className = '' }) 
             </GlassBlueCard>
 
             {/* Inventory Card */}
-            <GlassGreenCard hover="lift" interactive className="p-4">
+            <GlassGreenCard interactive className="p-4">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-green-500 to-emerald-400 flex items-center justify-center text-xl">
+                <div className="w-10 h-10 rounded-lg bg-linear-to-br from-green-500 to-emerald-400 flex items-center justify-center text-xl">
                   📦
                 </div>
                 <div>
@@ -254,20 +263,25 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({ className = '' }) 
           </section>
         </FadeIn>
 
-        {/* Error Display - Glass Effect */}
+        {/* Error Display - Glass Effect (WCAG 4.1.3: status message, role=alert) */}
         {error && (
           <FadeIn>
-            <LiquidGlassCard intensity="light" className="p-4 border-l-4 border-l-red-500">
+            <LiquidGlassCard
+              intensity="light"
+              className="p-4 border-s-4 border-s-red-500"
+              role="alert"
+              aria-live="assertive"
+            >
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <svg className="w-5 h-5 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg className="w-5 h-5 text-red-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
-                  <span className="text-red-400">{error}</span>
+                  <span className="text-red-400">{t(error)}</span>
                 </div>
                 <button
                   onClick={() => window.location.reload()}
-                  className="text-sm font-medium text-red-400 hover:text-red-300 underline underline-offset-2"
+                  className="text-sm font-medium text-red-400 hover:text-red-300 underline underline-offset-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2"
                 >
                   {t('error.retry', 'Retry')}
                 </button>
@@ -289,7 +303,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({ className = '' }) 
           {...({
             'tool-name': 'medi-dashboard-grid',
             'tool-description': 'The grid of pinned charts displaying business insights and visualizations',
-          } as any)}
+          } as { 'tool-name': string; 'tool-description': string })}
         >
           {(!isLoading || charts.length > 0) ? (
             <DashboardGrid
@@ -307,7 +321,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({ className = '' }) 
             {...({
               'tool-name': 'medi-quick-actions',
               'tool-description': 'Quick action buttons to explore common business queries',
-            } as any)}
+            } as { 'tool-name': string; 'tool-description': string })}
           >
             <LiquidGlassCard intensity="medium" elevation="raised" className="p-6">
               <div className="flex items-center gap-3 mb-6">
@@ -403,7 +417,7 @@ const QuickActionButton: React.FC<QuickActionButtonProps> = ({
       {...(toolName ? {
         'tool-name': `medi-${toolName}`,
         'tool-description': toolDescription || label,
-      } as any : {})}
+      } as { 'tool-name': string; 'tool-description': string } : {})}
     >
       <span className="text-2xl">{icon}</span>
       <span className="text-sm font-medium liquid-text-primary group-hover:text-blue-400 transition-colors">

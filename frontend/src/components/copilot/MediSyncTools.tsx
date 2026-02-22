@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 /**
  * MediSync CopilotKit Tools
  *
@@ -94,24 +95,23 @@ export const QueryResultComponent: React.FC<{
         <span className="text-xs text-slate-500 dark:text-slate-400">
           Chart: {chartType.toUpperCase()}
         </span>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 flex-wrap">
           <span className="text-xs text-slate-500 dark:text-slate-400">
             Confidence:
           </span>
-          <div className="w-20 h-2 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
+          <div className="w-20 h-2 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden" role="progressbar" aria-valuenow={confidence} aria-valuemin={0} aria-valuemax={100} aria-label={`${confidence}% confidence`}>
             <div
-              className={`h-full ${
-                confidence >= 90
+              className={`h-full ${confidence >= 90
                   ? 'bg-emerald-500'
                   : confidence >= 70
                     ? 'bg-amber-500'
                     : 'bg-red-500'
-              }`}
+                }`}
               style={{ width: `${confidence}%` }}
             />
           </div>
           <span className="text-xs font-medium text-slate-700 dark:text-slate-300">
-            {confidence}%
+            {confidence}% {confidence >= 90 ? 'High' : confidence >= 70 ? 'Medium' : 'Low'}
           </span>
         </div>
       </div>
@@ -124,7 +124,7 @@ export const QueryResultComponent: React.FC<{
               {columns.map((col) => (
                 <th
                   key={col}
-                  className="px-3 py-2 text-left font-medium text-slate-700 dark:text-slate-300"
+                  className="px-3 py-2 text-start font-medium text-slate-700 dark:text-slate-300"
                 >
                   {col}
                 </th>

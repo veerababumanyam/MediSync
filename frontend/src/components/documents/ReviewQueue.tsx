@@ -8,6 +8,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { documentApi } from '../../services/documents'
+import { formatDate as formatDateLocale } from '../../utils/localeUtils'
 import { ConfidenceBadge } from './ConfidenceIndicator'
 import { LiquidGlassCard } from '../ui/LiquidGlassCard'
 import { LiquidGlassBadge } from '../ui/LiquidGlassBadge'
@@ -65,7 +66,8 @@ export function ReviewQueue({ onSelectDocument, refreshTrigger, className = '' }
 
   const formatDate = (dateStr: string) => {
     const date = new Date(dateStr)
-    return date.toLocaleDateString(i18n.language === 'ar' ? 'ar-SA' : 'en-US', {
+    const appLocale = i18n.language === 'ar' ? 'ar' : 'en'
+    return formatDateLocale(date, appLocale, {
       year: 'numeric',
       month: 'short',
       day: 'numeric',
@@ -164,22 +166,22 @@ export function ReviewQueue({ onSelectDocument, refreshTrigger, className = '' }
             <table className="w-full">
               <thead>
                 <tr className="border-b border-white/10">
-                  <th className="px-4 py-3 text-left text-xs font-medium liquid-text-muted uppercase tracking-wider">
+                  <th className="px-4 py-3 text-start text-xs font-medium liquid-text-muted uppercase tracking-wider">
                     {t('documents.queue.filename', 'Filename')}
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-medium liquid-text-muted uppercase tracking-wider">
+                  <th className="px-4 py-3 text-start text-xs font-medium liquid-text-muted uppercase tracking-wider">
                     {t('documents.queue.type', 'Type')}
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-medium liquid-text-muted uppercase tracking-wider">
+                  <th className="px-4 py-3 text-start text-xs font-medium liquid-text-muted uppercase tracking-wider">
                     {t('documents.queue.status', 'Status')}
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-medium liquid-text-muted uppercase tracking-wider">
+                  <th className="px-4 py-3 text-start text-xs font-medium liquid-text-muted uppercase tracking-wider">
                     {t('documents.queue.confidence', 'Confidence')}
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-medium liquid-text-muted uppercase tracking-wider">
+                  <th className="px-4 py-3 text-start text-xs font-medium liquid-text-muted uppercase tracking-wider">
                     {t('documents.queue.date', 'Date')}
                   </th>
-                  <th className="px-4 py-3 text-right text-xs font-medium liquid-text-muted uppercase tracking-wider">
+                  <th className="px-4 py-3 text-end text-xs font-medium liquid-text-muted uppercase tracking-wider">
                     {t('documents.queue.actions', 'Actions')}
                   </th>
                 </tr>
@@ -213,7 +215,7 @@ export function ReviewQueue({ onSelectDocument, refreshTrigger, className = '' }
                     <td className="px-4 py-4 text-sm liquid-text-secondary">
                       {formatDate(doc.createdAt)}
                     </td>
-                    <td className="px-4 py-4 text-right">
+                    <td className="px-4 py-4 text-end">
                       <LiquidGlassButton
                         variant="primary"
                         size="sm"

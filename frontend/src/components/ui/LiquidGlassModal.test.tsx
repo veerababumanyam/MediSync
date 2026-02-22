@@ -5,7 +5,7 @@ import { LiquidGlassModal } from './LiquidGlassModal'
 describe('LiquidGlassModal', () => {
   it('renders when open', () => {
     render(
-      <LiquidGlassModal isOpen onClose={() => {}}>
+      <LiquidGlassModal isOpen onClose={() => { }}>
         Modal Content
       </LiquidGlassModal>
     )
@@ -14,7 +14,7 @@ describe('LiquidGlassModal', () => {
 
   it('does not render when closed', () => {
     render(
-      <LiquidGlassModal isOpen={false} onClose={() => {}}>
+      <LiquidGlassModal isOpen={false} onClose={() => { }}>
         Modal Content
       </LiquidGlassModal>
     )
@@ -34,7 +34,8 @@ describe('LiquidGlassModal', () => {
 
   it('renders title and actions', () => {
     render(
-      <LiquidGlassModal isOpen onClose={() => {}} title="Test Title" actions={<button>Action</button>}>
+      // eslint-disable-next-line no-restricted-syntax
+      <LiquidGlassModal isOpen onClose={() => { }} title="Test Title" actions={<button>Action</button>}>
         Content
       </LiquidGlassModal>
     )

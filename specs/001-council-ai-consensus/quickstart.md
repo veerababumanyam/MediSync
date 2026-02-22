@@ -6,7 +6,7 @@ This guide provides a rapid onboarding for developers implementing the Council o
 
 - Go 1.26+ installed
 - PostgreSQL 18.2+ with pgvector extension
-- Redis 7+ for caching
+- Redis 8+ for caching
 - NATS JetStream running
 - Keycloak for authentication
 - Access to MediSync monorepo

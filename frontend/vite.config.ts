@@ -2,6 +2,8 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import path from 'node:path'
 
+import tailwindcss from '@tailwindcss/vite'
+
 /**
  * Vite configuration for MediSync Frontend
  *
@@ -12,7 +14,7 @@ import path from 'node:path'
  * - Environment variable handling
  */
 export default defineConfig(({ mode }) => ({
-  plugins: [react()],
+  plugins: [react(), tailwindcss()],
 
   // Path aliases for cleaner imports
   resolve: {

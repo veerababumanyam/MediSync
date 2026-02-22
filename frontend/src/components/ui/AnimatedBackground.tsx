@@ -25,51 +25,29 @@ export const AnimatedBackground: React.FC<AnimatedBackgroundProps> = ({
   children,
 }) => {
   return (
-    <div className={cn('fixed inset-0 -z-10 overflow-hidden pointer-events-none', className)}>
-      {/* Mesh gradient base */}
+    <div className={cn('fixed inset-0 -z-10 overflow-hidden pointer-events-none transition-colors duration-700 bg-slate-50 dark:bg-black', className)}>
+      {/* Orb 1 (Logo Blue) */}
       <div
-        className="absolute inset-0"
+        className="absolute w-[600px] h-[600px] rounded-full animate-float opacity-30 dark:opacity-60 mix-blend-multiply dark:mix-blend-screen"
         style={{
-          background: `
-            radial-gradient(ellipse 80% 60% at 10% 20%, rgba(88, 86, 214, 0.4) 0%, transparent 60%),
-            radial-gradient(ellipse 60% 80% at 80% 80%, rgba(0, 122, 255, 0.3) 0%, transparent 60%),
-            radial-gradient(ellipse 50% 50% at 50% 50%, rgba(175, 82, 222, 0.15) 0%, transparent 50%),
-            #0A0A1A
-          `,
+          background: 'radial-gradient(circle at center, rgba(39, 80, 168, 0.8) 0%, transparent 70%)',
+          filter: 'blur(120px)',
+          top: '10%',
+          left: '5%',
+          animationDuration: '25s',
         }}
       />
 
-      {/* Floating orbs - Reduced size and opacity for subtlety */}
+      {/* Orb 2 (Logo Teal) */}
       <div
-        className="absolute w-[280px] h-[280px] rounded-full animate-float opacity-20"
+        className="absolute w-[500px] h-[500px] rounded-full animate-float opacity-30 dark:opacity-60 mix-blend-multiply dark:mix-blend-screen"
         style={{
-          background: 'radial-gradient(circle, rgba(0, 122, 255, 0.30) 0%, transparent 70%)',
+          background: 'radial-gradient(circle at center, rgba(24, 146, 157, 0.6) 0%, transparent 70%)',
           filter: 'blur(100px)',
-          top: '10%',
-          left: '5%',
-          animationDuration: '20s',
-        }}
-      />
-      <div
-        className="absolute w-[220px] h-[220px] rounded-full animate-float opacity-18"
-        style={{
-          background: 'radial-gradient(circle, rgba(175, 82, 222, 0.25) 0%, transparent 70%)',
-          filter: 'blur(100px)',
-          bottom: '20%',
-          right: '10%',
-          animationDuration: '25s',
+          bottom: '15%',
+          right: '5%',
+          animationDuration: '30s',
           animationDelay: '-5s',
-        }}
-      />
-      <div
-        className="absolute w-[180px] h-[180px] rounded-full animate-float opacity-15"
-        style={{
-          background: 'radial-gradient(circle, rgba(255, 45, 85, 0.15) 0%, transparent 70%)',
-          filter: 'blur(100px)',
-          top: '50%',
-          left: '50%',
-          animationDuration: '18s',
-          animationDelay: '-10s',
         }}
       />
 

@@ -12,7 +12,7 @@ describe('WebMCPService', () => {
             writable: true
         });
         // Reset service state
-        (webMCPService as any).registeredTools.clear();
+        (webMCPService as unknown as { registeredTools: Set<string> }).registeredTools.clear();
     });
 
     it('should return false for isSupported when navigator.modelContext is missing', () => {
@@ -20,7 +20,8 @@ describe('WebMCPService', () => {
     });
 
     it('should return true for isSupported when navigator.modelContext is present', () => {
-        (window.navigator as any).modelContext = {
+        const nav = window.navigator as typeof window.navigator & { modelContext: unknown };
+        nav.modelContext = {
             registerTool: vi.fn(),
             unregisterTool: vi.fn()
         };
@@ -30,7 +31,8 @@ describe('WebMCPService', () => {
     it('should register chat tools correctly when supported', () => {
         const mockRegister = vi.fn();
         const mockUnregister = vi.fn();
-        (window.navigator as any).modelContext = {
+        const nav = window.navigator as typeof window.navigator & { modelContext: unknown };
+        nav.modelContext = {
             registerTool: mockRegister,
             unregisterTool: mockUnregister
         };
@@ -54,41 +56,47 @@ describe('WebMCPService', () => {
 
     it('should register dashboard tools correctly when supported', () => {
         const mockRegister = vi.fn();
-        (window.navigator as any).modelContext = {
+        const nav = window.navigator as typeof window.navigator & { modelContext: unknown };
+        nav.modelContext = {
             registerTool: mockRegister,
             unregisterTool: vi.fn()
         };
 
         webMCPService.registerDashboardTools({
             onRefreshChart: vi.fn(),
-            onPinChart: vi.fn(),
-            onNavigateToChat: vi.fn(),
-            onRefreshAll: vi.fn()
+            onPinChart: mockRegister,
+            onNavigateToChat: mockRegister,
+            onRefreshAll: mockRegister,
+            onNavigateToSettings: mockRegister,
+            onOpenDashboardModal: mockRegister
         });
 
-        // Should have registered 4 tools
-        expect(mockRegister).toHaveBeenCalledTimes(4);
+        // Should have registered 5 tools
+        expect(mockRegister).toHaveBeenCalledTimes(5);
     });
 
     it('should register navigation tools correctly when supported', () => {
         const mockRegister = vi.fn();
-        (window.navigator as any).modelContext = {
+        const nav = window.navigator as typeof window.navigator & { modelContext: unknown };
+        nav.modelContext = {
             registerTool: mockRegister,
             unregisterTool: vi.fn()
         };
 
         webMCPService.registerNavigationTools({
-            onNavigate: vi.fn(),
-            onToggleLanguage: vi.fn()
+            onNavigate: mockRegister,
+            onToggleLanguage: mockRegister,
+            onShowRecommendations: mockRegister
         });
 
-        // Should have registered 2 tools (navigate, toggleLanguage)
-        expect(mockRegister).toHaveBeenCalledTimes(2);
+        // Should have registered 3 tools (navigate, toggleLanguage, showRecommendations)
+        expect(mockRegister).toHaveBeenCalledTimes(3);
     });
 
     it('should cleanup tools correctly', () => {
         const mockUnregister = vi.fn();
-        (window.navigator as any).modelContext = {
+        const nav = window.navigator as typeof window.navigator & { modelContext: unknown };
+        nav.modelContext = {
             registerTool: vi.fn(),
             unregisterTool: mockUnregister
         };

@@ -42,35 +42,35 @@
 
 ### Database Migrations
 
-- [ ] T006 Create Knowledge Graph nodes table migration in migrations/council_ai_consensus/001_knowledge_graph.up.sql
-- [ ] T007 [P] Create Council core tables migration (council_deliberations, agent_instances, agent_responses) in migrations/council_ai_consensus/002_council_tables.up.sql
-- [ ] T008 [P] Create Consensus and Evidence tables migration (consensus_records, evidence_trails) in migrations/council_ai_consensus/003_consensus_evidence.up.sql
-- [ ] T009 [P] Create Audit partition table migration in migrations/council_ai_consensus/004_audit_partition.up.sql
+- [x] T006 Create Knowledge Graph nodes table migration in migrations/council_ai_consensus/001_knowledge_graph.up.sql
+- [x] T007 [P] Create Council core tables migration (council_deliberations, agent_instances, agent_responses) in migrations/council_ai_consensus/002_council_tables.up.sql
+- [x] T008 [P] Create Consensus and Evidence tables migration (consensus_records, evidence_trails) in migrations/council_ai_consensus/003_consensus_evidence.up.sql
+- [x] T009 [P] Create Audit partition table migration in migrations/council_ai_consensus/004_audit_partition.up.sql
 - [ ] T010 Run migrations and verify schema in database
 
 ### Core Types and Interfaces
 
-- [ ] T011 [P] Define CouncilDeliberation struct and status enum in internal/agents/council/types.go
-- [ ] T012 [P] Define AgentInstance struct and health status enum in internal/agents/council/types.go
-- [ ] T013 [P] Define AgentResponse struct with embedding field in internal/agents/council/types.go
-- [ ] T014 [P] Define ConsensusRecord struct in internal/agents/council/types.go
-- [ ] T015 [P] Define EvidenceTrail struct in internal/agents/council/types.go
-- [ ] T016 [P] Define KnowledgeGraphNode struct with edge types in internal/agents/council/types.go
-- [ ] T017 [P] Define AuditEntry struct in internal/agents/council/types.go
+- [x] T011 [P] Define CouncilDeliberation struct and status enum in internal/agents/council/types.go
+- [x] T012 [P] Define AgentInstance struct and health status enum in internal/agents/council/types.go
+- [x] T013 [P] Define AgentResponse struct with embedding field in internal/agents/council/types.go
+- [x] T014 [P] Define ConsensusRecord struct in internal/agents/council/types.go
+- [x] T015 [P] Define EvidenceTrail struct in internal/agents/council/types.go
+- [x] T016 [P] Define KnowledgeGraphNode struct with edge types in internal/agents/council/types.go
+- [x] T017 [P] Define AuditEntry struct in internal/agents/council/types.go
 
 ### Repository Layer
 
-- [ ] T018 [P] Implement Knowledge Graph repository interface in internal/warehouse/knowledge_graph.go
-- [ ] T019 [P] Implement Council Deliberation repository in internal/agents/council/repository.go
-- [ ] T020 [P] Implement Evidence cache with Redis in internal/cache/evidence_cache.go
+- [x] T018 [P] Implement Knowledge Graph repository interface in internal/warehouse/knowledge_graph.go
+- [x] T019 [P] Implement Council Deliberation repository in internal/agents/council/repository.go
+- [x] T020 [P] Implement Evidence cache with Redis in internal/cache/evidence_cache.go
 
 ### OPA Policy
 
-- [ ] T021 Create Council access policy (role-based: admin=all, user=own) in policies/council.rego
+- [x] T021 Create Council access policy (role-based: admin=all, user=own) in policies/council.rego
 
 ### Health Infrastructure
 
-- [ ] T022 Implement agent health monitoring types and constants in internal/agents/council/health.go
+- [x] T022 Implement agent health monitoring types and constants in internal/agents/council/health.go
 
 **Checkpoint**: Foundation ready - user story implementation can now begin in parallel
 
@@ -84,24 +84,24 @@
 
 ### Tests for User Story 1 (TDD)
 
-- [ ] T023 [P] [US1] Write unit test for consensus algorithm with 3 agents reaching agreement in internal/agents/council/consensus_test.go
-- [ ] T024 [P] [US1] Write unit test for semantic equivalence detection (95% threshold) in internal/agents/council/semantic_test.go
-- [ ] T025 [P] [US1] Write unit test for Graph-of-Thoughts retrieval in internal/agents/council/evidence_test.go
-- [ ] T026 [P] [US1] Write unit test for agent instance timeout handling (3s) in internal/agents/council/agent_test.go
-- [ ] T027 [US1] Write integration test for full deliberation flow in internal/agents/council/coordinator_test.go
+- [x] T023 [P] [US1] Write unit test for consensus algorithm with 3 agents reaching agreement in internal/agents/council/consensus_test.go
+- [x] T024 [P] [US1] Write unit test for semantic equivalence detection (95% threshold) in internal/agents/council/semantic_test.go
+- [x] T025 [P] [US1] Write unit test for Graph-of-Thoughts retrieval in internal/agents/council/evidence_test.go
+- [x] T026 [P] [US1] Write unit test for agent instance timeout handling (3s) in internal/agents/council/agent_test.go
+- [x] T027 [US1] Write integration test for full deliberation flow in internal/agents/council/coordinator_test.go
 
 ### Backend Implementation for User Story 1
 
-- [ ] T028 [P] [US1] Implement AgentInstance wrapper with Genkit integration in internal/agents/council/agent.go
-- [ ] T029 [P] [US1] Implement semantic equivalence detection using pgvector in internal/agents/council/semantic.go
-- [ ] T030 [US1] Implement weighted voting consensus algorithm in internal/agents/council/consensus.go (depends on T029)
-- [ ] T031 [US1] Implement Graph-of-Thoughts retrieval with multi-hop traversal in internal/agents/council/evidence.go
-- [ ] T032 [US1] Implement Council Coordinator orchestration in internal/agents/council/coordinator.go (depends on T028, T030, T031)
-- [ ] T033 [US1] Implement POST /deliberations handler in internal/api/handlers/council.go
-- [ ] T034 [US1] Implement GET /deliberations handler (list) with RBAC filtering in internal/api/handlers/council.go
-- [ ] T035 [US1] Implement GET /deliberations/{id} handler with ownership check in internal/api/handlers/council.go
-- [ ] T036 [US1] Register Council routes in internal/api/routes.go
-- [ ] T037 [US1] Add structured logging for deliberation events in internal/agents/council/coordinator.go
+- [x] T028 [P] [US1] Implement AgentInstance wrapper with Genkit integration in internal/agents/council/agent.go
+- [x] T029 [P] [US1] Implement semantic equivalence detection using pgvector in internal/agents/council/semantic.go
+- [x] T030 [US1] Implement weighted voting consensus algorithm in internal/agents/council/consensus.go (depends on T029)
+- [x] T031 [US1] Implement Graph-of-Thoughts retrieval with multi-hop traversal in internal/agents/council/evidence.go
+- [x] T032 [US1] Implement Council Coordinator orchestration in internal/agents/council/coordinator.go (depends on T028, T030, T031)
+- [x] T033 [US1] Implement POST /deliberations handler in internal/api/handlers/council.go
+- [x] T034 [US1] Implement GET /deliberations handler (list) with RBAC filtering in internal/api/handlers/council.go
+- [x] T035 [US1] Implement GET /deliberations/{id} handler with ownership check in internal/api/handlers/council.go
+- [x] T036 [US1] Register Council routes in internal/api/server.go
+- [x] T037 [US1] Add structured logging for deliberation events in internal/agents/council/coordinator.go
 
 ### Frontend Implementation for User Story 1
 

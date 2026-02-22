@@ -88,19 +88,15 @@ export const FadeIn = React.forwardRef<HTMLDivElement, FadeInProps>(
     }
 
     // Create animation variants based on axis
-    const initial: Record<string, number> = { opacity: 0 }
-    const animate: Record<string, number> = { opacity: 1 }
-
-    // Add slide animation based on axis
-    initial[axis] = distance
-    animate[axis] = 0
+    const initial = { opacity: 0, ...(axis === 'x' ? { x: distance } : { y: distance }) }
+    const animate = { opacity: 1, ...(axis === 'x' ? { x: 0 } : { y: 0 }) }
 
     return (
       <motion.div
         ref={ref}
         className={className}
-        initial={initial as any}
-        animate={animate as any}
+        initial={initial}
+        animate={animate}
         transition={{
           duration,
           delay,

@@ -1,0 +1,130 @@
+MediSync - AI-Powered Healthcare BI Platform
+Copyright (c) 2026 Veera Babu Manyam
+
+This software is licensed under the Polyform Noncommercial License 1.0.0.
+See the LICENSE file for full license terms.
+
+================================================================================
+THIRD-PARTY SOFTWARE NOTICES
+================================================================================
+
+This software includes or depends on third-party software packages.
+These packages are licensed under their respective licenses.
+
+--------------------------------------------------------------------------------
+BACKEND DEPENDENCIES
+--------------------------------------------------------------------------------
+
+Go (golang)
+  License: BSD 3-Clause "New" or "Revised" License
+  Copyright (c) 2009 The Go Authors
+
+go-chi/chi
+  License: MIT License
+  Copyright (c) 2015-present Peter Kieltyka
+
+NATS Server / JetStream
+  License: Apache License 2.0
+  Copyright (c) 2012-2024 The NATS Authors
+
+Keycloak
+  License: Apache License 2.0
+  Copyright (c) Red Hat, Inc.
+
+Open Policy Agent (OPA)
+  License: Apache License 2.0
+  Copyright (c) The OPA Authors
+
+Meltano
+  License: MIT License
+  Copyright (c) Meltano Inc.
+
+PostgreSQL
+  License: PostgreSQL License
+  Copyright (c) 1996-2024, PostgreSQL Global Development Group
+
+Redis
+  License: BSD 3-Clause License
+  Copyright (c) 2006-2024, Salvatore Sanfilippo
+
+Google Genkit
+  License: Apache License 2.0
+  Copyright (c) Google LLC
+
+Agent ADK
+  License: Apache License 2.0
+  Copyright (c) Google LLC
+
+Google A2A Protocol
+  License: Apache License 2.0
+  Copyright (c) Google LLC
+
+MetricFlow
+  License: Apache License 2.0
+  Copyright (c) dbt Labs
+
+Ollama
+  License: MIT License
+  Copyright (c) Ollama
+
+vLLM
+  License: Apache License 2.0
+  Copyright (c) The vLLM Team
+
+PaddleOCR
+  License: Apache License 2.0
+  Copyright (c) PaddlePaddle Authors
+
+PowerSync
+  License: Apache License 2.0
+  Copyright (c) JourneyApps
+
+--------------------------------------------------------------------------------
+FRONTEND DEPENDENCIES
+--------------------------------------------------------------------------------
+
+React
+  License: MIT License
+  Copyright (c) Meta Platforms, Inc.
+
+CopilotKit
+  License: MIT License
+  Copyright (c) CopilotKit
+
+Vite
+  License: MIT License
+  Copyright (c) Evan You and Vite Contributors
+
+Apache ECharts
+  License: Apache License 2.0
+  Copyright (c) The Apache Software Foundation
+
+i18next / react-i18next
+  License: MIT License
+  Copyright (c) i18next
+
+--------------------------------------------------------------------------------
+MOBILE DEPENDENCIES
+--------------------------------------------------------------------------------
+
+Flutter
+  License: BSD 3-Clause License
+  Copyright (c) Google LLC
+
+flutter_localizations
+  License: BSD 3-Clause License
+  Copyright (c) Google LLC
+
+--------------------------------------------------------------------------------
+FONTS
+--------------------------------------------------------------------------------
+
+Google Fonts (Arabic fonts: Noto Sans Arabic, etc.)
+  License: SIL Open Font License 1.1
+  Copyright (c) Google LLC
+
+================================================================================
+For a complete list of dependencies and their licenses, see the package
+management files (go.mod, package.json, pubspec.yaml) in the respective
+project directories.
+================================================================================

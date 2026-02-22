@@ -4,6 +4,7 @@ import { LiquidGlassCard } from '../ui/LiquidGlassCard';
 import { FadeIn } from '../animations';
 import type { PinnedChart } from '../../services/api';
 import { ChartRenderer } from '../chat/ChartRenderer';
+import { formatDate } from '../../utils/localeUtils';
 
 interface PinnedChartCardProps {
   chart: PinnedChart;
@@ -43,7 +44,7 @@ export const PinnedChartCard: React.FC<PinnedChartCardProps> = ({
     if (diffMins < 1) return t('justNow');
     if (diffMins < 60) return t('minutesAgo', { count: diffMins });
     if (diffMins < 1440) return t('hoursAgo', { count: Math.floor(diffMins / 60) });
-    return date.toLocaleDateString(locale === 'ar' ? 'ar-SA' : 'en-US');
+    return formatDate(date, locale);
   };
 
   return (
@@ -67,7 +68,8 @@ export const PinnedChartCard: React.FC<PinnedChartCardProps> = ({
                 e.stopPropagation();
                 setShowMenu(!showMenu);
               }}
-              className="p-1.5 rounded-lg hover:bg-white/10 transition-colors"
+              className="p-1.5 rounded-lg hover:bg-white/10 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+              aria-label={t('options', 'Options')}
             >
               <svg className="w-5 h-5 liquid-text-secondary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
@@ -83,19 +85,19 @@ export const PinnedChartCard: React.FC<PinnedChartCardProps> = ({
                     setShowMenu(false);
                   }}
                 />
-                <LiquidGlassCard intensity="heavy" elevation="floating" className="absolute right-0 mt-1 w-48 rounded-lg z-20 p-1">
+                <LiquidGlassCard intensity="heavy" elevation="floating" className="absolute inset-e-0 mt-1 w-48 rounded-lg z-20 p-1">
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
                       handleRefresh();
                     }}
                     disabled={isRefreshing}
-                    className="w-full flex items-center gap-2 px-4 py-2 text-sm liquid-text-primary hover:bg-white/10 rounded-lg transition-colors disabled:opacity-50"
+                    className="w-full flex items-center gap-2 px-4 py-2 text-sm liquid-text-primary hover:bg-white/10 rounded-lg transition-colors disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
                   >
                     <svg className={`w-4 h-4 ${isRefreshing ? 'animate-spin' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                     </svg>
-                    {t('refresh')}
+                    {t('widget.refresh', 'Refresh')}
                   </button>
                   <button
                     onClick={(e) => {
@@ -103,12 +105,12 @@ export const PinnedChartCard: React.FC<PinnedChartCardProps> = ({
                       onToggle(false);
                       setShowMenu(false);
                     }}
-                    className="w-full flex items-center gap-2 px-4 py-2 text-sm liquid-text-primary hover:bg-white/10 rounded-lg transition-colors"
+                    className="w-full flex items-center gap-2 px-4 py-2 text-sm liquid-text-primary hover:bg-white/10 rounded-lg transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
                   >
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
                     </svg>
-                    {t('unpin')}
+                    {t('widget.unpin', 'Unpin')}
                   </button>
                   <button
                     onClick={(e) => {
@@ -116,12 +118,12 @@ export const PinnedChartCard: React.FC<PinnedChartCardProps> = ({
                       onDelete();
                       setShowMenu(false);
                     }}
-                    className="w-full flex items-center gap-2 px-4 py-2 text-sm text-red-400 hover:bg-red-500/20 rounded-lg transition-colors"
+                    className="w-full flex items-center gap-2 px-4 py-2 text-sm text-red-500 dark:text-red-400 hover:bg-red-500/20 rounded-lg transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500"
                   >
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                     </svg>
-                    {t('delete')}
+                    {t('widget.delete', 'Delete')}
                   </button>
                 </LiquidGlassCard>
               </>

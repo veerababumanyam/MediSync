@@ -2,6 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import type { ChatMessage } from '../../services/api';
 import { ChartRenderer } from './ChartRenderer';
+import { formatTime as formatTimeLocale } from '../../utils/localeUtils';
 
 interface MessageListProps {
   messages: ChatMessage[];
@@ -13,10 +14,7 @@ export const MessageList: React.FC<MessageListProps> = ({ messages, locale }) =>
 
   const formatTime = (timestamp: string) => {
     const date = new Date(timestamp);
-    return date.toLocaleTimeString(locale === 'ar' ? 'ar-SA' : 'en-US', {
-      hour: '2-digit',
-      minute: '2-digit',
-    });
+    return formatTimeLocale(date, locale);
   };
 
   const formatConfidence = (confidence?: number) => {
@@ -98,7 +96,7 @@ export const MessageList: React.FC<MessageListProps> = ({ messages, locale }) =>
               )}
 
               {message.role === 'user' && (
-                <span className="text-xs text-primary-200 mt-2 block text-right">
+                <span className="text-xs text-primary-200 mt-2 block text-end">
                   {formatTime(message.createdAt)}
                 </span>
               )}

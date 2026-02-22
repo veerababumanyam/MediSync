@@ -213,7 +213,7 @@ export const LiquidGlassInput = forwardRef<HTMLInputElement, LiquidGlassInputPro
 
     // Character count classes
     const countClasses = cn(
-      'text-xs mt-1.5 text-right transition-colors',
+      'text-xs mt-1.5 text-end transition-colors',
       maxLength && currentLength > maxLength * 0.9
         ? 'text-red-500 dark:text-red-400'
         : 'text-slate-400 dark:text-slate-500'
@@ -485,7 +485,7 @@ export const LiquidGlassTextarea = forwardRef<HTMLTextAreaElement, LiquidGlassTe
         {/* Character count */}
         {showCount && maxLength && (
           <p className={cn(
-            'text-xs mt-1.5 text-right',
+            'text-xs mt-1.5 text-end',
             currentLength > maxLength * 0.9
               ? 'text-red-500 dark:text-red-400'
               : 'text-slate-400 dark:text-slate-500'

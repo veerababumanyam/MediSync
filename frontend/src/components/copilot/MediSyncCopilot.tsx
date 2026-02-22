@@ -160,6 +160,8 @@ export const MediSyncCopilot: React.FC<MediSyncCopilotProps> = ({
   return null
 }
 
+import { useTranslation } from 'react-i18next'
+
 /**
  * Floating Copilot Button Component
  *
@@ -167,13 +169,14 @@ export const MediSyncCopilot: React.FC<MediSyncCopilotProps> = ({
  */
 export const CopilotFloatingButton: React.FC = () => {
   const [isOpen, setIsOpen] = React.useState(false)
+  const { t } = useTranslation('copilot')
 
   return (
     <div className="fixed bottom-6 right-6 z-50">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="w-14 h-14 rounded-full bg-gradient-to-br from-blue-600 to-cyan-500 text-white shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center"
-        aria-label="Open AI Assistant"
+        className="w-14 h-14 rounded-full bg-linear-to-br from-blue-600 to-cyan-500 text-white shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+        aria-label={isOpen ? t('button.close', 'Close AI Assistant') : t('button.open', 'Open AI Assistant')}
       >
         {isOpen ? (
           <svg
@@ -210,7 +213,7 @@ export const CopilotFloatingButton: React.FC = () => {
         <div className="absolute bottom-16 right-0 w-96 h-[500px] bg-white dark:bg-slate-800 rounded-xl shadow-2xl border border-slate-200 dark:border-slate-700 overflow-hidden">
           <div className="h-full flex flex-col">
             {/* Header */}
-            <div className="p-4 border-b border-slate-200 dark:border-slate-700 bg-gradient-to-r from-blue-600 to-cyan-500">
+            <div className="p-4 border-b border-slate-200 dark:border-slate-700 bg-linear-to-r from-blue-600 to-cyan-500">
               <div className="flex items-center gap-3">
                 <div className="w-8 h-8 rounded-lg bg-white/20 flex items-center justify-center">
                   <span className="text-white font-bold text-sm">M</span>
@@ -228,7 +231,7 @@ export const CopilotFloatingButton: React.FC = () => {
             <div className="flex-1 p-4 overflow-y-auto">
               <div className="space-y-4">
                 <div className="flex gap-3">
-                  <div className="w-8 h-8 rounded-full bg-blue-100 dark:bg-blue-900 flex items-center justify-center flex-shrink-0">
+                  <div className="w-8 h-8 rounded-full bg-blue-100 dark:bg-blue-900 flex items-center justify-center shrink-0">
                     <span className="text-blue-600 dark:text-blue-400 font-bold text-xs">
                       M
                     </span>
@@ -253,15 +256,20 @@ export const CopilotFloatingButton: React.FC = () => {
               <div className="flex gap-2">
                 <input
                   type="text"
-                  placeholder="Ask about your data..."
+                  placeholder={t('input.placeholder', 'Ask about your data...')}
                   className="flex-1 px-4 py-2 border border-slate-200 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
                 />
-                <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                <button
+                  type="button"
+                  className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                  aria-label={t('input.send', 'Send')}
+                >
                   <svg
                     className="w-5 h-5"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
+                    aria-hidden="true"
                   >
                     <path
                       strokeLinecap="round"

@@ -2,7 +2,7 @@
 # Docker Compose configuration for local development
 #
 # Services:
-#   - postgres: PostgreSQL 16 with pgvector extension (data warehouse)
+#   - postgres: PostgreSQL 18.2 with pgvector extension (data warehouse)
 #   - nats: NATS server with JetStream for event streaming
 #   - redis: Redis for caching and session storage
 #   - keycloak: Keycloak for authentication and authorization
@@ -14,7 +14,7 @@
 #   docker-compose logs -f      # View logs
 #   docker-compose ps           # Check service status
 #
-# Note: PostgreSQL 18.2 is not yet available; using PostgreSQL 16 with pgvector as stable alternative
+# Note: Standard developer environment configuration.
 
 services:
   # ============================================================================
@@ -23,7 +23,7 @@ services:
   # Using pgvector-enabled image for vector similarity search
   # Schemas: hims_analytics, tally_analytics, app, vectors
   postgres:
-    image: pgvector/pgvector:pg16
+    image: pgvector/pgvector:pg18-bookworm
     container_name: medisync-postgres
     restart: unless-stopped
     environment:
@@ -63,7 +63,7 @@ services:
   #   - Agent communication
   #   - Real-time notifications
   nats:
-    image: nats:2.10-alpine
+    image: nats:2.12-alpine
     container_name: medisync-nats
     restart: unless-stopped
     ports:
@@ -100,7 +100,7 @@ services:
   #   - Rate limiting
   #   - Temporary data
   redis:
-    image: redis:7-alpine
+    image: redis:8-alpine
     container_name: medisync-redis
     restart: unless-stopped
     ports:
@@ -131,7 +131,7 @@ services:
   #   - Role-based access control
   #   - JWT token issuance
   keycloak:
-    image: quay.io/keycloak/keycloak:23.0
+    image: quay.io/keycloak/keycloak:26.5.4
     container_name: medisync-keycloak
     restart: unless-stopped
     environment:
@@ -231,7 +231,7 @@ services:
   # Prometheus - Metrics Collection (Optional)
   # ============================================================================
   prometheus:
-    image: prom/prometheus:v2.49.0
+    image: prom/prometheus:v3.9.1
     container_name: medisync-prometheus
     restart: unless-stopped
     profiles:
@@ -261,7 +261,7 @@ services:
   # Grafana - Dashboards and Visualization (Optional)
   # ============================================================================
   grafana:
-    image: grafana/grafana:10.3.0
+    image: grafana/grafana:12.3.3
     container_name: medisync-grafana
     restart: unless-stopped
     profiles:

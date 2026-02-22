@@ -1,5 +1,5 @@
-import React from 'react'
 import { motion } from 'framer-motion'
+import { useTranslation } from 'react-i18next'
 import { cn } from '@/lib/cn'
 
 export type ToastType = 'success' | 'error' | 'warning' | 'info'
@@ -48,6 +48,7 @@ export const LiquidGlassToast: React.FC<LiquidGlassToastProps> = ({
   onClose,
   className,
 }) => {
+  const { t } = useTranslation('common')
   return (
     <motion.div
       className={cn(
@@ -64,8 +65,8 @@ export const LiquidGlassToast: React.FC<LiquidGlassToastProps> = ({
       <p className="flex-1 text-sm font-medium liquid-text-primary">{message}</p>
       <button
         onClick={onClose}
-        className="p-1 hover:bg-white/10 rounded-lg transition-colors"
-        aria-label="Close"
+        className="p-1 hover:bg-white/10 rounded-lg transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-1"
+        aria-label={t('toast.close', 'Close')}
       >
         <svg className="w-4 h-4 liquid-text-secondary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />

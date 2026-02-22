@@ -31,7 +31,7 @@ type MotionButtonProps = ComponentProps<typeof motion.button>
  */
 const liquidButtonVariants = cva(
   // Base classes
-  'liquid-glass-button inline-flex items-center justify-center gap-2 font-medium transition-all duration-200 focus-visible:outline-none disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none',
+  'liquid-glass-button inline-flex items-center justify-center gap-2 font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-1 disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none',
   {
     variants: {
       // Button style variants
@@ -41,9 +41,9 @@ const liquidButtonVariants = cva(
         // Primary button with brand gradient
         primary: 'liquid-glass-button-primary px-5 py-2.5 text-white',
         // Secondary button with border
-        secondary: 'px-4 py-2 border-2 border-blue-500/30 text-blue-600 hover:bg-blue-50 dark:border-blue-400/30 dark:text-blue-400 dark:hover:bg-blue-900/20 rounded-lg',
+        secondary: 'px-4 py-2 border-2 border-glass text-primary bg-surface-glass hover:bg-surface-glass-strong rounded-lg',
         // Ghost button (minimal styling)
-        ghost: 'px-4 py-2 text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800 rounded-lg',
+        ghost: 'px-4 py-2 text-secondary hover:bg-surface-glass rounded-lg',
         // Danger button
         danger: 'px-5 py-2.5 bg-red-500 text-white hover:bg-red-600 rounded-lg shadow-lg shadow-red-500/25',
       },
@@ -102,7 +102,7 @@ export interface LiquidGlassButtonProps
   /** Optional HTML tag to render (defaults to button) */
   as?: React.ElementType
   /** Custom click handler */
-  onClick?: () => void
+  onClick?: React.MouseEventHandler<HTMLButtonElement>
 }
 
 /**
@@ -212,7 +212,7 @@ export const LiquidGlassButton = forwardRef<HTMLButtonElement, LiquidGlassButton
         return iconToRender
       }
 
-      return <span className="flex-shrink-0">{iconToRender}</span>
+      return <span className="shrink-0">{iconToRender}</span>
     }
 
     const style = {

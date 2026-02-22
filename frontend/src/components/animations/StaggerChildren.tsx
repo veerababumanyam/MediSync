@@ -33,6 +33,8 @@ export interface StaggerChildrenProps {
   distance?: number
   /** Whether to disable animation */
   disabled?: boolean
+  /** Custom CSS inline styles for container */
+  style?: React.CSSProperties
 }
 
 /**
@@ -70,6 +72,7 @@ export const StaggerChildren = React.forwardRef<HTMLDivElement, StaggerChildrenP
       axis = 'y',
       distance = 20,
       disabled = false,
+      style,
     },
     ref
   ) => {
@@ -101,29 +104,31 @@ export const StaggerChildren = React.forwardRef<HTMLDivElement, StaggerChildrenP
     const itemVariants = {
       hidden: {
         opacity: 0,
-        [axis]: distance,
-      } as any,
+        ...(axis === 'x' ? { x: distance } : { y: distance })
+      },
       visible: {
         opacity: 1,
-        [axis]: 0,
+        ...(axis === 'x' ? { x: 0 } : { y: 0 }),
         transition: {
           duration,
-          ease: [0.4, 0, 0.2, 1],
+          ease: [0.4, 0, 0.2, 1] as [number, number, number, number],
         },
-      } as any,
+      },
     }
 
     if (disabled || prefersReducedMotion) {
-      return <div ref={ref} className={className}>{children}</div>
+      return <div ref={ref} className={className} style={style}>{children}</div>
     }
 
     return (
       <motion.div
         ref={ref}
         className={className}
+        style={style}
         variants={containerVariants}
         initial="hidden"
-        animate="visible"
+        whileInView="visible"
+        viewport={{ once: true, margin: '-50px' }}
       >
         {React.Children.map(children, (child) => (
           <motion.div

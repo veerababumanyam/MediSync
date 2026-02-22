@@ -18,8 +18,8 @@ import { CopilotKit } from '@copilotkit/react-core'
 import { ChatInterface } from '../components/chat/ChatInterface'
 import { useChat } from '../hooks/useChat'
 import { useLocale } from '../hooks/useLocale'
-import { LoadingSpinner } from '../components/common/LoadingSpinner'
-import { GlassCard, ThemeToggle } from '../components/ui'
+import { AppLogo, LoadingSpinner } from '../components/common'
+import { GlassCard, ThemeToggle, AnimatedBackground } from '../components/ui'
 import { webMCPService } from '../services/WebMCPService'
 
 /**
@@ -70,7 +70,7 @@ export const ChatPage: React.FC<ChatPageProps> = ({ className = '' }) => {
         console.log('Tally sync requested from chat')
         // This would trigger the Tally sync workflow
       },
-      onShowDashboard: (_id: string) => {
+      onShowDashboard: () => {
         window.location.href = '/dashboard'
       },
     })
@@ -92,22 +92,20 @@ export const ChatPage: React.FC<ChatPageProps> = ({ className = '' }) => {
 
   const pageContent = (
     <div
-      className={`min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800 ${
-        isRTL ? 'rtl' : 'ltr'
-      } ${className}`}
+      className={`min-h-screen relative z-0 ${isRTL ? 'rtl' : 'ltr'} ${className}`}
     >
+      <AnimatedBackground />
+
       {/* Header - Glassmorphic */}
-      <header className="sticky top-0 z-50 border-b border-slate-200/50 dark:border-slate-700/50 bg-white/70 dark:bg-slate-900/70 backdrop-blur-md">
+      <header className="sticky top-0 z-50 border-b border-glass bg-surface-glass-strong backdrop-blur-[60px] shadow-glass-ios dark:shadow-glass-ios-dark">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-blue-600 to-cyan-500 flex items-center justify-center shadow-lg">
-              <span className="text-white font-bold text-xl">M</span>
-            </div>
+            <AppLogo size="sm" className="shadow-lg" />
             <div>
-              <h1 className="text-xl font-bold text-slate-900 dark:text-white">
+              <h1 className="text-xl font-bold text-primary">
                 {t('header.title', 'MediSync Chat')}
               </h1>
-              <p className="text-sm text-slate-500 dark:text-slate-400">
+              <p className="text-sm text-secondary">
                 {t('header.subtitle', 'AI-Powered Business Intelligence')}
               </p>
             </div>
@@ -116,17 +114,17 @@ export const ChatPage: React.FC<ChatPageProps> = ({ className = '' }) => {
           <nav className="flex items-center gap-4 flex-wrap">
             <a
               href="/"
-              className="text-sm text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors font-medium"
+              className="inline-flex items-center rounded-md px-2 py-1 text-sm text-secondary hover:bg-surface-glass hover:text-logo-blue dark:hover:text-logo-teal focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 transition-colors font-medium"
             >
               {t('nav.home', 'Home')}
             </a>
             <a
               href="/dashboard"
-              className="text-sm text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors font-medium"
+              className="inline-flex items-center rounded-md px-2 py-1 text-sm text-secondary hover:bg-surface-glass hover:text-logo-blue dark:hover:text-logo-teal focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 transition-colors font-medium"
             >
               {t('nav.dashboard', 'Dashboard')}
             </a>
-            <ThemeToggle />
+            <ThemeToggle useSwitchStyle size="sm" className="rounded-full border border-glass p-1 bg-surface-glass" />
           </nav>
         </div>
       </header>
@@ -143,7 +141,7 @@ export const ChatPage: React.FC<ChatPageProps> = ({ className = '' }) => {
 
         {/* Error Display - Glass Effect */}
         {error && (
-          <GlassCard intensity="light" shadow="sm" className="mt-4 p-4 border-l-4 border-l-red-500">
+          <GlassCard intensity="light" shadow="sm" className="mt-4 p-4 border-s-4 border-s-red-500">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <svg className="w-5 h-5 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -163,10 +161,10 @@ export const ChatPage: React.FC<ChatPageProps> = ({ className = '' }) => {
       </main>
 
       {/* Footer - Glassmorphic */}
-      <footer className="fixed bottom-0 left-0 right-0 border-t border-slate-200/50 dark:border-slate-700/50 bg-white/70 dark:bg-slate-900/70 backdrop-blur-md">
-        <div className="container mx-auto px-4 py-3 flex items-center justify-between text-sm text-slate-500 dark:text-slate-400">
-          <span className="font-mono">
-            {t('footer.session', 'Session')}: {sessionId?.slice(0, 8) || 'new'}...
+      <footer className="fixed bottom-0 left-0 right-0 border-t border-glass bg-surface-glass backdrop-blur-md">
+        <div className="container mx-auto px-4 py-3 flex items-center justify-between text-sm text-secondary">
+          <span>
+            {t('footer.sessionStatus', 'Session active')}
           </span>
           <div className="flex items-center gap-4">
             {isLoading && (
