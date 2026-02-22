@@ -63,9 +63,166 @@
   --transition-fast: 150ms ease;
   --transition-base: 200ms ease;
   --transition-slow: 300ms ease;
+
+  /* === Glassmorphism Effect Tokens === */
+  /* NOTE: These are legacy tokens. Use liquid-glass.css for new components */
+  /* Background opacity levels for glass effect */
+  --glass-bg-light: rgba(255, 255, 255, 0.7);
+  --glass-bg-medium: rgba(255, 255, 255, 0.5);
+  --glass-bg-dark: rgba(255, 255, 255, 0.3);
+
+  /* Border opacity for glass edges */
+  --glass-border-light: rgba(255, 255, 255, 0.4);
+  --glass-border-medium: rgba(255, 255, 255, 0.2);
+  --glass-border-dark: rgba(255, 255, 255, 0.1);
+
+  /* Shadow levels for depth */
+  --glass-shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.05);
+  --glass-shadow-md: 0 8px 32px rgba(0, 0, 0, 0.08);
+  --glass-shadow-lg: 0 16px 64px rgba(0, 0, 0, 0.12);
+
+  /* Blur radius for frosted glass effect */
+  --glass-blur-sm: blur(8px);
+  --glass-blur-md: blur(16px);
+  --glass-blur-lg: blur(24px);
+
+  /* === Liquid Glass Brand Colors (from logo) === */
+  --ms-deep-blue: #0A4E8A;
+  --ms-deep-blue-rgb: 10, 78, 138;
+  --ms-blue: #1E88E5;
+  --ms-blue-rgb: 30, 136, 229;
+  --ms-teal: #00BFA5;
+  --ms-teal-rgb: 0, 191, 165;
+  --ms-teal-light: #00E8C6;
+  --ms-teal-light-rgb: 0, 232, 198;
+  --ms-green: #4ADE80;
+  --ms-green-rgb: 74, 222, 128;
+
+  /* === Animation Tokens === */
+  --duration-fast: 150ms;
+  --duration-base: 250ms;
+  --duration-slow: 400ms;
+  --duration-slower: 600ms;
+
+  --easing-default: cubic-bezier(0.4, 0, 0.2, 1);
+  --easing-in: cubic-bezier(0.4, 0, 1, 1);
+  --easing-out: cubic-bezier(0, 0, 0.2, 1);
+  --easing-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+  /* Glass specific sizing */
+  --glass-radius: 16px;
+  --glass-radius-lg: 24px;
+  --glass-padding: 16px;
 }
 
-/* Dark Mode Colors */
+/* === DRAMATIC VISUAL ENHANCEMENTS === */
+
+/* Animated gradient backgrounds */
+@keyframes gradient-shift {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.animated-gradient-bg {
+  background: linear-gradient(
+    -45deg,
+    #667eea 0%,
+    #764ba2 25%,
+    #f093fb 50%,
+    #4facfe 75%,
+    #00f2fe 100%
+  ) !important;
+  background-size: 400% 400% !important;
+  animation: gradient-shift 15s ease infinite !important;
+}
+
+.animated-gradient-bg-warm {
+  background: linear-gradient(
+    -45deg,
+    #fa709a 0%,
+    #fee140 50%,
+    #fa709a 100%
+  ) !important;
+  background-size: 200% 200% !important;
+  animation: gradient-shift 10s ease infinite !important;
+}
+
+/* Mesh gradient overlay */
+.mesh-gradient-overlay {
+  position: relative;
+}
+
+.mesh-gradient-overlay::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(at 40% 20%, rgba(99, 102, 241, 0.3) 0px, transparent 50%),
+    radial-gradient(at 80% 0%, rgba(56, 189, 248, 0.3) 0px, transparent 50%),
+    radial-gradient(at 0% 50%, rgba(236, 72, 153, 0.2) 0px, transparent 50%),
+    radial-gradient(at 80% 50%, rgba(34, 211, 238, 0.2) 0px, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Glassmorphic shadow utilities */
+.shadow-glass-sm {
+  box-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.05),
+    0 1px 3px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.shadow-glass-md {
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.08),
+    0 4px 16px rgba(0, 0, 0, 0.04),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.shadow-glass-lg {
+  box-shadow:
+    0 16px 64px rgba(0, 0, 0, 0.12),
+    0 8px 32px rgba(0, 0, 0, 0.08),
+    inset 0 2px 0 rgba(255, 255, 255, 0.15);
+}
+
+/* Colorful glow effects */
+.glow-blue {
+  box-shadow: 0 0 32px rgba(59, 130, 246, 0.4), 0 0 64px rgba(59, 130, 246, 0.2);
+}
+
+.glow-purple {
+  box-shadow: 0 0 32px rgba(168, 85, 247, 0.4), 0 0 64px rgba(168, 85, 247, 0.2);
+}
+
+.glow-cyan {
+  box-shadow: 0 0 32px rgba(6, 182, 212, 0.4), 0 0 64px rgba(6, 182, 212, 0.2);
+}
+
+.glow-pink {
+  box-shadow: 0 0 32px rgba(236, 72, 153, 0.4), 0 0 64px rgba(236, 72, 153, 0.2);
+}
+
+/* Glass morphism with colorful borders */
+.glass-card-gradient {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.1),
+    rgba(255, 255, 255, 0.05)
+  );
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow:
+    0 8px 32px 0 rgba(31, 38, 135, 0.15),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.3);
+}
+
+/* Dark Mode Colors - System Preference */
 @media (prefers-color-scheme: dark) {
   :root {
     --color-slate-50: #0f172a;
@@ -75,7 +232,40 @@
     --color-slate-500: #94a3b8;
     --color-slate-700: #cbd5e1;
     --color-slate-900: #f8fafc;
+
+    /* Dark mode glass tokens */
+    --glass-bg-light: rgba(15, 23, 42, 0.7);
+    --glass-bg-medium: rgba(15, 23, 42, 0.5);
+    --glass-bg-dark: rgba(15, 23, 42, 0.3);
+    --glass-border-light: rgba(255, 255, 255, 0.15);
+    --glass-border-medium: rgba(255, 255, 255, 0.1);
+    --glass-border-dark: rgba(255, 255, 255, 0.05);
+    --glass-shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.2);
+    --glass-shadow-md: 0 8px 32px rgba(0, 0, 0, 0.3);
+    --glass-shadow-lg: 0 16px 64px rgba(0, 0, 0, 0.4);
   }
+}
+
+/* Dark Mode Colors - Manual Theme Toggle (next-themes) */
+[data-theme='dark'] {
+  --color-slate-50: #0f172a;
+  --color-slate-100: #1e293b;
+  --color-slate-200: #334155;
+  --color-slate-300: #475569;
+  --color-slate-500: #94a3b8;
+  --color-slate-700: #cbd5e1;
+  --color-slate-900: #f8fafc;
+
+  /* Dark mode glass tokens */
+  --glass-bg-light: rgba(15, 23, 42, 0.7);
+  --glass-bg-medium: rgba(15, 23, 42, 0.5);
+  --glass-bg-dark: rgba(15, 23, 42, 0.3);
+  --glass-border-light: rgba(255, 255, 255, 0.15);
+  --glass-border-medium: rgba(255, 255, 255, 0.1);
+  --glass-border-dark: rgba(255, 255, 255, 0.05);
+  --glass-shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.2);
+  --glass-shadow-md: 0 8px 32px rgba(0, 0, 0, 0.3);
+  --glass-shadow-lg: 0 16px 64px rgba(0, 0, 0, 0.4);
 }
 
 /* Base Styles */
@@ -334,4 +524,95 @@ button {
 :focus-visible {
   outline: 2px solid var(--color-trust-blue);
   outline-offset: 2px;
+}
+
+/* === Glassmorphism Utilities === */
+/* Glass shadow classes */
+.shadow-glass-sm { box-shadow: var(--glass-shadow-sm); }
+.shadow-glass-md { box-shadow: var(--glass-shadow-md); }
+.shadow-glass-lg { box-shadow: var(--glass-shadow-lg); }
+
+/* Dark mode glass shadows override */
+[data-theme='dark'] .shadow-glass-sm { box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); }
+[data-theme='dark'] .shadow-glass-md { box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3); }
+[data-theme='dark'] .shadow-glass-lg { box-shadow: 0 16px 64px rgba(0, 0, 0, 0.4); }
+
+/* Glass backdrop blur utilities */
+.backdrop-blur-glass-sm { backdrop-filter: var(--glass-blur-sm); }
+.backdrop-blur-glass-md { backdrop-filter: var(--glass-blur-md); }
+.backdrop-blur-glass-lg { backdrop-filter: var(--glass-blur-lg); }
+
+/* Glass background utilities */
+.bg-glass-light { background-color: var(--glass-bg-light); }
+.bg-glass-medium { background-color: var(--glass-bg-medium); }
+.bg-glass-dark { background-color: var(--glass-bg-dark); }
+
+/* === Reduced Motion Support (WCAG 2.2) === */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* === Additional Dark Mode Utilities for Manual Toggle === */
+[data-theme='dark'] {
+  .dark\:bg-slate-800 { background-color: var(--color-slate-100); }
+  .dark\:bg-slate-900 { background-color: var(--color-midnight-navy); }
+  .dark\:bg-slate-700:hover { background-color: var(--color-slate-200); }
+  .dark\:border-slate-700 { border-color: var(--color-slate-200); }
+  .dark\:text-slate-300 { color: var(--color-slate-500); }
+  .dark\:text-slate-400 { color: var(--color-slate-400); }
+  .dark\:text-white { color: white; }
+  .dark\:from-slate-900 { --tw-gradient-from: #0f172a; }
+  .dark\:to-slate-800 { --tw-gradient-to: #1e293b; }
+}
+
+/* === Glass Hover Effects === */
+.hover-glass-lift {
+  transition: transform var(--duration-base) var(--easing-out),
+              box-shadow var(--duration-base) var(--easing-out);
+}
+.hover-glass-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--glass-shadow-lg);
+}
+
+.hover-glass-glow {
+  transition: box-shadow var(--duration-base) var(--easing-out);
+}
+.hover-glass-glow:hover {
+  box-shadow: 0 0 32px rgba(0, 234, 198, 0.3);
+}
+
+/* === Floating Animation for Background Orbs === */
+/* Used by AnimatedBackground component - Liquid Glass Design System */
+/* Reference: docs/DESIGN.md Section 5.3 - Animated Background Orbs */
+@keyframes float {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  25% {
+    transform: translate(30px, -30px) scale(1.05);
+  }
+  50% {
+    transform: translate(-20px, 20px) scale(0.95);
+  }
+  75% {
+    transform: translate(-30px, -20px) scale(1.02);
+  }
+}
+
+.animate-float {
+  animation: float 20s ease-in-out infinite;
+}
+
+/* Respect reduced motion for accessibility (WCAG 2.2) */
+@media (prefers-reduced-motion: reduce) {
+  .animate-float {
+    animation: none;
+  }
 }
