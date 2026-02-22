@@ -113,7 +113,7 @@ export const ChatPage: React.FC<ChatPageProps> = ({ className = '' }) => {
             </div>
           </div>
 
-          <nav className="flex items-center gap-4">
+          <nav className="flex items-center gap-4 flex-wrap">
             <a
               href="/"
               className="text-sm text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors font-medium"

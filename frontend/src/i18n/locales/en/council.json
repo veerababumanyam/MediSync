@@ -1,0 +1,84 @@
+{
+  "title": "Council of AIs",
+  "subtitle": "Multi-Agent Consensus System",
+  "query": {
+    "title": "Ask a Question",
+    "placeholder": "Enter your healthcare or business question...",
+    "submit": "Submit Query",
+    "threshold": "Consensus Threshold",
+    "thresholdHelp": "Minimum agreement required among agents"
+  },
+  "response": {
+    "title": "Consensus Response",
+    "confidence": "Confidence Score",
+    "consensus": "Consensus Reached",
+    "uncertain": "Uncertainty Detected",
+    "pending": "Deliberating...",
+    "noResponse": "No response generated"
+  },
+  "uncertainty": {
+    "title": "Response Uncertainty",
+    "description": "The Council could not reach full consensus on this query",
+    "agentPositions": "Agent Positions",
+    "rangeLabel": "Range of responses",
+    "dissentingAgents": "Dissenting Agents",
+    "partialConsensus": "Partial consensus on some aspects"
+  },
+  "evidence": {
+    "title": "Evidence Trail",
+    "subtitle": "Knowledge Graph traversal supporting this response",
+    "viewEvidence": "View Evidence",
+    "hideEvidence": "Hide Evidence",
+    "nodes": "Evidence Nodes",
+    "traversalPath": "Traversal Path",
+    "relevance": "Relevance Score",
+    "source": "Source",
+    "hops": "Hops",
+    "relationships": "Related Concepts",
+    "noEvidence": "No evidence available"
+  },
+  "confidence": {
+    "high": "High Confidence",
+    "medium": "Medium Confidence",
+    "low": "Low Confidence",
+    "score": "{{score}}% confidence"
+  },
+  "audit": {
+    "title": "Audit Trail",
+    "subtitle": "Review deliberation records and compliance",
+    "viewAll": "View All Deliberations",
+    "flagIssue": "Flag Potential Issue",
+    "flagged": "Flagged for Review",
+    "reason": "Reason",
+    "severity": "Severity",
+    "severityLow": "Low",
+    "severityMedium": "Medium",
+    "severityHigh": "High",
+    "severityCritical": "Critical",
+    "submitFlag": "Submit Flag",
+    "cancelFlag": "Cancel"
+  },
+  "health": {
+    "title": "System Health",
+    "agentsOnline": "Agents Online",
+    "agentsOffline": "Agents Offline",
+    "knowledgeGraph": "Knowledge Graph",
+    "available": "Available",
+    "unavailable": "Unavailable",
+    "degraded": "Degraded"
+  },
+  "status": {
+    "pending": "Pending",
+    "deliberating": "Deliberating",
+    "consensus": "Consensus",
+    "uncertain": "Uncertain",
+    "failed": "Failed"
+  },
+  "errors": {
+    "serviceUnavailable": "Council service is temporarily unavailable",
+    "knowledgeGraphDown": "Knowledge Graph is unavailable - cannot process queries",
+    "agentTimeout": "One or more agents timed out during deliberation",
+    "noConsensus": "Could not reach consensus threshold",
+    "unauthorized": "You are not authorized to access this deliberation"
+  }
+}

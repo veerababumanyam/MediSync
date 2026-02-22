@@ -243,7 +243,7 @@ export function ReviewQueue({ onSelectDocument, refreshTrigger, className = '' }
               total,
             })}
           </p>
-          <div className="flex gap-2">
+          <div className="flex gap-2 flex-wrap">
             <LiquidGlassButton
               variant="glass"
               size="sm"

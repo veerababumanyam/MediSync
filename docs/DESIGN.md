@@ -75,11 +75,12 @@ The palette uses a trustworthy medical blue base with energetic teal accents to 
 
 ### 2.1 Primary Brand Colors
 
-| Color Name | Hex | RGB | Usage |
-| :--- | :--- | :--- | :--- |
-| **Trust Blue** | `#0056D2` | `0, 86, 210` | Core brand. Primary buttons, active states, key headers. |
-| **Growth Teal** | `#00E8C6` | `0, 232, 198` | Accent. Success states, learning sparks, progress bars. |
-| **Midnight Navy** | `#0F172A` | `15, 23, 42` | Primary text, deep backgrounds, dark mode base. |
+| Color Name | Hex | RGB | Contrast (white) | Usage |
+| :--- | :--- | :--- | :--- | :--- |
+| **Trust Blue** | `#0056D2` | `0, 86, 210` | 6.44:1 ✅ | Core brand. Primary buttons, active states, key headers. |
+| **Growth Teal** | `#00E8C6` | `0, 232, 198` | 1.57:1 ⚠️ | Decorative only. Glow effects, borders, accents on dark backgrounds (12.47:1 on `#0A0A1A`). |
+| **WCAG-Safe Teal** | `#0F766E` | `15, 118, 110` | 5.47:1 ✅ | Text-bearing teal. Gradient endpoints on buttons, badges, interactive elements with white text. |
+| **Midnight Navy** | `#0F172A` | `15, 23, 42` | 17.85:1 ✅ | Primary text, deep backgrounds, dark mode base. |
 
 ### 2.2 Glass / Dark Mode Palette
 Used for immersive experiences like the calendar, dashboards, and focus mode. Built on layered transparency over animated mesh backgrounds.
@@ -134,15 +135,18 @@ Extended accent colors used for event categories, tags, and data visualization. 
 
 **DO:**
 - Use semantic colors for their intended purpose only
-- Maintain 4.5:1 contrast ratio for all body text
+- Maintain 4.5:1 contrast ratio for all body text (WCAG 2.2 AA)
 - Test color combinations in both light and dark modes
 - Reserve brand colors for primary actions
+- Use **WCAG-Safe Teal** (`#0F766E`, 5.47:1) for *any* surface or gradient behind white text
+- Use **Growth Teal** (`#00E8C6`) only for decorative accents: glows, orbs, borders, icon highlights on dark backgrounds
 
 **DON'T:**
 - Use color as the *only* indicator of state — always pair with an icon or text label
 - Use red/green as the only visual differentiation (color-blind users)
 - Use more than 3 brand colors in a single view
 - Set brand color opacity below 20% for text
+- ⚠️ **Never place white text on Growth Teal (`#00E8C6`)** — contrast is only 1.57:1 (FAILS WCAG AA). Use WCAG-Safe Teal (`#0F766E`) instead
 
 ### 2.7 Gradients
 
@@ -151,22 +155,27 @@ Extended accent colors used for event categories, tags, and data visualization. 
 background: linear-gradient(135deg, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.4));
 ```
 
-**Dark Mode Accent Gradient**
+**Dark Mode Accent Gradient (Text-Bearing — WCAG-Safe)**
 ```css
-background: linear-gradient(135deg, #007AFF, #5856D6);
+background: linear-gradient(135deg, #0056D2, #0F766E);
+```
+
+**Dark Mode Accent Glow (Decorative Only — No Text)**
+```css
+background: linear-gradient(135deg, #0056D2, #00E8C6);
 ```
 
 **Study Card Gradient (Cardiology)**
 ```css
-background: linear-gradient(135deg, #1e3a8a 0%, #7c3aed 100%); /* Deep Blue to Vivid Purple */
+background: linear-gradient(135deg, #1e3a8a 0%, #0891b2 100%); /* Deep Blue to Cyan-Teal */
 ```
 
 **Animated Mesh Background (Calendar/Dashboard)**
 ```css
 background:
-  radial-gradient(ellipse 80% 60% at 10% 20%, rgba(88, 86, 214, 0.4) 0%, transparent 60%),
+  radial-gradient(ellipse 80% 60% at 10% 20%, rgba(0, 86, 210, 0.4) 0%, transparent 60%),
   radial-gradient(ellipse 60% 80% at 80% 80%, rgba(0, 122, 255, 0.3) 0%, transparent 60%),
-  radial-gradient(ellipse 50% 50% at 50% 50%, rgba(175, 82, 222, 0.15) 0%, transparent 50%),
+  radial-gradient(ellipse 50% 50% at 50% 50%, rgba(0, 232, 198, 0.15) 0%, transparent 50%),
   #0A0A1A;
 ```
 
@@ -356,9 +365,9 @@ Floating radial gradient orbs create a living, breathing canvas behind glass sur
 
 | Orb | Size | Color Base | Blur | Animation Duration |
 | :--- | :--- | :--- | :--- | :--- |
-| **Orb 1 (Blue)** | 500px | `rgba(0,122,255,0.35)` | 80px | 20s |
-| **Orb 2 (Purple)** | 400px | `rgba(175,82,222,0.30)` | 80px | 25s |
-| **Orb 3 (Pink)** | 350px | `rgba(255,45,85,0.20)` | 80px | 18s |
+| **Orb 1 (Blue)** | 500px | `rgba(0,86,210,0.35)` | 80px | 20s |
+| **Orb 2 (Deep Blue)** | 400px | `rgba(0,122,255,0.30)` | 80px | 25s |
+| **Orb 3 (Teal)** | 350px | `rgba(0,232,198,0.25)` | 80px | 18s |
 
 ### 5.8 CSS Implementation
 ```css
@@ -561,7 +570,7 @@ Custom dropdown panels with iOS-grade presentation and clear visibility.
 *   **Visuals:** Dark glass card containing a circular progress ring.
 *   **Data:** Large central number (e.g., "245"), Label "Step 1" or "Step 2".
 *   **Badge:** "ON TRACK" pill badge (Teal background, low opacity).
-*   **Progress Ring:** Gradient blue to purple glow.
+*   **Progress Ring:** Gradient blue to teal glow.
 
 **Technical Note:** All charts and analytics widgets are standardized on **Apache ECharts** for cross-platform consistency. The `go-echarts` library is used for server-side configuration in the Go backend.
 
@@ -571,7 +580,7 @@ A primary action area for the Space Repetition System (SRS).
 *   **Stat:** Large counter "120 CARDS DUE" (White display type).
 *   **Content:**
     *   **Inner Glass Card:** "Mixed Review" container with icon and 3-dot complexity indicator (Orange, Yellow, Green).
-    *   **Action Button:** Full-width "Start Review" button (Primary Blue/Purple gradient).
+    *   **Action Button:** Full-width "Start Review" button (Primary Blue/Teal gradient).
 
 ---
 
@@ -1210,7 +1219,8 @@ Complete token map for both light and glass/dark mode implementations:
     /* Accent colors */
     --accent: #007AFF;
     --accent-light: #5AC8FA;
-    --accent-gradient: linear-gradient(135deg, #007AFF, #5856D6);
+    --accent-gradient: linear-gradient(135deg, #0056D2, #0F766E);      /* WCAG-safe: white text OK (5.47:1+) */
+    --accent-glow: linear-gradient(135deg, #0056D2, #00E8C6);          /* Decorative only: glows, orbs, borders */
 
     /* Text hierarchy */
     --text-primary: rgba(255, 255, 255, 0.95);
@@ -1222,8 +1232,9 @@ Complete token map for both light and glass/dark mode implementations:
     --success: #34C759;
     --warning: #FF9500;
     --pink: #FF2D55;
-    --purple: #AF52DE;
     --teal: #5AC8FA;
+    --teal-accent: #00E8C6;           /* Decorative glow only — FAILS WCAG with white text */
+    --teal-safe: #0F766E;             /* WCAG-safe teal for text-bearing surfaces (5.47:1) */
 
     /* Radii */
     --radius-sm: 12px;

@@ -452,6 +452,8 @@ When working on this codebase:
 - PostgreSQL 18.2 + pgvector (warehouse), Redis (session cache) (003-dashboard-advanced-features)
 - Go 1.26 (backend), TypeScript 5.9 (frontend) + go-chi/chi (HTTP), PaddleOCR (OCR engine), NATS JetStream (async processing), Google Genkit (AI flows), React 19 (web), i18next (i18n), Apache ECharts (confidence visualization) (001-document-processing)
 - PostgreSQL 18.2 + pgvector (document metadata, embeddings), Redis (queue status, session), S3-compatible object storage (original documents) (001-document-processing)
+- Go 1.26 (backend), TypeScript 5.9 (frontend) + go-chi/chi, Google Genkit, Agent ADK, pgvector, Redis, NATS JetStream (001-council-ai-consensus)
+- PostgreSQL 18.2 + pgvector (Knowledge Graph, audit trails), Redis (evidence cache) (001-council-ai-consensus)
 
 ## Recent Changes
 - 001-ai-agent-core: Added Go 1.26 (backend), TypeScript/React 19 (frontend types)

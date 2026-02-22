@@ -15,6 +15,7 @@ import I18nextHttpBackend from 'i18next-http-backend'
  * - dashboard: Dashboard widget translations
  * - alerts: Alert and notification translations
  * - reports: Scheduled report translations
+ * - council: Council of AIs consensus system translations
  *
  * Locale Detection Priority:
  * 1. localStorage user preference
@@ -186,7 +187,7 @@ void i18n
     debug: import.meta.env.DEV,
 
     // Namespace configuration
-    ns: ['translation', 'common', 'chat', 'dashboard', 'alerts', 'reports'],
+    ns: ['translation', 'common', 'chat', 'dashboard', 'alerts', 'reports', 'council'],
     defaultNS: 'translation',
     fallbackNS: 'translation',
 

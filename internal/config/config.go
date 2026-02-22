@@ -75,6 +75,9 @@ type Config struct {
 
 	// Server configuration
 	Server ServerConfig
+
+	// Council of AIs configuration
+	Council CouncilConfig
 }
 
 // AppConfig holds general application settings.
@@ -347,6 +350,33 @@ type ServerConfig struct {
 	ShutdownTimeout time.Duration
 }
 
+// CouncilConfig holds Council of AIs consensus system settings.
+type CouncilConfig struct {
+	// MinAgents is the minimum number of agent instances required for consensus.
+	MinAgents int
+
+	// DefaultThreshold is the default consensus threshold (0.0-1.0).
+	DefaultThreshold float64
+
+	// AgentTimeout is the timeout for individual agent responses.
+	AgentTimeout time.Duration
+
+	// CacheTTL is the time-to-live for evidence cache entries.
+	CacheTTL time.Duration
+
+	// HealthCheckInterval is the interval between Knowledge Graph health checks.
+	HealthCheckInterval time.Duration
+
+	// SemanticThreshold is the similarity threshold for semantic equivalence (0.0-1.0).
+	SemanticThreshold float64
+
+	// MaxHops is the maximum number of hops for Graph-of-Thoughts traversal.
+	MaxHops int
+
+	// AuditRetentionYears is the number of years to retain audit records (HIPAA).
+	AuditRetentionYears int
+}
+
 // Load reads configuration from environment variables and returns a Config struct.
 // It applies sensible defaults for development and validates required fields.
 func Load() (*Config, error) {
@@ -362,6 +392,7 @@ func Load() (*Config, error) {
 	cfg.HIMS = loadHIMSConfig()
 	cfg.ETL = loadETLConfig()
 	cfg.Observability = loadObservabilityConfig()
+	cfg.Council = loadCouncilConfig()
 
 	// Validate configuration
 	if err := cfg.Validate(); err != nil {
@@ -669,6 +700,20 @@ func loadObservabilityConfig() ObservabilityConfig {
 	}
 }
 
+// loadCouncilConfig loads Council of AIs settings from environment variables.
+func loadCouncilConfig() CouncilConfig {
+	return CouncilConfig{
+		MinAgents:           getEnvInt("COUNCIL_MIN_AGENTS", 3),
+		DefaultThreshold:    getEnvFloat("COUNCIL_DEFAULT_THRESHOLD", 0.80),
+		AgentTimeout:        getEnvDuration("COUNCIL_AGENT_TIMEOUT", 3*time.Second),
+		CacheTTL:            getEnvDuration("COUNCIL_CACHE_TTL", 5*time.Minute),
+		HealthCheckInterval: getEnvDuration("COUNCIL_HEALTH_CHECK_INTERVAL", 30*time.Second),
+		SemanticThreshold:   getEnvFloat("COUNCIL_SEMANTIC_THRESHOLD", 0.95),
+		MaxHops:             getEnvInt("COUNCIL_MAX_HOPS", 3),
+		AuditRetentionYears: getEnvInt("COUNCIL_AUDIT_RETENTION_YEARS", 7),
+	}
+}
+
 // parseEnvironment converts a string to Environment type.
 func parseEnvironment(env string) Environment {
 	switch strings.ToLower(env) {
@@ -715,6 +760,16 @@ func getEnvDuration(key string, defaultValue time.Duration) time.Duration {
 	if value := os.Getenv(key); value != "" {
 		if duration, err := time.ParseDuration(value); err == nil {
 			return duration
+		}
+	}
+	return defaultValue
+}
+
+// getEnvFloat retrieves an environment variable as a float64 or returns a default value.
+func getEnvFloat(key string, defaultValue float64) float64 {
+	if value := os.Getenv(key); value != "" {
+		if floatValue, err := strconv.ParseFloat(value, 64); err == nil {
+			return floatValue
 		}
 	}
 	return defaultValue

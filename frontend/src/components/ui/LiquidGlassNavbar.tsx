@@ -29,7 +29,7 @@ export const LiquidGlassNavbar: React.FC<LiquidGlassNavbarProps> = ({
       <div className="flex items-center justify-between max-w-7xl mx-auto">
         {/* Left section */}
         {left && (
-          <div className="flex items-center gap-4 flex-shrink-0">
+          <div className="flex items-center gap-4 flex-wrap flex-shrink-0">
             {left}
           </div>
         )}
@@ -43,7 +43,7 @@ export const LiquidGlassNavbar: React.FC<LiquidGlassNavbarProps> = ({
 
         {/* Right section */}
         {right && (
-          <div className="flex items-center gap-3 flex-shrink-0">
+          <div className="flex items-center gap-3 flex-wrap flex-shrink-0">
             {right}
           </div>
         )}

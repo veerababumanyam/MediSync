@@ -125,9 +125,10 @@ export const ThemeToggle = React.forwardRef<HTMLButtonElement, ThemeToggleProps>
     // Glass icon button style (default for Liquid Glass design)
     if (!useSwitchStyle) {
       return (
-        <div className={cn('flex items-center gap-2', className)}>
+        <div className={cn('flex items-center gap-2 flex-wrap', className)}>
           <IconButton
             ref={ref}
+            type="button"
             icon={
               <AnimatePresence mode="wait" initial={false}>
                 <motion.div
@@ -168,7 +169,7 @@ export const ThemeToggle = React.forwardRef<HTMLButtonElement, ThemeToggleProps>
     const config = sizeConfig[size]
 
     return (
-      <div className={cn('flex items-center gap-2', className)}>
+      <div className={cn('flex items-center gap-2 flex-wrap', className)}>
         <motion.button
           ref={ref}
           className={cn(

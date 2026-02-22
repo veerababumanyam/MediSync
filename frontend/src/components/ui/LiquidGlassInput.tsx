@@ -18,10 +18,13 @@
  * @version 2.0.0
  */
 
-import React, { forwardRef, useState, useCallback, useRef, useEffect } from 'react'
-import { motion, HTMLMotionProps } from 'framer-motion'
+import React, { forwardRef, useState, useCallback, useRef, useEffect, ComponentProps } from 'react'
+import { motion } from 'framer-motion'
 import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '@/lib/cn'
+
+// Type for motion input props - compatible with framer-motion v12
+type MotionInputProps = ComponentProps<typeof motion.input>
 
 /**
  * Liquid glass input variant definitions
@@ -65,7 +68,7 @@ const liquidInputVariants = cva(
  */
 export interface LiquidGlassInputProps
   extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size' | 'disabled'>,
-    Omit<HTMLMotionProps<'input'>, 'disabled' | 'variants'>,
+    Omit<MotionInputProps, 'disabled' | 'variants'>,
     VariantProps<typeof liquidInputVariants> {
   /** Label text */
   label?: string

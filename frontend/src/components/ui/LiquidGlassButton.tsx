@@ -18,10 +18,13 @@
  * @version 2.0.0
  */
 
-import React, { forwardRef, useState, useCallback, ButtonHTMLAttributes } from 'react'
-import { motion, HTMLMotionProps } from 'framer-motion'
+import React, { forwardRef, useState, useCallback, type ComponentProps } from 'react'
+import { motion } from 'framer-motion'
 import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '@/lib/cn'
+
+// Type for motion button props - compatible with framer-motion v12
+type MotionButtonProps = ComponentProps<typeof motion.button>
 
 /**
  * Liquid glass button variant definitions
@@ -86,9 +89,8 @@ type IconPosition = 'left' | 'right' | 'only'
  * Props for LiquidGlassButton component
  */
 export interface LiquidGlassButtonProps
-  extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'disabled'>,
-    Omit<HTMLMotionProps<'button'>, 'disabled' | 'variants'>,
-    VariantProps<typeof liquidButtonVariants> {
+  extends Omit<MotionButtonProps, 'disabled' | 'variants'>,
+  VariantProps<typeof liquidButtonVariants> {
   /** Optional icon element to display */
   icon?: React.ReactNode
   /** Position of the icon (default: 'left') */
@@ -233,7 +235,7 @@ export const LiquidGlassButton = forwardRef<HTMLButtonElement, LiquidGlassButton
         {...props}
       >
         {iconPosition === 'left' && renderIcon()}
-        {iconPosition !== 'only' && <span>{children}</span>}
+        {iconPosition !== 'only' && <span>{children as React.ReactNode}</span>}
         {iconPosition === 'right' && renderIcon()}
       </Component>
     )
@@ -289,7 +291,7 @@ ButtonDanger.displayName = 'ButtonDanger'
 /**
  * Icon button (circular, icon only)
  */
-export const IconButton = forwardRef<HTMLButtonElement, Omit<LiquidGlassButtonProps, 'variant' | 'size' | 'radius' | 'iconPosition'>>(
+export const IconButton = forwardRef<HTMLButtonElement, Omit<LiquidGlassButtonProps, 'variant' | 'radius' | 'iconPosition'>>(
   ({ icon, size = 'md', ...props }, ref) => {
     const sizeClasses = {
       xs: 'p-1.5',

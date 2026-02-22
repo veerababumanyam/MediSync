@@ -16,10 +16,13 @@
  * @version 2.0.0
  */
 
-import React, { forwardRef, useState, useCallback } from 'react'
-import { motion, HTMLMotionProps } from 'framer-motion'
+import React, { forwardRef, useState, useCallback, ComponentProps } from 'react'
+import { motion } from 'framer-motion'
 import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '@/lib/cn'
+
+// Type for motion div props - compatible with framer-motion v12
+type MotionDivProps = ComponentProps<typeof motion.div>
 
 /**
  * Liquid glass card variant definitions
@@ -106,7 +109,7 @@ const liquidGlassVariants = cva(
  */
 export interface LiquidGlassCardProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, 'variants'>,
-    Omit<HTMLMotionProps<'div'>, 'variants' | 'transition'>,
+    Omit<MotionDivProps, 'variants' | 'transition'>,
     VariantProps<typeof liquidGlassVariants> {
   /** Optional HTML tag to render (defaults to div) */
   as?: React.ElementType

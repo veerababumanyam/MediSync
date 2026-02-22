@@ -135,8 +135,6 @@ export {
  */
 export {
   LiquidGlassToast,
-  LiquidGlassToastContainer,
-  useLiquidGlassToast,
   type LiquidGlassToastProps,
-  type ToastOptions,
+  type ToastType,
 } from './LiquidGlassToast'

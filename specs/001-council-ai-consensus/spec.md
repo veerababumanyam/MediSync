@@ -7,6 +7,18 @@
 
 ---
 
+## Clarifications
+
+### Session 2026-02-22
+
+- Q: Who can access audit trails and deliberation records? → A: Role-based access control - administrators see all records, users see only their own query audit trails.
+- Q: What is the audit trail retention period? → A: 7 years retention to meet healthcare compliance requirements (HIPAA).
+- Q: How does consensus handle syntactically different but semantically equivalent answers? → A: Semantic similarity detection with 95% equivalence threshold - semantically equivalent responses count toward consensus.
+- Q: What happens when the Medical Knowledge Graph is unavailable? → A: Graceful degradation - system signals "service temporarily unavailable" with no response generated; cached evidence valid for 5 minutes.
+- Q: What observability is required for the multi-agent system? → A: Structured logging of all deliberations, consensus metrics (agreement rates, latency), and agent health monitoring.
+
+---
+
 ## User Scenarios & Testing *(mandatory)*
 
 ### User Story 1 - Verified Response to Medical Query (Priority: P1)
@@ -79,15 +91,17 @@ Administrators need to review historical queries and verify that the Council of 
 
 3. **Given** an audit reveals a potential hallucination, **When** flagged for review, **Then** the incident is logged with all relevant context for quality improvement analysis.
 
+4. **Given** a non-administrator user requests audit trail access, **When** the request is evaluated, **Then** the user can only view their own query audit trails, not those of other users.
+
 ---
 
 ### Edge Cases
 
-- What happens when the Medical Knowledge Graph is temporarily unavailable or incomplete for a specific query domain?
-- How does the system handle queries that span multiple knowledge domains (e.g., clinical + financial)?
-- What happens when agent instances produce syntactically different but semantically equivalent answers?
-- How does the system behave when consensus requires an extended deliberation time that exceeds user response time expectations?
-- What happens if an agent instance fails or times out during deliberation?
+- **Knowledge Graph Unavailability**: System signals "service temporarily unavailable" with no response generated; cached evidence remains valid for 5 minutes maximum. Health check polling every 30 seconds detects recovery.
+- **Multi-domain Queries**: System partitions query by domain (clinical vs financial), routes each to specialized Knowledge Graph subgraphs, and merges results with domain-specific confidence scores.
+- **Semantic Equivalence**: When agent instances produce syntactically different but semantically equivalent answers (95% similarity threshold), these count toward consensus as equivalent positions.
+- **Extended Deliberation Time**: If consensus exceeds 8 seconds, system returns partial results with "analysis in progress" indicator and provides final response asynchronously.
+- **Agent Instance Failure**: If an agent fails or times out (3-second timeout per agent), deliberation continues with remaining agents if minimum quorum (2 agents) is maintained.
 
 ---
 
@@ -119,17 +133,37 @@ Administrators need to review historical queries and verify that the Council of 
 
 - **FR-012**: System MUST provide source attribution for all factual claims in responses, linking back to Knowledge Graph evidence.
 
+- **FR-013**: System MUST enforce role-based access control for audit trails: administrators can view all records, users can only view their own query audit trails.
+
+- **FR-014**: System MUST retain audit trail records for 7 years to meet healthcare compliance requirements (HIPAA).
+
+- **FR-015**: System MUST detect semantic equivalence between agent responses (95% similarity threshold) and count equivalent responses toward consensus.
+
+- **FR-016**: System MUST gracefully degrade when the Medical Knowledge Graph is unavailable, returning "service temporarily unavailable" without generating ungrounded responses.
+
+- **FR-017**: System MUST cache evidence for up to 5 minutes to support brief Knowledge Graph outages without compromising accuracy.
+
+### Non-Functional Requirements
+
+- **NFR-001**: System MUST emit structured logs for all deliberations including query hash, agent responses, consensus outcome, and latency metrics.
+
+- **NFR-002**: System MUST expose consensus metrics including agreement rates, average deliberation time, and uncertainty frequency.
+
+- **NFR-003**: System MUST monitor agent health status and alert when quorum cannot be maintained.
+
+- **NFR-004**: System MUST complete Knowledge Graph health checks every 30 seconds and log availability status.
+
 ### Key Entities
 
-- **Council Deliberation**: Represents a single query processing session involving multiple agents. Contains the original query, participating agents, deliberation timeline, consensus outcome, and final response.
+- **Council Deliberation**: Represents a single query processing session involving multiple agents. Contains the original query, participating agents, deliberation timeline, consensus outcome, and final response. Uniquely identified by deliberation UUID. Retained for 7 years.
 
-- **Agent Instance**: An independent AI reasoning unit participating in the Council. Each instance analyzes queries, retrieves evidence, and produces responses independently of other agents.
+- **Agent Instance**: An independent AI reasoning unit participating in the Council. Each instance analyzes queries, retrieves evidence, and produces responses independently of other agents. Has health status (healthy/degraded/failed) and response timeout of 3 seconds.
 
-- **Knowledge Graph Node**: A unit of verified medical/healthcare knowledge within the Medical Knowledge Graph. Contains concept definitions, relationships to other concepts, and metadata about source and reliability.
+- **Knowledge Graph Node**: A unit of verified medical/healthcare knowledge within the Medical Knowledge Graph. Contains concept definitions, relationships to other concepts, and metadata about source and reliability. Evidence cached for 5 minutes maximum.
 
-- **Evidence Trail**: The sequence of Knowledge Graph nodes and relationships traversed during Graph-of-Thoughts retrieval for a specific query. Links deliberations to their supporting evidence.
+- **Evidence Trail**: The sequence of Knowledge Graph nodes and relationships traversed during Graph-of-Thoughts retrieval for a specific query. Links deliberations to their supporting evidence. Includes timestamp for cache validation.
 
-- **Consensus Record**: Captures the agreement state among agents for a deliberation. Includes individual agent positions, agreement metrics, and threshold evaluation results.
+- **Consensus Record**: Captures the agreement state among agents for a deliberation. Includes individual agent positions, agreement metrics, semantic equivalence mappings, and threshold evaluation results.
 
 - **Confidence Score**: A numerical value (0-100%) representing the system's certainty in a response, calculated from agent agreement and evidence strength.
 
@@ -155,6 +189,12 @@ Administrators need to review historical queries and verify that the Council of 
 
 - **SC-008**: System maintains 99.5% availability for consensus deliberations, with graceful degradation to single-agent mode when quorum cannot be met.
 
+- **SC-009**: Role-based access control enforcement reaches 100% - no unauthorized audit trail access attempts succeed.
+
+- **SC-010**: Semantic equivalence detection achieves 95% accuracy in identifying equivalent agent responses.
+
+- **SC-011**: Knowledge Graph unavailability is detected within 30 seconds and graceful degradation activates immediately.
+
 ---
 
 ## Assumptions
@@ -171,6 +211,10 @@ Administrators need to review historical queries and verify that the Council of 
 
 - The consensus algorithm's default 80% threshold is a starting point that may be tuned based on domain requirements and user feedback.
 
+- Role-based access control integrates with existing Keycloak/OPA infrastructure in MediSync.
+
+- Audit trail storage supports 7-year retention with appropriate archival mechanisms.
+
 ---
 
 ## Out of Scope
@@ -184,3 +228,5 @@ Administrators need to review historical queries and verify that the Council of 
 - Custom agent instance configuration by end users (admin-level capability only).
 
 - Multi-language support for deliberation processes (handled by separate i18n layer).
+
+- Audit trail data export to external compliance systems (separate integration).

@@ -1,0 +1,84 @@
+{
+  "title": "مجلس الذكاء الاصطناعي",
+  "subtitle": "نظام التوافق متعدد الوكلاء",
+  "query": {
+    "title": "طرح سؤال",
+    "placeholder": "أدخل سؤالك الطبي أو التجاري...",
+    "submit": "إرسال الاستعلام",
+    "threshold": "عتبة التوافق",
+    "thresholdHelp": "الحد الأدنى من الاتفاق المطلوب بين الوكلاء"
+  },
+  "response": {
+    "title": "استجابة التوافق",
+    "confidence": "درجة الثقة",
+    "consensus": "تم التوصل إلى توافق",
+    "uncertain": "تم اكتشاف عدم يقين",
+    "pending": "جاري التداول...",
+    "noResponse": "لم يتم إنشاء استجابة"
+  },
+  "uncertainty": {
+    "title": "عدم يقين الاستجابة",
+    "description": "لم يتمكن المجلس من التوصل إلى توافق كامل حول هذا الاستعلام",
+    "agentPositions": "مواقف الوكلاء",
+    "rangeLabel": "نطاق الاستجابات",
+    "dissentingAgents": "الوكلاء المعارضون",
+    "partialConsensus": "توافق جزئي على بعض الجوانب"
+  },
+  "evidence": {
+    "title": "مسار الأدلة",
+    "subtitle": "اجتياز الرسم البياني المعرفي الداعم لهذه الاستجابة",
+    "viewEvidence": "عرض الأدلة",
+    "hideEvidence": "إخفاء الأدلة",
+    "nodes": "عقد الأدلة",
+    "traversalPath": "مسار الاجتياز",
+    "relevance": "درجة الصلة",
+    "source": "المصدر",
+    "hops": "القفزات",
+    "relationships": "المفاهيم ذات الصلة",
+    "noEvidence": "لا توجد أدلة متاحة"
+  },
+  "confidence": {
+    "high": "ثقة عالية",
+    "medium": "ثقة متوسطة",
+    "low": "ثقة منخفضة",
+    "score": "{{score}}% ثقة"
+  },
+  "audit": {
+    "title": "مسار التدقيق",
+    "subtitle": "مراجعة سجلات المداولات والامتثال",
+    "viewAll": "عرض جميع المداولات",
+    "flagIssue": "الإبلاغ عن مشكلة محتملة",
+    "flagged": "تم وضع علامة للمراجعة",
+    "reason": "السبب",
+    "severity": "الخطورة",
+    "severityLow": "منخفضة",
+    "severityMedium": "متوسطة",
+    "severityHigh": "عالية",
+    "severityCritical": "حرجة",
+    "submitFlag": "إرسال العلامة",
+    "cancelFlag": "إلغاء"
+  },
+  "health": {
+    "title": "صحة النظام",
+    "agentsOnline": "الوكلاء متصلون",
+    "agentsOffline": "الوكلاء غير متصلين",
+    "knowledgeGraph": "الرسم البياني المعرفي",
+    "available": "متاح",
+    "unavailable": "غير متاح",
+    "degraded": "متدهور"
+  },
+  "status": {
+    "pending": "قيد الانتظار",
+    "deliberating": "جاري المداولة",
+    "consensus": "توافق",
+    "uncertain": "غير مؤكد",
+    "failed": "فشل"
+  },
+  "errors": {
+    "serviceUnavailable": "خدمة المجلس غير متاحة مؤقتًا",
+    "knowledgeGraphDown": "الرسم البياني المعرفي غير متاح - لا يمكن معالجة الاستعلامات",
+    "agentTimeout": "انتهت مهلة واحد أو أكثر من الوكلاء أثناء المداولة",
+    "noConsensus": "تعذر الوصول إلى عتبة التوافق",
+    "unauthorized": "أنت غير مخول للوصول إلى هذه المداولة"
+  }
+}

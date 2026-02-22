@@ -111,7 +111,7 @@ export const ChartActions: React.FC<ChartActionsProps> = ({
 
   if (compact) {
     return (
-      <div className={`flex items-center gap-2 ${className}`}>
+      <div className={`flex items-center gap-2 flex-wrap ${className}`}>
         <button
           onClick={handlePin}
           disabled={isPinning || isPinned}
@@ -140,7 +140,7 @@ export const ChartActions: React.FC<ChartActionsProps> = ({
   }
 
   return (
-    <div className={`flex items-center gap-3 ${isRTL ? 'flex-row-reverse' : ''} ${className}`}>
+    <div className={`flex items-center gap-3 flex-wrap ${isRTL ? 'flex-row-reverse' : ''} ${className}`}>
       {/* Error display */}
       {error && (
         <span className="text-sm text-red-600 dark:text-red-400">{error}</span>
