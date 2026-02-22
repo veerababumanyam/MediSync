@@ -16,28 +16,39 @@ vi.mock('react-i18next', () => ({
   }),
 }))
 
+// Mock usePreferences hook
+vi.mock('../../hooks/usePreferences', () => ({
+  usePreferences: () => ({
+    updatePreferences: vi.fn().mockResolvedValue(undefined),
+    isUpdating: false,
+  }),
+}))
+
 describe('LanguageSwitcher', () => {
   beforeEach(() => {
     vi.clearAllMocks()
   })
 
-  it('renders language switcher button', () => {
+  it('renders language switcher with pill style (default)', () => {
     render(<LanguageSwitcher />)
 
-    expect(screen.getByRole('button')).toBeInTheDocument()
+    // Should render as a radiogroup with EN and ع buttons
+    expect(screen.getByRole('radiogroup')).toBeInTheDocument()
+    expect(screen.getByText('EN')).toBeInTheDocument()
+    expect(screen.getByText('ع')).toBeInTheDocument()
   })
 
-  it('shows next language option', () => {
+  it('shows Arabic option', () => {
     render(<LanguageSwitcher />)
 
-    // Should show Arabic option since current is English
-    expect(screen.getByText(/عربي/i)).toBeInTheDocument()
+    // Should show Arabic character
+    expect(screen.getByText('ع')).toBeInTheDocument()
   })
 
-  it('calls changeLanguage when clicked', async () => {
+  it('calls changeLanguage when Arabic button clicked', async () => {
     render(<LanguageSwitcher />)
 
-    await userEvent.click(screen.getByRole('button'))
+    await userEvent.click(screen.getByText('ع'))
 
     expect(mockChangeLanguage).toHaveBeenCalledWith('ar')
   })
@@ -48,15 +59,15 @@ describe('LanguageSwitcher', () => {
     expect(container.querySelector('.custom-class')).toBeInTheDocument()
   })
 
-  it('renders in compact mode', () => {
-    render(<LanguageSwitcher compact={true} />)
+  it('renders in legacy button mode when pillStyle is false', () => {
+    render(<LanguageSwitcher pillStyle={false} />)
 
     expect(screen.getByRole('button')).toBeInTheDocument()
   })
 
-  it('has accessible aria-label', () => {
+  it('has accessible aria-label on radiogroup', () => {
     render(<LanguageSwitcher />)
 
-    expect(screen.getByRole('button')).toHaveAttribute('aria-label')
+    expect(screen.getByRole('radiogroup')).toHaveAttribute('aria-label')
   })
 })

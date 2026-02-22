@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { ChatMessage } from '../../services/api';
+import type { ChatMessage } from '../../services/api';
 import { ChartRenderer } from './ChartRenderer';
 
 interface MessageListProps {
@@ -26,8 +26,8 @@ export const MessageList: React.FC<MessageListProps> = ({ messages, locale }) =>
       percentage >= 90
         ? 'text-green-600 dark:text-green-400'
         : percentage >= 70
-        ? 'text-yellow-600 dark:text-yellow-400'
-        : 'text-red-600 dark:text-red-400';
+          ? 'text-yellow-600 dark:text-yellow-400'
+          : 'text-red-600 dark:text-red-400';
     return (
       <span className={`text-xs ${colorClass}`}>
         {t('message.confidence', { value: percentage })}
@@ -40,16 +40,14 @@ export const MessageList: React.FC<MessageListProps> = ({ messages, locale }) =>
       {messages.map((message) => (
         <div
           key={message.id}
-          className={`flex ${
-            message.role === 'user' ? 'justify-end' : 'justify-start'
-          }`}
+          className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'
+            }`}
         >
           <div
-            className={`max-w-[80%] ${
-              message.role === 'user'
+            className={`max-w-[80%] ${message.role === 'user'
                 ? 'bg-primary-600 text-white rounded-2xl rounded-br-md'
                 : 'bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white rounded-2xl rounded-bl-md'
-            } px-4 py-3`}
+              } px-4 py-3`}
           >
             {/* Message Content */}
             <div className="prose prose-sm dark:prose-invert max-w-none">

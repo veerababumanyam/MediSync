@@ -133,6 +133,7 @@ Explore our comprehensive guides:
 - 📝 [Product Requirements (PRD)](docs/PRD.md)
 - 🎨 [Design System (DESIGN.md)](docs/DESIGN.md)
 - 🌍 [i18n Architecture](docs/i18n-architecture.md)
+- 🛡️ [PII Protection & Anonymization](docs/PII-PROTECTION.md)
 - 🤖 [Agent Blueprints](docs/agents/BLUEPRINTS.md)
 
 ---
@@ -140,5 +141,5 @@ Explore our comprehensive guides:
 <p align="center">
   <strong>MediSync</strong> — Built for healthcare and accounting teams who deserve better than spreadsheets.
   <br/>
-  <em>Last Updated: February 21, 2026</em>
+  <em>Last Updated: February 22, 2026</em>
 </p>

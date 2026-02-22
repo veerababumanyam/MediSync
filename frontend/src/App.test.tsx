@@ -46,9 +46,9 @@ describe('App', () => {
     expect(screen.getByText('AI-Powered Business Intelligence')).toBeInTheDocument()
   })
 
-  it('renders welcome title', () => {
+  it('renders hero section', () => {
     render(<App />)
-    expect(screen.getByText('Welcome to MediSync')).toBeInTheDocument()
+    expect(screen.getByText(/Your Data/i)).toBeInTheDocument()
   })
 
   it('renders language toggle button', () => {
@@ -64,20 +64,20 @@ describe('App', () => {
     expect(mockChangeLanguage).toHaveBeenCalledWith('ar')
   })
 
-  it('renders feature cards', () => {
+  it('renders capability cards', () => {
     render(<App />)
 
     expect(screen.getByText('Conversational BI')).toBeInTheDocument()
     expect(screen.getByText('AI Accountant')).toBeInTheDocument()
-    expect(screen.getByText('Easy Reports')).toBeInTheDocument()
+    expect(screen.getByText('Smart Reports')).toBeInTheDocument()
   })
 
-  it('renders feature card descriptions', () => {
+  it('renders capability card descriptions', () => {
     render(<App />)
 
-    expect(screen.getByText(/Chat with your data/)).toBeInTheDocument()
-    expect(screen.getByText(/Upload documents and let AI/)).toBeInTheDocument()
-    expect(screen.getByText(/Pre-built reports/)).toBeInTheDocument()
+    expect(screen.getByText(/Ask questions in plain English/)).toBeInTheDocument()
+    expect(screen.getByText(/OCR extracts ledger data/)).toBeInTheDocument()
+    expect(screen.getByText(/Pre-built MIS reports/)).toBeInTheDocument()
   })
 
   it('sets document direction to ltr for English', async () => {

@@ -13,10 +13,9 @@ import { useCallback, useRef, useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 import {
   apiClient,
-  ChatMessage,
-  SSEEvent,
   APIError,
 } from '../services/api'
+import type { ChatMessage, SSEEvent } from '../services/api'
 
 /**
  * Internal message structure with optional streaming state

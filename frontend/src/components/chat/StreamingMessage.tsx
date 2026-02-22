@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { SSEEvent } from '../../services/api';
+import type { SSEEvent } from '../../services/api';
 import { ChartRenderer } from './ChartRenderer';
 
 interface StreamingMessageProps {

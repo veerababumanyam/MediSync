@@ -10,7 +10,8 @@
  * @module hooks/useDashboard
  */
 import { useCallback, useEffect, useState } from 'react'
-import { dashboardApi, PinnedChart } from '../services/api'
+import { dashboardApi } from '../services/api'
+import type { PinnedChart } from '../services/api'
 
 /**
  * Type for creating a new chart (excludes auto-generated fields)
@@ -35,6 +36,8 @@ export interface UseDashboardReturn {
   deleteChart: (id: string) => Promise<void>
   /** Refresh a chart's data */
   refreshChart: (id: string) => Promise<void>
+  /** Refresh all charts on the dashboard */
+  refreshAll: () => Promise<void>
   /** Reorder charts on the dashboard */
   reorderCharts: (order: string[]) => Promise<void>
 }
@@ -201,6 +204,29 @@ export function useDashboard(): UseDashboardReturn {
   }, [])
 
   /**
+   * Refresh all charts on the dashboard
+   */
+  const refreshAll = useCallback(async () => {
+    setError(null)
+    setIsLoading(true)
+
+    try {
+      // Refresh each chart sequentially
+      const refreshedCharts = await Promise.all(
+        charts.map(chart => dashboardApi.refreshChart(chart.id))
+      )
+      setCharts(refreshedCharts)
+    } catch (err) {
+      const message = err instanceof Error ? err.message : 'Failed to refresh charts'
+      setError(message)
+      console.error('Failed to refresh all charts:', err)
+      throw err
+    } finally {
+      setIsLoading(false)
+    }
+  }, [charts])
+
+  /**
    * Reorder charts on the dashboard
    */
   const reorderCharts = useCallback(async (order: string[]) => {
@@ -257,6 +283,7 @@ export function useDashboard(): UseDashboardReturn {
     updateChart,
     deleteChart,
     refreshChart,
+    refreshAll,
     reorderCharts,
   }
 }
