@@ -1,0 +1,50 @@
+{
+    "Organization": {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "MediSync",
+        "url": "https://medisync.ai",
+        "logo": "https://medisync.ai/logo.png",
+        "sameAs": [
+            "https://linkedin.com/company/medisync",
+            "https://twitter.com/medisync"
+        ],
+        "description": "Premium AI-powered healthcare BI and analytics platform."
+    },
+    "SoftwareApplication": {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "MediSync BI Platform",
+        "operatingSystem": "Web",
+        "applicationCategory": "BusinessApplication",
+        "featureList": "Real-time healthcare analytics, Tally ERP integration, PII protection, AI-driven insights",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD",
+            "availability": "https://schema.org/InStock"
+        }
+    },
+    "FAQPage": {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "What is MediSync?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "MediSync is an advanced AI-powered business intelligence platform specifically designed for hospitals and healthcare providers to sync and analyze data from Tally ERP and HIMS."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How does MediSync ensure data privacy?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "MediSync uses built-in PII protection layers and secure Tally XML integrations to ensure all healthcare data remains compliant and protected."
+                }
+            }
+        ]
+    }
+}

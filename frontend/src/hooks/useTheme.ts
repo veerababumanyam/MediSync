@@ -13,8 +13,8 @@ export function useTheme() {
         if (stored !== null) {
             return stored === 'dark'
         }
-        // Fall back to system preference
-        return window.matchMedia('(prefers-color-scheme: dark)').matches
+        // Force dark mode as the default for new users
+        return true
     })
 
     // Apply the theme class to <html>

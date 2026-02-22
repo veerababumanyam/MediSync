@@ -25,20 +25,17 @@ export const QuerySuggestions: React.FC<QuerySuggestionsProps> = ({
           <button
             key={index}
             onClick={() => onSuggestionClick(suggestion)}
-            className={`group flex items-center gap-3 p-4 rounded-xl transition-all duration-300 hover:-translate-y-0.5 text-left ${isDark
-                ? 'bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20'
-                : 'bg-white border border-slate-200 hover:border-blue-200 hover:shadow-md'
-              }`}
+            className="glass-interactive group flex items-center gap-2 sm:gap-3 p-3 sm:p-4 rounded-xl transition-all duration-300 hover:-translate-y-0.5 text-left"
           >
-            <div className={`flex-shrink-0 w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-300 ${isDark
-                ? 'bg-white/10 group-hover:bg-gradient-to-br group-hover:from-blue-500/20 group-hover:to-cyan-400/20'
-                : 'bg-slate-100 group-hover:bg-blue-50'
+            <div className={`flex-shrink-0 w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl flex items-center justify-center transition-all duration-300 ${isDark
+              ? 'bg-white/10 group-hover:bg-gradient-to-br group-hover:from-blue-500/20 group-hover:to-cyan-400/20'
+              : 'bg-slate-100 group-hover:bg-blue-50'
               }`}>
               <SuggestionIcon index={index} isDark={isDark} />
             </div>
             <span className={`text-sm font-medium transition-colors ${isDark
-                ? 'text-slate-300 group-hover:text-white'
-                : 'text-slate-700 group-hover:text-blue-600'
+              ? 'text-slate-300 group-hover:text-white'
+              : 'text-slate-700 group-hover:text-blue-600'
               }`}>
               {suggestion}
             </span>

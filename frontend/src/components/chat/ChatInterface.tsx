@@ -167,7 +167,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
   ];
 
   return (
-    <div className={`flex flex-col h-full ${className}`}>
+    <div className={`flex flex-col min-h-0 ${className}`}>
       {/* Header */}
       <ChatHeader
         sessionId={sessionId}
@@ -175,15 +175,15 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
         isDark={isDark}
       />
 
-      {/* Messages Area */}
-      <div className="flex-1 overflow-y-auto px-4 py-6">
+      {/* Messages Area — takes all space; input stays at bottom */}
+      <div className="flex-1 min-h-0 overflow-y-auto chat-scrollbar px-3 py-3 sm:px-6 sm:py-4">
         {messages.length === 0 && !streaming.isStreaming ? (
-          <div className="flex flex-col items-center justify-center h-full text-center">
-            <h2 className={`text-2xl font-semibold mb-4 ${isDark ? 'text-white' : 'text-slate-900'
+          <div className="flex flex-col items-center justify-center h-full text-center px-2">
+            <h2 className={`text-xl sm:text-2xl font-semibold mb-3 sm:mb-4 ${isDark ? 'text-white' : 'text-slate-900'
               }`}>
               {t('welcome.title')}
             </h2>
-            <p className={`mb-8 max-w-md ${isDark ? 'text-slate-400' : 'text-slate-600'
+            <p className={`mb-6 sm:mb-8 max-w-md text-sm sm:text-base ${isDark ? 'text-slate-400' : 'text-slate-600'
               }`}>
               {t('welcome.subtitle')}
             </p>
@@ -205,9 +205,9 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
               />
             )}
             {error && (
-              <div className={`mt-4 p-4 rounded-xl ${isDark
-                  ? 'bg-red-500/10 border border-red-500/20 text-red-400'
-                  : 'bg-red-50 border border-red-200 text-red-600'
+              <div className={`glass-subtle mt-3 sm:mt-4 p-3 sm:p-4 rounded-xl text-sm ${isDark
+                ? 'border-red-500/30 text-red-400'
+                : 'border-red-300 text-red-600'
                 }`}>
                 {error}
               </div>
@@ -217,9 +217,8 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
         )}
       </div>
 
-      {/* Input Area */}
-      <div className={`border-t p-4 ${isDark ? 'border-white/10' : 'border-slate-200'
-        }`}>
+      {/* Input Area — pinned to bottom, never shrinks */}
+      <div className="flex-shrink-0 glass-border border-t p-2 sm:p-3 lg:p-4 safe-bottom">
         <ChatInput
           onSend={handleSendMessage}
           disabled={streaming.isStreaming}

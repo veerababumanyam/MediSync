@@ -51,7 +51,7 @@ function formatCellValue(value: unknown, type: string): string {
 }
 
 // Chart option creators (moved outside component)
-function createLineChartOption(data: ChartData, _isRTL: boolean): echarts.EChartsOption {
+function createLineChartOption(data: ChartData): echarts.EChartsOption {
   return {
     tooltip: {
       trigger: 'axis',
@@ -85,7 +85,7 @@ function createLineChartOption(data: ChartData, _isRTL: boolean): echarts.EChart
   };
 }
 
-function createBarChartOption(data: ChartData, _isRTL: boolean): echarts.EChartsOption {
+function createBarChartOption(data: ChartData): echarts.EChartsOption {
   return {
     tooltip: {
       trigger: 'axis',
@@ -246,14 +246,14 @@ export const ChartRenderer: React.FC<ChartRendererProps> = ({
 
     switch (chartType) {
       case 'lineChart':
-        option = createLineChartOption(chartData, isRTL);
+        option = createLineChartOption(chartData);
         break;
       case 'pieChart':
         option = createPieChartOption(chartData, isRTL);
         break;
       case 'barChart':
       default:
-        option = createBarChartOption(chartData, isRTL);
+        option = createBarChartOption(chartData);
     }
 
     chartInstance.current.setOption(option);

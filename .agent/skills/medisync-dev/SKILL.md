@@ -5,11 +5,11 @@ description: Guides developers working on the MediSync AI-powered healthcare BI 
 
 # MediSync Development Guide
 
-MediSync is an AI-powered conversational BI platform that unifies HIMS (clinic operations) and Tally ERP (accounting) data for healthcare and pharmacy businesses.
+MediSync is an AI-powered conversational BI platform that unifies operations data (HIMS, LIMS, custom databases) and financial data (Tally ERP) for healthcare, laboratory, and pharmacy businesses.
 
 ★ Insight ─────────────────────────────────────
 MediSync's three-plane architecture separates concerns:
-1. **Data Plane** - ETL extracts from Tally/HIMS into a warehouse
+1. **Data Plane** - Secure ETL extracts from HIMS, LIMS, Tally, and custom legacy endpoints into a read-only conceptual warehouse.
 2. **Intelligence Plane** - AI agents query with read-only access
 3. **Action Plane** - Human-gated write-backs to external systems
 
@@ -35,7 +35,7 @@ medisync/
 │   ├── agents/            # AI agent implementations (modules A-E)
 │   ├── api/               # HTTP handlers, middleware
 │   ├── auth/              # Keycloak JWT, OPA client
-│   ├── etl/               # Tally & HIMS connectors
+│   ├── etl/               # HIMS, LIMS, Tally & Custom legacy API connectors
 │   ├── warehouse/         # PostgreSQL repository
 │   └── cache/             # Redis client
 ├── policies/              # OPA Rego policies

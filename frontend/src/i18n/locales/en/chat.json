@@ -1,4 +1,7 @@
 {
+  "header": {
+    "newSession": "New Chat"
+  },
   "placeholder": "Ask a question about your data...",
   "placeholderExamples": {
     "revenue": "What is this month's revenue?",

@@ -1,18 +1,20 @@
 ---
 name: text-to-sql
-description: Convert natural language business questions into safe, read-only SQL queries against MediSync data warehouse (HIMS & Tally). Use for business intelligence, metric retrieval, and data exploration.
+description: Convert natural language business questions into safe, read-only SQL queries against MediSync centralized warehouse (HIMS, LIMS, Tally, Custom DBs). Use for business intelligence, metric retrieval, and data exploration spanning legacy endpoints.
 ---
 
 # Text-to-SQL Skill
 
-Guidelines for generating precise, secure, and context-aware SQL from natural language intents, specifically for healthcare (HIMS) and accounting (Tally) domains.
+Guidelines for generating precise, secure, and context-aware SQL from natural language intents, specifically targeting unified legacy data from healthcare (HIMS), laboratory (LIMS), accounting (Tally), and custom databases.
 
 ## Query Construction Principles
 
 ### Domain-Specific Mapping
-- **HIMS Data**: Map patient, appointment, and billing queries to the `hims` schema.
+- **HIMS Data**: Map patient, appointment, and hospital billing queries to the `hims` schema.
+- **LIMS Data**: Map lab tests, sample tracking, and diagnostic results to the `lims` schema.
 - **Tally Data**: Map ledger, voucher, and inventory queries to the `tally` schema.
-- **Cross-Domain**: Join HIMS and Tally data using shared identifiers (e.g., `doctor_id`, `invoice_no`) when analyzing clinic performance vs. financial receipts.
+- **Custom Integrations**: Map proprietary or ancient DB metrics to their respective dynamically generated schemas (e.g., `custom_erp`).
+- **Cross-Domain**: Join HIMS, LIMS, and Tally data using shared identifiers (e.g., `patient_id`, `invoice_no`) when analyzing clinic performance vs. diagnostic load vs. financial receipts.
 
 ### Safety & Security
 - **Read-Only**: Always prepend/validate with `SELECT`. Block all DML/DDL (`INSERT`, `UPDATE`, etc.).
@@ -56,7 +58,7 @@ ORDER BY total_revenue DESC;
 
 ## Accuracy & Quality Standards
 
-- **Ambiguity Gate**: If the intent is unclear (e.g., "Show sales" - does it mean HIMS or Tally?), the agent must ask: "Would you like to see sales from the HIMS pharmacy or Tally accounting?"
+- **Ambiguity Gate**: If the intent is unclear (e.g., "Show sales" - does it mean HIMS, LIMS lab tests, or Tally?), the agent must ask: "Would you like to see sales from the HIMS pharmacy, LIMS diagnostics, or Tally accounting?"
 - **Chart Hinting**: Suggest an optimal `chart_type` based on the results (e.g., 2 columns with numeric value → `bar`, date column → `line`).
 - **Confidence Scoring**: Return a score (0-1). If `< 0.75`, add a "Verify Results" disclaimer.
 

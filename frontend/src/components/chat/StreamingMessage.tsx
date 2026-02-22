@@ -57,8 +57,8 @@ export const StreamingMessage: React.FC<StreamingMessageProps> = ({
           <div
             key={index}
             className={`rounded-xl p-3 my-2 ${isDark
-                ? 'bg-slate-900/80 border border-white/10'
-                : 'bg-slate-900 border border-slate-700'
+              ? 'bg-slate-900/80 border border-white/10'
+              : 'bg-slate-900 border border-slate-700'
               }`}
           >
             <div className="flex items-center justify-between mb-2">
@@ -92,10 +92,7 @@ export const StreamingMessage: React.FC<StreamingMessageProps> = ({
         return (
           <div key={index} className="my-2">
             {event.data && event.chartType ? (
-              <div className={`rounded-xl p-4 border ${isDark
-                  ? 'bg-white/5 border-white/10'
-                  : 'bg-white border-slate-200'
-                }`}>
+              <div className="glass-subtle rounded-xl p-4">
                 <ChartRenderer
                   chartType={event.chartType}
                   data={event.data}
@@ -118,9 +115,9 @@ export const StreamingMessage: React.FC<StreamingMessageProps> = ({
         return (
           <div
             key={index}
-            className={`rounded-xl p-3 my-2 ${isDark
-                ? 'bg-red-500/10 border border-red-500/20 text-red-400'
-                : 'bg-red-50 border border-red-200 text-red-600'
+            className={`glass-subtle rounded-xl p-3 my-2 ${isDark
+              ? 'border-red-500/30 text-red-400'
+              : 'border-red-300 text-red-600'
               }`}
           >
             {event.message}
@@ -131,9 +128,9 @@ export const StreamingMessage: React.FC<StreamingMessageProps> = ({
         return (
           <div
             key={index}
-            className={`rounded-xl p-3 my-2 ${isDark
-                ? 'bg-amber-500/10 border border-amber-500/20 text-amber-400'
-                : 'bg-amber-50 border border-amber-200 text-amber-700'
+            className={`glass-subtle rounded-xl p-3 my-2 ${isDark
+              ? 'border-amber-500/30 text-amber-400'
+              : 'border-amber-300 text-amber-700'
               }`}
           >
             <p className="mb-2">{event.message}</p>
@@ -142,10 +139,7 @@ export const StreamingMessage: React.FC<StreamingMessageProps> = ({
                 {event.options.map((option, optIndex) => (
                   <button
                     key={optIndex}
-                    className={`block w-full text-left px-3 py-2 rounded-lg border transition-all duration-200 ${isDark
-                        ? 'bg-white/5 border-amber-500/20 hover:bg-white/10'
-                        : 'bg-white border-amber-200 hover:bg-amber-50'
-                      }`}
+                    className="glass-interactive block w-full text-left px-3 py-2 rounded-lg transition-all duration-200"
                   >
                     {option}
                   </button>
@@ -167,10 +161,7 @@ export const StreamingMessage: React.FC<StreamingMessageProps> = ({
 
   return (
     <div className="flex justify-start">
-      <div className={`max-w-[80%] rounded-2xl rounded-bl-md px-4 py-3 ${isDark
-          ? 'bg-white/10 backdrop-blur-md border border-white/15'
-          : 'bg-white border border-slate-200 shadow-sm'
-        }`}>
+      <div className="glass max-w-[85%] sm:max-w-[75%] lg:max-w-[65%] rounded-2xl rounded-bl-md px-3 py-2 sm:px-4 sm:py-3">
         {/* AI Header */}
         <div className="flex items-center justify-between mb-2">
           <div className="flex items-center gap-2">

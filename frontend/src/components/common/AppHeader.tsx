@@ -39,15 +39,13 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
 
     return (
         <header
-            className={`sticky top-0 z-50 border-b transition-colors duration-300 ${isDark
-                    ? 'border-white/10 bg-white/5 backdrop-blur-xl'
-                    : 'border-slate-200 bg-white/80 backdrop-blur-xl shadow-sm'
+            className={`glass-subtle glass-border sticky top-0 z-[100] transition-shadow duration-300 backdrop-blur-md bg-white/70 dark:bg-slate-900/70 border-b flex items-center h-14 sm:h-16 lg:h-[72px] ${!isDark ? 'shadow-sm shadow-slate-200/50' : 'border-white/10'
                 }`}
         >
-            <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between">
+            <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-2 flex items-center justify-between">
                 {/* Logo */}
                 <div
-                    className="flex items-center gap-3 cursor-pointer group"
+                    className="flex items-center gap-2 sm:gap-3 cursor-pointer group shrink-0"
                     onClick={() => navigateTo('home')}
                     role="button"
                     tabIndex={0}
@@ -56,17 +54,17 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
                     <img
                         src="/logo.png"
                         alt="MediSync Logo"
-                        className="w-10 h-10 rounded-xl object-contain group-hover:scale-105 transition-transform duration-300"
+                        className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl object-contain group-hover:scale-105 transition-transform duration-300"
                     />
-                    <div>
+                    <div className="flex flex-col justify-center">
                         <h1
-                            className={`text-lg font-bold leading-tight ${isDark ? 'text-white' : 'text-slate-900'
+                            className={`text-base sm:text-lg font-bold leading-tight ${isDark ? 'text-white' : 'text-slate-900'
                                 }`}
                         >
                             {t('app.name', 'MediSync')}
                         </h1>
                         <p
-                            className={`text-xs ${isDark ? 'text-slate-400' : 'text-slate-500'
+                            className={`text-[10px] sm:text-xs hidden md:block pt-0.5 ${isDark ? 'text-slate-400' : 'text-slate-500'
                                 }`}
                         >
                             {t('app.tagline', 'AI-Powered Business Intelligence')}
@@ -75,18 +73,18 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
                 </div>
 
                 {/* Navigation */}
-                <nav className="flex items-center gap-1.5 sm:gap-2">
+                <nav className="flex items-center gap-1 sm:gap-2">
                     {/* Chat CTA */}
                     <button
                         onClick={() => navigateTo('chat')}
                         className={
                             currentRoute === 'chat'
-                                ? 'inline-flex items-center gap-2 px-3.5 py-2 bg-gradient-to-r from-blue-600 to-cyan-500 text-white rounded-xl transition-all duration-300 text-sm font-semibold shadow-lg shadow-blue-500/25 ring-2 ring-blue-400/40'
-                                : 'inline-flex items-center gap-2 px-3.5 py-2 bg-gradient-to-r from-blue-600 to-cyan-500 text-white rounded-xl hover:from-blue-500 hover:to-cyan-400 transition-all duration-300 text-sm font-semibold shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 hover:-translate-y-0.5 active:scale-95'
+                                ? 'inline-flex items-center justify-center gap-1.5 sm:gap-2 px-2.5 sm:px-3.5 py-1.5 sm:py-2 bg-gradient-to-r from-blue-600 to-cyan-500 text-white rounded-xl transition-all duration-300 text-xs sm:text-sm font-semibold shadow-lg shadow-blue-500/25 ring-2 ring-blue-400/40 min-w-10 min-h-10'
+                                : 'inline-flex items-center justify-center gap-1.5 sm:gap-2 px-2.5 sm:px-3.5 py-1.5 sm:py-2 bg-gradient-to-r from-blue-600 to-cyan-500 text-white rounded-xl hover:from-blue-500 hover:to-cyan-400 transition-all duration-300 text-xs sm:text-sm font-semibold shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 hover:-translate-y-0.5 active:scale-95 min-w-10 min-h-10'
                         }
                     >
                         <svg
-                            className="w-4 h-4"
+                            className="w-4 h-4 sm:w-4 sm:h-4 shrink-0"
                             fill="none"
                             viewBox="0 0 24 24"
                             stroke="currentColor"
@@ -98,7 +96,7 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
                                 d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
                             />
                         </svg>
-                        <span className="hidden sm:inline">
+                        <span className="hidden sm:inline whitespace-nowrap">
                             {t('navigation.chat', 'Chat')}
                         </span>
                     </button>
@@ -106,17 +104,13 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
                     {/* Dashboard */}
                     <button
                         onClick={() => navigateTo('dashboard')}
-                        className={`inline-flex items-center gap-2 px-3.5 py-2 rounded-xl transition-all duration-300 text-sm font-medium ${currentRoute === 'dashboard'
-                                ? isDark
-                                    ? 'text-white bg-white/15 ring-1 ring-white/20'
-                                    : 'text-slate-900 bg-slate-200 ring-1 ring-slate-300'
-                                : isDark
-                                    ? 'text-slate-300 hover:text-white hover:bg-white/10'
-                                    : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+                        className={`glass-interactive inline-flex items-center justify-center gap-1.5 sm:gap-2 px-2.5 sm:px-3.5 py-1.5 sm:py-2 transition-all duration-300 text-xs sm:text-sm font-medium rounded-xl min-w-10 min-h-10 ${currentRoute === 'dashboard'
+                            ? 'text-blue-600 dark:text-white ring-1 ring-blue-400/40'
+                            : 'text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white'
                             }`}
                     >
                         <svg
-                            className="w-4 h-4"
+                            className="w-4 h-4 sm:w-4 sm:h-4 shrink-0"
                             fill="none"
                             viewBox="0 0 24 24"
                             stroke="currentColor"
@@ -128,7 +122,7 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
                                 d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
                             />
                         </svg>
-                        <span className="hidden sm:inline">
+                        <span className="hidden sm:inline whitespace-nowrap">
                             {t('navigation.dashboard', 'Dashboard')}
                         </span>
                     </button>
@@ -136,10 +130,7 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
                     {/* Dark/Light Mode Toggle */}
                     <button
                         onClick={toggleTheme}
-                        className={`p-2 rounded-xl transition-all duration-300 ${isDark
-                                ? 'text-amber-400 hover:bg-white/10 hover:text-amber-300'
-                                : 'text-slate-500 hover:bg-slate-100 hover:text-slate-700'
-                            }`}
+                        className="glass-interactive p-1.5 sm:p-2 transition-all duration-300 text-slate-500 hover:text-amber-500 dark:text-amber-400 dark:hover:text-amber-300 rounded-xl flex items-center justify-center min-w-10 min-h-10"
                         aria-label={
                             isDark
                                 ? t('app.lightMode', 'Switch to light mode')
@@ -149,7 +140,7 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
                     >
                         {isDark ? (
                             <svg
-                                className="w-5 h-5"
+                                className="w-4 h-4 sm:w-5 sm:h-5 shrink-0"
                                 fill="none"
                                 viewBox="0 0 24 24"
                                 stroke="currentColor"
@@ -163,7 +154,7 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
                             </svg>
                         ) : (
                             <svg
-                                className="w-5 h-5"
+                                className="w-4 h-4 sm:w-5 sm:h-5 shrink-0"
                                 fill="none"
                                 viewBox="0 0 24 24"
                                 stroke="currentColor"
@@ -181,13 +172,10 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
                     {/* Language Toggle */}
                     <button
                         onClick={toggleLanguage}
-                        className={`px-3 py-2 rounded-xl transition-all duration-300 text-sm font-medium border ${isDark
-                                ? 'bg-white/10 hover:bg-white/15 text-slate-300 hover:text-white border-white/10 hover:border-white/20'
-                                : 'bg-slate-100 hover:bg-slate-200 text-slate-600 hover:text-slate-800 border-slate-200'
-                            }`}
+                        className="glass-interactive px-2 sm:px-3 py-1.5 sm:py-2 transition-all duration-300 text-xs sm:text-sm font-medium text-slate-600 hover:text-slate-800 dark:text-slate-300 dark:hover:text-white rounded-xl flex items-center justify-center min-w-10 min-h-10"
                         aria-label={t('app.toggleLanguage', 'Toggle language')}
                     >
-                        {currentLocale === 'en' ? 'عربي' : 'English'}
+                        {currentLocale === 'en' ? 'عربي' : 'EN'}
                     </button>
                 </nav>
             </div>

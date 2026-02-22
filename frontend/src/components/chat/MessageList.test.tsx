@@ -52,14 +52,14 @@ describe('MessageList', () => {
   it('renders empty state when no messages', () => {
     const { container } = render(<MessageList messages={[]} locale="en" />)
 
-    expect(container.querySelector('.space-y-6')).toBeInTheDocument()
+    expect(container.querySelector('.space-y-3')).toBeInTheDocument()
   })
 
   it('applies different styling for user vs assistant messages', () => {
     const { container } = render(<MessageList messages={mockMessages} locale="en" />)
 
-    const userBubble = container.querySelector('.bg-primary-600')
-    const assistantBubble = container.querySelector('.bg-gray-100')
+    const userBubble = container.querySelector('.from-blue-600')
+    const assistantBubble = container.querySelector('.rounded-bl-md')
 
     expect(userBubble).toBeInTheDocument()
     expect(assistantBubble).toBeInTheDocument()
@@ -68,6 +68,6 @@ describe('MessageList', () => {
   it('renders message container', () => {
     const { container } = render(<MessageList messages={mockMessages} locale="en" />)
 
-    expect(container.querySelector('.space-y-6')).toBeInTheDocument()
+    expect(container.querySelector('.space-y-3')).toBeInTheDocument()
   })
 })

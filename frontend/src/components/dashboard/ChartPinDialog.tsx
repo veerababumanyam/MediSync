@@ -67,19 +67,19 @@ export const ChartPinDialog: React.FC<ChartPinDialogProps> = ({
   ];
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
       <div
-        className="bg-white dark:bg-gray-800 rounded-xl shadow-xl max-w-md w-full mx-4 overflow-hidden"
+        className="glass-elevated max-w-md w-full mx-4 overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+        <div className="glass-subtle flex items-center justify-between px-6 py-4 border-b border-white/10 dark:border-gray-700">
           <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
             {t('dialog.title')}
           </h2>
           <button
             onClick={onClose}
-            className="p-1 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
+            className="glass-interactive p-1 rounded-lg"
           >
             <svg className="w-5 h-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -90,7 +90,7 @@ export const ChartPinDialog: React.FC<ChartPinDialogProps> = ({
         {/* Form */}
         <form onSubmit={handleSubmit} className="p-6 space-y-4">
           {error && (
-            <div className="p-3 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 rounded-lg text-sm">
+            <div className="glass-subtle p-3 border-red-300 dark:border-red-500/30 text-red-600 dark:text-red-400 rounded-xl text-sm">
               {error}
             </div>
           )}
@@ -105,7 +105,7 @@ export const ChartPinDialog: React.FC<ChartPinDialogProps> = ({
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               placeholder={t('dialog.titlePlaceholder')}
-              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+              className="glass-interactive w-full px-3 py-2 rounded-xl text-slate-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent"
               dir={locale === 'ar' ? 'rtl' : 'ltr'}
             />
           </div>
@@ -120,7 +120,7 @@ export const ChartPinDialog: React.FC<ChartPinDialogProps> = ({
               onChange={(e) => setNaturalLanguageQuery(e.target.value)}
               placeholder={t('dialog.queryPlaceholder')}
               rows={3}
-              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent resize-none"
+              className="glass-interactive w-full px-3 py-2 rounded-xl text-slate-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent resize-none"
               dir={locale === 'ar' ? 'rtl' : 'ltr'}
             />
           </div>
@@ -136,10 +136,10 @@ export const ChartPinDialog: React.FC<ChartPinDialogProps> = ({
                   key={type.value}
                   type="button"
                   onClick={() => setChartType(type.value as typeof chartType)}
-                  className={`p-2 rounded-lg border text-center text-sm transition-colors ${
+                  className={`glass-interactive p-2 rounded-xl text-center text-sm transition-all ${
                     chartType === type.value
-                      ? 'border-primary-500 bg-primary-50 dark:bg-primary-900/20 text-primary-600 dark:text-primary-400'
-                      : 'border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700'
+                      ? 'ring-2 ring-blue-500 bg-blue-50/50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400'
+                      : 'text-slate-600 dark:text-gray-300'
                   }`}
                 >
                   {type.label}
@@ -156,7 +156,7 @@ export const ChartPinDialog: React.FC<ChartPinDialogProps> = ({
             <select
               value={refreshInterval}
               onChange={(e) => setRefreshInterval(Number(e.target.value))}
-              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+              className="glass-interactive w-full px-3 py-2 rounded-xl text-slate-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent"
             >
               {refreshOptions.map((option) => (
                 <option key={option.value} value={option.value}>
@@ -171,14 +171,14 @@ export const ChartPinDialog: React.FC<ChartPinDialogProps> = ({
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
+              className="glass-interactive px-4 py-2 text-slate-700 dark:text-gray-200 rounded-xl transition-all"
             >
               {t('dialog.cancel')}
             </button>
             <button
               type="submit"
               disabled={isSubmitting}
-              className="px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              className="px-4 py-2 bg-gradient-to-r from-blue-600 to-cyan-500 text-white rounded-xl hover:from-blue-500 hover:to-cyan-400 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-lg shadow-blue-500/25"
             >
               {isSubmitting ? t('dialog.pinning') : t('dialog.pin')}
             </button>

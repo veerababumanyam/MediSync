@@ -1,4 +1,7 @@
 {
+  "header": {
+    "newSession": "محادثة جديدة"
+  },
   "placeholder": "اطرح سؤالاً عن بياناتك...",
   "placeholderExamples": {
     "revenue": "ما هي إيرادات هذا الشهر؟",

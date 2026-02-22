@@ -37,7 +37,7 @@ export const MessageList: React.FC<MessageListProps> = ({ messages, locale, isDa
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-3 sm:space-y-4 lg:space-y-6">
       {messages.map((message) => (
         <div
           key={message.id}
@@ -45,12 +45,10 @@ export const MessageList: React.FC<MessageListProps> = ({ messages, locale, isDa
             }`}
         >
           <div
-            className={`max-w-[80%] ${message.role === 'user'
-                ? 'bg-gradient-to-r from-blue-600 to-cyan-500 text-white rounded-2xl rounded-br-md shadow-lg shadow-blue-500/20'
-                : isDark
-                  ? 'bg-white/10 backdrop-blur-md border border-white/15 text-white rounded-2xl rounded-bl-md'
-                  : 'bg-white border border-slate-200 shadow-sm text-slate-900 rounded-2xl rounded-bl-md'
-              } px-4 py-3`}
+            className={`glass max-w-[85%] sm:max-w-[75%] lg:max-w-[65%] ${message.role === 'user'
+              ? 'bg-gradient-to-r from-blue-600 to-cyan-500 text-white rounded-2xl rounded-br-md shadow-lg shadow-blue-500/20'
+              : 'text-slate-900 dark:text-white rounded-2xl rounded-bl-md'
+              } px-3 py-2 sm:px-4 sm:py-3`}
           >
             {/* Message Content */}
             <div className="prose prose-sm max-w-none">
@@ -82,10 +80,7 @@ export const MessageList: React.FC<MessageListProps> = ({ messages, locale, isDa
 
               {/* Chart Visualization */}
               {message.role === 'assistant' && message.chartSpec && (
-                <div className={`mt-4 rounded-xl p-4 border ${isDark
-                    ? 'bg-white/5 border-white/10'
-                    : 'bg-slate-50 border-slate-200'
-                  }`}>
+                <div className="glass-subtle mt-4 rounded-xl p-4">
                   <ChartRenderer
                     chartType={message.chartSpec.type}
                     data={message.chartSpec.chart}

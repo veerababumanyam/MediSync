@@ -11,7 +11,7 @@ Guidelines for sophisticated multi-agent data analysis and reporting within the 
 
 ### Task Decomposition
 Agents must break down a prompt like "Analyze pharmacy performance" into:
-1. **Retrieval**: Query SQL for sales and costs.
+1. **Retrieval**: Query SQL for sales, lab costs, or operational metrics.
 2. **Analysis**: Compute growth, margins, and top products.
 3. **Forecasting**: Predict next month's demand.
 4. **Synthesis**: Write the narrative executive summary.
@@ -23,7 +23,7 @@ from crewai import Agent, Task, Crew
 data_analyst = Agent(
     role='Financial Analyst',
     goal='Identify profit leakage points in pharmacy operations',
-    backstory='Expert in healthcare accounting and supply chain data.',
+    backstory='Expert in healthcare accounting, lab operations, and legacy supply chain data.',
     tools=[sql_query_tool, stats_tool]
 )
 
@@ -54,7 +54,7 @@ Every report must follow a structured Pydantic model:
 ## Accuracy & Quality
 
 - **Hallucination Check**: If `confidence_score < 0.8`, the report must be labeled as "Preliminary - Requires Human Verification".
-- **Data Traceability**: Every chart and finding must reference the source table/query (e.g., "Source: tally.ledger_entries").
+- **Data Traceability**: Every chart and finding must reference the source table/query (e.g., "Source: `tally.ledger_entries`" or "`lims.lab_results`").
 
 ## Accessibility Checklist
 - [ ] Use plain English titles (no technical jargon).
