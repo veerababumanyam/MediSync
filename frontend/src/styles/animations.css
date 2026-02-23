@@ -1,0 +1,380 @@
+/**
+ * AnySync Animation Library
+ *
+ * Unified animation system with WCAG 3.0 reduced motion support.
+ * All animations respect user's motion preferences.
+ *
+ * @version 1.0.0
+ * @lastUpdated 2026-02-23
+ */
+
+/* Import design tokens for consistent timing */
+@import url('./tokens.css');
+
+/* ============================================
+   REDUCED MOTION SUPPORT (WCAG 3.0)
+   ============================================
+   Respects prefers-reduced-motion for users who
+   prefer reduced motion or have vestibular disorders.
+*/
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ============================================
+   ENTRANCE ANIMATIONS
+   ============================================
+*/
+
+/* Fade In Up - Classic entrance animation */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Fade In Down */
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Fade In Scale */
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Liquid Fade In - Glass effect entrance */
+@keyframes liquidFadeIn {
+  0% {
+    opacity: 0;
+    backdrop-filter: blur(0px);
+    transform: translateY(10px) scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    backdrop-filter: blur(60px);
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* ============================================
+   LIQUID GLASS ANIMATIONS
+   ============================================
+*/
+
+/* Float animation for background orbs */
+@keyframes float {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  25% {
+    transform: translate(30px, -40px) scale(1.05);
+  }
+  50% {
+    transform: translate(-20px, -60px) scale(0.95);
+  }
+  75% {
+    transform: translate(40px, -20px) scale(1.02);
+  }
+}
+
+/* Float variations for different timing */
+@keyframes floatSlow {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(20px, -30px) scale(1.03);
+  }
+  66% {
+    transform: translate(-15px, 15px) scale(0.97);
+  }
+}
+
+@keyframes floatMedium {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(35px, -45px) scale(1.06);
+  }
+  66% {
+    transform: translate(-25px, 25px) scale(0.94);
+  }
+}
+
+@keyframes floatFast {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  25% {
+    transform: translate(25px, -35px) scale(1.04);
+  }
+  50% {
+    transform: translate(-18px, -18px) scale(0.96);
+  }
+  75% {
+    transform: translate(30px, -25px) scale(1.02);
+  }
+}
+
+/* Float Y - Simple vertical float for SVG illustrations */
+@keyframes floatY {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Float Y Reverse - Opposite direction vertical float */
+@keyframes floatYReverse {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(10px);
+  }
+}
+
+/* Shine / Shimmer effect */
+@keyframes shineSlide {
+  0% {
+    background-position: -200% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+}
+
+/* Pulse Glow - Subtle ambient glow */
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow:
+      0 0 0 1px rgba(255, 255, 255, 0.1),
+      0 8px 32px rgba(39, 80, 168, 0.1);
+  }
+  50% {
+    box-shadow:
+      0 0 0 1px rgba(255, 255, 255, 0.2),
+      0 8px 32px rgba(39, 80, 168, 0.2),
+      0 0 40px rgba(39, 80, 168, 0.1);
+  }
+}
+
+/* Ripple effect for button clicks */
+@keyframes ripple {
+  0% {
+    transform: scale(0);
+    opacity: 0.6;
+  }
+  100% {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+/* ============================================
+   HERO ANIMATIONS
+   ============================================
+*/
+
+/* Hero slide entrance */
+@keyframes heroSlideIn {
+  0% {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Hero progress bar */
+@keyframes heroProgress {
+  0% {
+    width: 0%;
+  }
+  100% {
+    width: 100%;
+  }
+}
+
+/* Gradient border shift */
+@keyframes gradientBorderShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* ============================================
+   LOADING ANIMATIONS
+   ============================================
+*/
+
+/* Skeleton shimmer */
+@keyframes skeletonShimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* Spinner rotation */
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Pulse for loading indicators */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* Bounce for loading dots */
+@keyframes bounce {
+  0%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Stagger children animation classes */
+.stagger-children > *:nth-child(1) { animation-delay: 0ms; }
+.stagger-children > *:nth-child(2) { animation-delay: 50ms; }
+.stagger-children > *:nth-child(3) { animation-delay: 100ms; }
+.stagger-children > *:nth-child(4) { animation-delay: 150ms; }
+.stagger-children > *:nth-child(5) { animation-delay: 200ms; }
+.stagger-children > *:nth-child(6) { animation-delay: 250ms; }
+.stagger-children > *:nth-child(7) { animation-delay: 300ms; }
+.stagger-children > *:nth-child(8) { animation-delay: 350ms; }
+
+/* ============================================
+   UTILITY CLASSES
+   ============================================
+*/
+
+/* Entrance animations */
+.animate-fade-in-up {
+  animation: fadeInUp var(--duration-moderate) var(--ease-liquid-out) both;
+}
+
+.animate-fade-in-down {
+  animation: fadeInDown var(--duration-moderate) var(--ease-liquid-out) both;
+}
+
+.animate-fade-in-scale {
+  animation: fadeInScale var(--duration-moderate) var(--ease-liquid-out) both;
+}
+
+.animate-liquid-fade-in {
+  animation: liquidFadeIn var(--duration-slow) var(--ease-liquid) both;
+}
+
+/* Float animations */
+.animate-float {
+  animation: float 20s var(--ease-liquid-in-out) infinite;
+}
+
+.animate-float-slow {
+  animation: floatSlow 25s var(--ease-liquid-in-out) infinite;
+}
+
+.animate-float-medium {
+  animation: floatMedium 18s var(--ease-liquid-in-out) infinite;
+}
+
+.animate-float-fast {
+  animation: floatFast 15s var(--ease-liquid-in-out) infinite;
+}
+
+/* Shine effect */
+.animate-shine {
+  animation: shineSlide 6s var(--ease-liquid) infinite;
+}
+
+/* Pulse glow */
+.animate-pulse-glow {
+  animation: pulseGlow 3s var(--ease-liquid) infinite;
+}
+
+/* Delay utilities */
+.delay-100 { animation-delay: 100ms; }
+.delay-200 { animation-delay: 200ms; }
+.delay-300 { animation-delay: 300ms; }
+.delay-400 { animation-delay: 400ms; }
+.delay-500 { animation-delay: 500ms; }
+.delay-600 { animation-delay: 600ms; }
+
+/* Pulse slow - for icon backgrounds */
+.animate-pulse-slow {
+  animation: pulseGlow 4s var(--ease-liquid) infinite;
+}
+
+/* ============================================
+   IOS NOTCH AWARE ANIMATIONS
+   ============================================
+   Animations that account for safe-area-inset-top
+*/
+
+/* Slide from top with notch awareness */
+@keyframes slideFromTop {
+  from {
+    transform: translateY(calc(-100% + var(--safe-area-top)));
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.animate-slide-from-top {
+  animation: slideFromTop var(--duration-moderate) var(--ease-liquid-out) both;
+}
