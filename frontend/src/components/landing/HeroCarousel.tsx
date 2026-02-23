@@ -2,6 +2,7 @@ import { useState, useEffect, useMemo, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { HeroIllustration } from './icons'
 import { TrustStripIcon, getTrustBrandColor } from './TrustStripIcons'
+import { CTA_CLASSES } from '@/lib/cta-classes'
 
 type TrustItemKey = 'item1' | 'item2' | 'item3' | 'item4' | 'item5' | 'item6' | 'item7' | 'item8'
 
@@ -50,16 +51,16 @@ export function HeroCarousel({ isDark, onOpenLeadCapture }: HeroCarouselProps) {
             aria-label="Hero Features Carousel"
         >
             {/* Visually hidden H1 for SEO, prevents multiple H1s */}
-            <h1 className="sr-only">MediSync - Turn Legacy Healthcare System into AI Systems</h1>
+            <h1 className="sr-only">AnySync - Turn Legacy Healthcare System into AI Systems</h1>
 
-            {/* Main Carousel Area - Using Liquid Glass Design System */}
+            {/* Main Carousel Area - Using Pronounced Liquid Glass Design System */}
             <div
-                className="liquid-glass-content-card hero-carousel-container relative overflow-hidden p-1"
+                className="liquid-glass-pronounced hero-carousel-container relative overflow-hidden p-1 animate-liquid-fade-in"
                 aria-live={isHovered ? 'polite' : 'off'}
             >
-                {/* Animated gradient border accent */}
-                <div className="absolute inset-0 -z-10 rounded-[28px] opacity-40 will-change-transform" style={{
-                    background: 'linear-gradient(135deg, #0056d2, #00e8c6, #0056d2, #00e8c6)',
+                {/* Animated gradient border accent - using design tokens */}
+                <div className="absolute inset-0 -z-10 rounded-[28px] opacity-50 will-change-transform" style={{
+                    background: 'var(--gradient-brand-animated)',
                     backgroundSize: '300% 300%',
                     animation: 'gradientBorderShift 8s ease infinite',
                 }} />
@@ -85,30 +86,55 @@ export function HeroCarousel({ isDark, onOpenLeadCapture }: HeroCarouselProps) {
                                     {/* LEFT: Text content */}
                                     <div className="flex-1 min-w-0 text-center lg:text-left">
                                         {/* Logo + badge row */}
-                                        <div className="flex items-center justify-center lg:justify-start gap-3 mb-5">
-                                            <img src="/logo.png" fetchPriority="high" alt="MediSync logo - AI-powered healthcare BI platform" className="w-10 h-10 object-contain" />
-                                            <span className={`text-sm font-bold tracking-wide ${isDark ? 'text-white/70' : 'text-slate-500'}`}>MediSync</span>
+                                        <div className="flex items-center justify-center lg:justify-start gap-3 mb-5 animate-fade-in-down" style={{ animationDelay: '100ms' }}>
+                                            <img src="/logo.png" fetchPriority="high" alt="AnySync logo - AI-powered healthcare BI platform" className="w-10 h-10 object-contain" />
+                                            <span className={`text-sm font-bold tracking-wide ${isDark ? 'text-white/70' : 'text-slate-500'}`}>AnySync</span>
                                         </div>
 
                                         {/* Gradient headline as H2 for SEO */}
-                                        <h2 className="hero-gradient-text text-3xl sm:text-4xl lg:text-[2.75rem] xl:text-5xl font-extrabold leading-[1.15] tracking-tight mb-5">
+                                        <h2 className="hero-gradient-text text-3xl sm:text-4xl lg:text-[2.75rem] xl:text-5xl font-extrabold leading-[1.15] tracking-tight mb-5 animate-fade-in-up" style={{ animationDelay: '200ms' }}>
                                             {t(`heroCarousel.${item}.title`)}
                                         </h2>
 
+                                        {/* Subtitle / Tagline */}
+                                        <p className={`text-sm sm:text-base font-medium tracking-wide mb-4 ${isDark ? 'text-slate-400' : 'text-slate-500'} animate-fade-in-up`}
+                                           style={{ animationDelay: '250ms' }}>
+                                            {t(`heroCarousel.${item}.subtitle`)}
+                                        </p>
+
                                         {/* Description */}
-                                        <p className={`text-base sm:text-lg leading-relaxed mb-7 max-w-xl mx-auto lg:mx-0 ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
+                                        <p className={`text-base sm:text-lg leading-relaxed mb-4 max-w-xl mx-auto lg:mx-0 ${isDark ? 'text-slate-400' : 'text-slate-600'} animate-fade-in-up`} style={{ animationDelay: '300ms' }}>
                                             {t(`heroCarousel.${item}.description`)}
                                         </p>
 
-                                        {/* CTA Button - wired to action */}
-                                        <div className="mb-8">
-                                            <button className="hero-cta" type="button" onClick={onOpenLeadCapture}>
+                                        {/* Capability strip - slide 2 only */}
+                                        {item === 'slide2' && (
+                                            <div className="flex flex-wrap justify-center lg:justify-start gap-3 mb-6 animate-fade-in-up" style={{ animationDelay: '350ms' }}>
+                                                {(['bi', 'accountant', 'reports', 'analytics'] as const).map((cap) => (
+                                                    <div
+                                                        key={cap}
+                                                        className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold transition-transform hover:scale-105 ${isDark ? 'bg-white/5 text-slate-300' : 'bg-slate-100 text-slate-600'}`}
+                                                    >
+                                                        <div className={`w-2 h-2 rounded-full ${isDark ? 'bg-teal-400' : 'bg-blue-500'}`} />
+                                                        {t(`heroCarousel.capabilities.${cap}`)}
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        )}
+
+                                        {/* CTA Button - with pronounced glass and hover glow */}
+                                        <div className="mb-8 animate-fade-in-up" style={{ animationDelay: '400ms' }}>
+                                            <button
+                                                className={CTA_CLASSES.HERO}
+                                                type="button"
+                                                onClick={onOpenLeadCapture}
+                                            >
                                                 {t(`heroCarousel.${item}.cta`)}
                                             </button>
                                         </div>
 
                                         {/* Stat counters with Top Rated Badge */}
-                                        <div className="flex flex-wrap justify-center lg:justify-start gap-4 sm:gap-6 items-center">
+                                        <div className="flex flex-wrap justify-center lg:justify-start gap-4 sm:gap-6 items-center animate-fade-in-up" style={{ animationDelay: '500ms' }}>
                                             <div className="liquid-glass-badge flex items-center gap-1 px-3 py-1.5" aria-label="Rated 4.9 out of 5 stars based on 154 reviews">
                                                 <div className="flex text-amber-400">
                                                     {'★'.repeat(5)}
@@ -116,8 +142,8 @@ export function HeroCarousel({ isDark, onOpenLeadCapture }: HeroCarouselProps) {
                                                 <span className={`text-xs ml-1 font-bold ${isDark ? 'text-slate-200' : 'text-slate-700'}`}>4.9/5</span>
                                             </div>
 
-                                            {['stat1', 'stat2', 'stat3'].map((stat) => (
-                                                <div key={stat} className={`flex items-center gap-2 text-sm font-semibold ${isDark ? 'text-slate-200' : 'text-slate-700'}`}>
+                                            {['stat1', 'stat2', 'stat3'].map((stat, i) => (
+                                                <div key={stat} className={`flex items-center gap-2 text-sm font-semibold ${isDark ? 'text-slate-200' : 'text-slate-700'}`} style={{ animationDelay: `${600 + i * 100}ms` }}>
                                                     <div className={`w-2 h-2 rounded-full ${isDark ? 'bg-teal-400' : 'bg-blue-500'}`} />
                                                     {t(`heroCarousel.${item}.${stat}`)}
                                                 </div>
@@ -125,8 +151,8 @@ export function HeroCarousel({ isDark, onOpenLeadCapture }: HeroCarouselProps) {
                                         </div>
                                     </div>
 
-                                    {/* RIGHT: SVG Illustration */}
-                                    <div className="shrink-0 w-full max-w-[260px] sm:max-w-[300px] lg:max-w-[340px]">
+                                    {/* RIGHT: SVG Illustration - with floating animation */}
+                                    <div className="shrink-0 w-full max-w-[260px] sm:max-w-[300px] lg:max-w-[340px] animate-float-medium">
                                         <HeroIllustration slide={item} isDark={isDark} />
                                     </div>
                                 </div>
@@ -135,13 +161,14 @@ export function HeroCarousel({ isDark, onOpenLeadCapture }: HeroCarouselProps) {
                     })}
                 </div>
 
-                {/* Progress bar */}
-                <div className={`h-1 ${isDark ? 'bg-white/5' : 'bg-slate-100'}`}>
+                {/* Progress bar - with gradient shine using tokens */}
+                <div className={`h-1 ${isDark ? 'bg-white/5' : 'bg-slate-100'} rounded-full overflow-hidden`}>
                     <div
                         key={`progress-${slideKey}`}
-                        className="h-full rounded-full"
+                        className="h-full rounded-full animate-shine"
                         style={{
-                            background: 'linear-gradient(90deg, #0056d2, #00e8c6)',
+                            background: 'var(--gradient-brand-shift)',
+                            backgroundSize: '200% 100%',
                             animation: isHovered ? 'none' : 'heroProgress 6s linear forwards',
                             width: isHovered ? '100%' : '0%',
                         }}
@@ -149,8 +176,8 @@ export function HeroCarousel({ isDark, onOpenLeadCapture }: HeroCarouselProps) {
                 </div>
             </div>
 
-            {/* Dot indicators */}
-            <div className="flex justify-center gap-2 mt-4" role="tablist" aria-label="Carousel slide controls">
+            {/* Dot indicators - visually hidden, kept for keyboard and screen reader navigation (Option B) */}
+            <div className="sr-only flex justify-center gap-3 mt-4" role="tablist" aria-label="Carousel slide controls">
                 {carouselItems.map((_, index) => (
                     <button
                         key={index}
@@ -160,15 +187,26 @@ export function HeroCarousel({ isDark, onOpenLeadCapture }: HeroCarouselProps) {
                         aria-selected={index === currentIndex}
                         aria-controls={`slide-panel-${index}`}
                         aria-label={`Go to slide ${index + 1}`}
-                        className={`hero-dot ${index === currentIndex ? 'active' : ''}`}
+                        className={`hero-dot ${index === currentIndex ? 'active' : ''} transition-all duration-300 liquid-focus-gold`}
+                        style={{
+                            width: index === currentIndex ? '24px' : '10px',
+                            height: '10px',
+                            borderRadius: 'var(--radius-full)',
+                            backgroundColor: index === currentIndex
+                                ? 'var(--brand-secondary)'
+                                : isDark ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.1)',
+                            boxShadow: index === currentIndex
+                                ? 'var(--shadow-glow-secondary)'
+                                : 'none',
+                        }}
                         onClick={() => goToSlide(index)}
                     />
                 ))}
             </div>
 
-            {/* Trust Marquee Strip - Using Liquid Glass Subtle */}
+            {/* Trust Marquee Strip - Using Pronounced Liquid Glass */}
             <div
-                className="liquid-glass-subtle mt-10 rounded-2xl py-4 overflow-hidden"
+                className="liquid-glass-pronounced mt-10 rounded-2xl py-4 overflow-hidden"
                 style={{ WebkitMaskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)', maskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)' }}
             >
                 <p className={`text-center text-[10px] uppercase tracking-[0.2em] font-semibold mb-3 ${isDark ? 'text-slate-500' : 'text-slate-400'}`}>
