@@ -18,7 +18,7 @@ import arCouncil from './locales/ar/council.json'
 import arCopilot from './locales/ar/copilot.json'
 
 /**
- * i18n Configuration for MediSync
+ * i18n Configuration for AnySync
  *
  * Standards: W3C i18n (lang/dir), BCP 47 for Intl formatting, i18next best practices.
  * See docs/i18n-architecture.md for locale chain, RTL, and number/date formatting.
@@ -38,12 +38,12 @@ import arCopilot from './locales/ar/copilot.json'
 const enResources = {
   translation: {
     app: {
-      name: 'MediSync',
+      name: 'AnySync',
       tagline: 'Turn Legacy System into AI Systems',
       toggleLanguage: 'Toggle language',
     },
     announcement: {
-      message: '🎉 New: AI Accountant module is now available!',
+      message: 'Convert your legacy systems into AI systems with AnySync',
     },
     welcome: {
       badge: 'The Agentic AI Bridge for Legacy Healthcare IT',
@@ -51,27 +51,36 @@ const enResources = {
     heroCarousel: {
       slide1: {
         title: "Don't Replace Your Software. Make It Speak.",
-        description: 'Transform your legacy HIMS, LIMS, Accounting, and Custom Databases into a conversational AI interface — without changing a single line of code.',
-        cta: 'Get Started Free',
-        stat1: '10x Faster Insights',
-        stat2: 'Zero Migration',
-        stat3: '99.9% Uptime',
-      },
-      slide2: {
-        title: 'Zero Code. Zero Migration. Instant AI.',
-        description: 'Our Agentic AI layers securely over your existing infrastructure. Ask questions in plain English and get instant answers from any legacy database.',
-        cta: 'See It In Action',
+        subtitle: 'Any System. Any Database. Zero Migration.',
+        description: 'Ask questions in plain language. Get instant answers from HIMS, Tally, SQL, or any legacy system. No rip-and-replace required.',
+        cta: 'Start Free Trial',
         stat1: '50+ Integrations',
         stat2: '< 2 Min Setup',
-        stat3: '24/7 AI Agents',
+        stat3: 'Zero Code Changes',
+      },
+      slide2: {
+        title: 'One Platform. Every Capability.',
+        subtitle: 'Conversational BI · AI Accountant · Smart Reports · Deep Analytics',
+        description: 'From natural language queries to automated accounting sync — all powered by 58 specialized AI agents working together.',
+        cta: 'See It In Action',
+        stat1: '58 AI Agents',
+        stat2: 'NL → SQL → Charts',
+        stat3: 'Auto Ledger Mapping',
       },
       slide3: {
-        title: 'Your Legacy Systems. Supercharged.',
-        description: 'Stop ripping and replacing. Keep the systems your teams already know — and let our AI unlock instant analytics, smart accounting, and prescriptive insights.',
+        title: 'Built for Healthcare & Finance.',
+        subtitle: 'HIPAA Compliant · SOC 2 Certified · 99.9% Uptime',
+        description: 'Trusted by clinics, labs, and hospitals across 12 countries. Average savings: ₹2Cr+ annually with full compliance.',
         cta: 'Book a Demo',
-        stat1: '₹2Cr+ Saved Avg.',
-        stat2: 'HIPAA Compliant',
-        stat3: 'Custom Integrations',
+        stat1: '₹2Cr+ Avg Savings',
+        stat2: '12 Countries',
+        stat3: '500+ Clinics',
+      },
+      capabilities: {
+        bi: 'Conversational BI',
+        accountant: 'AI Accountant',
+        reports: 'Smart Reports',
+        analytics: 'Deep Analytics',
       },
       trustStrip: {
         item1: 'HIMS',
@@ -141,7 +150,7 @@ const enResources = {
     faq: {
       title: 'Frequently Asked Questions',
       q1: 'Do I need to change or upgrade my current software?',
-      a1: 'Absolutely not. This is the entire purpose of MediSync. Whether you use HIMS, LIMS, or older accounting systems, we plug into what you already have. You keep your systems; we just make them smart, conversational, and instantly accessible.',
+      a1: 'Absolutely not. This is the entire purpose of AnySync. Whether you use HIMS, LIMS, or older accounting systems, we plug into what you already have. You keep your systems; we just make them smart, conversational, and instantly accessible.',
       q2: 'How does it actually work?',
       a2: 'You type a question in natural language. Our specialized backend AI Agents instantly translate your question into technical code (like SQL or API calls), query your old databases in real-time, and return a beautiful visual report. It\'s like having a senior data engineer on staff 24/7.',
       q3: 'Can it connect to my highly specific, custom-built system?',
@@ -156,7 +165,7 @@ const enResources = {
     },
     footer: {
       copyright:
-        '© 2026 MediSync. The World\'s Smartest AI-Powered Conversational BI & Intelligent Accounting Platform for Healthcare.',
+        '© 2026 AnySync. The World\'s Smartest AI-Powered Conversational BI & Intelligent Accounting Platform for Healthcare.',
     },
     common: {
       loading: 'Loading Excellence...',
@@ -217,7 +226,7 @@ const enResources = {
       },
       section: {
         title: 'Everything You Need',
-        subtitle: 'From conversational queries to automated accounting, MediSync connects your healthcare data in ways you never thought possible.',
+        subtitle: 'From conversational queries to automated accounting, AnySync connects your healthcare data in ways you never thought possible.',
       },
       footer: {
         product: 'Product',
@@ -240,7 +249,7 @@ const enResources = {
         termsOfService: 'Terms of Service',
         cookiePolicy: 'Cookie Policy',
         compliance: 'Compliance',
-        copyright: '© {{year}} MediSync. AI-Powered Conversational BI & Intelligent Accounting for Healthcare.',
+        copyright: '© {{year}} AnySync. AI-Powered Conversational BI & Intelligent Accounting for Healthcare.',
       },
     },
     social: {
@@ -472,7 +481,7 @@ const arResources = {
 
 // Detect initial language (order: stored preference → URL → Accept-Language → default)
 const detectInitialLanguage = (): string => {
-  const storedLang = localStorage.getItem('medisync-locale')
+  const storedLang = localStorage.getItem('AnySync-locale')
   if (storedLang === 'ar' || storedLang === 'en') {
     return storedLang
   }
@@ -538,7 +547,7 @@ void i18n.use(initReactI18next).init({
 
 // Save language preference on change
 i18n.on('languageChanged', (lng) => {
-  localStorage.setItem('medisync-locale', lng)
+  localStorage.setItem('AnySync-locale', lng)
 })
 
 /** Map app language code to BCP 47 locale tag for Intl (number, date, currency) formatting. */
