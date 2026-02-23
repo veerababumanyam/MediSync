@@ -1,4 +1,4 @@
-// Package agents provides AI agent implementations for MediSync.
+// Package agents provides AI agent implementations for AnySync.
 //
 // This file implements the agent supervisor that orchestrates all agents.
 package agents
@@ -11,10 +11,10 @@ import (
 	"sync"
 	"time"
 
-	"github.com/medisync/medisync/internal/agents/shared"
+	"github.com/AnySync/AnySync/internal/agents/shared"
 )
 
-// Supervisor orchestrates all AI agents in the MediSync platform.
+// Supervisor orchestrates all AI agents in the AnySync platform.
 type Supervisor struct {
 	agents     map[string]Agent
 	logger     *slog.Logger

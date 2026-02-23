@@ -1,59 +1,79 @@
-import React from 'react';
-import { useTranslation } from 'react-i18next';
-import type { ChatMessage } from '../../services/api';
-import { ChartRenderer } from './ChartRenderer';
-import { formatTime as formatTimeLocale } from '../../utils/localeUtils';
+/**
+ * Message List Component
+ *
+ * Displays chat messages with pronounced glassmorphism,
+ * entrance animations, and enhanced accessibility.
+ *
+ * Features:
+ * - WCAG 3.0 APCA compliant text
+ * - Pronounced glass effect (iOS 26 style)
+ * - Staggered entrance animations
+ * - Hover lift effects on user messages
+ * - Chart visualization with glass cards
+ * - Confidence score color coding
+ * - Time formatting with locale support
+ *
+ * @module components/chat/MessageList
+ * @version 2.1.0
+ */
+
+import React from 'react'
+import { useTranslation } from 'react-i18next'
+import type { ChatMessage } from '../../services/api'
+import { ChartRenderer } from './ChartRenderer'
+import { formatTime as formatTimeLocale } from '../../utils/localeUtils'
 
 interface MessageListProps {
-  messages: ChatMessage[];
-  locale: string;
+  messages: ChatMessage[]
+  locale: string
 }
 
 export const MessageList: React.FC<MessageListProps> = ({ messages, locale }) => {
-  const { t } = useTranslation('chat');
+  const { t } = useTranslation('chat')
 
   const formatTime = (timestamp: string) => {
-    const date = new Date(timestamp);
-    return formatTimeLocale(date, locale);
-  };
+    const date = new Date(timestamp)
+    return formatTimeLocale(date, locale)
+  }
 
   const formatConfidence = (confidence?: number) => {
-    if (confidence === undefined) return null;
-    const percentage = Math.round(confidence);
+    if (confidence === undefined) return null
+    const percentage = Math.round(confidence)
     const colorClass =
       percentage >= 90
-        ? 'text-green-600 dark:text-green-400'
+        ? 'text-success'
         : percentage >= 70
-          ? 'text-yellow-600 dark:text-yellow-400'
-          : 'text-red-600 dark:text-red-400';
+          ? 'text-warning'
+          : 'text-error'
     return (
-      <span className={`text-xs ${colorClass}`}>
+      <span className={`text-xs ${colorClass} font-medium`}>
         {t('message.confidence', { value: percentage })}
       </span>
-    );
-  };
+    )
+  }
 
   return (
     <div className="space-y-6" role="list" aria-label={t('messageList.ariaLabel', 'Chat messages')}>
-      {messages.map((message) => (
+      {messages.map((message, index) => (
         <div
           key={message.id}
           role="listitem"
-          className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'
+          className={`flex animate-liquid-fade-in ${message.role === 'user' ? 'justify-end' : 'justify-start'
             }`}
+          style={{ animationDelay: `${index * 50}ms` }}
         >
           <div
-            className={`max-w-[80%] p-4 ${message.role === 'user'
-                ? 'liquid-glass-cta text-white rounded-2xl rounded-br-md'
-                : 'liquid-glass-content-card text-slate-900 dark:text-white rounded-2xl rounded-bl-md'
+            className={`max-w-[80%] p-4 transition-all duration-300 ${message.role === 'user'
+              ? 'liquid-glass-pronounced liquid-glass-brand liquid-glass-hover-lift liquid-glass-hover-glow text-white rounded-2xl rounded-br-md shadow-lg'
+              : 'liquid-glass-pronounced liquid-text-primary rounded-2xl rounded-bl-md'
               }`}
           >
             {/* Message Content */}
             <div className="prose prose-sm dark:prose-invert max-w-none">
               {message.role === 'assistant' && (
-                <div className="flex items-center gap-2 mb-2">
-                  <div className="w-5 h-5 rounded-full flex items-center justify-center" style={{
-                    background: 'linear-gradient(135deg, #2750a8 0%, #18929d 100%)'
+                <div className="flex items-center gap-2 mb-3">
+                  <div className="w-6 h-6 rounded-lg flex items-center justify-center shadow-md" style={{
+                    background: 'var(--gradient-logo-spectrum)',
                   }}>
                     <svg
                       className="w-4 h-4 text-white"
@@ -70,17 +90,17 @@ export const MessageList: React.FC<MessageListProps> = ({ messages, locale }) =>
                       />
                     </svg>
                   </div>
-                  <span className="text-xs font-medium liquid-text-secondary">
-                    MediSync BI
+                  <span className="text-xs font-semibold text-secondary">
+                    AnySync BI
                   </span>
                 </div>
               )}
 
               <p className="text-sm leading-relaxed whitespace-pre-wrap">{message.content}</p>
 
-              {/* Chart Visualization - Liquid Glass Card */}
+              {/* Chart Visualization - Pronounced Glass Card */}
               {message.role === 'assistant' && message.chartSpec && (
-                <div className="mt-4 liquid-glass-subtle rounded-xl p-4">
+                <div className="mt-4 liquid-glass-pronounced liquid-glass-hover-lift rounded-xl p-4 shadow-md">
                   <ChartRenderer
                     chartType={message.chartSpec.type}
                     data={message.chartSpec.chart}
@@ -93,7 +113,7 @@ export const MessageList: React.FC<MessageListProps> = ({ messages, locale }) =>
               {message.role === 'assistant' && (
                 <div className="mt-3 flex items-center justify-between">
                   {formatConfidence(message.confidence)}
-                  <span className="text-xs liquid-text-secondary">
+                  <span className="text-secondary">
                     {formatTime(message.createdAt)}
                   </span>
                 </div>
@@ -109,7 +129,7 @@ export const MessageList: React.FC<MessageListProps> = ({ messages, locale }) =>
         </div>
       ))}
     </div>
-  );
-};
+  )
+}
 
-export default MessageList;
+export default MessageList

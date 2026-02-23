@@ -1,4 +1,4 @@
-// Package shared provides common types and interfaces for MediSync AI agents.
+// Package shared provides common types and interfaces for AnySync AI agents.
 //
 // This file defines the core types used across all agents including request/response
 // structures, confidence scoring, visualization specifications, and error types.

@@ -198,7 +198,7 @@ policies/
 ### Main Sync Policy (tally_sync.rego)
 
 ```rego
-package medisync.tally
+package AnySync.tally
 
 default allow = false
 
@@ -263,7 +263,7 @@ get_required_levels(amount) := levels {
 ### Approval Policy (approval.rego)
 
 ```rego
-package medisync.approval
+package AnySync.approval
 
 # Can user approve at specific level?
 allow_approval(user, level, entry_amount) {
@@ -316,7 +316,7 @@ func NewOPAClient(url string) (*OPAClient, error) {
 
 func (c *OPAClient) Allow(ctx context.Context, rule string, input interface{}) (bool, error) {
     resp, err := c.client.Decision(ctx, opa.DecisionOptions{
-        Path:  "/medisync/tally/allow",
+        Path:  "/AnySync/tally/allow",
         Input: input,
     })
     if err != nil {
@@ -339,7 +339,7 @@ func (c *OPAClient) CanApprove(ctx context.Context, userID, requestID string, le
         "level":      level,
     }
 
-    return c.Allow(ctx, "/medisync/approval/allow_approval", input)
+    return c.Allow(ctx, "/AnySync/approval/allow_approval", input)
 }
 ```
 
@@ -547,9 +547,9 @@ CREATE INDEX idx_audit_timestamp ON audit_log(timestamp DESC);
 COMMENT ON TABLE audit_log IS 'Immutable audit log - no UPDATE/DELETE allowed';
 
 -- Grant read-only to applications
-GRANT INSERT ON audit_log TO medisync_app;
-GRANT SELECT ON audit_log TO medisync_readonly;
-REVOKE UPDATE, DELETE ON audit_log FROM medisync_app;
+GRANT INSERT ON audit_log TO AnySync_app;
+GRANT SELECT ON audit_log TO AnySync_readonly;
+REVOKE UPDATE, DELETE ON audit_log FROM AnySync_app;
 ```
 
 ## Security Checklist

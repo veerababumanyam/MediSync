@@ -1,6 +1,6 @@
-# MediSync Testing Guide
+# AnySync Testing Guide
 
-Comprehensive testing strategies for the MediSync platform.
+Comprehensive testing strategies for the AnySync platform.
 
 ## Testing Pyramid
 
@@ -154,7 +154,7 @@ describe('QueryInput', () => {
 
 ```dart
 import 'package:flutter_test/flutter_test.dart';
-import 'package:medisync/models/query_result.dart';
+import 'package:AnySync/models/query_result.dart';
 
 void main() {
   group('QueryResult', () {
@@ -598,7 +598,7 @@ jobs:
       postgres:
         image: postgres:18.2
         env:
-          POSTGRES_DB: medisync_test
+          POSTGRES_DB: AnySync_test
           POSTGRES_USER: test
           POSTGRES_PASSWORD: test
         options: >-

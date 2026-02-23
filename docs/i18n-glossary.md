@@ -1,4 +1,4 @@
-# MediSync — Bilingual Term Glossary (English / Arabic)
+# AnySync — Bilingual Term Glossary (English / Arabic)
 
 **Version:** 1.0 | **Created:** February 19, 2026  
 **Status:** Living Document — Update via E-07 Bilingual Glossary Sync Agent  

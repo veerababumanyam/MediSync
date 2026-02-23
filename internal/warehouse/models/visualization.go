@@ -1,4 +1,4 @@
-// Package models provides data models for the MediSync warehouse.
+// Package models provides data models for the AnySync warehouse.
 //
 // This file defines the VisualizationSpec model and related types for
 // chart type routing and visualization generation in the A-03 agent.

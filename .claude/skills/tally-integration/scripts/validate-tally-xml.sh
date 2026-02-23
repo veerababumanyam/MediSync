@@ -149,17 +149,17 @@ fi
 echo -n "Checking RemoteID... "
 if grep -q '<REMOTEID>' "$XML_FILE"; then
     REMOTEID=$(grep -oP '<REMOTEID>\K[^<]+' "$XML_FILE")
-    if [[ $REMOTEID =~ ^medisync-.+$ ]]; then
+    if [[ $REMOTEID =~ ^AnySync-.+$ ]]; then
         echo -e "${GREEN}OK${NC} ($REMOTEID)"
     else
-        echo -e "${YELLOW}WARNING${NC} (RemoteID doesn't follow convention 'medisync-*')"
+        echo -e "${YELLOW}WARNING${NC} (RemoteID doesn't follow convention 'AnySync-*')"
     fi
 else
     echo -e "${YELLOW}WARNING${NC} (No RemoteID found - duplicate risk)"
 fi
 
 # 8. Check for UDF tracking fields
-echo -n "Checking MediSync UDF fields... "
+echo -n "Checking AnySync UDF fields... "
 MSYNC_UDF=("MSYNC.ENTRYID" "MSYNC.SYNCEDBY" "MSYNC.SYNCDATETIME")
 MISSING_UDF=()
 

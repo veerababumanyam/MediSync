@@ -10,7 +10,7 @@
 
 ## 1. Objectives
 
-Harden MediSync for regulated healthcare environments: enforce HIPAA and GDPR compliance controls across all 58 agents and all data pathways, extend row/column security to the search and analytics layer (Module D), implement comprehensive audit logging for every data access event system-wide, enforce sensitive-question whitelisting to prevent unauthorised PII exposure through the chat interface, and activate the full compliance reporting suite for audit evidence.
+Harden AnySync for regulated healthcare environments: enforce HIPAA and GDPR compliance controls across all 58 agents and all data pathways, extend row/column security to the search and analytics layer (Module D), implement comprehensive audit logging for every data access event system-wide, enforce sensitive-question whitelisting to prevent unauthorised PII exposure through the chat interface, and activate the full compliance reporting suite for audit evidence.
 
 ---
 
@@ -30,7 +30,7 @@ Harden MediSync for regulated healthcare environments: enforce HIPAA and GDPR co
 
 ### Out of Scope
 - External regulatory submission tooling (handled by customer compliance team)
-- Clinical data DLP beyond patient record masking (out of MediSync scope)
+- Clinical data DLP beyond patient record masking (out of AnySync scope)
 
 ---
 
@@ -59,7 +59,7 @@ Extended from C-05 to cover Module D search. Policies applied post-query at the 
 
 ```rego
 # OPA policy: search_access.rego
-package medisync.search
+package AnySync.search
 
 import rego.v1
 
@@ -84,7 +84,7 @@ allow_result if {
 }
 ```
 
-**OPA integration point:** D-01 NL Search and D-12 Federated Query both evaluate `medisync.search.allow_result` on each result item before returning to client.
+**OPA integration point:** D-01 NL Search and D-12 Federated Query both evaluate `AnySync.search.allow_result` on each result item before returning to client.
 
 ---
 
@@ -92,7 +92,7 @@ allow_result if {
 
 ```rego
 # OPA policy: chat_pii_guard.rego
-package medisync.chat
+package AnySync.chat
 
 import rego.v1
 

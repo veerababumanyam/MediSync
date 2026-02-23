@@ -1,14 +1,14 @@
-# MediSync ETL Operations Policy Tests
-# Package: medisync.etl_test
+# AnySync ETL Operations Policy Tests
+# Package: AnySync.etl_test
 # Description: Unit tests for ETL authorization policy
 #
 # Run tests with: opa test policies/ -v
 
-package medisync.etl_test
+package AnySync.etl_test
 
 import rego.v1
 
-import data.medisync.etl
+import data.AnySync.etl
 
 # =============================================================================
 # TEST: ETL SERVICE EXTRACTION

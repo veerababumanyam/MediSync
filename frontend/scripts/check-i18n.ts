@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * MediSync i18n Validation Script
+ * AnySync i18n Validation Script
  *
  * Validates translation files for:
  * - Key parity: All EN keys must exist in AR
@@ -167,7 +167,7 @@ function validateNamespace(namespace: string): void {
  * Main validation function
  */
 function main(): void {
-  console.log('\n🌐 MediSync i18n Validation');
+  console.log('\n🌐 AnySync i18n Validation');
   console.log('='.repeat(40));
 
   // Get all namespace files from source locale

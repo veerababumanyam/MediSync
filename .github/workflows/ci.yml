@@ -1,4 +1,4 @@
-# MediSync Main CI Workflow
+# AnySync Main CI Workflow
 #
 # Runs on all pushes to main and pull requests.
 # Validates code quality, tests, and i18n compliance.

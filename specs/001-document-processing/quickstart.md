@@ -44,13 +44,13 @@ go run ./cmd/migrate up
 
 ```bash
 # Set required environment variables
-export DATABASE_URL="postgres://medisync:password@localhost:5432/medisync?sslmode=disable"
+export DATABASE_URL="postgres://AnySync:password@localhost:5432/AnySync?sslmode=disable"
 export REDIS_URL="redis://localhost:6379"
 export NATS_URL="nats://localhost:4222"
 export S3_ENDPOINT="http://localhost:9000"
 export S3_ACCESS_KEY="minioadmin"
 export S3_SECRET_KEY="minioadmin"
-export S3_BUCKET="medisync-documents"
+export S3_BUCKET="AnySync-documents"
 export OCR_SERVICE_URL="http://localhost:8868"
 
 # Start API server
@@ -272,7 +272,7 @@ const (
 | `S3_ENDPOINT` | S3-compatible endpoint | Required |
 | `S3_ACCESS_KEY` | S3 access key | Required |
 | `S3_SECRET_KEY` | S3 secret key | Required |
-| `S3_BUCKET` | Document storage bucket | `medisync-documents` |
+| `S3_BUCKET` | Document storage bucket | `AnySync-documents` |
 | `OCR_SERVICE_URL` | PaddleOCR service URL | `http://localhost:8868` |
 | `MAX_FILE_SIZE_MB` | Maximum upload size | `25` |
 | `MAX_PAGES` | Maximum pages per document | `20` |

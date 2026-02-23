@@ -123,7 +123,7 @@ export const LiquidGlassModal: React.FC<LiquidGlassModalProps> = ({
             {title && (
               <h2
                 id={titleId}
-                className="text-xl font-semibold mb-4 liquid-text-primary"
+                className="text-xl font-semibold mb-4 text-primary"
               >
                 {title}
               </h2>
@@ -134,7 +134,7 @@ export const LiquidGlassModal: React.FC<LiquidGlassModalProps> = ({
 
             {/* Actions */}
             {actions && (
-              <div className="flex justify-end gap-3 pt-4 border-t border-white/10">
+              <div className="flex justify-end gap-3 pt-4 border-t border-glass-soft">
                 {actions}
               </div>
             )}

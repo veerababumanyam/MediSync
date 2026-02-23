@@ -1,4 +1,4 @@
-// Package storage provides object storage implementations for MediSync.
+// Package storage provides object storage implementations for AnySync.
 package storage
 
 import (

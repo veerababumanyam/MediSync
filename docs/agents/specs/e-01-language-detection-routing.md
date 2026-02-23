@@ -12,7 +12,7 @@
 
 ## 1. Purpose
 
-Acts as the **mandatory pre-processing gate** for all user queries entering the MediSync chat pipeline. Detects the language of the incoming query, resolves the active user locale, normalises cross-lingual intent so downstream SQL agents always receive unambiguous English-intent metadata, and injects a `locale` tag into the Genkit flow context that all downstream agents use to format their responses in the user's preferred language.
+Acts as the **mandatory pre-processing gate** for all user queries entering the AnySync chat pipeline. Detects the language of the incoming query, resolves the active user locale, normalises cross-lingual intent so downstream SQL agents always receive unambiguous English-intent metadata, and injects a `locale` tag into the Genkit flow context that all downstream agents use to format their responses in the user's preferred language.
 
 > **Addresses:** PRD §6.10.5 (AI multilingual requirements), PRD §5 AI Skill #5, User Stories US35, US36.  
 > **Architecture reference:** [docs/i18n-architecture.md §5](../../i18n-architecture.md)

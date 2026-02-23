@@ -1,4 +1,4 @@
-# MediSync — Master Project Plan
+# AnySync — Master Project Plan
 
 **Version:** 1.0  
 **Status:** Active  
@@ -10,7 +10,7 @@
 
 ## Executive Summary
 
-MediSync is an AI-powered, chat-based Business Intelligence platform that unifies operational data from a **Healthcare Information Management System (HIMS)** and financial data from **Tally ERP**. The platform delivers four core modules powered by **58 autonomous AI agents**, orchestrated via **Google Genkit** and the **A2A Protocol**, with first-class English and Arabic (RTL) support.
+AnySync is an AI-powered, chat-based Business Intelligence platform that unifies operational data from a **Healthcare Information Management System (HIMS)** and financial data from **Tally ERP**. The platform delivers four core modules powered by **58 autonomous AI agents**, orchestrated via **Google Genkit** and the **A2A Protocol**, with first-class English and Arabic (RTL) support.
 
 This master project plan organises all 18 delivery phases into cohesive workstreams with clearly-defined scope, deliverables, team allocations, risks, and acceptance criteria for each phase. Every phase has a dedicated document linked below.
 
@@ -205,4 +205,4 @@ A phase is considered **Done** when all of the following are true:
 
 ---
 
-*Document Version: 1.0 | Last Updated: February 19, 2026 | Owner: MediSync Project Management*
+*Document Version: 1.0 | Last Updated: February 19, 2026 | Owner: AnySync Project Management*

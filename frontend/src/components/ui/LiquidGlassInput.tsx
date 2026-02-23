@@ -43,9 +43,9 @@ const liquidInputVariants = cva(
       // State variants
       state: {
         default: '',
-        error: 'border-red-400 focus:border-red-500 focus:shadow-[0_0_0_4px_rgba(239,68,68,0.15)]',
-        success: 'border-emerald-400 focus:border-emerald-500 focus:shadow-[0_0_0_4px_rgba(16,185,129,0.15)]',
-        warning: 'border-amber-400 focus:border-amber-500 focus:shadow-[0_0_0_4px_rgba(245,158,11,0.15)]',
+        error: 'border-error/40 focus:border-error focus:shadow-[0_0_0_4px_var(--color-error-alpha,rgba(239,68,68,0.15))]',
+        success: 'border-success/40 focus:border-success focus:shadow-[0_0_0_4px_var(--color-success-alpha,rgba(16,185,129,0.15))]',
+        warning: 'border-warning/40 focus:border-warning focus:shadow-[0_0_0_4px_var(--color-warning-alpha,rgba(245,158,11,0.15))]',
       },
       // Border radius
       radius: {
@@ -201,27 +201,27 @@ export const LiquidGlassInput = forwardRef<HTMLInputElement, LiquidGlassInputPro
     // Label classes for WCAG 3.0 Bronze contrast
     const labelClasses = cn(
       'block text-sm font-medium mb-1.5 transition-colors',
-      disabled ? 'text-slate-400 dark:text-slate-500' : 'text-slate-700 dark:text-slate-300',
-      inputState === 'error' && 'text-red-600 dark:text-red-400',
-      inputState === 'success' && 'text-emerald-600 dark:text-emerald-400',
-      inputState === 'warning' && 'text-amber-600 dark:text-amber-400'
+      disabled ? 'text-non-text' : 'text-secondary dark:text-slate-300',
+      inputState === 'error' && 'text-error',
+      inputState === 'success' && 'text-success',
+      inputState === 'warning' && 'text-warning'
     )
 
     // Helper text classes
     const helperTextClasses = cn(
       'mt-1.5 text-sm transition-colors',
-      inputState === 'error' && 'text-red-600 dark:text-red-400',
-      inputState === 'success' && 'text-emerald-600 dark:text-emerald-400',
-      inputState === 'warning' && 'text-amber-600 dark:text-amber-400',
-      inputState === 'default' && 'text-slate-500 dark:text-slate-400'
+      inputState === 'error' && 'text-error',
+      inputState === 'success' && 'text-success',
+      inputState === 'warning' && 'text-warning',
+      inputState === 'default' && 'text-muted'
     )
 
     // Character count classes
     const countClasses = cn(
       'text-xs mt-1.5 text-end transition-colors',
       maxLength && currentLength > maxLength * 0.9
-        ? 'text-red-500 dark:text-red-400'
-        : 'text-slate-400 dark:text-slate-500'
+        ? 'text-error'
+        : 'text-non-text'
     )
 
     return (
@@ -236,7 +236,7 @@ export const LiquidGlassInput = forwardRef<HTMLInputElement, LiquidGlassInputPro
         <div className="relative">
           {/* Prefix Icon */}
           {prefixIcon && (
-            <div className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500 pointer-events-none">
+            <div className="absolute left-3 top-1/2 -translate-y-1/2 text-non-text pointer-events-none">
               {prefixIcon}
             </div>
           )}
@@ -264,7 +264,7 @@ export const LiquidGlassInput = forwardRef<HTMLInputElement, LiquidGlassInputPro
             }
             aria-required={props.required || undefined}
             animate={{
-              borderColor: isFocused ? 'var(--ms-teal)' : undefined,
+              borderColor: isFocused ? 'var(--brand-secondary)' : undefined,
             }}
             transition={{ duration: 0.2 }}
             {...props}
@@ -272,7 +272,7 @@ export const LiquidGlassInput = forwardRef<HTMLInputElement, LiquidGlassInputPro
 
           {/* Suffix Icon or Loading Spinner */}
           {(suffixIcon || isLoading) && (
-            <div className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500 pointer-events-none">
+            <div className="absolute right-3 top-1/2 -translate-y-1/2 text-non-text pointer-events-none">
               {isLoading ? (
                 <svg
                   className="animate-spin h-4 w-4"
@@ -309,12 +309,12 @@ export const LiquidGlassInput = forwardRef<HTMLInputElement, LiquidGlassInputPro
               exit={{ opacity: 0, scale: 0.95 }}
               style={{
                 boxShadow: inputState === 'error'
-                  ? '0 0 0 4px rgba(239, 68, 68, 0.15)'
+                  ? '0 0 0 4px var(--color-error-alpha, rgba(239, 68, 68, 0.15))'
                   : inputState === 'success'
-                    ? '0 0 0 4px rgba(16, 185, 129, 0.15)'
+                    ? '0 0 0 4px var(--color-success-alpha, rgba(16, 185, 129, 0.15))'
                     : inputState === 'warning'
-                      ? '0 0 0 4px rgba(245, 158, 11, 0.15)'
-                      : '0 0 0 4px rgba(0, 191, 165, 0.15)',
+                      ? '0 0 0 4px var(--color-warning-alpha, rgba(245, 158, 11, 0.15))'
+                      : '0 0 0 4px var(--focus-ring-alpha, rgba(23, 181, 166, 0.15))',
               }}
               transition={{ duration: 0.2 }}
             />
@@ -430,9 +430,9 @@ export const LiquidGlassTextarea = forwardRef<HTMLTextAreaElement, LiquidGlassTe
       radius === 'sm' && 'rounded-md',
       radius === 'md' && 'rounded-lg',
       radius === 'lg' && 'rounded-xl',
-      inputState === 'error' && 'border-red-400 focus:border-red-500',
-      inputState === 'success' && 'border-emerald-400 focus:border-emerald-500',
-      inputState === 'warning' && 'border-amber-400 focus:border-amber-500',
+      inputState === 'error' && 'border-color-error/50 focus:border-color-error',
+      inputState === 'success' && 'border-color-success/50 focus:border-color-success',
+      inputState === 'warning' && 'border-color-warning/50 focus:border-color-warning',
       isFocused && 'scale-[1.005]',
       isLoading && 'pr-11',
       disabled && 'opacity-60 cursor-not-allowed',
@@ -444,8 +444,8 @@ export const LiquidGlassTextarea = forwardRef<HTMLTextAreaElement, LiquidGlassTe
         {label && (
           <label className={cn(
             'block text-sm font-medium mb-1.5',
-            disabled ? 'text-slate-400' : 'text-slate-700 dark:text-slate-300',
-            inputState === 'error' && 'text-red-600 dark:text-red-400'
+            disabled ? 'text-non-text' : 'text-secondary dark:text-neutral-300',
+            inputState === 'error' && 'text-error'
           )} htmlFor={props.id}>
             {label}
           </label>
@@ -473,7 +473,7 @@ export const LiquidGlassTextarea = forwardRef<HTMLTextAreaElement, LiquidGlassTe
 
           {/* Loading spinner */}
           {isLoading && (
-            <div className="absolute right-3 top-3 text-slate-400 dark:text-slate-500 pointer-events-none">
+            <div className="absolute right-3 top-3 text-non-text pointer-events-none">
               <svg
                 className="animate-spin h-4 w-4"
                 xmlns="http://www.w3.org/2000/svg"
@@ -502,10 +502,10 @@ export const LiquidGlassTextarea = forwardRef<HTMLTextAreaElement, LiquidGlassTe
         {(error || success || warning || helperText) && (
           <p className={cn(
             'mt-1.5 text-sm',
-            inputState === 'error' && 'text-red-600 dark:text-red-400',
-            inputState === 'success' && 'text-emerald-600 dark:text-emerald-400',
-            inputState === 'warning' && 'text-amber-600 dark:text-amber-400',
-            inputState === 'default' && 'text-slate-500 dark:text-slate-400'
+            inputState === 'error' && 'text-error',
+            inputState === 'success' && 'text-success',
+            inputState === 'warning' && 'text-warning',
+            inputState === 'default' && 'text-muted'
           )}>
             {error || success || warning || helperText}
           </p>
@@ -516,8 +516,8 @@ export const LiquidGlassTextarea = forwardRef<HTMLTextAreaElement, LiquidGlassTe
           <p className={cn(
             'text-xs mt-1.5 text-end',
             currentLength > maxLength * 0.9
-              ? 'text-red-500 dark:text-red-400'
-              : 'text-slate-400 dark:text-slate-500'
+              ? 'text-error'
+              : 'text-non-text'
           )}>
             {currentLength} / {maxLength}
           </p>
@@ -564,7 +564,7 @@ export const LiquidGlassSearch = forwardRef<HTMLInputElement, LiquidGlassSearchP
             <button
               type="button"
               onClick={onClear}
-              className="hover:text-slate-600 dark:hover:text-slate-300 transition-colors"
+              className="hover:text-primary dark:hover:text-neutral-100 transition-colors"
               tabIndex={-1}
               aria-label="Clear search"
             >

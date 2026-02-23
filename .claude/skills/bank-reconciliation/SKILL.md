@@ -5,7 +5,7 @@ description: Automatically match bank statement entries to existing Tally ledger
 
 # Bank Reconciliation Skill
 
-Guidelines for reconciling bank statements with internal Tally accounting records in MediSync.
+Guidelines for reconciling bank statements with internal Tally accounting records in AnySync.
 
 ## Matching Algorithm Logic
 

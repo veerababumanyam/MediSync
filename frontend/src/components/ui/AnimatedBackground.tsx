@@ -10,7 +10,7 @@ export interface AnimatedBackgroundProps {
  * AnimatedBackground Component
  *
  * Creates a dynamic mesh gradient background with floating animated orbs.
- * Part of the Liquid Glass design system for MediSync.
+ * Part of the Liquid Glass design system for AnySync.
  *
  * Features:
  * - Layered mesh gradient base with deep blues and purples

@@ -3,7 +3,7 @@
 **Input**: Design documents from `/specs/001-council-ai-consensus/`
 **Prerequisites**: plan.md, spec.md, research.md, data-model.md, contracts/openapi.yaml
 
-**Tests**: Included per MediSync Constitution Principle V (TDD requirement)
+**Tests**: Included per AnySync Constitution Principle V (TDD requirement)
 
 **Organization**: Tasks are grouped by user story to enable independent implementation and testing of each story.
 
@@ -227,7 +227,7 @@
 - [ ] T084 Run quickstart.md validation - verify all code examples work
 - [ ] T085 Add API documentation comments (godoc) to all exported functions
 - [ ] T086 Performance test deliberation latency (<10s for 95% of queries)
-- [ ] T087 Security review: verify medisync_readonly role usage, no SQL injection vectors
+- [ ] T087 Security review: verify AnySync_readonly role usage, no SQL injection vectors
 
 ---
 

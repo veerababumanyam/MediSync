@@ -1,4 +1,4 @@
-// Package events provides NATS messaging infrastructure for MediSync
+// Package events provides NATS messaging infrastructure for AnySync
 package events
 
 import (
@@ -38,7 +38,7 @@ type Config struct {
 func DefaultConfig() Config {
 	return Config{
 		URL:          "nats://localhost:4222",
-		ClientName:   "medisync",
+		ClientName:   "AnySync",
 		MaxReconnect: 10,
 		ReconnectWait: 2 * time.Second,
 	}
@@ -162,7 +162,7 @@ func (p *Publisher) Close() {
 
 // PublishETLCompleted publishes an ETL completion event
 func (p *Publisher) PublishETLCompleted(ctx context.Context, source string, stats ETLStats) error {
-	subject := fmt.Sprintf("medisync.etl.%s.completed", source)
+	subject := fmt.Sprintf("AnySync.etl.%s.completed", source)
 	return p.Publish(ctx, subject, Event{
 		ID:        uuid.New().String(),
 		Type:      "etl.completed",
@@ -189,7 +189,7 @@ type ETLStats struct {
 
 // PublishDocumentProcessed publishes a document processing event
 func (p *Publisher) PublishDocumentProcessed(ctx context.Context, doc DocumentEvent) error {
-	subject := fmt.Sprintf("medisync.document.%s.%s", doc.DocumentType, doc.Status)
+	subject := fmt.Sprintf("AnySync.document.%s.%s", doc.DocumentType, doc.Status)
 	return p.Publish(ctx, subject, Event{
 		ID:        uuid.New().String(),
 		Type:      "document.processed",
@@ -218,7 +218,7 @@ type DocumentEvent struct {
 
 // PublishTallySync publishes a Tally sync event
 func (p *Publisher) PublishTallySync(ctx context.Context, sync TallySyncEvent) error {
-	subject := fmt.Sprintf("medisync.tally.sync.%s", sync.Status)
+	subject := fmt.Sprintf("AnySync.tally.sync.%s", sync.Status)
 	return p.PublishWithAck(ctx, subject, Event{
 		ID:        uuid.New().String(),
 		Type:      "tally.sync",
@@ -247,7 +247,7 @@ type TallySyncEvent struct {
 
 // PublishAlert publishes an alert event
 func (p *Publisher) PublishAlert(ctx context.Context, alert AlertEvent) error {
-	subject := fmt.Sprintf("medisync.alert.%s.%s", alert.Severity, alert.Type)
+	subject := fmt.Sprintf("AnySync.alert.%s.%s", alert.Severity, alert.Type)
 	return p.Publish(ctx, subject, Event{
 		ID:        uuid.New().String(),
 		Type:      "alert.created",
@@ -278,7 +278,7 @@ type AlertEvent struct {
 
 // PublishAudit publishes an audit log event
 func (p *Publisher) PublishAudit(ctx context.Context, audit AuditEvent) error {
-	subject := fmt.Sprintf("medisync.audit.%s.%s", audit.EntityType, audit.Action)
+	subject := fmt.Sprintf("AnySync.audit.%s.%s", audit.EntityType, audit.Action)
 	_, err := p.PublishWithAck(ctx, subject, Event{
 		ID:        uuid.New().String(),
 		Type:      "audit.entry",

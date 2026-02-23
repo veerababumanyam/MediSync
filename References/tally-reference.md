@@ -1,6 +1,6 @@
-# Tally Developer Reference (MediSync)
+# Tally Developer Reference (AnySync)
 
-This document serves as the primary technical reference for integrating MediSync with TallyPrime.
+This document serves as the primary technical reference for integrating AnySync with TallyPrime.
 
 ## 1. Integration Architecture
 
@@ -75,7 +75,7 @@ TDL is the language used to customize Tally. Understanding its hierarchy is cruc
 | **Object** | The data container (e.g., Voucher, Ledger, Company). |
 | **Collection** | A list of Objects (e.g., All Vouchers). |
 | **Report** | Defines how data is viewed or formatted for output. |
-| **UDF** | User Defined Fields—essential for storing extra platform metadata (like MediSync IDs). |
+| **UDF** | User Defined Fields—essential for storing extra platform metadata (like AnySync IDs). |
 
 ---
 

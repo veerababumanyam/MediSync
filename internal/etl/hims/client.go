@@ -27,7 +27,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/medisync/medisync/internal/config"
+	"github.com/AnySync/AnySync/internal/config"
 )
 
 var (

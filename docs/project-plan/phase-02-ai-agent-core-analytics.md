@@ -45,7 +45,7 @@ Build and deploy the core AI intelligence layer: the Text-to-SQL agent and its s
 | D-01 | Go API Gateway core (go-chi) | Backend Engineer | JWT validation, OPA sidecar call, Accept-Language header → locale ctx, rate limiting all working |
 | D-02 | Genkit Framework Setup | AI Engineer | Genkit project initialised; GPT-5.2 and local Ollama plugins configured and swappable |
 | D-03 | A2A Protocol Scaffolding | AI Engineer | `/.well-known/agent.json` AgentCard endpoints for each agent; task delegation `POST /tasks/send` working A-01 → A-02 |
-| D-04 | A-01 Text-to-SQL Agent | AI Engineer | Converts natural-language questions to correct SQL; `medisync_readonly` role enforced; 95%+ accuracy on test set of 50 queries |
+| D-04 | A-01 Text-to-SQL Agent | AI Engineer | Converts natural-language questions to correct SQL; `AnySync_readonly` role enforced; 95%+ accuracy on test set of 50 queries |
 | D-05 | A-02 SQL Self-Correction Agent | AI Engineer | Detects SQL execution error, rewrites query, retries up to 3× successfully on known error classes |
 | D-06 | A-03 Visualisation Routing Agent | AI Engineer | Classifies trend→line, comparison→bar, breakdown→pie, tabular→table with >98% accuracy on test set |
 | D-07 | A-04 Domain Terminology Normaliser | AI Engineer | Correctly maps ≥ 30 healthcare + accounting synonyms; "footfall"→patient_visits; tested against synonym test suite |
@@ -84,9 +84,9 @@ User Query (+ locale context from E-01)
     │       System prompt: role, read-only mandate, locale rule
     │       SQL injection guard: all user strings → bind parameters
     │
-    ▼ OPA check: block DML (medisync.bi.read_only policy)
+    ▼ OPA check: block DML (AnySync.bi.read_only policy)
     │
-    ▼ PostgreSQL executor (medisync_readonly role)
+    ▼ PostgreSQL executor (AnySync_readonly role)
     │       On error → A-02 self-correction loop (max 3 retries)
     │
     ▼ Result DataFrame → A-03 visualisation routing
@@ -98,7 +98,7 @@ User Query (+ locale context from E-01)
 
 **Security guardrails:**
 - SQL injection: parameterised bind; user strings never interpolated into SQL
-- Read-only enforcement: OPA `medisync.bi.read_only` rejects DML before execution
+- Read-only enforcement: OPA `AnySync.bi.read_only` rejects DML before execution
 - Hallucination guard: A-05 runs before A-01; off-topic queries rejected
 - Column masking: OPA strips `cost_price`, `patient_pii_columns` for non-authorised roles
 - PII access: columns tagged as PII in schema_embeddings require `analyst` role minimum; `viewer` blocked
@@ -150,10 +150,10 @@ User Query (+ locale context from E-01)
 **Off-topic detection categories:**
 - General knowledge questions ("What is the capital of France?")
 - Personal advice ("What should I eat today?")
-- Code requests unrelated to MediSync data
+- Code requests unrelated to AnySync data
 - Political / controversial topics
 
-**Response:** "I'm your MediSync data analyst. I can help answer questions about your clinic, pharmacy, and financial data. What would you like to know?"
+**Response:** "I'm your AnySync data analyst. I can help answer questions about your clinic, pharmacy, and financial data. What would you like to know?"
 
 ### A-06 Confidence Scoring Agent
 
@@ -277,10 +277,10 @@ metrics:
 
 ---
 
-## 7. OPA Policy: `medisync.bi.read_only`
+## 7. OPA Policy: `AnySync.bi.read_only`
 
 ```rego
-package medisync.bi
+package AnySync.bi
 
 import future.keywords
 

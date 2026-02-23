@@ -1,4 +1,4 @@
-// Package auth provides authentication and authorization for MediSync.
+// Package auth provides authentication and authorization for AnySync.
 //
 // This file provides the KeycloakValidator struct for JWT token validation
 // using Keycloak. It supports both JWT verification with public keys and
@@ -49,13 +49,13 @@ const (
 	DefaultCacheTTL = 5 * time.Minute
 
 	// CacheKeyPrefix is the prefix for cached token keys in Redis.
-	CacheKeyPrefix = "medisync:token"
+	CacheKeyPrefix = "AnySync:token"
 
 	// JWKSPath is the path to Keycloak's JWKS endpoint.
 	JWKSPath = "/protocol/openid-connect/certs"
 )
 
-// Claims represents the extracted JWT claims for MediSync.
+// Claims represents the extracted JWT claims for AnySync.
 type Claims struct {
 	// UserID is the unique identifier for the user (Keycloak sub).
 	UserID string `json:"user_id"`
@@ -311,7 +311,7 @@ func (v *KeycloakValidator) validateJWT(ctx context.Context, tokenString string)
 	return v.extractClaims(token)
 }
 
-// extractClaims extracts MediSync claims from a JWT token.
+// extractClaims extracts AnySync claims from a JWT token.
 func (v *KeycloakValidator) extractClaims(token *jwt.Token) (*Claims, error) {
 	claims, ok := token.Claims.(jwt.MapClaims)
 	if !ok {

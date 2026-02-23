@@ -11,7 +11,9 @@
  * @module hooks/useAlerts
  */
 import { useCallback, useEffect, useState, useRef } from 'react'
+import { useTranslation } from 'react-i18next'
 import { alertsApi, type AlertRule, type Notification } from '../services/api'
+import { useToast } from './useToast'
 
 /**
  * Type for creating a new alert rule
@@ -67,6 +69,8 @@ const NOTIFICATION_POLL_INTERVAL = 30000 // 30 seconds
  * Hook for managing alert rules and notifications
  */
 export function useAlerts(pollNotifications = true): UseAlertsReturn {
+  const { t } = useTranslation('alerts')
+  const { error: toastError } = useToast()
   const [alerts, setAlerts] = useState<AlertRule[]>([])
   const [notifications, setNotifications] = useState<Notification[]>([])
   const [isLoading, setIsLoading] = useState(true)
@@ -166,8 +170,9 @@ export function useAlerts(pollNotifications = true): UseAlertsReturn {
       const newAlert = await alertsApi.createRule(alert)
       setAlerts(prev => [...prev, newAlert])
     } catch (err) {
-      const message = err instanceof Error ? err.message : 'Failed to create alert'
+      const message = err instanceof Error ? err.message : t('error.createFailed', 'Failed to create alert')
       setError(message)
+      toastError(message)
       console.error('Failed to create alert:', err)
       throw err
     } finally {
@@ -199,8 +204,9 @@ export function useAlerts(pollNotifications = true): UseAlertsReturn {
     } catch (err) {
       // Revert optimistic update on error
       setAlerts(previousAlerts)
-      const message = err instanceof Error ? err.message : 'Failed to update alert'
+      const message = err instanceof Error ? err.message : t('error.updateFailed', 'Failed to update alert')
       setError(message)
+      toastError(message)
       console.error('Failed to update alert:', err)
       throw err
     }
@@ -221,8 +227,9 @@ export function useAlerts(pollNotifications = true): UseAlertsReturn {
     } catch (err) {
       // Revert optimistic delete on error
       setAlerts(previousAlerts)
-      const message = err instanceof Error ? err.message : 'Failed to delete alert'
+      const message = err instanceof Error ? err.message : t('error.deleteFailed', 'Failed to delete alert')
       setError(message)
+      toastError(message)
       console.error('Failed to delete alert:', err)
       throw err
     }
@@ -247,8 +254,9 @@ export function useAlerts(pollNotifications = true): UseAlertsReturn {
     } catch (err) {
       // Revert optimistic update on error
       setAlerts(previousAlerts)
-      const message = err instanceof Error ? err.message : 'Failed to toggle alert'
+      const message = err instanceof Error ? err.message : t('error.toggleFailed', 'Failed to toggle alert')
       setError(message)
+      toastError(message)
       console.error('Failed to toggle alert:', err)
       throw err
     }
@@ -282,8 +290,9 @@ export function useAlerts(pollNotifications = true): UseAlertsReturn {
     } catch (err) {
       // Revert on error
       setNotifications(previousNotifications)
-      const message = err instanceof Error ? err.message : 'Failed to mark notification as read'
+      const message = err instanceof Error ? err.message : t('error.markReadFailed', 'Failed to mark notification as read')
       setError(message)
+      toastError(message)
       console.error('Failed to mark notification as read:', err)
       throw err
     }

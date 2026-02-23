@@ -1,4 +1,4 @@
--- MediSync Dashboard Advanced Features - Chat Messages Migration (Rollback)
+-- AnySync Dashboard Advanced Features - Chat Messages Migration (Rollback)
 -- Version: 014
 -- Description: Rollback chat_messages table
 

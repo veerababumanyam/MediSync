@@ -1,10 +1,10 @@
-// Package warehouse provides the database repository layer for the MediSync data warehouse.
+// Package warehouse provides the database repository layer for the AnySync data warehouse.
 //
 // This package handles all database operations for the analytics schemas (hims_analytics,
 // tally_analytics) and application tables (app schema). It uses pgx/v5 for PostgreSQL
 // connectivity and implements idempotent upsert operations for ETL sync.
 //
-// All operations use the medisync_etl role for INSERT/UPDATE on analytics schemas,
+// All operations use the AnySync_etl role for INSERT/UPDATE on analytics schemas,
 // ensuring proper audit trails via _source, _source_id, and _synced_at columns.
 //
 // Usage:

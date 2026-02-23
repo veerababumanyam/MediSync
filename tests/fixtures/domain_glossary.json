@@ -2,7 +2,7 @@
   "metadata": {
     "version": "1.0",
     "created": "2026-02-19",
-    "description": "Domain terminology glossary for healthcare and accounting terms used in MediSync",
+    "description": "Domain terminology glossary for healthcare and accounting terms used in AnySync",
     "total_terms": 30,
     "categories": ["healthcare", "accounting", "general"]
   },

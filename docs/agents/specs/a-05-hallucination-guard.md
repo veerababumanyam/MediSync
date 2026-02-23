@@ -53,7 +53,7 @@ Detects off-topic, harmful, or non-business queries before the SQL agent is invo
 | 1 | Fine-tuned binary classifier (Go ONNX runtime) | Apache-2.0 | Fast on-topic / off-topic classification |
 | 2 | Prompt injection pattern detector (regex) | Internal | Block jailbreak attempts |
 
-**Model:** DistilBERT fine-tuned on MediSync domain queries (MIT base license). Served via ONNX Runtime Go binding.
+**Model:** DistilBERT fine-tuned on AnySync domain queries (MIT base license). Served via ONNX Runtime Go binding.
 
 ### Off-topic categories deflected
 - General knowledge ("What is the capital of India?")

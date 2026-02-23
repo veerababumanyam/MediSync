@@ -9,7 +9,7 @@ import { useState, useEffect, useCallback } from 'react'
 export function useTheme() {
     const [isDark, setIsDark] = useState<boolean>(() => {
         // Check localStorage first
-        const stored = localStorage.getItem('medisync-theme')
+        const stored = localStorage.getItem('AnySync-theme')
         if (stored !== null) {
             return stored === 'dark'
         }
@@ -25,7 +25,7 @@ export function useTheme() {
         } else {
             root.classList.remove('dark')
         }
-        localStorage.setItem('medisync-theme', isDark ? 'dark' : 'light')
+        localStorage.setItem('AnySync-theme', isDark ? 'dark' : 'light')
     }, [isDark])
 
     const toggleTheme = useCallback(() => {

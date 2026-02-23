@@ -1,4 +1,4 @@
-// Package warehouse provides database utilities for the MediSync data warehouse.
+// Package warehouse provides database utilities for the AnySync data warehouse.
 //
 // This file provides review queue functionality for low-confidence queries.
 package warehouse
@@ -11,7 +11,7 @@ import (
 	"time"
 
 	"github.com/jackc/pgx/v5/pgxpool"
-	"github.com/medisync/medisync/internal/warehouse/models"
+	"github.com/AnySync/AnySync/internal/warehouse/models"
 )
 
 // ReviewQueue manages low-confidence query reviews.

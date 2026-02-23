@@ -1,5 +1,5 @@
-# MediSync ETL Operations Policy
-# Package: medisync.etl
+# AnySync ETL Operations Policy
+# Package: AnySync.etl
 # Version: 1.0
 # Description: OPA policy for ETL service authorization
 #
@@ -11,13 +11,13 @@
 # - Quality report generation
 #
 # Authorized principals:
-# - medisync_etl service account (full ETL operations)
-# - medisync_app for read-only access to ETL status
+# - AnySync_etl service account (full ETL operations)
+# - AnySync_app for read-only access to ETL status
 # - admin role for emergency operations
 #
 # Cross-reference: migrations/002_roles.up.sql, docs/agents/03-governance-security.md
 
-package medisync.etl
+package AnySync.etl
 
 import rego.v1
 
@@ -335,7 +335,7 @@ violations contains msg if {
 policy_version := "1.0.0"
 
 # Policy description
-policy_description := "ETL operations authorization policy for MediSync"
+policy_description := "ETL operations authorization policy for AnySync"
 
 # Required input fields for policy evaluation
 required_input_fields := {

@@ -1,4 +1,4 @@
-// Package shared defines agent interfaces for the MediSync AI agent system.
+// Package shared defines agent interfaces for the AnySync AI agent system.
 //
 // These interfaces define the contracts that all agents must implement to work
 // within the agent supervisor orchestration framework.

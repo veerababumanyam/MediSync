@@ -1,19 +1,19 @@
 /**
- * MediSync CopilotKit Integration
+ * AnySync CopilotKit Integration
  *
- * Provides a CopilotKit popup component with MediSync-specific tools.
+ * Provides a CopilotKit popup component with AnySync-specific tools.
  * This component conditionally renders only when CopilotKit is configured.
  *
- * @module components/copilot/MediSyncCopilot
+ * @module components/copilot/AnySyncCopilot
  */
 import React from 'react'
 import { useCopilotReadable, useCopilotAction } from '@copilotkit/react-core'
 import type { UseDashboardReturn } from '../../hooks/useDashboard'
 
 /**
- * Props for MediSyncCopilot component
+ * Props for AnySyncCopilot component
  */
-export interface MediSyncCopilotProps {
+export interface AnySyncCopilotProps {
   /** Current route name */
   currentRoute?: 'home' | 'chat' | 'council' | 'dashboard'
   /** Dashboard hook for actions */
@@ -27,12 +27,12 @@ export interface MediSyncCopilotProps {
 }
 
 /**
- * Component that registers CopilotKit actions for MediSync
+ * Component that registers CopilotKit actions for AnySync
  *
  * This component uses CopilotKit hooks to register tools/actions that
  * the AI agent can invoke. It must be rendered inside a CopilotKit provider.
  */
-export const MediSyncCopilot: React.FC<MediSyncCopilotProps> = ({
+export const AnySyncCopilot: React.FC<AnySyncCopilotProps> = ({
   currentRoute = 'home',
   dashboard,
   locale = 'en',
@@ -41,7 +41,7 @@ export const MediSyncCopilot: React.FC<MediSyncCopilotProps> = ({
 }) => {
   // Make current state readable to the AI agent
   useCopilotReadable({
-    description: 'Current MediSync application state',
+    description: 'Current AnySync application state',
     value: {
       route: currentRoute,
       locale,
@@ -54,7 +54,7 @@ export const MediSyncCopilot: React.FC<MediSyncCopilotProps> = ({
   useCopilotAction({
     name: 'queryBI',
     description:
-      'Execute a natural language query against MediSync BI data. Returns charts, tables, and insights.',
+      'Execute a natural language query against AnySync BI data. Returns charts, tables, and insights.',
     parameters: [
       {
         name: 'query',
@@ -76,7 +76,7 @@ export const MediSyncCopilot: React.FC<MediSyncCopilotProps> = ({
   // Register navigate action
   useCopilotAction({
     name: 'navigate',
-    description: 'Navigate to a different page in MediSync',
+    description: 'Navigate to a different page in AnySync',
     parameters: [
       {
         name: 'route',
@@ -175,7 +175,7 @@ export const CopilotFloatingButton: React.FC = () => {
     <div className="fixed bottom-6 right-6 z-50">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="w-14 h-14 rounded-full bg-linear-to-br from-blue-600 to-cyan-500 text-white shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+        className="w-14 h-14 rounded-full bg-gradient-brand text-white shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 flex items-center justify-center liquid-focus-gold"
         aria-label={isOpen ? t('button.close', 'Close AI Assistant') : t('button.open', 'Open AI Assistant')}
       >
         {isOpen ? (
@@ -210,16 +210,16 @@ export const CopilotFloatingButton: React.FC = () => {
       </button>
 
       {isOpen && (
-        <div className="absolute bottom-16 right-0 w-96 h-[500px] bg-white dark:bg-slate-800 rounded-xl shadow-2xl border border-slate-200 dark:border-slate-700 overflow-hidden">
+        <div className="absolute bottom-16 right-0 w-96 h-[500px] liquid-glass-pronounced rounded-2xl shadow-2xl border border-glass-soft overflow-hidden animate-fade-in-up">
           <div className="h-full flex flex-col">
             {/* Header */}
-            <div className="p-4 border-b border-slate-200 dark:border-slate-700 bg-linear-to-r from-blue-600 to-cyan-500">
+            <div className="p-4 border-b border-glass-soft bg-gradient-brand">
               <div className="flex items-center gap-3">
                 <div className="w-8 h-8 rounded-lg bg-white/20 flex items-center justify-center">
                   <span className="text-white font-bold text-sm">M</span>
                 </div>
                 <div>
-                  <h3 className="text-white font-semibold">MediSync AI</h3>
+                  <h3 className="text-white font-semibold">AnySync AI</h3>
                   <p className="text-white/80 text-xs">
                     Ask anything about your data
                   </p>
@@ -231,16 +231,16 @@ export const CopilotFloatingButton: React.FC = () => {
             <div className="flex-1 p-4 overflow-y-auto">
               <div className="space-y-4">
                 <div className="flex gap-3">
-                  <div className="w-8 h-8 rounded-full bg-blue-100 dark:bg-blue-900 flex items-center justify-center shrink-0">
-                    <span className="text-blue-600 dark:text-blue-400 font-bold text-xs">
+                  <div className="w-8 h-8 rounded-full bg-brand-primary-alpha flex items-center justify-center shrink-0">
+                    <span className="text-brand-primary font-bold text-xs uppercase">
                       M
                     </span>
                   </div>
-                  <div className="bg-slate-100 dark:bg-slate-700 rounded-lg p-3 max-w-[80%]">
-                    <p className="text-sm text-slate-700 dark:text-slate-300">
-                      Hello! I'm your MediSync AI assistant. I can help you:
+                  <div className="bg-surface-glass-subtle rounded-2xl p-3 max-w-[80%] border border-glass-soft">
+                    <p className="text-sm text-primary">
+                      Hello! I'm your AnySync AI assistant. I can help you:
                     </p>
-                    <ul className="mt-2 text-sm text-slate-600 dark:text-slate-400 space-y-1">
+                    <ul className="mt-2 text-sm text-secondary space-y-1">
                       <li>• Query your business data</li>
                       <li>• Create and manage dashboard charts</li>
                       <li>• Sync data to Tally ERP</li>
@@ -252,16 +252,16 @@ export const CopilotFloatingButton: React.FC = () => {
             </div>
 
             {/* Input area */}
-            <div className="p-4 border-t border-slate-200 dark:border-slate-700">
+            <div className="p-4 border-t border-glass-soft bg-surface-glass-subtle">
               <div className="flex gap-2">
                 <input
                   type="text"
                   placeholder={t('input.placeholder', 'Ask about your data...')}
-                  className="flex-1 px-4 py-2 border border-slate-200 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                  className="flex-1 px-4 py-2 liquid-glass-input rounded-xl text-primary focus-ring text-sm"
                 />
                 <button
                   type="button"
-                  className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                  className="px-4 py-2 bg-brand-primary text-white rounded-xl hover:bg-brand-primary/90 transition-colors liquid-focus-gold"
                   aria-label={t('input.send', 'Send')}
                 >
                   <svg
@@ -288,4 +288,4 @@ export const CopilotFloatingButton: React.FC = () => {
   )
 }
 
-export default MediSyncCopilot
+export default AnySyncCopilot

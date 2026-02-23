@@ -47,7 +47,7 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
                 <button
                     className="flex items-center gap-2 sm:gap-3 cursor-pointer group shrink-0 min-h-11 px-1 -mx-1 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                     onClick={() => navigateTo('home')}
-                    aria-label="MediSync - Home"
+                    aria-label="AnySync - Home"
                     type="button"
                 >
                     <img
@@ -61,7 +61,7 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
                             className={`text-base sm:text-lg font-bold leading-tight ${isDark ? 'text-white' : 'text-slate-900'
                                 }`}
                         >
-                            {t('app.name', 'MediSync')}
+                            {t('app.name', 'AnySync')}
                         </span>
                         <p
                             className={`text-xs hidden md:block pt-0.5 ${isDark ? 'text-slate-400' : 'text-slate-500'

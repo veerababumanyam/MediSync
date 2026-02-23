@@ -155,7 +155,7 @@ export const TableRenderer: React.FC<TableRendererProps> = ({
     if (sortState.column !== column) {
       return (
         <svg
-          className="w-4 h-4 text-slate-400"
+          className="w-4 h-4 text-non-text"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -173,7 +173,7 @@ export const TableRenderer: React.FC<TableRendererProps> = ({
     if (sortState.direction === 'asc') {
       return (
         <svg
-          className="w-4 h-4 text-blue-600"
+          className="w-4 h-4 text-brand-primary"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -190,7 +190,7 @@ export const TableRenderer: React.FC<TableRendererProps> = ({
 
     return (
       <svg
-        className="w-4 h-4 text-blue-600"
+        className="w-4 h-4 text-brand-primary"
         fill="none"
         viewBox="0 0 24 24"
         stroke="currentColor"
@@ -209,11 +209,11 @@ export const TableRenderer: React.FC<TableRendererProps> = ({
   if (data.length === 0) {
     return (
       <div
-        className={`flex items-center justify-center py-12 px-4 bg-slate-50 dark:bg-slate-800/50 rounded-lg ${className}`}
+        className={`flex items-center justify-center py-12 px-4 bg-surface-glass rounded-lg border border-glass-soft ${className}`}
       >
         <div className="text-center">
           <svg
-            className="w-12 h-12 mx-auto text-slate-400 dark:text-slate-600"
+            className="w-12 h-12 mx-auto text-non-text"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -225,7 +225,7 @@ export const TableRenderer: React.FC<TableRendererProps> = ({
               d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"
             />
           </svg>
-          <p className="mt-4 text-sm text-slate-500 dark:text-slate-400">
+          <p className="mt-4 text-sm text-secondary">
             {t('table.noData', 'No data to display')}
           </p>
         </div>
@@ -235,13 +235,13 @@ export const TableRenderer: React.FC<TableRendererProps> = ({
 
   return (
     <div className={`overflow-x-auto ${className}`}>
-      <table className="min-w-full divide-y divide-slate-200 dark:divide-slate-700">
-        <thead className="bg-slate-50 dark:bg-slate-800/50">
+      <table className="min-w-full divide-y border-glass-soft text-primary">
+        <thead className="bg-surface-glass-subtle">
           <tr>
             {/* Row number column */}
             {showRowNumbers && (
               <th
-                className="px-4 py-3 text-start text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider"
+                className="px-4 py-3 text-start text-xs font-semibold text-secondary uppercase tracking-wider"
                 scope="col"
               >
                 #
@@ -252,7 +252,7 @@ export const TableRenderer: React.FC<TableRendererProps> = ({
             {columns.map((column) => (
               <th
                 key={column}
-                className={`px-4 py-3 text-start text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider ${sortable ? 'cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors select-none' : ''
+                className={`px-4 py-3 text-start text-xs font-semibold text-secondary uppercase tracking-wider ${sortable ? 'cursor-pointer hover:bg-surface-glass-subtle transition-colors select-none' : ''
                   }`}
                 scope="col"
                 onClick={() => handleSort(column)}
@@ -273,19 +273,19 @@ export const TableRenderer: React.FC<TableRendererProps> = ({
           </tr>
         </thead>
 
-        <tbody className="bg-white dark:bg-slate-900 divide-y divide-slate-200 dark:divide-slate-700">
+        <tbody className="bg-surface-glass divide-y border-glass-soft">
           {displayData.map((row, rowIndex) => (
             <tr
               key={rowIndex}
               className={`${onRowClick
-                  ? 'cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors'
-                  : ''
+                ? 'cursor-pointer hover:bg-surface-glass-subtle transition-colors'
+                : ''
                 }`}
               onClick={() => onRowClick?.(row, rowIndex)}
             >
               {/* Row number cell */}
               {showRowNumbers && (
-                <td className="px-4 py-3 text-sm text-slate-500 dark:text-slate-400 font-mono">
+                <td className="px-4 py-3 text-sm text-secondary font-mono">
                   {rowIndex + 1}
                 </td>
               )}
@@ -294,7 +294,7 @@ export const TableRenderer: React.FC<TableRendererProps> = ({
               {columns.map((column) => (
                 <td
                   key={column}
-                  className="px-4 py-3 text-sm text-slate-700 dark:text-slate-300 whitespace-nowrap"
+                  className="px-4 py-3 text-sm text-primary whitespace-nowrap"
                 >
                   {formatValue(row[column])}
                 </td>
@@ -305,11 +305,11 @@ export const TableRenderer: React.FC<TableRendererProps> = ({
 
         {/* Footer with row count */}
         {maxRows > 0 && sortedData.length > maxRows && (
-          <tfoot className="bg-slate-50 dark:bg-slate-800/50">
+          <tfoot className="bg-surface-glass-subtle shadow-inner">
             <tr>
               <td
                 colSpan={columns.length + (showRowNumbers ? 1 : 0)}
-                className="px-4 py-2 text-sm text-slate-500 dark:text-slate-400 text-center"
+                className="px-4 py-2 text-sm text-secondary text-center"
               >
                 {t('table.showingRows', 'Showing {{count}} of {{total}} rows', {
                   count: maxRows,

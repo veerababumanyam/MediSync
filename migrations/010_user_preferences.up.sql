@@ -1,4 +1,4 @@
--- MediSync Dashboard Advanced Features - User Preferences Migration
+-- AnySync Dashboard Advanced Features - User Preferences Migration
 -- Version: 010
 -- Description: Create user_preferences table for locale, calendar, and display settings
 -- Task: T001
@@ -60,9 +60,9 @@ COMMENT ON FUNCTION app.update_user_preferences_updated_at() IS 'Trigger functio
 -- GRANT PERMISSIONS
 -- ============================================================================
 
-GRANT SELECT ON app.user_preferences TO medisync_readonly;
-GRANT SELECT, INSERT, UPDATE, DELETE ON app.user_preferences TO medisync_app;
-GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA app TO medisync_app;
+GRANT SELECT ON app.user_preferences TO AnySync_readonly;
+GRANT SELECT, INSERT, UPDATE, DELETE ON app.user_preferences TO AnySync_app;
+GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA app TO AnySync_app;
 
 -- ============================================================================
 -- END OF MIGRATION

@@ -8,7 +8,7 @@ import (
 	"context"
 	"testing"
 
-	"github.com/medisync/medisync/internal/warehouse/models"
+	"github.com/AnySync/AnySync/internal/warehouse/models"
 )
 
 // TestClassifierQueryIntent tests query intent classification.

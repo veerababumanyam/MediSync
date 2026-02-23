@@ -113,7 +113,7 @@ func NewOPAClient(cfg *OPAConfig) (*OPAClient, error) {
 }
 
 // Allow evaluates a policy and returns whether the action is allowed.
-// The policy parameter is the OPA policy path (e.g., "medisync/authz/allow").
+// The policy parameter is the OPA policy path (e.g., "AnySync/authz/allow").
 // The input parameter contains the data for policy evaluation.
 func (c *OPAClient) Allow(ctx context.Context, policy string, input map[string]interface{}) (bool, error) {
 	decision, err := c.Evaluate(ctx, policy, input)
@@ -129,7 +129,7 @@ func (c *OPAClient) Allow(ctx context.Context, policy string, input map[string]i
 // Evaluate evaluates a policy and returns the full decision.
 func (c *OPAClient) Evaluate(ctx context.Context, policy string, input map[string]interface{}) (*OPADecision, error) {
 	// Build the OPA API URL
-	// Convert policy path like "medisync/authz/allow" to URL path
+	// Convert policy path like "AnySync/authz/allow" to URL path
 	policyPath := strings.ReplaceAll(policy, ".", "/")
 	url := fmt.Sprintf("%s%s/%s", c.config.URL, c.config.DecisionPath, policyPath)
 
@@ -207,7 +207,7 @@ func (c *OPAClient) ValidateSQL(ctx context.Context, sql string, userRoles []str
 		},
 	}
 
-	allowed, err := c.Allow(ctx, "medisync/sql/validate", input)
+	allowed, err := c.Allow(ctx, "AnySync/sql/validate", input)
 	if err != nil {
 		// If OPA is unavailable, fall back to basic validation
 		c.logger.Warn("OPA SQL validation failed, using fallback",
@@ -234,7 +234,7 @@ func (c *OPAClient) ValidateTallySync(ctx context.Context, userID string, roles 
 		"resource": entry,
 	}
 
-	allowed, err := c.Allow(ctx, "medisync/tally/sync", input)
+	allowed, err := c.Allow(ctx, "AnySync/tally/sync", input)
 	if err != nil {
 		return fmt.Errorf("auth: failed to evaluate Tally sync policy: %w", err)
 	}
@@ -260,7 +260,7 @@ func (c *OPAClient) ValidateReportAccess(ctx context.Context, userID string, rol
 		},
 	}
 
-	allowed, err := c.Allow(ctx, "medisync/reports/access", input)
+	allowed, err := c.Allow(ctx, "AnySync/reports/access", input)
 	if err != nil {
 		return fmt.Errorf("auth: failed to evaluate report access policy: %w", err)
 	}
@@ -285,7 +285,7 @@ func (c *OPAClient) ValidateDataAccess(ctx context.Context, userID string, roles
 		},
 	}
 
-	allowed, err := c.Allow(ctx, "medisync/data/access", input)
+	allowed, err := c.Allow(ctx, "AnySync/data/access", input)
 	if err != nil {
 		return fmt.Errorf("auth: failed to evaluate data access policy: %w", err)
 	}

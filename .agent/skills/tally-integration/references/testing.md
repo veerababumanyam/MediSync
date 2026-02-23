@@ -56,8 +56,8 @@ func TestRemoteIDGeneration(t *testing.T) {
 
     // Same input should generate same ID
     assert.Equal(t, id1, id2)
-    assert.HasPrefix(t, id1, "medisync-")
-    assert.Len(t, id1, 12+8)  // "medisync-" + 12 char hash
+    assert.HasPrefix(t, id1, "AnySync-")
+    assert.Len(t, id1, 12+8)  // "AnySync-" + 12 char hash
 }
 
 func TestIsDeemedPositive(t *testing.T) {
@@ -334,7 +334,7 @@ func TestTallySync_RetryOnTimeout(t *testing.T) {
 
 ```rego
 # policies/tally_sync_test.rego
-package medisync.tally
+package AnySync.tally
 
 test_allow_sync_with_all_approvals {
     allow with input as {
@@ -432,7 +432,7 @@ func TestOPA_TallySync(t *testing.T) {
     for _, tt := range tests {
         t.Run(tt.name, func(t *testing.T) {
             result, err := opa.Decision(ctx, opa.DecisionOptions{
-                Path:  "/medisync/tally/allow",
+                Path:  "/AnySync/tally/allow",
                 Input: tt.input,
             })
 
@@ -452,7 +452,7 @@ func TestOPA_TallySync(t *testing.T) {
 INSERT INTO companies (id, name, tally_company_name) VALUES
 ('test-company-1', 'Test Clinic', 'Test Clinic LLC');
 
-INSERT INTO ledgers (id, company_id, medisync_name, tally_name) VALUES
+INSERT INTO ledgers (id, company_id, AnySync_name, tally_name) VALUES
 ('ledger-1', 'test-company-1', 'Cash', 'Cash'),
 ('ledger-2', 'test-company-1', 'Rent Expense', 'Rent Expense'),
 ('ledger-3', 'test-company-1', 'Sales Revenue', 'Sales Revenue');
@@ -564,7 +564,7 @@ func TestE2E_DocumentToTallySync(t *testing.T) {
                         <DATE>20260219</DATE>
                         <VOUCHERNUMBER>TEST-001</VOUCHERNUMBER>
                         <NARRATION>Test journal entry</NARRATION>
-                        <REMOTEID>medisync-test-001</REMOTEID>
+                        <REMOTEID>AnySync-test-001</REMOTEID>
                         <ALLLEDGERENTRIES.LIST>
                             <LEDGERNAME>Cash</LEDGERNAME>
                             <ISDEEMEDPOSITIVE>Yes</ISDEEMEDPOSITIVE>
@@ -634,7 +634,7 @@ jobs:
 
       - name: Load OPA policies
         run: |
-          opa eval -d policies/rego -i input.json "data.medisync.tally.allow"
+          opa eval -d policies/rego -i input.json "data.AnySync.tally.allow"
 
       - name: Run unit tests
         run: go test -short -v ./internal/tally/...

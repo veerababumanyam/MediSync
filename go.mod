@@ -1,4 +1,4 @@
-module github.com/medisync/medisync
+module github.com/AnySync/AnySync
 
 go 1.26
 

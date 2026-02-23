@@ -1,4 +1,4 @@
-// Complete dashboard screen implementation for MediSync
+// Complete dashboard screen implementation for AnySync
 // Demonstrates Riverpod, PowerSync, RTL support, and offline patterns
 
 import 'package:flutter/material.dart';

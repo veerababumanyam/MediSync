@@ -12,10 +12,10 @@ import { CopilotKit } from "@copilotkit/react-core";
 
 export const copilotConfig = {
   // Backend endpoint for agent communication
-  agent: "medisync-agent",
+  agent: "AnySync-agent",
 
   // Default instructions for the agent
-  instructions: `You are a helpful AI assistant for MediSync,
+  instructions: `You are a helpful AI assistant for AnySync,
   a healthcare business intelligence platform. You can help users
   query data, run reports, and manage accounting tasks.`,
 
@@ -236,7 +236,7 @@ export const tallySyncTool = tool({
 import { useAgent } from "@copilotkit/react-core";
 
 function QueryBuilder() {
-  const { agent } = useAgent({ agentId: "medisync-agent" });
+  const { agent } = useAgent({ agentId: "AnySync-agent" });
 
   // Access current query state
   const currentQuery = agent.state.currentQuery;
@@ -262,7 +262,7 @@ function QueryBuilder() {
 
 ```typescript
 function DashboardFilters() {
-  const { agent } = useAgent({ agentId: "medisync-agent" });
+  const { agent } = useAgent({ agentId: "AnySync-agent" });
 
   const handleFilterChange = (filters) => {
     // Update agent state - this is visible to the agent
@@ -285,7 +285,7 @@ function DashboardFilters() {
 
 ```typescript
 function SharedStateExample() {
-  const { agent } = useAgent({ agentId: "medisync-agent" });
+  const { agent } = useAgent({ agentId: "AnySync-agent" });
 
   // Local state synced with agent
   const [localState, setLocalState] = useState(agent.state);

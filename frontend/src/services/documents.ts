@@ -1,5 +1,5 @@
 /**
- * MediSync Document API Client
+ * AnySync Document API Client
  *
  * HTTP client for document processing API endpoints.
  *
@@ -61,7 +61,7 @@ export const documentApi = {
     const response = await fetch(`${import.meta.env.VITE_API_URL || '/api/v1'}${DOCUMENTS_PATH}`, {
       method: 'POST',
       headers: {
-        Authorization: `Bearer ${localStorage.getItem('medisync-token')}`,
+        Authorization: `Bearer ${localStorage.getItem('AnySync-token')}`,
       },
       body: formData,
     })
@@ -212,7 +212,7 @@ export const documentApi = {
     const response = await fetch(`${import.meta.env.VITE_API_URL || '/api/v1'}${DOCUMENTS_PATH}/bulk-upload`, {
       method: 'POST',
       headers: {
-        Authorization: `Bearer ${localStorage.getItem('medisync-token')}`,
+        Authorization: `Bearer ${localStorage.getItem('AnySync-token')}`,
       },
       body: formData,
     })

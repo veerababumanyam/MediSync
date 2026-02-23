@@ -11,6 +11,8 @@
  */
 
 import { useCallback, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { useToast } from './useToast'
 import {
   councilService,
   APIError,
@@ -53,6 +55,8 @@ export interface UseCouncilReturn extends CouncilState {
  * Hook for managing Council deliberations
  */
 export function useCouncil(): UseCouncilReturn {
+  const { t } = useTranslation('council')
+  const { error: toastError } = useToast()
   const [state, setState] = useState<CouncilState>({
     deliberation: null,
     isLoading: false,
@@ -77,12 +81,13 @@ export function useCouncil(): UseCouncilReturn {
         return deliberation
       } catch (err) {
         const message =
-          err instanceof APIError ? err.message : 'Failed to create deliberation'
+          err instanceof APIError ? err.message : t('responseDisplay.failed')
         setState((prev) => ({ ...prev, isLoading: false, error: message }))
+        toastError(t('responseDisplay.failed'))
         return null
       }
     },
-    []
+    [t, toastError]
   )
 
   /**
@@ -97,11 +102,12 @@ export function useCouncil(): UseCouncilReturn {
       return deliberation
     } catch (err) {
       const message =
-        err instanceof APIError ? err.message : 'Failed to get deliberation'
+        err instanceof APIError ? err.message : t('errors.serviceUnavailable')
       setState((prev) => ({ ...prev, isLoading: false, error: message }))
+      toastError(t('errors.serviceUnavailable'))
       return null
     }
-  }, [])
+  }, [t, toastError])
 
   /**
    * Reset state
@@ -152,6 +158,8 @@ export interface UseCouncilListReturn extends CouncilListState {
  * Hook for listing deliberations with pagination
  */
 export function useCouncilList(): UseCouncilListReturn {
+  const { t } = useTranslation('council')
+  const { error: toastError } = useToast()
   const [state, setState] = useState<CouncilListState>({
     deliberations: [],
     total: 0,
@@ -184,10 +192,11 @@ export function useCouncilList(): UseCouncilListReturn {
       })
     } catch (err) {
       const message =
-        err instanceof APIError ? err.message : 'Failed to fetch deliberations'
+        err instanceof APIError ? err.message : t('errors.serviceUnavailable')
       setState((prev) => ({ ...prev, isLoading: false, error: message }))
+      toastError(t('errors.serviceUnavailable'))
     }
-  }, [])
+  }, [t, toastError])
 
   /**
    * Load next page
@@ -214,10 +223,11 @@ export function useCouncilList(): UseCouncilListReturn {
       setLastParams((prev) => ({ ...prev, offset: newOffset }))
     } catch (err) {
       const message =
-        err instanceof APIError ? err.message : 'Failed to load more'
+        err instanceof APIError ? err.message : t('errors.serviceUnavailable')
       setState((prev) => ({ ...prev, isLoading: false, error: message }))
+      toastError(t('errors.serviceUnavailable'))
     }
-  }, [lastParams, state.deliberations.length])
+  }, [lastParams, state.deliberations.length, t, toastError])
 
   /**
    * Refresh the current list
@@ -262,6 +272,8 @@ export interface UseCouncilHealthReturn extends CouncilHealthState {
  * Hook for monitoring Council health
  */
 export function useCouncilHealth(): UseCouncilHealthReturn {
+  const { t } = useTranslation('council')
+  const { error: toastError } = useToast()
   const [state, setState] = useState<CouncilHealthState>({
     health: null,
     isLoading: false,
@@ -279,10 +291,11 @@ export function useCouncilHealth(): UseCouncilHealthReturn {
       setState({ health, isLoading: false, error: null })
     } catch (err) {
       const message =
-        err instanceof APIError ? err.message : 'Failed to fetch health'
+        err instanceof APIError ? err.message : t('errors.serviceUnavailable')
       setState((prev) => ({ ...prev, isLoading: false, error: message }))
+      toastError(t('errors.serviceUnavailable'))
     }
-  }, [])
+  }, [t, toastError])
 
   return {
     ...state,
@@ -318,6 +331,8 @@ export interface UseEvidenceTrailReturn extends EvidenceTrailState {
  * Hook for fetching evidence trails
  */
 export function useEvidenceTrail(): UseEvidenceTrailReturn {
+  const { t } = useTranslation('council')
+  const { error: toastError } = useToast()
   const [state, setState] = useState<EvidenceTrailState>({
     trail: null,
     isLoading: false,
@@ -335,10 +350,11 @@ export function useEvidenceTrail(): UseEvidenceTrailReturn {
       setState({ trail, isLoading: false, error: null })
     } catch (err) {
       const message =
-        err instanceof APIError ? err.message : 'Failed to fetch evidence trail'
+        err instanceof APIError ? err.message : t('errors.serviceUnavailable')
       setState((prev) => ({ ...prev, isLoading: false, error: message }))
+      toastError(t('errors.serviceUnavailable'))
     }
-  }, [])
+  }, [t, toastError])
 
   return {
     ...state,

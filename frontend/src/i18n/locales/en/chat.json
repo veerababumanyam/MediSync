@@ -1,14 +1,14 @@
 {
   "pageTitle": "Chat",
   "header": {
-    "title": "MediSync Chat",
+    "title": "AnySync Chat",
     "panelTitle": "Chat",
     "subtitle": "AI-Powered Business Intelligence",
     "newSession": "New Chat",
     "sessionStatus": "Session active"
   },
   "welcome": {
-    "title": "Welcome to MediSync",
+    "title": "Welcome to AnySync",
     "subtitle": "Ask questions about your healthcare and accounting data in plain language."
   },
   "input": {
@@ -40,7 +40,8 @@
     "title": "Error",
     "queryFailed": "Failed to process your query",
     "noResults": "No results found",
-    "clarification": "I need more information",
+    "genericError": "An error occurred",
+    "clarification": "Please clarify your request",
     "suggestions": "Did you mean:",
     "loadMessages": "Failed to load chat history",
     "send": "Failed to send message",
@@ -48,7 +49,7 @@
   },
   "message": {
     "user": "You",
-    "assistant": "MediSync AI",
+    "assistant": "AnySync AI",
     "confidence": "Confidence: {{score}}%"
   },
   "actions": {

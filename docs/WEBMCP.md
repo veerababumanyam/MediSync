@@ -1,28 +1,28 @@
 # WebMCP (Web Machine Context & Procedure)
 
-MediSync is integrated with the **WebMCP** standard, allowing browser-based AI agents to discover and interact with the platform's features as structured tools. This enhances the "agent-readiness" of the MediSync UI.
+AnySync is integrated with the **WebMCP** standard, allowing browser-based AI agents to discover and interact with the platform's features as structured tools. This enhances the "agent-readiness" of the AnySync UI.
 
 ## Overview
 
-WebMCP provides two primary ways for AI agents to interact with MediSync:
+WebMCP provides two primary ways for AI agents to interact with AnySync:
 1.  **Declarative API**: Standard HTML attributes (`tool-name`, `tool-description`) that allow browsers to discover interactive elements.
-2.  **Imperative API**: A JavaScript service (`navigator.modelContext`) that allows MediSync to register complex business logic as callable tools for agents.
+2.  **Imperative API**: A JavaScript service (`navigator.modelContext`) that allows AnySync to register complex business logic as callable tools for agents.
 
 ## Implementation Details
 
 ### WebMCP Service
-The `WebMCPService` handles the registration of core MediSync actions. It is initialized in the `ChatInterface` component.
+The `WebMCPService` handles the registration of core AnySync actions. It is initialized in the `ChatInterface` component.
 
 **Registered Tools:**
-*   `queryBI`: Execute a natural language query against MediSync BI data.
+*   `queryBI`: Execute a natural language query against AnySync BI data.
 *   `syncTally`: Trigger a manual synchronization with Tally ERP.
-*   `showDashboard`: Navigate to a specific MediSync dashboard.
+*   `showDashboard`: Navigate to a specific AnySync dashboard.
 
 ### Declarative Tags
 Interactive components, such as the chat input area, are tagged with WebMCP attributes for automatic discovery:
 
 ```html
-<div tool-name="medi-chat-input-area" tool-description="The main interaction area for sending queries to MediSync AI">
+<div tool-name="medi-chat-input-area" tool-description="The main interaction area for sending queries to AnySync AI">
   ...
 </div>
 ```
@@ -33,13 +33,13 @@ WebMCP is currently an experimental standard and requires specific browser suppo
 
 1.  **Browser**: Use Chrome 146+ or Chrome Canary.
 2.  **Enable Flag**: Navigate to `chrome://flags/#web-mcp` and set it to **Enabled**.
-3.  **Discovery**: Use a WebMCP-capable agent (like the Chrome experimental AI panel or a supported extension) to "see" the tools exposed by MediSync.
+3.  **Discovery**: Use a WebMCP-capable agent (like the Chrome experimental AI panel or a supported extension) to "see" the tools exposed by AnySync.
 
 ## Developer Quick Start
 
 To add new WebMCP tools:
 1.  Open `frontend/src/services/WebMCPService.ts`.
-2.  Add a new tool definition in `registerMediSyncTools`.
+2.  Add a new tool definition in `registerAnySyncTools`.
 3.  Define the `parameters` schema and the `handler` callback.
 
 To add declarative tags:
@@ -48,4 +48,4 @@ To add declarative tags:
 
 ## Reference
 - [WebMCP Explainer](https://github.com/web-mcp/explainer)
-- [MediSync AI Agent Ecosystem](../README.md#ai-agent-ecosystem)
+- [AnySync AI Agent Ecosystem](../README.md#ai-agent-ecosystem)

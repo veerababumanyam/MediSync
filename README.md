@@ -1,17 +1,17 @@
 <p align="center">
-  <img src="/Users/v13478/.gemini/antigravity/brain/d60690be-5a3c-427c-8c17-03471f519a2d/medisync_hero_banner_1771669104407.png" alt="MediSync Hero Banner" width="100%" />
+  <img src="/Users/v13478/.gemini/antigravity/brain/d60690be-5a3c-427c-8c17-03471f519a2d/AnySync_hero_banner_1771669104407.png" alt="AnySync Hero Banner" width="100%" />
 </p>
 
-<h1 align="center">MediSync</h1>
+<h1 align="center">AnySync</h1>
 
 <p align="center">
   <strong>The Interconnected Medical Brain — AI-Powered Conversational BI & Intelligent Accounting</strong>
 </p>
 
 <p align="center">
-  <a href="https://github.com/veerababumanyam/MediSync/stargazers"><img src="https://img.shields.io/github/stars/veerababumanyam/MediSync?style=for-the-badge&color=0056D2&logo=github" alt="Stars" /></a>
-  <a href="https://github.com/veerababumanyam/MediSync/network/members"><img src="https://img.shields.io/github/forks/veerababumanyam/MediSync?style=for-the-badge&color=00E8C6&logo=github" alt="Forks" /></a>
-  <a href="https://github.com/veerababumanyam/MediSync/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-Polyform_NonCommercial-blue?style=for-the-badge" alt="License" /></a>
+  <a href="https://github.com/veerababumanyam/AnySync/stargazers"><img src="https://img.shields.io/github/stars/veerababumanyam/AnySync?style=for-the-badge&color=0056D2&logo=github" alt="Stars" /></a>
+  <a href="https://github.com/veerababumanyam/AnySync/network/members"><img src="https://img.shields.io/github/forks/veerababumanyam/AnySync?style=for-the-badge&color=00E8C6&logo=github" alt="Forks" /></a>
+  <a href="https://github.com/veerababumanyam/AnySync/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-Polyform_NonCommercial-blue?style=for-the-badge" alt="License" /></a>
 </p>
 
 <p align="center">
@@ -26,9 +26,9 @@
 
 ---
 
-## 🌟 What is MediSync?
+## 🌟 What is AnySync?
 
-MediSync unifies the two core data systems of a healthcare-and-pharmacy business — **HIMS** (clinic operations) and **Tally ERP** (accounting) — into a single AI-powered platform. Instead of dumping CSVs and building spreadsheets, staff simply ask a question in plain language and receive instant charts, tables, and downloadable reports.
+AnySync unifies the two core data systems of a healthcare-and-pharmacy business — **HIMS** (clinic operations) and **Tally ERP** (accounting) — into a single AI-powered platform. Instead of dumping CSVs and building spreadsheets, staff simply ask a question in plain language and receive instant charts, tables, and downloadable reports.
 
 ### 🚀 Core Modules
 
@@ -43,7 +43,7 @@ MediSync unifies the two core data systems of a healthcare-and-pharmacy business
 
 ## 🧠 AI Agent Ecosystem
 
-MediSync is powered by **58 specialized AI agents** orchestrated by the **Google A2A Protocol**.
+AnySync is powered by **58 specialized AI agents** orchestrated by the **Google A2A Protocol**.
 
 <details>
 <summary><b>Click to expand Agent Details</b></summary>
@@ -63,7 +63,7 @@ MediSync is powered by **58 specialized AI agents** orchestrated by the **Google
 
 ## 🏗️ Architecture & Principles
 
-MediSync is built for **Precision, Security, and Scalability.**
+AnySync is built for **Precision, Security, and Scalability.**
 
 ### 🛠️ The Stack
 
@@ -86,7 +86,7 @@ MediSync is built for **Precision, Security, and Scalability.**
 
 ```mermaid
 gantt
-    title MediSync Development Roadmap
+    title AnySync Development Roadmap
     dateFormat  YYYY-MM-DD
     section Foundation
     ETL & DB Infrastructure    :done, 2026-02-01, 2026-02-21
@@ -139,7 +139,7 @@ Explore our comprehensive guides:
 ---
 
 <p align="center">
-  <strong>MediSync</strong> — Built for healthcare and accounting teams who deserve better than spreadsheets.
+  <strong>AnySync</strong> — Built for healthcare and accounting teams who deserve better than spreadsheets.
   <br/>
   <em>Last Updated: February 22, 2026</em>
 </p>

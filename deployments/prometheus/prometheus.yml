@@ -1,4 +1,4 @@
-# MediSync Prometheus Configuration
+# AnySync Prometheus Configuration
 # Metrics collection for ETL and application monitoring
 
 global:
@@ -6,7 +6,7 @@ global:
   evaluation_interval: 15s
   external_labels:
     environment: development
-    application: medisync
+    application: AnySync
 
 # Alerting configuration (optional)
 # alerting:

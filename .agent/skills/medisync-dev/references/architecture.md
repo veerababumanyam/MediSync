@@ -1,6 +1,6 @@
-# MediSync Architecture Reference
+# AnySync Architecture Reference
 
-Detailed architecture patterns for the MediSync platform.
+Detailed architecture patterns for the AnySync platform.
 
 ## Layer Stack
 
@@ -19,7 +19,7 @@ Detailed architecture patterns for the MediSync platform.
                      ▼
 ┌─────────────────────────────────────────────────────────────────┐
 │        DATA WAREHOUSE (PostgreSQL + pgvector + Redis)           │
-│   medisync_readonly role — no AI agent can write                │
+│   AnySync_readonly role — no AI agent can write                │
 └────────────────────┬───────────────────────────────────────────┘
                      │  READ ONLY
                      ▼
@@ -76,7 +76,7 @@ type ETLJob struct {
 - **A2A Protocol**: Inter-agent communication
 - **OPA Policy Engine**: Authorization checks
 
-**Critical Security**: All agents use `medisync_readonly` database role.
+**Critical Security**: All agents use `AnySync_readonly` database role.
 
 ### 3. Action Plane (Write-Back Layer)
 
@@ -242,7 +242,7 @@ Client → Keycloak → JWT → API Gateway → Extract Claims
 ### Authorization Layers
 1. **Keycloak**: Authentication and role assignment
 2. **OPA**: Fine-grained policy enforcement
-3. **Database**: Row-level security via `medisync_readonly` role
+3. **Database**: Row-level security via `AnySync_readonly` role
 4. **HITL**: Human approval for financial writes
 
 ### Audit Trail

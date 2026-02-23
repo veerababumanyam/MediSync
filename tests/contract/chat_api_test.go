@@ -1,4 +1,4 @@
-// Package contract_test provides contract tests for the MediSync API.
+// Package contract_test provides contract tests for the AnySync API.
 package contract_test
 
 import (

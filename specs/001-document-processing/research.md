@@ -30,7 +30,7 @@
 ### Configuration
 
 ```yaml
-# PaddleOCR configuration for MediSync
+# PaddleOCR configuration for AnySync
 ocr:
   use_angle_cls: true        # Handle rotated documents
   lang: "en,ar"              # English + Arabic
@@ -132,7 +132,7 @@ final_confidence = ocr_confidence * (1 - validation_penalty) * handwriting_multi
 **Storage Layout**:
 
 ```
-S3 Bucket: medisync-documents/
+S3 Bucket: AnySync-documents/
 ├── {tenant_id}/
 │   ├── {document_id}/
 │   │   ├── original.pdf      # Original uploaded file

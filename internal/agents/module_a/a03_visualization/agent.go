@@ -27,7 +27,7 @@ import (
 	"log/slog"
 	"strings"
 
-	"github.com/medisync/medisync/internal/warehouse/models"
+	"github.com/AnySync/AnySync/internal/warehouse/models"
 )
 
 const (

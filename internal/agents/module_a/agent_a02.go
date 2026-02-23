@@ -17,7 +17,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/medisync/medisync/internal/agents/shared"
+	"github.com/AnySync/AnySync/internal/agents/shared"
 )
 
 const (

@@ -6,7 +6,7 @@ import tseslint from 'typescript-eslint'
 import { defineConfig, globalIgnores } from 'eslint/config'
 
 /**
- * ESLint configuration with i18n rules for MediSync
+ * ESLint configuration with i18n rules for AnySync
  *
  * i18n Rules:
  * - Warn on string literals in user-facing props (placeholder, title, aria-label, etc.)

@@ -1,4 +1,4 @@
-// Package middleware provides HTTP middleware for the MediSync API.
+// Package middleware provides HTTP middleware for the AnySync API.
 //
 // This file implements metrics collection middleware for latency tracking.
 package middleware

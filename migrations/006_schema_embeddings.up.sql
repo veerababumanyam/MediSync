@@ -1,4 +1,4 @@
--- MediSync AI Agent Core - Schema Embeddings Migration
+-- AnySync AI Agent Core - Schema Embeddings Migration
 -- Version: 006
 -- Description: Create schema embeddings table for semantic search in AI Agent Core
 -- Task: T009
@@ -170,17 +170,17 @@ COMMENT ON FUNCTION vectors.upsert_schema_embedding(VARCHAR(20), VARCHAR(255), T
 -- GRANT PERMISSIONS
 -- ============================================================================
 
--- Grant SELECT to medisync_readonly role for AI agents
-GRANT SELECT ON vectors.ai_schema_embeddings TO medisync_readonly;
+-- Grant SELECT to AnySync_readonly role for AI agents
+GRANT SELECT ON vectors.ai_schema_embeddings TO AnySync_readonly;
 
--- Grant full access to medisync_app role for embedding management
-GRANT SELECT, INSERT, UPDATE, DELETE ON vectors.ai_schema_embeddings TO medisync_app;
-GRANT USAGE, SELECT ON SEQUENCE vectors.ai_schema_embeddings_id_seq TO medisync_app;
+-- Grant full access to AnySync_app role for embedding management
+GRANT SELECT, INSERT, UPDATE, DELETE ON vectors.ai_schema_embeddings TO AnySync_app;
+GRANT USAGE, SELECT ON SEQUENCE vectors.ai_schema_embeddings_id_seq TO AnySync_app;
 
 -- Grant execute on functions
-GRANT EXECUTE ON FUNCTION vectors.search_schema_elements(vector(1536), INTEGER, VARCHAR) TO medisync_app;
-GRANT EXECUTE ON FUNCTION vectors.search_schema_elements(vector(1536), INTEGER, VARCHAR) TO medisync_readonly;
-GRANT EXECUTE ON FUNCTION vectors.upsert_schema_embedding(VARCHAR(20), VARCHAR(255), TEXT, JSONB, vector(1536)) TO medisync_app;
+GRANT EXECUTE ON FUNCTION vectors.search_schema_elements(vector(1536), INTEGER, VARCHAR) TO AnySync_app;
+GRANT EXECUTE ON FUNCTION vectors.search_schema_elements(vector(1536), INTEGER, VARCHAR) TO AnySync_readonly;
+GRANT EXECUTE ON FUNCTION vectors.upsert_schema_embedding(VARCHAR(20), VARCHAR(255), TEXT, JSONB, vector(1536)) TO AnySync_app;
 
 -- ============================================================================
 -- END OF MIGRATION

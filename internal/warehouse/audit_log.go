@@ -9,7 +9,7 @@ import (
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgtype"
-	"github.com/medisync/medisync/internal/warehouse/models"
+	"github.com/AnySync/AnySync/internal/warehouse/models"
 )
 
 // AuditLogRepository handles database operations for document audit logs.

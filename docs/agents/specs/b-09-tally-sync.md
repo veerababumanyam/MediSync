@@ -12,7 +12,7 @@
 
 ## 1. Purpose
 
-Pushes fully approved journal entries, purchase bills, and sales invoices from MediSync into Tally ERP via TDL XML API. This is the **only agent with write access to Tally**. Every sync requires explicit human action after full B-08 approval.
+Pushes fully approved journal entries, purchase bills, and sales invoices from AnySync into Tally ERP via TDL XML API. This is the **only agent with write access to Tally**. Every sync requires explicit human action after full B-08 approval.
 
 > **Addresses:** PRD §6.7.3, US11 — One-click Tally sync for approved transactions.
 
@@ -148,7 +148,7 @@ The "Sync Now" button in the UI is the HITL gate:
 |----------|-------|
 | **Runtime** | Go service |
 | **Tally integration** | TDL XML over HTTP (localhost:9000 default) |
-| **Secrets** | Vault: `secret/medisync/tally/connection` |
+| **Secrets** | Vault: `secret/AnySync/tally/connection` |
 | **DB table** | `tally_sync_log` (hash deduplication) |
 | **Depends on** | B-08, OPA, B-14, Apprise |
 | **Consumed by** | User (Finance Head / Accountant Lead) |

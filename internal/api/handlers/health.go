@@ -1,4 +1,4 @@
-// Package handlers provides HTTP handlers for the MediSync API.
+// Package handlers provides HTTP handlers for the AnySync API.
 //
 // This file implements the health endpoint for agent status monitoring.
 package handlers

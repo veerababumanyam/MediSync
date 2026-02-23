@@ -1,4 +1,4 @@
-// Package config provides environment configuration loading for MediSync services.
+// Package config provides environment configuration loading for AnySync services.
 //
 // Configuration is loaded from environment variables with sensible defaults for
 // development. All services (PostgreSQL, NATS, Redis, Keycloak, Tally, HIMS)
@@ -598,9 +598,9 @@ func loadDatabaseConfig() DatabaseConfig {
 		URL:             getEnv("DATABASE_URL", ""),
 		Host:            getEnv("POSTGRES_HOST", "localhost"),
 		Port:            getEnvInt("POSTGRES_PORT", 5432),
-		User:            getEnv("POSTGRES_USER", "medisync"),
-		Password:        getEnv("POSTGRES_PASSWORD", "medisync_dev_password"),
-		Name:            getEnv("POSTGRES_DB", "medisync"),
+		User:            getEnv("POSTGRES_USER", "AnySync"),
+		Password:        getEnv("POSTGRES_PASSWORD", "AnySync_dev_password"),
+		Name:            getEnv("POSTGRES_DB", "AnySync"),
 		SSLMode:         getEnv("POSTGRES_SSLMODE", "disable"),
 		MaxOpenConns:    getEnvInt("POSTGRES_MAX_OPEN_CONNS", 25),
 		MaxIdleConns:    getEnvInt("POSTGRES_MAX_IDLE_CONNS", 5),
@@ -644,8 +644,8 @@ func loadRedisConfig() RedisConfig {
 func loadKeycloakConfig() KeycloakConfig {
 	return KeycloakConfig{
 		URL:           getEnv("KEYCLOAK_URL", "http://localhost:8180"),
-		Realm:         getEnv("KEYCLOAK_REALM", "medisync"),
-		ClientID:      getEnv("KEYCLOAK_CLIENT_ID", "medisync-app"),
+		Realm:         getEnv("KEYCLOAK_REALM", "AnySync"),
+		ClientID:      getEnv("KEYCLOAK_CLIENT_ID", "AnySync-app"),
 		ClientSecret:  getEnv("KEYCLOAK_CLIENT_SECRET", ""),
 		AdminUser:     getEnv("KEYCLOAK_ADMIN", "admin"),
 		AdminPassword: getEnv("KEYCLOAK_ADMIN_PASSWORD", ""),

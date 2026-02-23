@@ -5,7 +5,7 @@
 //
 // Security:
 //   - All generated SQL is validated to be SELECT-only
-//   - Queries use the medisync_readonly database role
+//   - Queries use the AnySync_readonly database role
 //   - SQL is parameterized to prevent injection
 //
 // Usage:
@@ -22,9 +22,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/medisync/medisync/internal/agents/shared"
-	"github.com/medisync/medisync/internal/cache"
-	"github.com/medisync/medisync/internal/warehouse"
+	"github.com/AnySync/AnySync/internal/agents/shared"
+	"github.com/AnySync/AnySync/internal/cache"
+	"github.com/AnySync/AnySync/internal/warehouse"
 )
 
 const (

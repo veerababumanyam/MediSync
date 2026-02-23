@@ -1,4 +1,4 @@
--- MediSync Initial Schema Migration Rollback
+-- AnySync Initial Schema Migration Rollback
 -- Version: 001
 -- Description: Drop all schemas and tables created by 001_initial_schema.up.sql
 --

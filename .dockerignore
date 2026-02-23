@@ -1,4 +1,4 @@
-# MediSync Docker Build Context Exclusions
+# AnySync Docker Build Context Exclusions
 # This file specifies patterns to exclude from Docker build context
 # for faster builds and smaller context transfers
 

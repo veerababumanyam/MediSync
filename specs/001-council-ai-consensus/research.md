@@ -13,7 +13,7 @@
 - Simple majority voting fails when agents produce semantically equivalent but syntactically different responses
 - Weighted voting allows incorporating agent confidence scores into consensus calculation
 - Semantic clustering groups equivalent responses before counting votes
-- Aligns with MediSync's existing Agent ADK framework for multi-agent orchestration
+- Aligns with AnySync's existing Agent ADK framework for multi-agent orchestration
 
 **Alternatives Considered**:
 - **Unanimous consensus**: Too restrictive, would block valid responses too frequently
@@ -46,7 +46,7 @@
 - Store Knowledge Graph nodes with embeddings in PostgreSQL
 - Use recursive CTEs for multi-hop traversal (max 3 hops)
 - Cache traversal results for 5 minutes (per FR-017)
-- Integrate with MediSync's existing medisync_readonly role
+- Integrate with AnySync's existing AnySync_readonly role
 
 ---
 
@@ -79,7 +79,7 @@
 **Rationale**:
 - Healthcare domain requires tracking source provenance for trust
 - Typed edges enable domain-specific reasoning (treats, causes, contraindicates)
-- Entity types align with MediSync's existing data model (patients, medications, procedures)
+- Entity types align with AnySync's existing data model (patients, medications, procedures)
 - Supports both clinical and financial subdomains per edge case requirements
 
 **Alternatives Considered**:
@@ -114,7 +114,7 @@
 - Partition by month for efficient querying and archival
 - Include deliberation_id as partition key for co-location
 - Soft-delete for user-facing deletion, hard delete only after retention period
-- Integrate with MediSync's existing audit logging infrastructure
+- Integrate with AnySync's existing audit logging infrastructure
 
 ---
 

@@ -1,4 +1,4 @@
-// Package handlers provides HTTP handlers for the MediSync API.
+// Package handlers provides HTTP handlers for the AnySync API.
 //
 // This file contains the request and response types for the Chat API,
 // matching the OpenAPI specification in contracts/chat-api.yaml.

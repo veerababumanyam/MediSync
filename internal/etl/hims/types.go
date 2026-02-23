@@ -1,7 +1,7 @@
 // Package hims provides types for Healthcare Information Management System data.
 //
 // These types represent the canonical data structures from the HIMS REST API
-// that are synced to the MediSync data warehouse.
+// that are synced to the AnySync data warehouse.
 package hims
 
 import (

@@ -1,4 +1,4 @@
--- MediSync PostgreSQL Initialization Script
+-- AnySync PostgreSQL Initialization Script
 -- This script runs automatically on first container startup
 -- Creates required extensions and initial database configuration
 
@@ -21,6 +21,6 @@ BEGIN
 END;
 $$;
 
--- Grant schema creation privileges to medisync user
+-- Grant schema creation privileges to AnySync user
 -- (The user is created automatically from POSTGRES_USER env var)
-ALTER DATABASE medisync SET timezone TO 'Asia/Riyadh';
+ALTER DATABASE AnySync SET timezone TO 'Asia/Riyadh';

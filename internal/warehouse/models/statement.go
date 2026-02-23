@@ -81,7 +81,7 @@ func (s *SQLStatement) Validate() error {
 // IsSELECT checks if the SQL statement is a SELECT query.
 // It performs a case-insensitive check on the trimmed SQL text.
 // This is critical for security - only SELECT queries should be executed
-// by the AI agents using the medisync_readonly database role.
+// by the AI agents using the AnySync_readonly database role.
 func (s *SQLStatement) IsSELECT() bool {
 	trimmed := strings.TrimSpace(s.SQLText)
 	upper := strings.ToUpper(trimmed)

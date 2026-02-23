@@ -5,7 +5,7 @@ description: Acts as the pre-processing gate for all chat queries. Detects query
 
 # Language Detection & Routing Skill
 
-Guidelines for handling multi-lingual (Arabic/English) user interactions and ensuring locale consistency across MediSync agents.
+Guidelines for handling multi-lingual (Arabic/English) user interactions and ensuring locale consistency across AnySync agents.
 
 ## Detection Logic
 
@@ -43,7 +43,7 @@ func detectLanguage(text string) string {
 
 ### Prompt for Localized Response
 ```
-You are a MediSync assistant. 
+You are a AnySync assistant. 
 The user's preferred locale is: {{ response_locale }}
 Tone: Professional and helpful.
 Instruction: Translate the final business insight into {{ response_locale }}, but keep column names and table data exactly as they appear in the database.

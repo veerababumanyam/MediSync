@@ -30,11 +30,11 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	"github.com/medisync/medisync/internal/config"
-	"github.com/medisync/medisync/internal/events"
-	"github.com/medisync/medisync/internal/etl/hims"
-	"github.com/medisync/medisync/internal/etl/tally"
-	"github.com/medisync/medisync/internal/warehouse"
+	"github.com/AnySync/AnySync/internal/config"
+	"github.com/AnySync/AnySync/internal/events"
+	"github.com/AnySync/AnySync/internal/etl/hims"
+	"github.com/AnySync/AnySync/internal/etl/tally"
+	"github.com/AnySync/AnySync/internal/warehouse"
 )
 
 // Service coordinates ETL operations.

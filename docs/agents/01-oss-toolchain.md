@@ -1,4 +1,4 @@
-# MediSync — OSS Toolchain Map
+# AnySync — OSS Toolchain Map
 
 **Version:** 2.1 | **Created:** February 19, 2026  
 **Constraint:** Open-source only (OSI-approved licenses). Primary Backend: **Go**. AI Orchestration: **Genkit**.
@@ -19,7 +19,7 @@
 
 ### 2.1 Backend & API Layer (Go)
 
-| Tool | License | GitHub | Role in MediSync | Context |
+| Tool | License | GitHub | Role in AnySync | Context |
 |------|---------|--------|-----------------|---------|
 | **Go** ✅ | BSD-3-Clause | [golang/go](https://github.com/golang/go) | Core Backend & ETL Service | Performance & Concurrency |
 | **go-chi/chi** ✅ | MIT | [go-chi/chi](https://github.com/go-chi/chi) | HTTP Router | Lightweight, idiomatic |
@@ -28,7 +28,7 @@
 
 ### 2.2 AI Orchestration & Frameworks
 
-| Tool | License | GitHub | Role in MediSync | Note |
+| Tool | License | GitHub | Role in AnySync | Note |
 |------|---------|--------|-----------------|------|
 | **Genkit** ✅ | Apache-2.0 | [firebase/genkit](https://github.com/firebase/genkit) | AI Orchestration (Go/TS) | Type-safe flows, observability |
 | **Agent ADK** ✅ | Apache-2.0 | [google/agent-adk](https://github.com/google/agent-adk) | Multi-Agent Framework | Sophisticated agent orchestration |
@@ -40,7 +40,7 @@
 
 ### 2.3 Web Dashboard Stack (React + CopilotKit)
 
-| Tool | License | GitHub | Role in MediSync | Context |
+| Tool | License | GitHub | Role in AnySync | Context |
 |------|---------|--------|-----------------|---------|
 | **React.js** ✅ | MIT | [facebook/react](https://github.com/facebook/react) | Host Framework | Component-based UI |
 | **CopilotKit** ✅ | MIT | [CopilotKit](https://github.com/CopilotKit/CopilotKit) | GenUI Framework | AI-powered UI & Orchestration |
@@ -49,13 +49,13 @@
 
 ### 2.4 Mobile App Stack (Flutter)
 
-| Tool | License | GitHub | Role in MediSync | Note |
+| Tool | License | GitHub | Role in AnySync | Note |
 |------|---------|--------|-----------------|------|
 | **Flutter** ✅ | BSD-3-Clause | [flutter/flutter](https://github.com/flutter/flutter) | Mobile App | iOS/Android cross-platform |
 
 ### 2.5 Enterprise Foundation (IAM & Events)
 
-| Tool | License | GitHub | Role in MediSync | Note |
+| Tool | License | GitHub | Role in AnySync | Note |
 |------|---------|--------|-----------------|------|
 | **Keycloak** ✅ | Apache-2.0 | [keycloak/keycloak](https://github.com/keycloak) | Identity & Auth | OIDC/SAML local IAM |
 | **NATS** ✅ | Apache-2.0 | [nats-io/nats-server](https://github.com/nats-io) | Message Broker | Go-native high perf bus |
@@ -63,7 +63,7 @@
 
 ### 2.6 Observability & Logs (LGTM Stack)
 
-| Tool | License | GitHub | Role in MediSync | Note |
+| Tool | License | GitHub | Role in AnySync | Note |
 |------|---------|--------|-----------------|------|
 | **Grafana** ✅ | AGPL-3.0 | [grafana/grafana](https://github.com/grafana) | Metrics Dashboard | Unified viz for logs/metrics |
 | **Prometheus** ✅ | Apache-2.0 | [prometheus/prometheus](https://github.com/prometheus) | Metrics Storage | Time-series DB |
@@ -73,7 +73,7 @@
 
 ## 3. Data Infrastructure
 
-| Tool | License | GitHub | Role in MediSync |
+| Tool | License | GitHub | Role in AnySync |
 |------|---------|--------|-----------------|
 | **PostgreSQL** ✅ | PostgreSQL | [postgres/postgres](https://github.com/postgres/postgres) | Primary Warehouse |
 | **pgvector** ✅ | PostgreSQL | [pgvector/pgvector](https://github.com/pgvector/pgvector) | Vector Search |
@@ -105,7 +105,7 @@
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                      MEDISYNC GO/GENKIT STACK               │
+│                      AnySync GO/GENKIT STACK               │
 ├──────────────────┬──────────────────────────────────────────┤
 │ Layer            │ Primary Tools (OSS/OSI)                  │
 ├──────────────────┼──────────────────────────────────────────┤

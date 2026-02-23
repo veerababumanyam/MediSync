@@ -1,4 +1,4 @@
-// Package api provides OPA (Open Policy Agent) client for MediSync.
+// Package api provides OPA (Open Policy Agent) client for AnySync.
 //
 // This file implements the OPAClient which handles policy evaluation
 // for authorization decisions throughout the application.
@@ -218,7 +218,7 @@ func (c *OPAClient) ValidateBIQuery(ctx context.Context, query string, user OPAU
 		User:  user,
 	}
 
-	decision, err := c.Evaluate(ctx, "medisync.bi_read_only", input)
+	decision, err := c.Evaluate(ctx, "AnySync.bi_read_only", input)
 	if err != nil {
 		return nil, fmt.Errorf("failed to evaluate bi_read_only policy: %w", err)
 	}
@@ -256,7 +256,7 @@ func (c *OPAClient) GetColumnMasks(ctx context.Context, columns []string, schema
 		Table:   table,
 	}
 
-	decision, err := c.Evaluate(ctx, "medisync.column_masking", input)
+	decision, err := c.Evaluate(ctx, "AnySync.column_masking", input)
 	if err != nil {
 		return nil, fmt.Errorf("failed to evaluate column_masking policy: %w", err)
 	}
@@ -293,7 +293,7 @@ func (c *OPAClient) AllowTallySync(ctx context.Context, user OPAUserInput, costC
 		},
 	}
 
-	return c.Allow(ctx, "medisync.tally_sync", input)
+	return c.Allow(ctx, "AnySync.tally_sync", input)
 }
 
 // AllowReportAccess checks if the user can access a report.
@@ -304,7 +304,7 @@ func (c *OPAClient) AllowReportAccess(ctx context.Context, user OPAUserInput, re
 		Resource: reportID,
 	}
 
-	return c.Allow(ctx, "medisync.reports", input)
+	return c.Allow(ctx, "AnySync.reports", input)
 }
 
 // Health checks if the OPA server is healthy.

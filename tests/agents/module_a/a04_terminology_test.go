@@ -5,7 +5,7 @@ import (
 	"context"
 	"testing"
 
-	"github.com/medisync/medisync/internal/agents/module_a/a04_terminology"
+	"github.com/AnySync/AnySync/internal/agents/module_a/a04_terminology"
 )
 
 // MockGlossaryRepository implements GlossaryRepository for testing.

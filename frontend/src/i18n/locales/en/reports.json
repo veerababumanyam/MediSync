@@ -87,5 +87,13 @@
     "updated": "Report updated successfully",
     "deleted": "Scheduled report deleted",
     "runStarted": "Report generation started"
+  },
+  "error": {
+    "loadFailed": "Failed to load reports",
+    "createFailed": "Failed to create report",
+    "updateFailed": "Failed to update report",
+    "deleteFailed": "Failed to delete report",
+    "runFailed": "Failed to run report",
+    "downloadFailed": "Failed to download report"
   }
 }

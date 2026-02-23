@@ -10,7 +10,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/medisync/medisync/internal/warehouse/models"
+	"github.com/AnySync/AnySync/internal/warehouse/models"
 )
 
 // IntentPattern defines a pattern for matching query intents.

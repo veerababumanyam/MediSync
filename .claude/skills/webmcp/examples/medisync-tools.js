@@ -1,11 +1,11 @@
-// MediSync WebMCP Tools Example
-// This example shows how to implement WebMCP tools for MediSync
+// AnySync WebMCP Tools Example
+// This example shows how to implement WebMCP tools for AnySync
 
 // ============================================
 // TOOL REGISTRATION SETUP
 // ============================================
 
-class MediSyncWebMCPManager {
+class AnySyncWebMCPManager {
   constructor() {
     this.registeredTools = new Map();
     this.sessionContext = null;
@@ -98,7 +98,7 @@ class MediSyncWebMCPManager {
 // Tool 1: Query Products
 const queryProductsTool = {
   name: "queryProducts",
-  description: `Search and filter products in the MediSync inventory.
+  description: `Search and filter products in the AnySync inventory.
   Returns product details including pricing, stock levels, and categories.
   Use when users want to find specific products or check availability.`,
 
@@ -133,7 +133,7 @@ const queryProductsTool = {
 
   async handler(params, context) {
     // Use existing page search functionality
-    const productStore = window.__medisync?.productStore;
+    const productStore = window.__AnySync?.productStore;
     if (!productStore) {
       return { success: false, error: "Product data not available" };
     }
@@ -210,7 +210,7 @@ const queryPatientsTool = {
       };
     }
 
-    const patientStore = window.__medisync?.patientStore;
+    const patientStore = window.__AnySync?.patientStore;
     if (!patientStore) {
       return { success: false, error: "Patient data not available" };
     }
@@ -269,7 +269,7 @@ const queryAppointmentsTool = {
   },
 
   async handler(params, context) {
-    const appointmentStore = window.__medisync?.appointmentStore;
+    const appointmentStore = window.__AnySync?.appointmentStore;
     if (!appointmentStore) {
       return { success: false, error: "Appointment data not available" };
     }
@@ -325,7 +325,7 @@ const generateQuickReportTool = {
   },
 
   async handler(params, context) {
-    const reportService = window.__medisync?.reportService;
+    const reportService = window.__AnySync?.reportService;
     if (!reportService) {
       return { success: false, error: "Report service not available" };
     }
@@ -374,7 +374,7 @@ const scheduleAppointmentTool = {
   },
 
   async handler(params, context) {
-    const appointmentService = window.__medisync?.appointmentService;
+    const appointmentService = window.__AnySync?.appointmentService;
     if (!appointmentService) {
       return { success: false, error: "Appointment service not available" };
     }
@@ -449,7 +449,7 @@ const createOrderTool = {
   },
 
   async handler(params, context) {
-    const orderService = window.__medisync?.orderService;
+    const orderService = window.__AnySync?.orderService;
     if (!orderService) {
       return { success: false, error: "Order service not available" };
     }
@@ -510,14 +510,14 @@ const createOrderTool = {
 
 // Initialize when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
-  const webMCPManager = new MediSyncWebMCPManager();
+  const webMCPManager = new AnySyncWebMCPManager();
 
   // Get session context from app
   const context = {
-    userId: window.__medisync?.userId,
-    companyId: window.__medisync?.companyId,
-    permissions: window.__medisync?.permissions || {},
-    locale: window.__medisync?.locale || 'en'
+    userId: window.__AnySync?.userId,
+    companyId: window.__AnySync?.companyId,
+    permissions: window.__AnySync?.permissions || {},
+    locale: window.__AnySync?.locale || 'en'
   };
 
   webMCPManager.init(context)

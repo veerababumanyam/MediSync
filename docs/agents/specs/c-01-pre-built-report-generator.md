@@ -66,7 +66,7 @@ Generates standard financial reports (P&L, Balance Sheet, Cash Flow Statement, D
 
 ## 6. Guardrails
 
-- All queries run via `medisync_readonly` Postgres role.
+- All queries run via `AnySync_readonly` Postgres role.
 - Report data scoped to user's allowed entities and cost centres (OPA).
 - Sensitive columns (salaries, cost prices) masked per role.
 

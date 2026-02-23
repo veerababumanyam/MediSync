@@ -1,4 +1,4 @@
-// Package handlers provides HTTP handlers for the MediSync API.
+// Package handlers provides HTTP handlers for the AnySync API.
 //
 // This file implements the Council of AIs endpoints for multi-agent consensus.
 package handlers
@@ -10,7 +10,7 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/medisync/medisync/internal/agents/council"
+	"github.com/AnySync/AnySync/internal/agents/council"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/render"
 )

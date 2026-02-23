@@ -1,10 +1,10 @@
-# MediSync Agent Development Guide
+# AnySync Agent Development Guide
 
-Comprehensive guide for developing AI agents in the MediSync platform using Genkit, Agent ADK, and A2A protocol.
+Comprehensive guide for developing AI agents in the AnySync platform using Genkit, Agent ADK, and A2A protocol.
 
 ## Genkit Flow Pattern
 
-All MediSync agents follow the Genkit Flow pattern for orchestration.
+All AnySync agents follow the Genkit Flow pattern for orchestration.
 
 ### Basic Agent Structure
 
@@ -68,7 +68,7 @@ func (s *AgentService) TextToSQLFlow(ctx context.Context, req TextToSQLRequest) 
     }
 
     // 6. Execute via readonly role
-    rows, err := s.warehouse.Query(ctx, sql, "medisync_readonly")
+    rows, err := s.warehouse.Query(ctx, sql, "AnySync_readonly")
     if err != nil {
         return nil, fmt.Errorf("query execution failed: %w", err)
     }

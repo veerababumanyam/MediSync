@@ -237,13 +237,13 @@ func TestDatabaseDSN(t *testing.T) {
 				Database: DatabaseConfig{
 					Host:     "localhost",
 					Port:     5432,
-					User:     "medisync",
+					User:     "AnySync",
 					Password: "password",
-					Name:     "medisync",
+					Name:     "AnySync",
 					SSLMode:  "disable",
 				},
 			},
-			expected: "postgres://medisync:password@localhost:5432/medisync?sslmode=disable",
+			expected: "postgres://AnySync:password@localhost:5432/AnySync?sslmode=disable",
 		},
 		{
 			name: "escapes special characters in password",

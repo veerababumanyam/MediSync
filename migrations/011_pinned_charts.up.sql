@@ -1,4 +1,4 @@
--- MediSync Dashboard Advanced Features - Pinned Charts Migration
+-- AnySync Dashboard Advanced Features - Pinned Charts Migration
 -- Version: 011
 -- Description: Create pinned_charts table for user dashboard widgets
 -- Task: T002
@@ -67,9 +67,9 @@ COMMENT ON FUNCTION app.update_pinned_charts_updated_at() IS 'Trigger function t
 -- GRANT PERMISSIONS
 -- ============================================================================
 
-GRANT SELECT ON app.pinned_charts TO medisync_readonly;
-GRANT SELECT, INSERT, UPDATE, DELETE ON app.pinned_charts TO medisync_app;
-GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA app TO medisync_app;
+GRANT SELECT ON app.pinned_charts TO AnySync_readonly;
+GRANT SELECT, INSERT, UPDATE, DELETE ON app.pinned_charts TO AnySync_app;
+GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA app TO AnySync_app;
 
 -- ============================================================================
 -- END OF MIGRATION

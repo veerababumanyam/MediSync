@@ -1,14 +1,14 @@
 ---
-name: medisync-dev
-description: Guides developers working on the MediSync AI-powered healthcare BI platform. Provides architecture patterns, AI agent development workflows, security requirements, and i18n standards. Use when adding features, creating agents, running tests, or implementing integrations.
+name: AnySync-dev
+description: Guides developers working on the AnySync AI-powered healthcare BI platform. Provides architecture patterns, AI agent development workflows, security requirements, and i18n standards. Use when adding features, creating agents, running tests, or implementing integrations.
 ---
 
-# MediSync Development Guide
+# AnySync Development Guide
 
-MediSync is an AI-powered conversational BI platform that unifies operations data (HIMS, LIMS, custom databases) and financial data (Tally ERP) for healthcare, laboratory, and pharmacy businesses.
+AnySync is an AI-powered conversational BI platform that unifies operations data (HIMS, LIMS, custom databases) and financial data (Tally ERP) for healthcare, laboratory, and pharmacy businesses.
 
 ★ Insight ─────────────────────────────────────
-MediSync's three-plane architecture separates concerns:
+AnySync's three-plane architecture separates concerns:
 1. **Data Plane** - Secure ETL extracts from HIMS, LIMS, Tally, and custom legacy endpoints into a read-only conceptual warehouse.
 2. **Intelligence Plane** - AI agents query with read-only access
 3. **Action Plane** - Human-gated write-backs to external systems
@@ -29,7 +29,7 @@ This ensures analytics never impact operational systems.
 ## Directory Structure
 
 ```
-medisync/
+AnySync/
 ├── cmd/                    # Entry points: api, etl, migrate
 ├── internal/
 │   ├── agents/            # AI agent implementations (modules A-E)
@@ -111,7 +111,7 @@ Key principles:
 - Define input/output structs explicitly
 - Include confidence scoring for all AI outputs
 - Route to HITL when confidence < threshold
-- Use the `medisync_readonly` database role for queries
+- Use the `AnySync_readonly` database role for queries
 
 ### Adding a New Agent
 
@@ -128,7 +128,7 @@ See `references/agents.md` for detailed patterns.
 
 ### Read-Only Enforcement
 ```go
-const dbRole = "medisync_readonly"
+const dbRole = "AnySync_readonly"
 
 func isSelectOnlyQuery(sql string) bool {
     return strings.HasPrefix(strings.ToUpper(strings.TrimSpace(sql)), "SELECT")
@@ -142,7 +142,7 @@ All Tally sync operations require:
 3. Audit log entry
 
 ### Security Checklist
-- [ ] AI agents use `medisync_readonly` DB role
+- [ ] AI agents use `AnySync_readonly` DB role
 - [ ] SQL queries validated as SELECT-only
 - [ ] Write-backs require HITL approval
 - [ ] OPA policies cover new endpoints
@@ -175,7 +175,7 @@ prompt := fmt.Sprintf(
 
 ### Database Migration
 1. Create migration file in `migrations/`
-2. Use `medisync_readonly` role reference for AI queries
+2. Use `AnySync_readonly` role reference for AI queries
 3. Test on copy of production data
 4. Run: `go run ./cmd/migrate`
 5. Verify with rollback test
@@ -220,7 +220,7 @@ See `references/testing.md` for unit, integration, and E2E patterns.
 
 ## Philosophy
 
-> "MediSync exists to liberate healthcare and accounting teams from the tyranny of spreadsheets and manual reconciliation."
+> "AnySync exists to liberate healthcare and accounting teams from the tyranny of spreadsheets and manual reconciliation."
 
 When working on this codebase:
 - **Security first**: Never compromise on HITL gates

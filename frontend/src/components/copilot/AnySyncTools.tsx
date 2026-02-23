@@ -1,11 +1,11 @@
 /* eslint-disable react-refresh/only-export-components */
 /**
- * MediSync CopilotKit Tools
+ * AnySync CopilotKit Tools
  *
  * Defines tools for CopilotKit generative UI with render functions.
  * These tools allow AI agents to render React components dynamically.
  *
- * @module components/copilot/MediSyncTools
+ * @module components/copilot/AnySyncTools
  */
 import React from 'react'
 
@@ -102,10 +102,10 @@ export const QueryResultComponent: React.FC<{
           <div className="w-20 h-2 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden" role="progressbar" aria-valuenow={confidence} aria-valuemin={0} aria-valuemax={100} aria-label={`${confidence}% confidence`}>
             <div
               className={`h-full ${confidence >= 90
-                  ? 'bg-emerald-500'
-                  : confidence >= 70
-                    ? 'bg-amber-500'
-                    : 'bg-red-500'
+                ? 'bg-emerald-500'
+                : confidence >= 70
+                  ? 'bg-amber-500'
+                  : 'bg-red-500'
                 }`}
               style={{ width: `${confidence}%` }}
             />
@@ -371,11 +371,11 @@ export const ExportStatusComponent: React.FC<{
  * Tool definitions for CopilotKit
  * These are passed to CopilotKit provider
  */
-export const medisyncTools = [
+export const AnySyncTools = [
   {
     name: 'queryBI',
     description:
-      'Execute a natural language query against MediSync BI data. Returns charts, tables, and insights.',
+      'Execute a natural language query against AnySync BI data. Returns charts, tables, and insights.',
     parameters: {
       type: 'object' as const,
       properties: {
@@ -429,7 +429,7 @@ export const medisyncTools = [
   },
   {
     name: 'navigate',
-    description: 'Navigate to a different page in MediSync',
+    description: 'Navigate to a different page in AnySync',
     parameters: {
       type: 'object' as const,
       properties: {
@@ -543,4 +543,4 @@ export const medisyncTools = [
   },
 ]
 
-export default medisyncTools
+export default AnySyncTools

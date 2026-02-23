@@ -1,5 +1,5 @@
-# MediSync BI Read-Only Policy
-# Package: medisync.bi_read_only
+# AnySync BI Read-Only Policy
+# Package: AnySync.bi_read_only
 # Version: 1.0
 # Description: OPA policy that ensures only SELECT statements are allowed for BI queries
 #
@@ -8,7 +8,7 @@
 #
 # Cross-reference: internal/agents/module_a/a01_text_to_sql/, docs/agents/03-governance-security.md
 
-package medisync.bi_read_only
+package AnySync.bi_read_only
 
 import rego.v1
 

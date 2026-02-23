@@ -3,13 +3,13 @@ name: postgresql-patterns
 description: This skill should be used when the user asks to "write PostgreSQL queries", "create database schema", "PostgreSQL optimization", "pgvector queries", "database migrations", "SQL patterns", "PostgreSQL indexes", "full-text search", or mentions PostgreSQL-specific features like JSONB, arrays, CTEs, or window functions.
 ---
 
-# PostgreSQL Patterns for MediSync
+# PostgreSQL Patterns for AnySync
 
-PostgreSQL 18.2 with pgvector is MediSync's data warehouse. This skill covers query patterns, schema design, vector operations, and performance optimization.
+PostgreSQL 18.2 with pgvector is AnySync's data warehouse. This skill covers query patterns, schema design, vector operations, and performance optimization.
 
 ★ Insight ─────────────────────────────────────
-MediSync's database architecture:
-1. **Read-only role** (`medisync_readonly`) for AI agents
+AnySync's database architecture:
+1. **Read-only role** (`AnySync_readonly`) for AI agents
 2. **pgvector** for semantic search and embeddings
 3. **JSONB** for flexible document storage
 4. **Partitioning** for time-series data
@@ -316,15 +316,15 @@ COMMIT;
 
 ```sql
 -- Create read-only role for AI agents
-CREATE ROLE medisync_readonly WITH LOGIN PASSWORD 'secure_password';
+CREATE ROLE AnySync_readonly WITH LOGIN PASSWORD 'secure_password';
 
-GRANT CONNECT ON DATABASE medisync TO medisync_readonly;
-GRANT USAGE ON SCHEMA public TO medisync_readonly;
-GRANT SELECT ON ALL TABLES IN SCHEMA public TO medisync_readonly;
+GRANT CONNECT ON DATABASE AnySync TO AnySync_readonly;
+GRANT USAGE ON SCHEMA public TO AnySync_readonly;
+GRANT SELECT ON ALL TABLES IN SCHEMA public TO AnySync_readonly;
 
 -- Default privileges for future tables
 ALTER DEFAULT PRIVILEGES IN SCHEMA public
-    GRANT SELECT ON TABLES TO medisync_readonly;
+    GRANT SELECT ON TABLES TO AnySync_readonly;
 ```
 
 ## Additional Resources

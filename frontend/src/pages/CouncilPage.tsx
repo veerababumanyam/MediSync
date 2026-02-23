@@ -61,9 +61,9 @@ export const CouncilPage: React.FC<CouncilPageProps> = ({ className = '' }) => {
 
   // Update document title
   useEffect(() => {
-    document.title = `${t('title', 'Council of AIs')} | MediSync`
+    document.title = `${t('title', 'Council of AIs')} | AnySync`
     return () => {
-      document.title = 'MediSync'
+      document.title = 'AnySync'
     }
   }, [t])
 
@@ -163,7 +163,7 @@ export const CouncilPage: React.FC<CouncilPageProps> = ({ className = '' }) => {
       </header>
 
       {/* Main Content */}
-      <main className="container mx-auto px-4 py-6 space-y-6">
+      <main id="main-content" className="container mx-auto px-4 main-content-top pb-6 space-y-6">
         {/* Two-Column Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Query Input Section */}
@@ -265,7 +265,7 @@ export const CouncilPage: React.FC<CouncilPageProps> = ({ className = '' }) => {
       <footer className="border-t border-glass bg-surface-glass backdrop-blur-md mt-8">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between text-sm text-secondary">
           <span>
-            {t('footer.copyright', '© 2026 MediSync. AI-Powered Healthcare Intelligence.')}
+            {t('footer.copyright', '© 2026 AnySync. AI-Powered Healthcare Intelligence.')}
           </span>
           <div className="flex items-center gap-4">
             {health && (

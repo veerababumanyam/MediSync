@@ -11,6 +11,8 @@
  */
 import { useCallback, useEffect, useState } from 'react'
 import { reportsApi, type ScheduledReport, APIError } from '../services/api'
+import { useTranslation } from 'react-i18next'
+import { useToast } from './useToast'
 
 /**
  * Report type matching ScheduledReport from API
@@ -82,6 +84,8 @@ export interface UseReportsReturn {
  * Hook for managing scheduled reports
  */
 export function useReports(): UseReportsReturn {
+  const { t } = useTranslation('reports')
+  const { error: toastError, success: toastSuccess, info: toastInfo } = useToast()
   const [reports, setReports] = useState<Report[]>([])
   const [runs, setRuns] = useState<ReportRun[]>([])
   const [isLoading, setIsLoading] = useState(false)
@@ -100,15 +104,14 @@ export function useReports(): UseReportsReturn {
     } catch (err) {
       const message = err instanceof APIError
         ? err.message
-        : err instanceof Error
-          ? err.message
-          : 'Failed to load reports'
+        : t('error.loadFailed')
       setError(message)
+      toastError(t('error.loadFailed'))
       console.error('Failed to load reports:', err)
     } finally {
       setIsLoading(false)
     }
-  }, [])
+  }, [t, toastError])
 
   /**
    * Load all scheduled reports on mount
@@ -127,19 +130,19 @@ export function useReports(): UseReportsReturn {
     try {
       const newReport = await reportsApi.createScheduled(report)
       setReports(prev => [...prev, newReport])
+      toastSuccess(t('toast.created'))
     } catch (err) {
       const message = err instanceof APIError
         ? err.message
-        : err instanceof Error
-          ? err.message
-          : 'Failed to create report'
+        : t('error.createFailed')
       setError(message)
+      toastError(t('error.createFailed'))
       console.error('Failed to create report:', err)
       throw err
     } finally {
       setIsLoading(false)
     }
-  }, [])
+  }, [t, toastSuccess, toastError])
 
   /**
    * Update an existing report
@@ -155,19 +158,19 @@ export function useReports(): UseReportsReturn {
           report.id === id ? updatedReport : report
         )
       )
+      toastSuccess(t('toast.updated'))
     } catch (err) {
       const message = err instanceof APIError
         ? err.message
-        : err instanceof Error
-          ? err.message
-          : 'Failed to update report'
+        : t('error.updateFailed')
       setError(message)
+      toastError(t('error.updateFailed'))
       console.error('Failed to update report:', err)
       throw err
     } finally {
       setIsLoading(false)
     }
-  }, [])
+  }, [t, toastSuccess, toastError])
 
   /**
    * Delete a report
@@ -179,19 +182,19 @@ export function useReports(): UseReportsReturn {
     try {
       await reportsApi.deleteScheduled(id)
       setReports(prev => prev.filter(report => report.id !== id))
+      toastSuccess(t('toast.deleted'))
     } catch (err) {
       const message = err instanceof APIError
         ? err.message
-        : err instanceof Error
-          ? err.message
-          : 'Failed to delete report'
+        : t('error.deleteFailed')
       setError(message)
+      toastError(t('error.deleteFailed'))
       console.error('Failed to delete report:', err)
       throw err
     } finally {
       setIsLoading(false)
     }
-  }, [])
+  }, [t, toastSuccess, toastError])
 
   /**
    * Trigger report generation
@@ -202,21 +205,21 @@ export function useReports(): UseReportsReturn {
 
     try {
       await reportsApi.runScheduled(id)
+      toastInfo(t('toast.runStarted'))
       // Refresh reports to get updated lastRunAt/nextRunAt
       await refreshReports()
     } catch (err) {
       const message = err instanceof APIError
         ? err.message
-        : err instanceof Error
-          ? err.message
-          : 'Failed to run report'
+        : t('error.runFailed')
       setError(message)
+      toastError(t('error.runFailed'))
       console.error('Failed to run report:', err)
       throw err
     } finally {
       setIsLoading(false)
     }
-  }, [refreshReports])
+  }, [refreshReports, t, toastInfo, toastError])
 
   /**
    * Load runs for a specific report
@@ -231,15 +234,14 @@ export function useReports(): UseReportsReturn {
     } catch (err) {
       const message = err instanceof APIError
         ? err.message
-        : err instanceof Error
-          ? err.message
-          : 'Failed to load report runs'
+        : t('error.loadFailed')
       setError(message)
+      toastError(t('error.loadFailed'))
       console.error('Failed to load report runs:', err)
     } finally {
       setIsLoading(false)
     }
-  }, [])
+  }, [t, toastError])
 
   /**
    * Download a completed report run
@@ -267,16 +269,15 @@ export function useReports(): UseReportsReturn {
     } catch (err) {
       const message = err instanceof APIError
         ? err.message
-        : err instanceof Error
-          ? err.message
-          : 'Failed to download report'
+        : t('error.downloadFailed')
       setError(message)
+      toastError(t('error.downloadFailed'))
       console.error('Failed to download report:', err)
       throw err
     } finally {
       setIsLoading(false)
     }
-  }, [])
+  }, [t, toastError])
 
   /**
    * Clear error state

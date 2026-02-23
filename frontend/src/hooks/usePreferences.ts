@@ -27,7 +27,7 @@ export type PreferenceUpdates = Partial<
 /**
  * Storage key for offline caching
  */
-const PREFERENCES_STORAGE_KEY = 'medisync-preferences-cache'
+const PREFERENCES_STORAGE_KEY = 'AnySync-preferences-cache'
 
 /**
  * Return type for usePreferences hook

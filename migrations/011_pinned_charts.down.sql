@@ -1,4 +1,4 @@
--- MediSync Dashboard Advanced Features - Pinned Charts Migration (Rollback)
+-- AnySync Dashboard Advanced Features - Pinned Charts Migration (Rollback)
 -- Version: 011
 -- Description: Rollback pinned_charts table
 

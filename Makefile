@@ -1,5 +1,5 @@
-# MediSync Makefile
-# Build, test, and run commands for the MediSync AI Agent Core
+# AnySync Makefile
+# Build, test, and run commands for the AnySync AI Agent Core
 
 # Go parameters
 GOCMD=go
@@ -11,8 +11,8 @@ GOMOD=$(GOCMD) mod
 GOFMT=gofmt
 
 # Binary names
-API_BINARY=medisync-api
-MIGRATE_BINARY=medisync-migrate
+API_BINARY=AnySync-api
+MIGRATE_BINARY=AnySync-migrate
 
 # Main packages
 API_MAIN=./cmd/api
@@ -183,12 +183,12 @@ install-linter:
 ## env-example: Create example .env file
 env-example:
 	@echo "$(GREEN)Creating example .env file...$(NC)"
-	@cp .env.example .env 2>/dev/null || echo "DATABASE_URL=postgres://medisync:medisync@localhost:5432/medisync?sslmode=disable\nREDIS_URL=redis://localhost:6379\nKEYCLOAK_URL=http://localhost:8081\nOPA_URL=http://localhost:8181\nNATS_URL=nats://localhost:4222\nLLM_PROVIDER=ollama\nLLM_MODEL=llama4\nLLM_API_KEY=\nSERVER_PORT=:8080\nENVIRONMENT=development\nLOG_LEVEL=debug" > .env
+	@cp .env.example .env 2>/dev/null || echo "DATABASE_URL=postgres://AnySync:AnySync@localhost:5432/AnySync?sslmode=disable\nREDIS_URL=redis://localhost:6379\nKEYCLOAK_URL=http://localhost:8081\nOPA_URL=http://localhost:8181\nNATS_URL=nats://localhost:4222\nLLM_PROVIDER=ollama\nLLM_MODEL=llama4\nLLM_API_KEY=\nSERVER_PORT=:8080\nENVIRONMENT=development\nLOG_LEVEL=debug" > .env
 	@echo "$(GREEN).env file created!$(NC)"
 
 ## help: Show this help message
 help:
-	@echo "MediSync Makefile Commands:"
+	@echo "AnySync Makefile Commands:"
 	@echo ""
 	@sed -n 's/^## //p' $(MAKEFILE_LIST) | column -t -s ':'
 	@echo ""

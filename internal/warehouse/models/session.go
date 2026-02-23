@@ -16,7 +16,7 @@ var ValidLocales = map[string]bool{
 	"ar": true,
 }
 
-// QuerySession represents a user's query session within the MediSync platform.
+// QuerySession represents a user's query session within the AnySync platform.
 // A session groups multiple natural language queries and their results together,
 // maintaining context and user preferences throughout the conversation.
 type QuerySession struct {

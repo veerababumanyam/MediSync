@@ -1,4 +1,4 @@
--- MediSync Audit Log Row-Level Security Migration Rollback
+-- AnySync Audit Log Row-Level Security Migration Rollback
 -- Version: 003
 -- Description: Remove append-only policy from audit_log table
 --
@@ -56,27 +56,27 @@ ALTER TABLE app.audit_log DISABLE ROW LEVEL SECURITY;
 -- ============================================================================
 
 -- Restore the default privileges from migration 002
--- medisync_readonly: SELECT only (unchanged)
--- medisync_app: Full CRUD (as per original 002 migration before RLS restrictions)
--- medisync_etl: INSERT only (as per original 002 migration)
+-- AnySync_readonly: SELECT only (unchanged)
+-- AnySync_app: Full CRUD (as per original 002 migration before RLS restrictions)
+-- AnySync_etl: INSERT only (as per original 002 migration)
 
 -- Note: We restore to the state defined in 002_roles.up.sql
--- which grants full CRUD to medisync_app and INSERT to medisync_etl
+-- which grants full CRUD to AnySync_app and INSERT to AnySync_etl
 
 -- Revoke current grants first for clean slate
-REVOKE ALL ON app.audit_log FROM medisync_readonly;
-REVOKE ALL ON app.audit_log FROM medisync_app;
-REVOKE ALL ON app.audit_log FROM medisync_etl;
+REVOKE ALL ON app.audit_log FROM AnySync_readonly;
+REVOKE ALL ON app.audit_log FROM AnySync_app;
+REVOKE ALL ON app.audit_log FROM AnySync_etl;
 
 -- Re-grant as per original 002_roles.up.sql intent
--- medisync_readonly has SELECT on all tables in app schema
-GRANT SELECT ON app.audit_log TO medisync_readonly;
+-- AnySync_readonly has SELECT on all tables in app schema
+GRANT SELECT ON app.audit_log TO AnySync_readonly;
 
--- medisync_app has full CRUD on app schema tables
-GRANT SELECT, INSERT, UPDATE, DELETE ON app.audit_log TO medisync_app;
+-- AnySync_app has full CRUD on app schema tables
+GRANT SELECT, INSERT, UPDATE, DELETE ON app.audit_log TO AnySync_app;
 
--- medisync_etl has INSERT only on audit_log (as specified in 002)
-GRANT INSERT ON app.audit_log TO medisync_etl;
+-- AnySync_etl has INSERT only on audit_log (as specified in 002)
+GRANT INSERT ON app.audit_log TO AnySync_etl;
 
 -- ============================================================================
 -- VERIFICATION

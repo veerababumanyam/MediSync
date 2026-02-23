@@ -18,7 +18,7 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/medisync/medisync/internal/agents/shared"
+	"github.com/AnySync/AnySync/internal/agents/shared"
 )
 
 // AgentID is the unique identifier for this agent.

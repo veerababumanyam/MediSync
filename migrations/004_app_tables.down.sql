@@ -1,4 +1,4 @@
--- MediSync AI Agent Core - Application Tables Migration (Rollback)
+-- AnySync AI Agent Core - Application Tables Migration (Rollback)
 -- Version: 004
 -- Description: Rollback AI Agent Core tables
 -- Task: T007
@@ -14,15 +14,15 @@
 -- REVOKE PERMISSIONS
 -- ============================================================================
 
-REVOKE SELECT ON app.query_results FROM medisync_readonly;
-REVOKE SELECT ON app.sql_statements FROM medisync_readonly;
-REVOKE SELECT ON app.queries FROM medisync_readonly;
-REVOKE SELECT ON app.query_sessions FROM medisync_readonly;
+REVOKE SELECT ON app.query_results FROM AnySync_readonly;
+REVOKE SELECT ON app.sql_statements FROM AnySync_readonly;
+REVOKE SELECT ON app.queries FROM AnySync_readonly;
+REVOKE SELECT ON app.query_sessions FROM AnySync_readonly;
 
-REVOKE SELECT, INSERT, UPDATE, DELETE ON app.query_results FROM medisync_app;
-REVOKE SELECT, INSERT, UPDATE, DELETE ON app.sql_statements FROM medisync_app;
-REVOKE SELECT, INSERT, UPDATE, DELETE ON app.queries FROM medisync_app;
-REVOKE SELECT, INSERT, UPDATE, DELETE ON app.query_sessions FROM medisync_app;
+REVOKE SELECT, INSERT, UPDATE, DELETE ON app.query_results FROM AnySync_app;
+REVOKE SELECT, INSERT, UPDATE, DELETE ON app.sql_statements FROM AnySync_app;
+REVOKE SELECT, INSERT, UPDATE, DELETE ON app.queries FROM AnySync_app;
+REVOKE SELECT, INSERT, UPDATE, DELETE ON app.query_sessions FROM AnySync_app;
 
 -- ============================================================================
 -- DROP TRIGGERS AND FUNCTIONS

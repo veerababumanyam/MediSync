@@ -1,4 +1,4 @@
-// Package warehouse provides database utilities for the MediSync data warehouse.
+// Package warehouse provides database utilities for the AnySync data warehouse.
 //
 // This file provides functionality to seed the domain glossary with
 // healthcare and accounting terminology.

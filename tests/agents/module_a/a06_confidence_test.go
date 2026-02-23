@@ -6,8 +6,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/medisync/medisync/internal/agents/module_a/a06_confidence"
-	"github.com/medisync/medisync/internal/warehouse/models"
+	"github.com/AnySync/AnySync/internal/agents/module_a/a06_confidence"
+	"github.com/AnySync/AnySync/internal/warehouse/models"
 )
 
 func TestConfidenceScoring_HighConfidence(t *testing.T) {

@@ -355,7 +355,7 @@ func handleForce(m *migrate.Migrate, args []string) {
 func handleStatus(m *migrate.Migrate, config Config) {
 	version, dirty, err := m.Version()
 
-	fmt.Println("=== MediSync Migration Status ===")
+	fmt.Println("=== AnySync Migration Status ===")
 	fmt.Printf("Migrations Path: %s\n", config.MigrationsPath)
 	fmt.Println()
 
@@ -594,7 +594,7 @@ func (l *migrateLogger) Verbose() bool {
 // printUsage prints the CLI usage information
 func printUsage() {
 	usage := `
-MediSync Database Migration Tool
+AnySync Database Migration Tool
 
 Usage:
   migrate <command> [options] [arguments]
@@ -622,10 +622,10 @@ Environment Variables:
 
 Examples:
   # Run all pending migrations
-  DATABASE_URL="postgres://user:pass@localhost:5432/medisync?sslmode=disable" migrate up
+  DATABASE_URL="postgres://user:pass@localhost:5432/AnySync?sslmode=disable" migrate up
 
   # Roll back the last migration
-  migrate down --database-url="postgres://localhost/medisync"
+  migrate down --database-url="postgres://localhost/AnySync"
 
   # Show migration status
   migrate status

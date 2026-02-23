@@ -5,7 +5,7 @@ description: Go beyond descriptive insights to deliver specific, quantified, act
 
 # Prescriptive Recommendations Skill
 
-Guidelines for generating high-impact business recommendations that drive action in MediSync.
+Guidelines for generating high-impact business recommendations that drive action in AnySync.
 
 ## Reasoning Framework (ReAct)
 

@@ -1,4 +1,4 @@
-// Package middleware provides HTTP middleware for the MediSync API.
+// Package middleware provides HTTP middleware for the AnySync API.
 //
 // This file implements the LocaleMiddleware that extracts user locale from
 // the request with the priority: URL param > JWT claim > Accept-Language header > default "en".

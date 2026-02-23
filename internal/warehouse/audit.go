@@ -1,4 +1,4 @@
-// Package warehouse provides the audit logging service for MediSync.
+// Package warehouse provides the audit logging service for AnySync.
 //
 // This file implements the AuditService for comprehensive audit logging of all
 // query operations, user actions, and system events. It follows the audit

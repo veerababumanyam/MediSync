@@ -15,7 +15,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/medisync/medisync/internal/warehouse"
+	"github.com/AnySync/AnySync/internal/warehouse"
 	"github.com/pgvector/pgvector-go"
 )
 

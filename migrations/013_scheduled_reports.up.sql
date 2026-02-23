@@ -1,4 +1,4 @@
--- MediSync Dashboard Advanced Features - Scheduled Reports Migration
+-- AnySync Dashboard Advanced Features - Scheduled Reports Migration
 -- Version: 013
 -- Description: Create scheduled_reports and scheduled_report_runs tables
 -- Task: T004
@@ -108,11 +108,11 @@ COMMENT ON FUNCTION app.update_scheduled_reports_updated_at() IS 'Trigger functi
 -- GRANT PERMISSIONS
 -- ============================================================================
 
-GRANT SELECT ON app.scheduled_reports TO medisync_readonly;
-GRANT SELECT ON app.scheduled_report_runs TO medisync_readonly;
-GRANT SELECT, INSERT, UPDATE, DELETE ON app.scheduled_reports TO medisync_app;
-GRANT SELECT, INSERT, UPDATE, DELETE ON app.scheduled_report_runs TO medisync_app;
-GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA app TO medisync_app;
+GRANT SELECT ON app.scheduled_reports TO AnySync_readonly;
+GRANT SELECT ON app.scheduled_report_runs TO AnySync_readonly;
+GRANT SELECT, INSERT, UPDATE, DELETE ON app.scheduled_reports TO AnySync_app;
+GRANT SELECT, INSERT, UPDATE, DELETE ON app.scheduled_report_runs TO AnySync_app;
+GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA app TO AnySync_app;
 
 -- ============================================================================
 -- END OF MIGRATION

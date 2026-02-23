@@ -1,5 +1,5 @@
-// Example: Simple MediSync Agent Implementation
-// This demonstrates the basic pattern for creating an AI agent in MediSync
+// Example: Simple AnySync Agent Implementation
+// This demonstrates the basic pattern for creating an AI agent in AnySync
 
 package module_a
 
@@ -75,7 +75,7 @@ func (a *SimpleQueryAgent) ProcessFlow(ctx context.Context, req SimpleQueryReque
 	}
 
 	// Step 7: Execute query via readonly role
-	result, err := a.warehouse.Query(ctx, sql, "medisync_readonly")
+	result, err := a.warehouse.Query(ctx, sql, "AnySync_readonly")
 	if err != nil {
 		return nil, fmt.Errorf("query execution failed: %w", err)
 	}

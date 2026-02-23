@@ -1,14 +1,14 @@
 ---
 name: opa-policy
-description: This skill should be used when the user asks to "create OPA policies", "write Rego rules", "implement authorization", "add policy-as-code", "role-based access control", "RBAC policies", "OPA integration", or mentions Open Policy Agent or Rego policy language for MediSync.
+description: This skill should be used when the user asks to "create OPA policies", "write Rego rules", "implement authorization", "add policy-as-code", "role-based access control", "RBAC policies", "OPA integration", or mentions Open Policy Agent or Rego policy language for AnySync.
 ---
 
-# OPA Policy-as-Code for MediSync
+# OPA Policy-as-Code for AnySync
 
-Open Policy Agent (OPA) with Rego provides fine-grained, auditable authorization for MediSync. All access control decisions flow through OPA policies, ensuring consistent security across the platform.
+Open Policy Agent (OPA) with Rego provides fine-grained, auditable authorization for AnySync. All access control decisions flow through OPA policies, ensuring consistent security across the platform.
 
 ★ Insight ─────────────────────────────────────
-MediSync authorization architecture:
+AnySync authorization architecture:
 1. **Keycloak** - Identity and role assignment
 2. **OPA** - Policy evaluation engine
 3. **Rego** - Declarative policy language
@@ -22,16 +22,16 @@ MediSync authorization architecture:
 |--------|---------|
 | **Engine** | Open Policy Agent (latest) |
 | **Language** | Rego |
-| **Decision API** | POST /v1/data/medisync/allow |
+| **Decision API** | POST /v1/data/AnySync/allow |
 | **Input Format** | JSON with user, resource, action, context |
 | **Bundle** | Policies loaded from /policies directory |
 
 ## Project Structure
 
 ```
-medisync/
+AnySync/
 ├── policies/
-│   ├── medisync/
+│   ├── AnySync/
 │   │   ├── main.rego           # Entry point
 │   │   ├── roles.rego          # Role definitions
 │   │   ├── resources.rego      # Resource patterns
@@ -55,8 +55,8 @@ medisync/
 ### Main Entry Point
 
 ```rego
-# policies/medisync/main.rego
-package medisync
+# policies/AnySync/main.rego
+package AnySync
 
 import future.keywords.if
 import future.keywords.in
@@ -87,8 +87,8 @@ rbac := {
 ### Role Definitions
 
 ```rego
-# policies/medisync/roles.rego
-package medisync.roles
+# policies/AnySync/roles.rego
+package AnySync.roles
 
 import future.keywords.if
 import future.keywords.in
@@ -150,8 +150,8 @@ role_grants_permission(role, resource, action) if {
 ### Resource Policies
 
 ```rego
-# policies/medisync/dashboard.rego
-package medisync.dashboard
+# policies/AnySync/dashboard.rego
+package AnySync.dashboard
 
 import future.keywords.if
 
@@ -188,8 +188,8 @@ has_any_role(required_roles) if {
 ### Tally Sync Policies
 
 ```rego
-# policies/medisync/tally.rego
-package medisync.tally
+# policies/AnySync/tally.rego
+package AnySync.tally
 
 import future.keywords.if
 import future.keywords.in
@@ -238,8 +238,8 @@ has_any_role(required_roles) if {
 ### Document Policies
 
 ```rego
-# policies/medisync/documents.rego
-package medisync.documents
+# policies/AnySync/documents.rego
+package AnySync.documents
 
 import future.keywords.if
 import future.keywords.in
@@ -305,8 +305,8 @@ has_any_role(required_roles) if {
 ### Utility Functions
 
 ```rego
-# policies/medisync/util.rego
-package medisync.util
+# policies/AnySync/util.rego
+package AnySync.util
 
 import future.keywords.if
 import future.keywords.in
@@ -407,7 +407,7 @@ func (o *OPAClient) Allow(ctx context.Context, input AuthzInput) (bool, error) {
     }
 
     req, err := http.NewRequestWithContext(ctx, "POST",
-        o.baseURL+"/v1/data/medisync/allow",
+        o.baseURL+"/v1/data/AnySync/allow",
         bytes.NewReader(body))
     if err != nil {
         return false, fmt.Errorf("create request: %w", err)
@@ -443,7 +443,7 @@ package middleware
 import (
     "net/http"
 
-    "medisync/internal/auth"
+    "AnySync/internal/auth"
 )
 
 func AuthzMiddleware(opa *auth.OPAClient, resource, action string) func(http.Handler) http.Handler {
@@ -483,10 +483,10 @@ func AuthzMiddleware(opa *auth.OPAClient, resource, action string) func(http.Han
 
 ```rego
 # tests/policies/tally_test.rego
-package medisync.tally_test
+package AnySync.tally_test
 
 import future.keywords.if
-import data.medisync.tally
+import data.AnySync.tally
 
 # Test case: finance_head can sync with approval
 test_sync_with_approval if {

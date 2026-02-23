@@ -1,4 +1,4 @@
-# MediSync ETL Service Dockerfile
+# AnySync ETL Service Dockerfile
 # Multi-stage build for optimized production image
 #
 # This Dockerfile builds the ETL service that:
@@ -8,10 +8,10 @@
 #   - Exports metrics for Prometheus
 #
 # Build:
-#   docker build -t medisync-etl -f cmd/etl/Dockerfile .
+#   docker build -t AnySync-etl -f cmd/etl/Dockerfile .
 #
 # Run:
-#   docker run --env-file .env medisync-etl
+#   docker run --env-file .env AnySync-etl
 
 # ============================================================================
 # Stage 1: Builder
@@ -59,11 +59,11 @@ RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build \
 FROM gcr.io/distroless/static-debian12:nonroot
 
 # Labels for container metadata
-LABEL org.opencontainers.image.title="MediSync ETL Service"
+LABEL org.opencontainers.image.title="AnySync ETL Service"
 LABEL org.opencontainers.image.description="ETL service for syncing Tally ERP and HIMS data to PostgreSQL warehouse"
-LABEL org.opencontainers.image.vendor="MediSync"
-LABEL org.opencontainers.image.source="https://github.com/medisync/medisync"
-LABEL com.medisync.service="etl"
+LABEL org.opencontainers.image.vendor="AnySync"
+LABEL org.opencontainers.image.source="https://github.com/AnySync/AnySync"
+LABEL com.AnySync.service="etl"
 
 # Copy timezone data for proper time handling
 COPY --from=builder /usr/share/zoneinfo /usr/share/zoneinfo

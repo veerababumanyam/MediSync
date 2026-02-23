@@ -21,7 +21,7 @@ import { ThemeProvider as NextThemesProvider, type ThemeProviderProps } from 'ne
  *
  * Extends next-themes ThemeProviderProps with any additional props
  */
-export interface MediSyncThemeProviderProps extends ThemeProviderProps {
+export interface AnySyncThemeProviderProps extends ThemeProviderProps {
   /** Application content */
   children: React.ReactNode
 }
@@ -39,7 +39,7 @@ export interface MediSyncThemeProviderProps extends ThemeProviderProps {
  * </ThemeProvider>
  * ```
  */
-export function ThemeProvider({ children, ...props }: MediSyncThemeProviderProps) {
+export function ThemeProvider({ children, ...props }: AnySyncThemeProviderProps) {
   return (
     <NextThemesProvider
       attribute="data-theme"

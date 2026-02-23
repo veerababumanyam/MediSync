@@ -1,4 +1,4 @@
-// Package shared provides shared utilities for AI agents in MediSync.
+// Package shared provides shared utilities for AI agents in AnySync.
 //
 // This file implements the Genkit framework initialization and flow registration
 // for all agents across the 5 modules (BI, Accounting, Reports, Analytics, i18n).

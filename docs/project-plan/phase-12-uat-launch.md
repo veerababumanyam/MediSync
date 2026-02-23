@@ -11,7 +11,7 @@
 
 ## 1. Objectives
 
-Deliver production-ready MediSync v1 to live healthcare facilities. Conduct structured User Acceptance Testing with real end-users covering all three modules, run security penetration testing, complete production deployment on customer infrastructure, activate monitoring, deliver user training, and publish API documentation.
+Deliver production-ready AnySync v1 to live healthcare facilities. Conduct structured User Acceptance Testing with real end-users covering all three modules, run security penetration testing, complete production deployment on customer infrastructure, activate monitoring, deliver user training, and publish API documentation.
 
 ---
 
@@ -133,9 +133,9 @@ Deliver production-ready MediSync v1 to live healthcare facilities. Conduct stru
 Production Stack (Docker Compose → Kubernetes migration in Phase 18)
 ─────────────────────────────────────────────────────────────────
 nginx             (reverse proxy, TLS termination)
-medisync-web      (React app, port 3000)
-medisync-api      (Go backend, port 8080)
-medisync-worker   (NATS consumers, background jobs)
+AnySync-web      (React app, port 3000)
+AnySync-api      (Go backend, port 8080)
+AnySync-worker   (NATS consumers, background jobs)
 postgres-primary  (PostgreSQL 15, port 5432)
 redis             (port 6379)
 nats              (port 4222)

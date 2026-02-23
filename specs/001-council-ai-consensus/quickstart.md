@@ -9,7 +9,7 @@ This guide provides a rapid onboarding for developers implementing the Council o
 - Redis 8+ for caching
 - NATS JetStream running
 - Keycloak for authentication
-- Access to MediSync monorepo
+- Access to AnySync monorepo
 
 ## Architecture Overview
 
@@ -47,7 +47,7 @@ This guide provides a rapid onboarding for developers implementing the Council o
 
 ```bash
 # Run migrations for Council tables
-cd /path/to/medisync
+cd /path/to/AnySync
 go run ./cmd/migrate --target council_ai_consensus
 ```
 

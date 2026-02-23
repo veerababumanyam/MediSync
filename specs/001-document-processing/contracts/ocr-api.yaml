@@ -1,6 +1,6 @@
 openapi: 3.1.0
 info:
-  title: MediSync OCR Service API
+  title: AnySync OCR Service API
   description: |
     Internal API for OCR processing service.
     This is an async service triggered by NATS messages, but exposes endpoints for:

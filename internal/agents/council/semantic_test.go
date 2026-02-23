@@ -9,7 +9,7 @@ package council_test
 import (
 	"testing"
 
-	"github.com/medisync/medisync/internal/agents/council"
+	"github.com/AnySync/AnySync/internal/agents/council"
 	"github.com/pgvector/pgvector-go"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"

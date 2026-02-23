@@ -5,7 +5,7 @@ description: Accept high-level business questions, autonomously decompose into s
 
 # Autonomous AI Analyst Skill
 
-Guidelines for sophisticated multi-agent data analysis and reporting within the MediSync platform.
+Guidelines for sophisticated multi-agent data analysis and reporting within the AnySync platform.
 
 ## Orchestration Patterns (CrewAI)
 

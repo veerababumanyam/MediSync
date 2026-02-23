@@ -1,4 +1,4 @@
-// Package middleware provides HTTP middleware for the MediSync API.
+// Package middleware provides HTTP middleware for the AnySync API.
 //
 // This file implements the AuthMiddleware that validates JWT tokens via Keycloak
 // and extracts user claims into the request context.
@@ -180,7 +180,7 @@ func RequireRole(role string, logger *slog.Logger) func(http.Handler) http.Handl
 // writeUnauthorized writes a 401 Unauthorized response.
 func writeUnauthorized(w http.ResponseWriter, message string) {
 	w.Header().Set("Content-Type", "application/json")
-	w.Header().Set("WWW-Authenticate", `Bearer realm="medisync"`)
+	w.Header().Set("WWW-Authenticate", `Bearer realm="AnySync"`)
 	w.WriteHeader(http.StatusUnauthorized)
 	w.Write([]byte(`{"error":{"code":"unauthorized","message":"` + message + `"}}`))
 }

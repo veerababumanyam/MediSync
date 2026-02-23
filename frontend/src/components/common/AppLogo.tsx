@@ -1,7 +1,7 @@
 /**
  * AppLogo Component
  *
- * Renders an always-available inline MediSync mark.
+ * Renders an always-available inline AnySync mark.
  * Used in headers and loading states across the application.
  *
  * @module components/common/AppLogo
@@ -19,7 +19,7 @@ export interface AppLogoProps {
 }
 
 /**
- * AppLogo - Always-available MediSync logo mark
+ * AppLogo - Always-available AnySync logo mark
  */
 export const AppLogo: React.FC<AppLogoProps> = ({
   size = 'sm',
@@ -28,7 +28,7 @@ export const AppLogo: React.FC<AppLogoProps> = ({
 }) => {
   const { t } = useTranslation()
   const sizePx = size === 'sm' ? 40 : 64
-  const alt = t('app.name', 'MediSync')
+  const alt = t('app.name', 'AnySync')
   const [sourceIndex, setSourceIndex] = React.useState(0)
   const base = import.meta.env.BASE_URL || '/'
   const primary = size === 'sm' ? 'icons/logo-64x64.png' : 'icons/logo-128x128.png'

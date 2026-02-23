@@ -1,4 +1,4 @@
-// Package integration_test provides integration tests for MediSync.
+// Package integration_test provides integration tests for AnySync.
 package integration_test
 
 import (
@@ -6,11 +6,11 @@ import (
 	"testing"
 	"time"
 
-	"github.com/medisync/medisync/internal/agents/module_a/a01_text_to_sql"
-	"github.com/medisync/medisync/internal/agents/module_a/a04_terminology"
-	"github.com/medisync/medisync/internal/agents/module_a/a06_confidence"
-	"github.com/medisync/medisync/internal/agents/module_e/e01_language"
-	"github.com/medisync/medisync/internal/warehouse/models"
+	"github.com/AnySync/AnySync/internal/agents/module_a/a01_text_to_sql"
+	"github.com/AnySync/AnySync/internal/agents/module_a/a04_terminology"
+	"github.com/AnySync/AnySync/internal/agents/module_a/a06_confidence"
+	"github.com/AnySync/AnySync/internal/agents/module_e/e01_language"
+	"github.com/AnySync/AnySync/internal/warehouse/models"
 )
 
 // TestChatFlow_EndToEnd tests the complete query processing flow.

@@ -1,4 +1,4 @@
--- MediSync AI Agent Core - Confidence Scoring and Review Queue Migration
+-- AnySync AI Agent Core - Confidence Scoring and Review Queue Migration
 -- Version: 005
 -- Description: Create confidence scoring and review queue tables for AI Agent Core
 -- Task: T008
@@ -130,17 +130,17 @@ COMMENT ON FUNCTION app.auto_route_low_confidence() IS 'Automatically adds queri
 -- GRANT PERMISSIONS
 -- ============================================================================
 
--- Grant SELECT to medisync_readonly role for AI agents
-GRANT SELECT ON app.confidence_scores TO medisync_readonly;
-GRANT SELECT ON app.review_queue TO medisync_readonly;
+-- Grant SELECT to AnySync_readonly role for AI agents
+GRANT SELECT ON app.confidence_scores TO AnySync_readonly;
+GRANT SELECT ON app.review_queue TO AnySync_readonly;
 
--- Grant full CRUD to medisync_app role for application operations
-GRANT SELECT, INSERT, UPDATE, DELETE ON app.confidence_scores TO medisync_app;
-GRANT SELECT, INSERT, UPDATE, DELETE ON app.review_queue TO medisync_app;
+-- Grant full CRUD to AnySync_app role for application operations
+GRANT SELECT, INSERT, UPDATE, DELETE ON app.confidence_scores TO AnySync_app;
+GRANT SELECT, INSERT, UPDATE, DELETE ON app.review_queue TO AnySync_app;
 
 -- Grant execute on functions
-GRANT EXECUTE ON FUNCTION app.get_pending_review_count(UUID) TO medisync_app;
-GRANT EXECUTE ON FUNCTION app.get_pending_review_count(UUID) TO medisync_readonly;
+GRANT EXECUTE ON FUNCTION app.get_pending_review_count(UUID) TO AnySync_app;
+GRANT EXECUTE ON FUNCTION app.get_pending_review_count(UUID) TO AnySync_readonly;
 
 -- ============================================================================
 -- END OF MIGRATION

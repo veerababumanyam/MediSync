@@ -1,11 +1,11 @@
 ---
 name: seo-optimization
-description: Guidelines for high-performance SEO, GEO, and AI search presence for the MediSync platform.
+description: Guidelines for high-performance SEO, GEO, and AI search presence for the AnySync platform.
 ---
 
 # SEO & AI Search Optimization Skill
 
-This skill provides comprehensive guidelines and technical requirements to ensure the MediSync platform is optimized for traditional search engines (Google, Bing), AI search engines (Perplexity, ChatGPT Search, Gemini), and modern generative engines (GEO).
+This skill provides comprehensive guidelines and technical requirements to ensure the AnySync platform is optimized for traditional search engines (Google, Bing), AI search engines (Perplexity, ChatGPT Search, Gemini), and modern generative engines (GEO).
 
 ## Core Pillars
 
@@ -21,7 +21,7 @@ This skill provides comprehensive guidelines and technical requirements to ensur
 - **Source Trustworthiness**: Link to authoritative healthcare sources and maintain clear E-E-A-T signals.
 
 ### 3. AI Search & Citation Optimization
-- **Entity Focus**: Use clear terminology for "MediSync", "HIMS AI", "LIMS AI Integration", "Tally ERP", and "Agentic AI for Legacy Healthcare".
+- **Entity Focus**: Use clear terminology for "AnySync", "HIMS AI", "LIMS AI Integration", "Tally ERP", and "Agentic AI for Legacy Healthcare".
 - **LLM Scannability**: Use short paragraphs, bullet points, and explicit summaries at the top of long pages.
 - **Citation Hooks**: Include unique stats, original healthcare insights, and expert quotes that AI models are likely to cite.
 
@@ -39,7 +39,7 @@ Example:
 {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
-  "name": "MediSync",
+  "name": "AnySync",
   "operatingSystem": "Web",
   "applicationCategory": "BusinessApplication",
   "offers": {

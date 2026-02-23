@@ -1,5 +1,5 @@
-// MediSync CopilotKit Integration Example
-// This example shows how to integrate CopilotKit with MediSync
+// AnySync CopilotKit Integration Example
+// This example shows how to integrate CopilotKit with AnySync
 
 import React from 'react';
 import { CopilotKit, useAgent, tool } from "@copilotkit/react-core";
@@ -13,7 +13,7 @@ import "@copilotkit/react-ui/styles.css";
 // Tool 1: Text-to-SQL Query
 const textToSQLTool = tool({
   name: "run_sql_query",
-  description: `Execute a read-only SQL query against the MediSync data warehouse.
+  description: `Execute a read-only SQL query against the AnySync data warehouse.
   Use this when users ask questions about business metrics, revenue, patients,
   appointments, inventory, or any operational data.
 
@@ -296,11 +296,11 @@ interface CopilotProviderProps {
   children: React.ReactNode;
 }
 
-export function MediSyncCopilotProvider({ children }: CopilotProviderProps) {
+export function AnySyncCopilotProvider({ children }: CopilotProviderProps) {
   return (
     <CopilotKit
-      agent="medisync-agent"
-      instructions={`You are MediSync AI, an intelligent assistant for healthcare business intelligence.
+      agent="AnySync-agent"
+      instructions={`You are AnySync AI, an intelligent assistant for healthcare business intelligence.
 
       Your capabilities:
       - Query business data using natural language (converted to SQL)
@@ -325,7 +325,7 @@ export function MediSyncCopilotProvider({ children }: CopilotProviderProps) {
       <CopilotSidebar
         defaultOpen={false}
         labels={{
-          title: "MediSync AI",
+          title: "AnySync AI",
           initial: "How can I help you today?",
           placeholder: "Ask about revenue, patients, reports..."
         }}
@@ -339,7 +339,7 @@ export function MediSyncCopilotProvider({ children }: CopilotProviderProps) {
 // ============================================
 
 function Dashboard() {
-  const { agent } = useAgent({ agentId: "medisync-agent" });
+  const { agent } = useAgent({ agentId: "AnySync-agent" });
 
   // Access agent's current context
   const currentQuery = agent.state?.lastQuery;
@@ -353,7 +353,7 @@ function Dashboard() {
   return (
     <div className="dashboard">
       <header>
-        <h1>MediSync Dashboard</h1>
+        <h1>AnySync Dashboard</h1>
         <FilterBar filters={filters} onChange={handleFilterChange} />
       </header>
 
@@ -376,9 +376,9 @@ function Dashboard() {
 
 export default function App() {
   return (
-    <MediSyncCopilotProvider>
+    <AnySyncCopilotProvider>
       <Dashboard />
-    </MediSyncCopilotProvider>
+    </AnySyncCopilotProvider>
   );
 }
 

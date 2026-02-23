@@ -1,7 +1,7 @@
--- MediSync Database Roles Migration
+-- AnySync Database Roles Migration
 -- Version: 002
 -- Description: Create application database roles with appropriate privileges
--- Roles: medisync_readonly, medisync_app, medisync_etl
+-- Roles: AnySync_readonly, AnySync_app, AnySync_etl
 --
 -- This migration establishes:
 -- 1. Three application roles with distinct permission levels
@@ -10,12 +10,12 @@
 -- 4. Default privileges for future tables
 --
 -- Role Hierarchy:
--- - medisync_readonly: Read-only access to all analytics schemas (for AI agents, analysts)
--- - medisync_app: Read/write access to app schema, read access to analytics (for application)
--- - medisync_etl: Full access to analytics schemas for ETL operations (for ETL service)
+-- - AnySync_readonly: Read-only access to all analytics schemas (for AI agents, analysts)
+-- - AnySync_app: Read/write access to app schema, read access to analytics (for application)
+-- - AnySync_etl: Full access to analytics schemas for ETL operations (for ETL service)
 
 -- ============================================================================
--- ROLE: medisync_readonly
+-- ROLE: AnySync_readonly
 -- Purpose: Read-only access for AI agents, analysts, and reporting tools
 -- Access: SELECT on all schemas (hims_analytics, tally_analytics, app, vectors)
 -- ============================================================================
@@ -23,54 +23,54 @@
 -- Create role if not exists (idempotent)
 DO $$
 BEGIN
-    IF NOT EXISTS (SELECT FROM pg_catalog.pg_roles WHERE rolname = 'medisync_readonly') THEN
-        CREATE ROLE medisync_readonly WITH NOLOGIN NOSUPERUSER NOCREATEDB NOCREATEROLE NOINHERIT;
-        RAISE NOTICE 'Created role: medisync_readonly';
+    IF NOT EXISTS (SELECT FROM pg_catalog.pg_roles WHERE rolname = 'AnySync_readonly') THEN
+        CREATE ROLE AnySync_readonly WITH NOLOGIN NOSUPERUSER NOCREATEDB NOCREATEROLE NOINHERIT;
+        RAISE NOTICE 'Created role: AnySync_readonly';
     ELSE
-        RAISE NOTICE 'Role medisync_readonly already exists, skipping creation';
+        RAISE NOTICE 'Role AnySync_readonly already exists, skipping creation';
     END IF;
 END
 $$;
 
 -- Grant usage on all schemas
-GRANT USAGE ON SCHEMA hims_analytics TO medisync_readonly;
-GRANT USAGE ON SCHEMA tally_analytics TO medisync_readonly;
-GRANT USAGE ON SCHEMA app TO medisync_readonly;
-GRANT USAGE ON SCHEMA vectors TO medisync_readonly;
+GRANT USAGE ON SCHEMA hims_analytics TO AnySync_readonly;
+GRANT USAGE ON SCHEMA tally_analytics TO AnySync_readonly;
+GRANT USAGE ON SCHEMA app TO AnySync_readonly;
+GRANT USAGE ON SCHEMA vectors TO AnySync_readonly;
 
 -- Grant SELECT on all existing tables in hims_analytics
-GRANT SELECT ON ALL TABLES IN SCHEMA hims_analytics TO medisync_readonly;
+GRANT SELECT ON ALL TABLES IN SCHEMA hims_analytics TO AnySync_readonly;
 
 -- Grant SELECT on all existing tables in tally_analytics
-GRANT SELECT ON ALL TABLES IN SCHEMA tally_analytics TO medisync_readonly;
+GRANT SELECT ON ALL TABLES IN SCHEMA tally_analytics TO AnySync_readonly;
 
 -- Grant SELECT on all existing tables in app
-GRANT SELECT ON ALL TABLES IN SCHEMA app TO medisync_readonly;
+GRANT SELECT ON ALL TABLES IN SCHEMA app TO AnySync_readonly;
 
 -- Grant SELECT on all existing tables in vectors
-GRANT SELECT ON ALL TABLES IN SCHEMA vectors TO medisync_readonly;
+GRANT SELECT ON ALL TABLES IN SCHEMA vectors TO AnySync_readonly;
 
 -- Set default privileges for future tables (so new tables are automatically accessible)
-ALTER DEFAULT PRIVILEGES IN SCHEMA hims_analytics GRANT SELECT ON TABLES TO medisync_readonly;
-ALTER DEFAULT PRIVILEGES IN SCHEMA tally_analytics GRANT SELECT ON TABLES TO medisync_readonly;
-ALTER DEFAULT PRIVILEGES IN SCHEMA app GRANT SELECT ON TABLES TO medisync_readonly;
-ALTER DEFAULT PRIVILEGES IN SCHEMA vectors GRANT SELECT ON TABLES TO medisync_readonly;
+ALTER DEFAULT PRIVILEGES IN SCHEMA hims_analytics GRANT SELECT ON TABLES TO AnySync_readonly;
+ALTER DEFAULT PRIVILEGES IN SCHEMA tally_analytics GRANT SELECT ON TABLES TO AnySync_readonly;
+ALTER DEFAULT PRIVILEGES IN SCHEMA app GRANT SELECT ON TABLES TO AnySync_readonly;
+ALTER DEFAULT PRIVILEGES IN SCHEMA vectors GRANT SELECT ON TABLES TO AnySync_readonly;
 
 -- Grant SELECT on sequences (for ID reference lookup)
-GRANT SELECT ON ALL SEQUENCES IN SCHEMA hims_analytics TO medisync_readonly;
-GRANT SELECT ON ALL SEQUENCES IN SCHEMA tally_analytics TO medisync_readonly;
-GRANT SELECT ON ALL SEQUENCES IN SCHEMA app TO medisync_readonly;
-GRANT SELECT ON ALL SEQUENCES IN SCHEMA vectors TO medisync_readonly;
+GRANT SELECT ON ALL SEQUENCES IN SCHEMA hims_analytics TO AnySync_readonly;
+GRANT SELECT ON ALL SEQUENCES IN SCHEMA tally_analytics TO AnySync_readonly;
+GRANT SELECT ON ALL SEQUENCES IN SCHEMA app TO AnySync_readonly;
+GRANT SELECT ON ALL SEQUENCES IN SCHEMA vectors TO AnySync_readonly;
 
-ALTER DEFAULT PRIVILEGES IN SCHEMA hims_analytics GRANT SELECT ON SEQUENCES TO medisync_readonly;
-ALTER DEFAULT PRIVILEGES IN SCHEMA tally_analytics GRANT SELECT ON SEQUENCES TO medisync_readonly;
-ALTER DEFAULT PRIVILEGES IN SCHEMA app GRANT SELECT ON SEQUENCES TO medisync_readonly;
-ALTER DEFAULT PRIVILEGES IN SCHEMA vectors GRANT SELECT ON SEQUENCES TO medisync_readonly;
+ALTER DEFAULT PRIVILEGES IN SCHEMA hims_analytics GRANT SELECT ON SEQUENCES TO AnySync_readonly;
+ALTER DEFAULT PRIVILEGES IN SCHEMA tally_analytics GRANT SELECT ON SEQUENCES TO AnySync_readonly;
+ALTER DEFAULT PRIVILEGES IN SCHEMA app GRANT SELECT ON SEQUENCES TO AnySync_readonly;
+ALTER DEFAULT PRIVILEGES IN SCHEMA vectors GRANT SELECT ON SEQUENCES TO AnySync_readonly;
 
-COMMENT ON ROLE medisync_readonly IS 'Read-only access for AI agents, analysts, and reporting tools. No write permissions.';
+COMMENT ON ROLE AnySync_readonly IS 'Read-only access for AI agents, analysts, and reporting tools. No write permissions.';
 
 -- ============================================================================
--- ROLE: medisync_app
+-- ROLE: AnySync_app
 -- Purpose: Application backend role for normal operations
 -- Access:
 --   - Full CRUD on app schema (users, preferences, workflows, etc.)
@@ -81,50 +81,50 @@ COMMENT ON ROLE medisync_readonly IS 'Read-only access for AI agents, analysts, 
 
 DO $$
 BEGIN
-    IF NOT EXISTS (SELECT FROM pg_catalog.pg_roles WHERE rolname = 'medisync_app') THEN
-        CREATE ROLE medisync_app WITH NOLOGIN NOSUPERUSER NOCREATEDB NOCREATEROLE NOINHERIT;
-        RAISE NOTICE 'Created role: medisync_app';
+    IF NOT EXISTS (SELECT FROM pg_catalog.pg_roles WHERE rolname = 'AnySync_app') THEN
+        CREATE ROLE AnySync_app WITH NOLOGIN NOSUPERUSER NOCREATEDB NOCREATEROLE NOINHERIT;
+        RAISE NOTICE 'Created role: AnySync_app';
     ELSE
-        RAISE NOTICE 'Role medisync_app already exists, skipping creation';
+        RAISE NOTICE 'Role AnySync_app already exists, skipping creation';
     END IF;
 END
 $$;
 
 -- Grant usage on all schemas
-GRANT USAGE ON SCHEMA hims_analytics TO medisync_app;
-GRANT USAGE ON SCHEMA tally_analytics TO medisync_app;
-GRANT USAGE ON SCHEMA app TO medisync_app;
-GRANT USAGE ON SCHEMA vectors TO medisync_app;
+GRANT USAGE ON SCHEMA hims_analytics TO AnySync_app;
+GRANT USAGE ON SCHEMA tally_analytics TO AnySync_app;
+GRANT USAGE ON SCHEMA app TO AnySync_app;
+GRANT USAGE ON SCHEMA vectors TO AnySync_app;
 
 -- Analytics schemas: READ-ONLY access
-GRANT SELECT ON ALL TABLES IN SCHEMA hims_analytics TO medisync_app;
-GRANT SELECT ON ALL TABLES IN SCHEMA tally_analytics TO medisync_app;
+GRANT SELECT ON ALL TABLES IN SCHEMA hims_analytics TO AnySync_app;
+GRANT SELECT ON ALL TABLES IN SCHEMA tally_analytics TO AnySync_app;
 
-ALTER DEFAULT PRIVILEGES IN SCHEMA hims_analytics GRANT SELECT ON TABLES TO medisync_app;
-ALTER DEFAULT PRIVILEGES IN SCHEMA tally_analytics GRANT SELECT ON TABLES TO medisync_app;
+ALTER DEFAULT PRIVILEGES IN SCHEMA hims_analytics GRANT SELECT ON TABLES TO AnySync_app;
+ALTER DEFAULT PRIVILEGES IN SCHEMA tally_analytics GRANT SELECT ON TABLES TO AnySync_app;
 
 -- App schema: FULL CRUD access (except audit_log which is INSERT-only)
-GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA app TO medisync_app;
-GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA app TO medisync_app;
+GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA app TO AnySync_app;
+GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA app TO AnySync_app;
 
-ALTER DEFAULT PRIVILEGES IN SCHEMA app GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO medisync_app;
-ALTER DEFAULT PRIVILEGES IN SCHEMA app GRANT USAGE, SELECT ON SEQUENCES TO medisync_app;
+ALTER DEFAULT PRIVILEGES IN SCHEMA app GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO AnySync_app;
+ALTER DEFAULT PRIVILEGES IN SCHEMA app GRANT USAGE, SELECT ON SEQUENCES TO AnySync_app;
 
 -- Vectors schema: READ/WRITE access (for embedding management)
-GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA vectors TO medisync_app;
-GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA vectors TO medisync_app;
+GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA vectors TO AnySync_app;
+GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA vectors TO AnySync_app;
 
-ALTER DEFAULT PRIVILEGES IN SCHEMA vectors GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO medisync_app;
-ALTER DEFAULT PRIVILEGES IN SCHEMA vectors GRANT USAGE, SELECT ON SEQUENCES TO medisync_app;
+ALTER DEFAULT PRIVILEGES IN SCHEMA vectors GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO AnySync_app;
+ALTER DEFAULT PRIVILEGES IN SCHEMA vectors GRANT USAGE, SELECT ON SEQUENCES TO AnySync_app;
 
 -- Special handling for audit_log: INSERT-only (no UPDATE/DELETE)
 -- This will be enforced via row-level security in 003_audit_log_security.up.sql
 -- For now, the app role has full access, and RLS will restrict it
 
-COMMENT ON ROLE medisync_app IS 'Application backend role. Full CRUD on app/vectors schemas, read-only on analytics schemas.';
+COMMENT ON ROLE AnySync_app IS 'Application backend role. Full CRUD on app/vectors schemas, read-only on analytics schemas.';
 
 -- ============================================================================
--- ROLE: medisync_etl
+-- ROLE: AnySync_etl
 -- Purpose: ETL service role for data synchronization
 -- Access:
 --   - Full access to hims_analytics and tally_analytics (INSERT, UPDATE, DELETE, TRUNCATE)
@@ -135,68 +135,68 @@ COMMENT ON ROLE medisync_app IS 'Application backend role. Full CRUD on app/vect
 
 DO $$
 BEGIN
-    IF NOT EXISTS (SELECT FROM pg_catalog.pg_roles WHERE rolname = 'medisync_etl') THEN
-        CREATE ROLE medisync_etl WITH NOLOGIN NOSUPERUSER NOCREATEDB NOCREATEROLE NOINHERIT;
-        RAISE NOTICE 'Created role: medisync_etl';
+    IF NOT EXISTS (SELECT FROM pg_catalog.pg_roles WHERE rolname = 'AnySync_etl') THEN
+        CREATE ROLE AnySync_etl WITH NOLOGIN NOSUPERUSER NOCREATEDB NOCREATEROLE NOINHERIT;
+        RAISE NOTICE 'Created role: AnySync_etl';
     ELSE
-        RAISE NOTICE 'Role medisync_etl already exists, skipping creation';
+        RAISE NOTICE 'Role AnySync_etl already exists, skipping creation';
     END IF;
 END
 $$;
 
 -- Grant usage on required schemas
-GRANT USAGE ON SCHEMA hims_analytics TO medisync_etl;
-GRANT USAGE ON SCHEMA tally_analytics TO medisync_etl;
-GRANT USAGE ON SCHEMA app TO medisync_etl;
+GRANT USAGE ON SCHEMA hims_analytics TO AnySync_etl;
+GRANT USAGE ON SCHEMA tally_analytics TO AnySync_etl;
+GRANT USAGE ON SCHEMA app TO AnySync_etl;
 
 -- HIMS Analytics: Full DML access for ETL operations
-GRANT SELECT, INSERT, UPDATE, DELETE, TRUNCATE ON ALL TABLES IN SCHEMA hims_analytics TO medisync_etl;
-GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA hims_analytics TO medisync_etl;
+GRANT SELECT, INSERT, UPDATE, DELETE, TRUNCATE ON ALL TABLES IN SCHEMA hims_analytics TO AnySync_etl;
+GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA hims_analytics TO AnySync_etl;
 
-ALTER DEFAULT PRIVILEGES IN SCHEMA hims_analytics GRANT SELECT, INSERT, UPDATE, DELETE, TRUNCATE ON TABLES TO medisync_etl;
-ALTER DEFAULT PRIVILEGES IN SCHEMA hims_analytics GRANT USAGE, SELECT ON SEQUENCES TO medisync_etl;
+ALTER DEFAULT PRIVILEGES IN SCHEMA hims_analytics GRANT SELECT, INSERT, UPDATE, DELETE, TRUNCATE ON TABLES TO AnySync_etl;
+ALTER DEFAULT PRIVILEGES IN SCHEMA hims_analytics GRANT USAGE, SELECT ON SEQUENCES TO AnySync_etl;
 
 -- Tally Analytics: Full DML access for ETL operations
-GRANT SELECT, INSERT, UPDATE, DELETE, TRUNCATE ON ALL TABLES IN SCHEMA tally_analytics TO medisync_etl;
-GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA tally_analytics TO medisync_etl;
+GRANT SELECT, INSERT, UPDATE, DELETE, TRUNCATE ON ALL TABLES IN SCHEMA tally_analytics TO AnySync_etl;
+GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA tally_analytics TO AnySync_etl;
 
-ALTER DEFAULT PRIVILEGES IN SCHEMA tally_analytics GRANT SELECT, INSERT, UPDATE, DELETE, TRUNCATE ON TABLES TO medisync_etl;
-ALTER DEFAULT PRIVILEGES IN SCHEMA tally_analytics GRANT USAGE, SELECT ON SEQUENCES TO medisync_etl;
+ALTER DEFAULT PRIVILEGES IN SCHEMA tally_analytics GRANT SELECT, INSERT, UPDATE, DELETE, TRUNCATE ON TABLES TO AnySync_etl;
+ALTER DEFAULT PRIVILEGES IN SCHEMA tally_analytics GRANT USAGE, SELECT ON SEQUENCES TO AnySync_etl;
 
 -- App schema: Limited access to ETL-related tables only
 -- ETL State management
-GRANT SELECT, INSERT, UPDATE, DELETE ON app.etl_state TO medisync_etl;
+GRANT SELECT, INSERT, UPDATE, DELETE ON app.etl_state TO AnySync_etl;
 
 -- ETL Quarantine management
-GRANT SELECT, INSERT, UPDATE, DELETE ON app.etl_quarantine TO medisync_etl;
+GRANT SELECT, INSERT, UPDATE, DELETE ON app.etl_quarantine TO AnySync_etl;
 
 -- ETL Quality Reports
-GRANT SELECT, INSERT ON app.etl_quality_report TO medisync_etl;
+GRANT SELECT, INSERT ON app.etl_quality_report TO AnySync_etl;
 
 -- Audit log: INSERT only (for ETL audit trail)
-GRANT INSERT ON app.audit_log TO medisync_etl;
+GRANT INSERT ON app.audit_log TO AnySync_etl;
 
 -- Notification queue: INSERT for ETL alerts
-GRANT SELECT, INSERT ON app.notification_queue TO medisync_etl;
+GRANT SELECT, INSERT ON app.notification_queue TO AnySync_etl;
 
 -- Grant sequence usage for app schema tables ETL needs
-GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA app TO medisync_etl;
+GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA app TO AnySync_etl;
 
-COMMENT ON ROLE medisync_etl IS 'ETL service role. Full access to analytics schemas, limited access to ETL-related app tables.';
+COMMENT ON ROLE AnySync_etl IS 'ETL service role. Full access to analytics schemas, limited access to ETL-related app tables.';
 
 -- ============================================================================
 -- HELPER FUNCTION: Create login user from role
 -- Use this function to create actual login users that inherit from these roles
--- Example: SELECT create_medisync_user('etl_service', 'medisync_etl', 'secure_password');
+-- Example: SELECT create_AnySync_user('etl_service', 'AnySync_etl', 'secure_password');
 -- ============================================================================
 
-CREATE OR REPLACE FUNCTION create_medisync_user(
+CREATE OR REPLACE FUNCTION create_AnySync_user(
     p_username TEXT,
     p_role TEXT,
     p_password TEXT
 ) RETURNS TEXT AS $$
 DECLARE
-    v_allowed_roles TEXT[] := ARRAY['medisync_readonly', 'medisync_app', 'medisync_etl'];
+    v_allowed_roles TEXT[] := ARRAY['AnySync_readonly', 'AnySync_app', 'AnySync_etl'];
 BEGIN
     -- Validate role
     IF NOT p_role = ANY(v_allowed_roles) THEN
@@ -217,9 +217,9 @@ END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;
 
 -- Only allow superusers to create users
-REVOKE ALL ON FUNCTION create_medisync_user(TEXT, TEXT, TEXT) FROM PUBLIC;
+REVOKE ALL ON FUNCTION create_AnySync_user(TEXT, TEXT, TEXT) FROM PUBLIC;
 
-COMMENT ON FUNCTION create_medisync_user IS 'Helper function to create login users that inherit from MediSync roles. Only callable by superusers.';
+COMMENT ON FUNCTION create_AnySync_user IS 'Helper function to create login users that inherit from AnySync roles. Only callable by superusers.';
 
 -- ============================================================================
 -- VERIFICATION QUERIES (for manual verification)
@@ -229,12 +229,12 @@ COMMENT ON FUNCTION create_medisync_user IS 'Helper function to create login use
 -- Uncomment to verify roles were created:
 -- SELECT rolname, rolsuper, rolinherit, rolcreaterole, rolcreatedb, rolcanlogin
 -- FROM pg_roles
--- WHERE rolname LIKE 'medisync_%';
+-- WHERE rolname LIKE 'AnySync_%';
 
 -- Uncomment to verify schema privileges:
--- SELECT nspname, has_schema_privilege('medisync_readonly', nspname, 'USAGE') as readonly_usage,
---        has_schema_privilege('medisync_app', nspname, 'USAGE') as app_usage,
---        has_schema_privilege('medisync_etl', nspname, 'USAGE') as etl_usage
+-- SELECT nspname, has_schema_privilege('AnySync_readonly', nspname, 'USAGE') as readonly_usage,
+--        has_schema_privilege('AnySync_app', nspname, 'USAGE') as app_usage,
+--        has_schema_privilege('AnySync_etl', nspname, 'USAGE') as etl_usage
 -- FROM pg_namespace
 -- WHERE nspname IN ('hims_analytics', 'tally_analytics', 'app', 'vectors');
 

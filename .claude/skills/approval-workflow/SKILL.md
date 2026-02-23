@@ -5,7 +5,7 @@ description: Route transactions through a configurable multi-step approval chain
 
 # Approval Workflow Skill
 
-Guidelines for implementing secure, auditable, and multi-layered approval workflows for financial transactions in MediSync.
+Guidelines for implementing secure, auditable, and multi-layered approval workflows for financial transactions in AnySync.
 
 ## Workflow Principles
 
@@ -24,7 +24,7 @@ Define the standard chain:
 ### OPA Policy Enforcement
 Use Open Policy Agent (Rego) to define approval logic:
 ```rego
-package medisync.approval
+package AnySync.approval
 
 default allow = false
 

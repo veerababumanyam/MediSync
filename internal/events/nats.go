@@ -1,4 +1,4 @@
-// Package events provides NATS messaging for MediSync event-driven architecture.
+// Package events provides NATS messaging for AnySync event-driven architecture.
 //
 // This package handles publishing and subscribing to events for the ETL pipeline,
 // including sync completion, data quality alerts, and general system notifications.
@@ -96,7 +96,7 @@ func NewPublisher(cfg interface{}, logger *slog.Logger) (*Publisher, error) {
 	}
 
 	if name == "" {
-		name = "medisync-publisher"
+		name = "AnySync-publisher"
 	}
 
 	if maxReconnects == 0 {

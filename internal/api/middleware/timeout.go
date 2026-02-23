@@ -1,4 +1,4 @@
-// Package middleware provides HTTP middleware for the MediSync API.
+// Package middleware provides HTTP middleware for the AnySync API.
 //
 // This file implements the TimeoutMiddleware for request timeout handling.
 // It ensures that long-running requests are properly cancelled and return

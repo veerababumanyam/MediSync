@@ -1,4 +1,4 @@
--- MediSync Document Processing Pipeline - Documents Migration
+-- AnySync Document Processing Pipeline - Documents Migration
 -- Version: 015
 -- Description: Create document processing tables for OCR pipeline
 -- Task: T001
@@ -266,19 +266,19 @@ CREATE POLICY document_audit_log_tenant_isolation ON app.document_audit_log
 -- GRANT PERMISSIONS
 -- ============================================================================
 
-GRANT SELECT ON app.documents TO medisync_readonly;
-GRANT SELECT, INSERT, UPDATE, DELETE ON app.documents TO medisync_app;
+GRANT SELECT ON app.documents TO AnySync_readonly;
+GRANT SELECT, INSERT, UPDATE, DELETE ON app.documents TO AnySync_app;
 
-GRANT SELECT ON app.extracted_fields TO medisync_readonly;
-GRANT SELECT, INSERT, UPDATE, DELETE ON app.extracted_fields TO medisync_app;
+GRANT SELECT ON app.extracted_fields TO AnySync_readonly;
+GRANT SELECT, INSERT, UPDATE, DELETE ON app.extracted_fields TO AnySync_app;
 
-GRANT SELECT ON app.line_items TO medisync_readonly;
-GRANT SELECT, INSERT, UPDATE, DELETE ON app.line_items TO medisync_app;
+GRANT SELECT ON app.line_items TO AnySync_readonly;
+GRANT SELECT, INSERT, UPDATE, DELETE ON app.line_items TO AnySync_app;
 
-GRANT SELECT ON app.document_audit_log TO medisync_readonly;
-GRANT SELECT, INSERT, UPDATE, DELETE ON app.document_audit_log TO medisync_app;
+GRANT SELECT ON app.document_audit_log TO AnySync_readonly;
+GRANT SELECT, INSERT, UPDATE, DELETE ON app.document_audit_log TO AnySync_app;
 
-GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA app TO medisync_app;
+GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA app TO AnySync_app;
 
 -- ============================================================================
 -- TRIGGER: Update updated_at timestamp

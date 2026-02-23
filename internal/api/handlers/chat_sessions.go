@@ -1,4 +1,4 @@
-// Package handlers provides HTTP handlers for the MediSync API.
+// Package handlers provides HTTP handlers for the AnySync API.
 //
 // This file implements the chat session management endpoints for the
 // conversational BI feature. It handles session listing, message history,
@@ -14,8 +14,8 @@ import (
 
 	"github.com/go-chi/chi/v5"
 	"github.com/google/uuid"
-	"github.com/medisync/medisync/internal/warehouse"
-	"github.com/medisync/medisync/internal/warehouse/models"
+	"github.com/AnySync/AnySync/internal/warehouse"
+	"github.com/AnySync/AnySync/internal/warehouse/models"
 )
 
 // ChatSessionsHandler handles chat session management endpoints.
@@ -224,7 +224,7 @@ func (h *ChatSessionsHandler) HandleCreateSession(w http.ResponseWriter, r *http
 		SessionID: sessionID,
 		UserID:    userID,
 		Role:      "system",
-		Content:   "Welcome to MediSync BI Assistant. How can I help you analyze your data today?",
+		Content:   "Welcome to AnySync BI Assistant. How can I help you analyze your data today?",
 		Locale:    locale,
 	}
 

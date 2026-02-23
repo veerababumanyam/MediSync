@@ -12,7 +12,7 @@
 
 ## 1. Purpose
 
-Generates custom analytics code (Python/Go data scripts, SQL queries, Excel formulas, report templates) from natural language specifications, enabling power users to extend MediSync without traditional coding.
+Generates custom analytics code (Python/Go data scripts, SQL queries, Excel formulas, report templates) from natural language specifications, enabling power users to extend AnySync without traditional coding.
 
 > **Addresses:** PRD §6.9.8, US33 — No-code / low-code extensions using AI code generation.
 

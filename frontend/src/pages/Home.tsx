@@ -5,6 +5,7 @@ import { SectorsSection } from '../components/landing/SectorsSection'
 import { FeatureCard } from '../components/landing/FeatureCard'
 import { FinalCTA } from '../components/landing/FinalCTA'
 import { LeadCaptureModal } from '../components/common/LeadCaptureModal'
+import { LiquidGlassFooter } from '../components/ui'
 
 export interface HomeProps {
     isDark: boolean
@@ -20,10 +21,10 @@ export function Home({ isDark }: HomeProps) {
         "mainEntity": [
             {
                 "@type": "Question",
-                "name": t('faq.q1', 'What is MediSync?'),
+                "name": t('faq.q1', 'What is AnySync?'),
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": t('faq.a1', 'MediSync is an advanced AI-powered business intelligence platform specifically designed for hospitals and healthcare providers. It acts as an intelligent bridge, seamlessly syncing operational data from your HIMS with financial data in Tally ERP.')
+                    "text": t('faq.a1', 'AnySync is an advanced AI-powered business intelligence platform specifically designed for hospitals and healthcare providers. It acts as an intelligent bridge, seamlessly syncing operational data from your HIMS with financial data in Tally ERP.')
                 }
             },
             {
@@ -31,7 +32,7 @@ export function Home({ isDark }: HomeProps) {
                 "name": t('faq.q2', 'How does the Tally ERP integration work?'),
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": t('faq.a2', 'MediSync utilizes secure, proprietary TDL XML over HTTP to establish a bi-directional sync with Tally ERP. This ensures idempotent, auditable, and instant synchronization of all financial vouchers and ledgers without manual export/import processes.')
+                    "text": t('faq.a2', 'AnySync utilizes secure, proprietary TDL XML over HTTP to establish a bi-directional sync with Tally ERP. This ensures idempotent, auditable, and instant synchronization of all financial vouchers and ledgers without manual export/import processes.')
                 }
             },
             {
@@ -39,7 +40,7 @@ export function Home({ isDark }: HomeProps) {
                 "name": t('faq.q3', 'Is patient data secure and compliant?'),
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": t('faq.a3', 'Absolutely. MediSync employs a robust, multi-layered PII (Personally Identifiable Information) protection architecture. Patient identities are masked or anonymized before any data is processed for financial analytics, ensuring strict compliance with healthcare data regulations.')
+                    "text": t('faq.a3', 'Absolutely. AnySync employs a robust, multi-layered PII (Personally Identifiable Information) protection architecture. Patient identities are masked or anonymized before any data is processed for financial analytics, ensuring strict compliance with healthcare data regulations.')
                 }
             }
         ]
@@ -189,10 +190,10 @@ export function Home({ isDark }: HomeProps) {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div className={`glass glass-shine rounded-2xl p-6 ${isDark ? 'hover:bg-white/5' : 'hover:bg-slate-50'}`}>
                             <h3 className={`text-xl font-semibold mb-3 ${isDark ? 'text-white' : 'text-slate-900'}`}>
-                                {t('faq.q1', 'What is MediSync?')}
+                                {t('faq.q1', 'What is AnySync?')}
                             </h3>
                             <p className={`text-sm leading-relaxed ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
-                                {t('faq.a1', 'MediSync is an advanced AI-powered business intelligence platform specifically designed for hospitals and healthcare providers. It acts as an intelligent bridge, seamlessly syncing operational data from your HIMS with financial data in Tally ERP.')}
+                                {t('faq.a1', 'AnySync is an advanced AI-powered business intelligence platform specifically designed for hospitals and healthcare providers. It acts as an intelligent bridge, seamlessly syncing operational data from your HIMS with financial data in Tally ERP.')}
                             </p>
                         </div>
                         <div className={`glass glass-shine rounded-2xl p-6 ${isDark ? 'hover:bg-white/5' : 'hover:bg-slate-50'}`}>
@@ -200,7 +201,7 @@ export function Home({ isDark }: HomeProps) {
                                 {t('faq.q2', 'How does the Tally ERP integration work?')}
                             </h3>
                             <p className={`text-sm leading-relaxed ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
-                                {t('faq.a2', 'MediSync utilizes secure, proprietary TDL XML over HTTP to establish a bi-directional sync with Tally ERP. This ensures idempotent, auditable, and instant synchronization of all financial vouchers and ledgers without manual export/import processes.')}
+                                {t('faq.a2', 'AnySync utilizes secure, proprietary TDL XML over HTTP to establish a bi-directional sync with Tally ERP. This ensures idempotent, auditable, and instant synchronization of all financial vouchers and ledgers without manual export/import processes.')}
                             </p>
                         </div>
                         <div className={`glass glass-shine rounded-2xl p-6 md:col-span-2 ${isDark ? 'hover:bg-white/5' : 'hover:bg-slate-50'}`}>
@@ -208,55 +209,17 @@ export function Home({ isDark }: HomeProps) {
                                 {t('faq.q3', 'Is patient data secure and compliant?')}
                             </h3>
                             <p className={`text-sm leading-relaxed ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
-                                {t('faq.a3', 'Absolutely. MediSync employs a robust, multi-layered PII (Personally Identifiable Information) protection architecture. Patient identities are masked or anonymized before any data is processed for financial analytics, ensuring strict compliance with healthcare data regulations.')}
+                                {t('faq.a3', 'Absolutely. AnySync employs a robust, multi-layered PII (Personally Identifiable Information) protection architecture. Patient identities are masked or anonymized before any data is processed for financial analytics, ensuring strict compliance with healthcare data regulations.')}
                             </p>
                         </div>
                     </div>
                 </section>
 
-                <FinalCTA isDark={isDark} onOpenLeadCapture={() => setIsModalOpen(true)} />
+                <FinalCTA onOpenLeadCapture={() => setIsModalOpen(true)} />
 
             </main>
 
-            {/* Footer - Enhanced with links and compliance policies - WCAG 2.5.5 compliant touch targets */}
-            <footer className={`border-t mt-auto relative z-10 transition-colors duration-300 ${isDark ? 'border-white/10' : 'border-slate-200'
-                }`}>
-                <div className={`max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 ${isDark ? 'text-slate-500' : 'text-slate-500'}`}>
-                    <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8 text-sm">
-                        <div className="col-span-1 md:col-span-1">
-                            <img src="/logo.png" alt="MediSync - AI-powered healthcare BI platform" className="w-8 h-8 mb-4 opacity-70" />
-                            <p className="mb-4 text-base">AI-Powered Conversational BI & Intelligent Accounting for Healthcare.</p>
-                        </div>
-                        <div>
-                            <h4 className={`font-bold mb-4 text-base ${isDark ? 'text-white' : 'text-slate-900'}`}>Platform</h4>
-                            <ul className="space-y-1">
-                                <li><a href="#" className="block py-2.5 px-1 -mx-1 min-h-[44px] flex items-center hover:text-blue-500 transition-colors touch-target-mobile">Features</a></li>
-                                <li><a href="#" className="block py-2.5 px-1 -mx-1 min-h-[44px] flex items-center hover:text-blue-500 transition-colors touch-target-mobile">Integrations</a></li>
-                                <li><a href="#" className="block py-2.5 px-1 -mx-1 min-h-[44px] flex items-center hover:text-blue-500 transition-colors touch-target-mobile">Pricing</a></li>
-                            </ul>
-                        </div>
-                        <div>
-                            <h4 className={`font-bold mb-4 text-base ${isDark ? 'text-white' : 'text-slate-900'}`}>Compliance</h4>
-                            <ul className="space-y-1">
-                                <li><a href="#" className="block py-2.5 px-1 -mx-1 min-h-[44px] flex items-center hover:text-blue-500 transition-colors touch-target-mobile">HIPAA Compliance</a></li>
-                                <li><a href="#" className="block py-2.5 px-1 -mx-1 min-h-[44px] flex items-center hover:text-blue-500 transition-colors touch-target-mobile">Security Policy</a></li>
-                                <li><a href="#" className="block py-2.5 px-1 -mx-1 min-h-[44px] flex items-center hover:text-blue-500 transition-colors touch-target-mobile">System Status</a></li>
-                            </ul>
-                        </div>
-                        <div>
-                            <h4 className={`font-bold mb-4 text-base ${isDark ? 'text-white' : 'text-slate-900'}`}>Company</h4>
-                            <ul className="space-y-1">
-                                <li><a href="#" className="block py-2.5 px-1 -mx-1 min-h-[44px] flex items-center hover:text-blue-500 transition-colors touch-target-mobile">About Us</a></li>
-                                <li><a href="#" className="block py-2.5 px-1 -mx-1 min-h-[44px] flex items-center hover:text-blue-500 transition-colors touch-target-mobile">Contact</a></li>
-                                <li><a href="#" className="block py-2.5 px-1 -mx-1 min-h-[44px] flex items-center hover:text-blue-500 transition-colors touch-target-mobile">Privacy Policy</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div className={`pt-8 border-t text-center text-sm ${isDark ? 'border-white/5' : 'border-slate-200'}`}>
-                        <p>{t('footer.copyright', '© 2026 MediSync. AI-Powered Conversational BI & Intelligent Accounting for Healthcare.')}</p>
-                    </div>
-                </div>
-            </footer>
+            <LiquidGlassFooter />
 
             <LeadCaptureModal
                 isOpen={isModalOpen}

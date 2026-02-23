@@ -43,7 +43,7 @@ const enResources = {
       toggleLanguage: 'Toggle language',
     },
     announcement: {
-      message: 'Convert your legacy systems into AI systems with AnySync',
+      message: 'Turn Legacy System into AI Systems',
     },
     welcome: {
       badge: 'The Agentic AI Bridge for Legacy Healthcare IT',

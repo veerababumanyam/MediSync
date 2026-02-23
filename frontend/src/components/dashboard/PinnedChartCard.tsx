@@ -50,8 +50,9 @@ export const PinnedChartCard: React.FC<PinnedChartCardProps> = ({
   return (
     <FadeIn>
       <LiquidGlassCard
+        intensity="pronounced"
         elevation="floating"
-        hover="lift"
+        hover="lift-glow"
         className={`overflow-hidden ${onClick ? 'cursor-pointer' : ''}`}
         onClick={onClick}
         role={onClick ? 'button' : undefined}
@@ -65,8 +66,8 @@ export const PinnedChartCard: React.FC<PinnedChartCardProps> = ({
         }}
       >
         {/* Header */}
-        <div className="flex items-center justify-between px-4 py-3 border-b border-white/10">
-          <h3 className="font-medium liquid-text-primary truncate">
+        <div className="flex items-center justify-between px-4 py-3 border-b border-glass-soft">
+          <h3 className="font-medium text-primary truncate">
             {chart.title}
           </h3>
 
@@ -77,12 +78,12 @@ export const PinnedChartCard: React.FC<PinnedChartCardProps> = ({
                 e.stopPropagation();
                 setShowMenu(!showMenu);
               }}
-              className="p-2 rounded-lg hover:bg-white/10 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+              className="liquid-glass-button-prominent liquid-focus-gold p-2 rounded-lg hover:bg-surface-glass transition-colors"
               aria-label={t('chartOptions', 'Chart options for {{title}}', { title: chart.title })}
               aria-expanded={showMenu}
               aria-haspopup="menu"
             >
-              <svg className="w-5 h-5 liquid-text-secondary" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+              <svg className="w-5 h-5 text-secondary" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
               </svg>
             </button>
@@ -98,7 +99,7 @@ export const PinnedChartCard: React.FC<PinnedChartCardProps> = ({
                   aria-hidden="true"
                 />
                 <LiquidGlassCard
-                  intensity="heavy"
+                  intensity="pronounced"
                   elevation="floating"
                   className="absolute inset-e-0 mt-1 w-48 rounded-lg z-20 p-1"
                   role="menu"
@@ -110,7 +111,7 @@ export const PinnedChartCard: React.FC<PinnedChartCardProps> = ({
                       handleRefresh();
                     }}
                     disabled={isRefreshing}
-                    className="w-full flex items-center gap-2 px-4 py-2 text-sm liquid-text-primary hover:bg-white/10 rounded-lg transition-colors disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+                    className="w-full flex items-center gap-2 px-4 py-2 text-sm text-primary hover:bg-surface-glass rounded-lg transition-colors disabled:opacity-50 liquid-focus-gold"
                     role="menuitem"
                     aria-label={t('refreshChartAriaLabel', 'Refresh chart data')}
                   >
@@ -125,7 +126,7 @@ export const PinnedChartCard: React.FC<PinnedChartCardProps> = ({
                       onToggle(false);
                       setShowMenu(false);
                     }}
-                    className="w-full flex items-center gap-2 px-4 py-2 text-sm liquid-text-primary hover:bg-white/10 rounded-lg transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+                    className="w-full flex items-center gap-2 px-4 py-2 text-sm text-primary hover:bg-surface-glass rounded-lg transition-colors liquid-focus-gold"
                     role="menuitem"
                     aria-label={t('unpinChartAriaLabel', 'Unpin chart from dashboard')}
                   >
@@ -140,7 +141,7 @@ export const PinnedChartCard: React.FC<PinnedChartCardProps> = ({
                       onDelete();
                       setShowMenu(false);
                     }}
-                    className="w-full flex items-center gap-2 px-4 py-2 text-sm text-red-500 dark:text-red-400 hover:bg-red-500/20 rounded-lg transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500"
+                    className="w-full flex items-center gap-2 px-4 py-2 text-sm text-error hover:bg-color-error/20 rounded-lg transition-colors liquid-focus-gold"
                     role="menuitem"
                     aria-label={t('deleteChartAriaLabel', 'Delete chart permanently')}
                   >
@@ -165,12 +166,12 @@ export const PinnedChartCard: React.FC<PinnedChartCardProps> = ({
         </div>
 
         {/* Footer */}
-        <div className="px-4 py-2 bg-white/5 backdrop-blur-sm border-t border-white/10 text-xs liquid-text-secondary">
+        <div className="px-4 py-2 bg-surface-glass-subtle backdrop-blur-sm border-t border-glass-soft text-xs text-secondary">
           <div className="flex items-center justify-between">
             <span>{t('lastRefreshed')}: {formatLastRefreshed(chart.lastRefreshedAt)}</span>
             {chart.refreshInterval > 0 && (
               <span className="flex items-center gap-1">
-                <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" aria-hidden="true"></span>
+                <span className="w-2 h-2 rounded-full bg-color-success animate-pulse" aria-hidden="true"></span>
                 {t('refreshesEvery', { minutes: chart.refreshInterval })}
               </span>
             )}

@@ -10,7 +10,7 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	"github.com/medisync/medisync/internal/warehouse"
+	"github.com/AnySync/AnySync/internal/warehouse"
 )
 
 // Transformer handles transformation of HIMS data to warehouse records.

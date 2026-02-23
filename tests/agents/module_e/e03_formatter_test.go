@@ -5,7 +5,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/medisync/medisync/internal/agents/module_e/e03_formatter"
+	"github.com/AnySync/AnySync/internal/agents/module_e/e03_formatter"
 )
 
 func TestLocalizedFormatter_EnglishNumbers(t *testing.T) {

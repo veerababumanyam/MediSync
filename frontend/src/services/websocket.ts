@@ -1,5 +1,5 @@
 /**
- * MediSync WebSocket Client
+ * AnySync WebSocket Client
  *
  * WebSocket client for real-time streaming responses with:
  * - Connection management

@@ -11,7 +11,7 @@
 
 ## 1. Objectives
 
-Complete the AI Accountant write-back loop: push approved transactions directly into Tally via TDL XML, build the real-time sync dashboard, add immutable audit logging, and support multiple Tally company instances. This phase delivers the **Action Plane** of MediSync — the only part of the system that writes to external financial data.
+Complete the AI Accountant write-back loop: push approved transactions directly into Tally via TDL XML, build the real-time sync dashboard, add immutable audit logging, and support multiple Tally company instances. This phase delivers the **Action Plane** of AnySync — the only part of the system that writes to external financial data.
 
 ---
 
@@ -249,7 +249,7 @@ CREATE TABLE tally_sync_history (
 ## 7. OPA Tally Write Policy
 
 ```rego
-package medisync.tally
+package AnySync.tally
 
 import future.keywords
 

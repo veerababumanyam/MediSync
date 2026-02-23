@@ -1,18 +1,18 @@
 openapi: 3.1.0
 info:
-  title: MediSync Documents API
+  title: AnySync Documents API
   description: |
     API for document upload, management, and review queue operations.
     Part of the AI Accountant module (Module B).
   version: 1.0.0
   contact:
-    name: MediSync Engineering
-    url: https://github.com/medisync/medisync
+    name: AnySync Engineering
+    url: https://github.com/AnySync/AnySync
 
 servers:
-  - url: https://api.medisync.local/v1
+  - url: https://api.AnySync.local/v1
     description: Local development
-  - url: https://api.medisync.io/v1
+  - url: https://api.AnySync.io/v1
     description: Production
 
 tags:

@@ -105,5 +105,5 @@ COMMENT ON TABLE audit_entries IS 'Immutable audit log for HIPAA compliance (7-y
 COMMENT ON COLUMN audit_entries.partition_date IS 'Partition key for monthly partitioning';
 COMMENT ON FUNCTION maintain_audit_partitions() IS 'Creates future partitions for audit_entries table';
 
--- Grant read-only access to medisync_readonly role
-GRANT SELECT ON ALL TABLES IN SCHEMA public TO medisync_readonly;
+-- Grant read-only access to AnySync_readonly role
+GRANT SELECT ON ALL TABLES IN SCHEMA public TO AnySync_readonly;

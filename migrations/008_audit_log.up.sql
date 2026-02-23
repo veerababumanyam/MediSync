@@ -1,4 +1,4 @@
--- MediSync AI Agent Core - AI Audit Log Migration
+-- AnySync AI Agent Core - AI Audit Log Migration
 -- Version: 008
 -- Description: Create AI-specific audit log table for AI Agent Core
 -- Task: T011
@@ -201,26 +201,26 @@ DROP POLICY IF EXISTS ai_audit_log_delete_policy ON app.ai_audit_log;
 -- SELECT Policy: All roles can read audit log entries
 CREATE POLICY ai_audit_log_select_policy ON app.ai_audit_log
     FOR SELECT
-    TO medisync_readonly, medisync_app
+    TO AnySync_readonly, AnySync_app
     USING (true);
 
 -- INSERT Policy: Only app role can insert new audit records
 CREATE POLICY ai_audit_log_insert_policy ON app.ai_audit_log
     FOR INSERT
-    TO medisync_app
+    TO AnySync_app
     WITH CHECK (true);
 
 -- UPDATE Policy: DENY ALL - No updates allowed
 CREATE POLICY ai_audit_log_update_policy ON app.ai_audit_log
     FOR UPDATE
-    TO medisync_readonly, medisync_app
+    TO AnySync_readonly, AnySync_app
     USING (false)
     WITH CHECK (false);
 
 -- DELETE Policy: DENY ALL - No deletions allowed
 CREATE POLICY ai_audit_log_delete_policy ON app.ai_audit_log
     FOR DELETE
-    TO medisync_readonly, medisync_app
+    TO AnySync_readonly, AnySync_app
     USING (false);
 
 COMMENT ON POLICY ai_audit_log_select_policy ON app.ai_audit_log IS 'Allows all application roles to read AI audit log entries';
@@ -264,15 +264,15 @@ COMMENT ON FUNCTION app.prevent_ai_audit_log_modification() IS 'Trigger function
 REVOKE ALL ON app.ai_audit_log FROM PUBLIC;
 
 -- Grant explicit permissions
-GRANT SELECT ON app.ai_audit_log TO medisync_readonly;
-GRANT SELECT, INSERT ON app.ai_audit_log TO medisync_app;
+GRANT SELECT ON app.ai_audit_log TO AnySync_readonly;
+GRANT SELECT, INSERT ON app.ai_audit_log TO AnySync_app;
 
 -- Grant execute on functions
-GRANT EXECUTE ON FUNCTION app.log_ai_action(UUID, UUID, VARCHAR, VARCHAR, UUID, JSONB, INET, TEXT) TO medisync_app;
-GRANT EXECUTE ON FUNCTION app.get_query_audit_trail(UUID) TO medisync_app;
-GRANT EXECUTE ON FUNCTION app.get_query_audit_trail(UUID) TO medisync_readonly;
-GRANT EXECUTE ON FUNCTION app.get_tenant_audit_summary(UUID, TIMESTAMPTZ, TIMESTAMPTZ) TO medisync_app;
-GRANT EXECUTE ON FUNCTION app.get_tenant_audit_summary(UUID, TIMESTAMPTZ, TIMESTAMPTZ) TO medisync_readonly;
+GRANT EXECUTE ON FUNCTION app.log_ai_action(UUID, UUID, VARCHAR, VARCHAR, UUID, JSONB, INET, TEXT) TO AnySync_app;
+GRANT EXECUTE ON FUNCTION app.get_query_audit_trail(UUID) TO AnySync_app;
+GRANT EXECUTE ON FUNCTION app.get_query_audit_trail(UUID) TO AnySync_readonly;
+GRANT EXECUTE ON FUNCTION app.get_tenant_audit_summary(UUID, TIMESTAMPTZ, TIMESTAMPTZ) TO AnySync_app;
+GRANT EXECUTE ON FUNCTION app.get_tenant_audit_summary(UUID, TIMESTAMPTZ, TIMESTAMPTZ) TO AnySync_readonly;
 
 -- ============================================================================
 -- END OF MIGRATION

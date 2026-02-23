@@ -1,7 +1,7 @@
 /**
  * Common Components Barrel Export
  *
- * Exports all reusable UI components for the MediSync dashboard.
+ * Exports all reusable UI components for the AnySync dashboard.
  *
  * @module components/common
  */

@@ -1,6 +1,6 @@
--- MediSync Initial Schema Migration
+-- AnySync Initial Schema Migration
 -- Version: 001
--- Description: Create all foundational schemas and tables for MediSync data warehouse
+-- Description: Create all foundational schemas and tables for AnySync data warehouse
 -- Schemas: hims_analytics, tally_analytics, app, vectors
 --
 -- This migration establishes:
@@ -844,7 +844,7 @@ $$;
 -- Schema comments
 COMMENT ON SCHEMA hims_analytics IS 'Healthcare Information Management System analytics data warehouse';
 COMMENT ON SCHEMA tally_analytics IS 'Tally ERP financial analytics data warehouse';
-COMMENT ON SCHEMA app IS 'MediSync application tables (users, preferences, workflows, audit)';
+COMMENT ON SCHEMA app IS 'AnySync application tables (users, preferences, workflows, audit)';
 COMMENT ON SCHEMA vectors IS 'Vector embeddings for semantic search and AI context (pgvector)';
 
 -- Key table comments

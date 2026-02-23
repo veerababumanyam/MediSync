@@ -1,4 +1,4 @@
-// Package cache provides Redis-based caching for MediSync.
+// Package cache provides Redis-based caching for AnySync.
 //
 // This package handles caching of schema context, session data, and query results
 // to improve performance and reduce database load. It uses go-redis/v9 for Redis operations.

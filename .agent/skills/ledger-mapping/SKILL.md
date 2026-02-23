@@ -5,7 +5,7 @@ description: Automatically map extracted transactions to the correct Tally Chart
 
 # Ledger Mapping Skill
 
-Guidelines for categorizing financial transactions into the appropriate accounting ledgers within MediSync.
+Guidelines for categorizing financial transactions into the appropriate accounting ledgers within AnySync.
 
 ## Mapping Mechanisms
 

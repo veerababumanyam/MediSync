@@ -80,6 +80,6 @@ Manages connections to multiple Tally company instances (for healthcare chains o
 | Property | Value |
 |----------|-------|
 | **Runtime** | Go service |
-| **Secrets** | Vault: `secret/medisync/tally/{entity_id}/connection` |
+| **Secrets** | Vault: `secret/AnySync/tally/{entity_id}/connection` |
 | **Depends on** | B-09, Tally Gateway per-entity |
 | **Consumed by** | Finance Head, Admin |

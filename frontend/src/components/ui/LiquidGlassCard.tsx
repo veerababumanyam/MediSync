@@ -2,18 +2,20 @@
  * Liquid Glass Card Component
  *
  * Premium iOS-inspired glassmorphic card with liquid animations,
- * dynamic lighting effects, and WCAG 3.0 Bronze compliance.
+ * dynamic lighting effects, and WCAG 3.0 compliance.
  *
  * Features:
  * - Multi-layered glass effect with specular highlights
  * - Liquid hover animations (lift, glow, shimmer)
  * - Branded color variants using logo colors
- * - Focus indicators for keyboard navigation
+ * - WCAG 3.0 Gold focus indicators for keyboard navigation
+ * - Pronounced glass variant (85% opacity, 80px blur)
  * - Reduced motion support
  * - RTL support
+ * - iOS notch safe-area support
  *
  * @module components/ui/LiquidGlassCard
- * @version 2.0.0
+ * @version 2.1.0
  */
 
 import React, { forwardRef, useState, useCallback, type ComponentProps } from 'react'
@@ -48,6 +50,8 @@ const liquidGlassVariants = cva(
         medium: '',
         // Heavy: Most transparent (for overlays, floating panels, modals)
         heavy: 'liquid-glass-heavy',
+        // Pronounced: iOS 26 style - 90% opacity, 80px blur (maximum glass effect)
+        pronounced: 'liquid-glass-pronounced',
       },
       // Elevation level - shadow depth for visual hierarchy
       elevation: {
@@ -231,6 +235,8 @@ export const LiquidGlassCard = forwardRef<HTMLDivElement, LiquidGlassCardProps>(
       pulseGlow && 'liquid-pulse-glow',
       float && 'liquid-float',
       gradientOverlay && 'liquid-gradient-overlay',
+      // WCAG 3.0 Gold focus indicator for interactive elements
+      onClick && 'liquid-focus-gold',
       className
     )
 
@@ -355,10 +361,11 @@ GlassInteractiveCard.displayName = 'GlassInteractiveCard'
 /**
  * Brand card with logo gradient
  */
-export const GlassBrandCard = forwardRef<HTMLDivElement, Omit<LiquidGlassCardProps, 'brand' | 'hover'>>(
+export const GlassBrandCard = forwardRef<HTMLDivElement, Omit<LiquidGlassCardProps, 'brand' | 'hover' | 'intensity'>>(
   (props, ref) => (
     <LiquidGlassCard
       ref={ref}
+      intensity="pronounced"
       brand="brand"
       hover="shimmer"
       gradientOverlay
@@ -371,10 +378,11 @@ GlassBrandCard.displayName = 'GlassBrandCard'
 /**
  * Blue-themed card
  */
-export const GlassBlueCard = forwardRef<HTMLDivElement, Omit<LiquidGlassCardProps, 'brand' | 'hover'>>(
+export const GlassBlueCard = forwardRef<HTMLDivElement, Omit<LiquidGlassCardProps, 'brand' | 'hover' | 'intensity'>>(
   (props, ref) => (
     <LiquidGlassCard
       ref={ref}
+      intensity="pronounced"
       brand="blue"
       hover="glow-blue"
       {...props}
@@ -386,10 +394,11 @@ GlassBlueCard.displayName = 'GlassBlueCard'
 /**
  * Teal-themed card
  */
-export const GlassTealCard = forwardRef<HTMLDivElement, Omit<LiquidGlassCardProps, 'brand' | 'hover'>>(
+export const GlassTealCard = forwardRef<HTMLDivElement, Omit<LiquidGlassCardProps, 'brand' | 'hover' | 'intensity'>>(
   (props, ref) => (
     <LiquidGlassCard
       ref={ref}
+      intensity="pronounced"
       brand="teal"
       hover="glow"
       {...props}
@@ -401,10 +410,11 @@ GlassTealCard.displayName = 'GlassTealCard'
 /**
  * Green-themed card (success, growth)
  */
-export const GlassGreenCard = forwardRef<HTMLDivElement, Omit<LiquidGlassCardProps, 'brand' | 'hover'>>(
+export const GlassGreenCard = forwardRef<HTMLDivElement, Omit<LiquidGlassCardProps, 'brand' | 'hover' | 'intensity'>>(
   (props, ref) => (
     <LiquidGlassCard
       ref={ref}
+      intensity="pronounced"
       brand="green"
       hover="glow-green"
       {...props}
@@ -412,5 +422,22 @@ export const GlassGreenCard = forwardRef<HTMLDivElement, Omit<LiquidGlassCardPro
   )
 )
 GlassGreenCard.displayName = 'GlassGreenCard'
+
+/**
+ * Pronounced Glass Card - iOS 26 style with maximum glass effect
+ * 90% opacity, 80px blur, maximum depth
+ */
+export const GlassPronouncedCard = forwardRef<HTMLDivElement, Omit<LiquidGlassCardProps, 'intensity' | 'elevation'>>(
+  (props, ref) => (
+    <LiquidGlassCard
+      ref={ref}
+      intensity="pronounced"
+      elevation="floating"
+      hover="lift-glow"
+      {...props}
+    />
+  )
+)
+GlassPronouncedCard.displayName = 'GlassPronouncedCard'
 
 export default LiquidGlassCard

@@ -1,7 +1,7 @@
 // Package main provides the ETL service entry point.
 //
 // The ETL service orchestrates data extraction, transformation, and loading
-// from source systems (Tally ERP, HIMS) into the MediSync data warehouse.
+// from source systems (Tally ERP, HIMS) into the AnySync data warehouse.
 // It runs scheduled sync jobs, exposes Prometheus metrics, and provides
 // health check endpoints.
 //
@@ -31,17 +31,17 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/medisync/medisync/internal/config"
-	"github.com/medisync/medisync/internal/etl/hims"
-	"github.com/medisync/medisync/internal/etl/orchestrator"
-	"github.com/medisync/medisync/internal/etl/tally"
-	"github.com/medisync/medisync/internal/events"
-	"github.com/medisync/medisync/internal/warehouse"
+	"github.com/AnySync/AnySync/internal/config"
+	"github.com/AnySync/AnySync/internal/etl/hims"
+	"github.com/AnySync/AnySync/internal/etl/orchestrator"
+	"github.com/AnySync/AnySync/internal/etl/tally"
+	"github.com/AnySync/AnySync/internal/events"
+	"github.com/AnySync/AnySync/internal/warehouse"
 )
 
 const (
 	// ServiceName is the name of this service.
-	ServiceName = "medisync-etl"
+	ServiceName = "AnySync-etl"
 
 	// ServiceVersion is the version of this service.
 	ServiceVersion = "1.0.0-alpha"
@@ -304,36 +304,36 @@ func collectMetrics(repo *warehouse.Repo, orch *orchestrator.Service) string {
 	// Go metrics would use prometheus/client_golang
 	// This is a simplified version
 
-	metrics += "# HELP medisync_etl_syncs_total Total number of ETL sync operations\n"
-	metrics += "# TYPE medisync_etl_syncs_total counter\n"
-	metrics += fmt.Sprintf("medisync_etl_syncs_total %d\n", getOrchestratorStat(orch, "total_syncs"))
+	metrics += "# HELP AnySync_etl_syncs_total Total number of ETL sync operations\n"
+	metrics += "# TYPE AnySync_etl_syncs_total counter\n"
+	metrics += fmt.Sprintf("AnySync_etl_syncs_total %d\n", getOrchestratorStat(orch, "total_syncs"))
 
-	metrics += "\n# HELP medisync_etl_syncs_failed Total number of failed ETL sync operations\n"
-	metrics += "# TYPE medisync_etl_syncs_failed counter\n"
-	metrics += fmt.Sprintf("medisync_etl_syncs_failed %d\n", getOrchestratorStat(orch, "failed_syncs"))
+	metrics += "\n# HELP AnySync_etl_syncs_failed Total number of failed ETL sync operations\n"
+	metrics += "# TYPE AnySync_etl_syncs_failed counter\n"
+	metrics += fmt.Sprintf("AnySync_etl_syncs_failed %d\n", getOrchestratorStat(orch, "failed_syncs"))
 
-	metrics += "\n# HELP medisync_etl_up Whether the ETL service is running\n"
-	metrics += "# TYPE medisync_etl_up gauge\n"
+	metrics += "\n# HELP AnySync_etl_up Whether the ETL service is running\n"
+	metrics += "# TYPE AnySync_etl_up gauge\n"
 	up := 1
 	if getOrchestratorStat(orch, "is_running") == 0 {
 		up = 0
 	}
-	metrics += fmt.Sprintf("medisync_etl_up %d\n", up)
+	metrics += fmt.Sprintf("AnySync_etl_up %d\n", up)
 
 	// Get sync stats
 	stats, _ := repo.GetSyncStats(context.Background())
 	if stats != nil {
-		metrics += "\n# HELP medisync_etl_entities_total Total number of entities being synced\n"
-		metrics += "# TYPE medisync_etl_entities_total gauge\n"
-		metrics += fmt.Sprintf("medisync_etl_entities_total %d\n", stats.TotalEntities)
+		metrics += "\n# HELP AnySync_etl_entities_total Total number of entities being synced\n"
+		metrics += "# TYPE AnySync_etl_entities_total gauge\n"
+		metrics += fmt.Sprintf("AnySync_etl_entities_total %d\n", stats.TotalEntities)
 
-		metrics += "\n# HELP medisync_etl_entities_running Number of entities currently syncing\n"
-		metrics += "# TYPE medisync_etl_entities_running gauge\n"
-		metrics += fmt.Sprintf("medisync_etl_entities_running %d\n", stats.RunningSyncs)
+		metrics += "\n# HELP AnySync_etl_entities_running Number of entities currently syncing\n"
+		metrics += "# TYPE AnySync_etl_entities_running gauge\n"
+		metrics += fmt.Sprintf("AnySync_etl_entities_running %d\n", stats.RunningSyncs)
 
-		metrics += "\n# HELP medisync_etl_records_synced Total records synced to warehouse\n"
-		metrics += "# TYPE medisync_etl_records_synced counter\n"
-		metrics += fmt.Sprintf("medisync_etl_records_synced %d\n", stats.TotalRecords)
+		metrics += "\n# HELP AnySync_etl_records_synced Total records synced to warehouse\n"
+		metrics += "# TYPE AnySync_etl_records_synced counter\n"
+		metrics += fmt.Sprintf("AnySync_etl_records_synced %d\n", stats.TotalRecords)
 	}
 
 	return metrics

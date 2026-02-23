@@ -1,4 +1,4 @@
-# MediSync — Agent Development Docs
+# AnySync — Agent Development Docs
 
 This folder contains the agent backlog, OSS toolchain decisions, detailed blueprints, governance/security controls, and a reusable agent spec template.
 

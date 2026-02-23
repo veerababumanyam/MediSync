@@ -3,12 +3,12 @@ name: keycloak-auth
 description: This skill should be used when the user asks to "implement Keycloak authentication", "JWT validation", "OAuth2 flows", "Keycloak integration", "role-based access control", "RBAC", "token refresh", "OpenID Connect", or mentions Keycloak-specific concepts like realms, clients, roles, or groups.
 ---
 
-# Keycloak Authentication Patterns for MediSync
+# Keycloak Authentication Patterns for AnySync
 
-Keycloak provides identity management for MediSync with JWT tokens, role-based access control, and integration with OPA for fine-grained authorization.
+Keycloak provides identity management for AnySync with JWT tokens, role-based access control, and integration with OPA for fine-grained authorization.
 
 ★ Insight ─────────────────────────────────────
-MediSync's auth architecture:
+AnySync's auth architecture:
 1. **Keycloak** - Identity provider (IdP)
 2. **JWT Tokens** - Stateless authentication
 3. **OPA** - Policy-as-code authorization
@@ -23,8 +23,8 @@ JWTs contain user preferences including locale for i18n.
 |--------|---------|
 | **Token Type** | JWT (RS256 signed) |
 | **Token Lifetime** | 15 minutes access, 24 hours refresh |
-| **Realm** | `medisync` |
-| **Clients** | `medisync-web`, `medisync-mobile` |
+| **Realm** | `AnySync` |
+| **Clients** | `AnySync-web`, `AnySync-mobile` |
 | **Custom Claims** | `locale`, `company_id`, `permissions` |
 
 ## JWT Token Structure
@@ -35,11 +35,11 @@ JWTs contain user preferences including locale for i18n.
 {
   "exp": 1708543200,
   "iat": 1708542300,
-  "iss": "https://auth.medisync.io/realms/medisync",
+  "iss": "https://auth.AnySync.io/realms/AnySync",
   "aud": "account",
   "sub": "user-uuid",
   "typ": "Bearer",
-  "azp": "medisync-web",
+  "azp": "AnySync-web",
   "realm_access": {
     "roles": ["analyst", "viewer"]
   },
@@ -343,7 +343,7 @@ func (o *OPAClient) Allow(ctx context.Context, input AuthzInput) (bool, error) {
         return false, err
     }
 
-    req, err := http.NewRequestWithContext(ctx, "POST", o.baseURL+"/v1/data/medisync/allow", bytes.NewReader(body))
+    req, err := http.NewRequestWithContext(ctx, "POST", o.baseURL+"/v1/data/AnySync/allow", bytes.NewReader(body))
     if err != nil {
         return false, err
     }
@@ -476,7 +476,7 @@ export function ProtectedRoute({ children, roles, permissions }: ProtectedRouteP
 
 ```json
 {
-  "realm": "medisync",
+  "realm": "AnySync",
   "enabled": true,
   "sslRequired": "external",
   "roles": {
@@ -489,12 +489,12 @@ export function ProtectedRoute({ children, roles, permissions }: ProtectedRouteP
   },
   "clients": [
     {
-      "clientId": "medisync-web",
+      "clientId": "AnySync-web",
       "enabled": true,
       "protocol": "openid-connect",
       "publicClient": true,
-      "redirectUris": ["https://app.medisync.io/*"],
-      "webOrigins": ["https://app.medisync.io"],
+      "redirectUris": ["https://app.AnySync.io/*"],
+      "webOrigins": ["https://app.AnySync.io"],
       "standardFlowEnabled": true,
       "implicitFlowEnabled": false,
       "directAccessGrantsEnabled": true

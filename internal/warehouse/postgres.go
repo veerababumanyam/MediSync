@@ -1,4 +1,4 @@
-// Package warehouse provides database connectivity for the MediSync data warehouse.
+// Package warehouse provides database connectivity for the AnySync data warehouse.
 //
 // This file provides the PostgresPool struct which wraps pgxpool.Pool with
 // proper connection pool settings and health check capabilities.

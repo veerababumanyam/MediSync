@@ -10,8 +10,10 @@
  * @module hooks/useDashboard
  */
 import { useCallback, useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { dashboardApi } from '../services/api'
 import type { PinnedChart } from '../services/api'
+import { useToast } from './useToast'
 
 /** Dashboard error keys for i18n (dashboard namespace) */
 const DASHBOARD_ERROR_KEYS = {
@@ -92,6 +94,8 @@ export interface UseDashboardReturn {
  * ```
  */
 export function useDashboard(): UseDashboardReturn {
+  const { t } = useTranslation('dashboard')
+  const { error: toastError } = useToast()
   const [charts, setCharts] = useState<PinnedChart[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -140,7 +144,10 @@ export function useDashboard(): UseDashboardReturn {
       const newChart = await dashboardApi.pinChart(chart)
       setCharts(prev => [...prev, newChart])
     } catch (err) {
-      setError(getDashboardErrorKey(err, 'pinChart'))
+      const errorKey = getDashboardErrorKey(err, 'pinChart')
+      const message = t(errorKey)
+      setError(message)
+      toastError(message)
       console.error('Failed to pin chart:', err)
       throw err
     }
@@ -170,7 +177,10 @@ export function useDashboard(): UseDashboardReturn {
       )
     } catch (err) {
       // Revert on error - refetch from server
-      setError(getDashboardErrorKey(err, 'updateChart'))
+      const errorKey = getDashboardErrorKey(err, 'updateChart')
+      const message = t(errorKey)
+      setError(message)
+      toastError(message)
       console.error('Failed to update chart:', err)
 
       // Refetch to get correct state
@@ -199,7 +209,10 @@ export function useDashboard(): UseDashboardReturn {
       await dashboardApi.deleteChart(id)
     } catch (err) {
       // Revert on error
-      setError(getDashboardErrorKey(err, 'deleteChart'))
+      const errorKey = getDashboardErrorKey(err, 'deleteChart')
+      const message = t(errorKey)
+      setError(message)
+      toastError(message)
       console.error('Failed to delete chart:', err)
       setCharts(previousCharts)
       throw err
@@ -220,7 +233,10 @@ export function useDashboard(): UseDashboardReturn {
         )
       )
     } catch (err) {
-      setError(getDashboardErrorKey(err, 'refreshChart'))
+      const errorKey = getDashboardErrorKey(err, 'refreshChart')
+      const message = t(errorKey)
+      setError(message)
+      toastError(message)
       console.error('Failed to refresh chart:', err)
       throw err
     }
@@ -281,7 +297,10 @@ export function useDashboard(): UseDashboardReturn {
       await dashboardApi.reorderCharts(positions)
     } catch (err) {
       // Revert on error
-      setError(getDashboardErrorKey(err, 'reorderCharts'))
+      const errorKey = getDashboardErrorKey(err, 'reorderCharts')
+      const message = t(errorKey)
+      setError(message)
+      toastError(message)
       console.error('Failed to reorder charts:', err)
 
       // Refetch to get correct state

@@ -1,4 +1,4 @@
--- MediSync Audit Log Row-Level Security Migration
+-- AnySync Audit Log Row-Level Security Migration
 -- Version: 003
 -- Description: Implement append-only policy for audit_log table using Row-Level Security
 --
@@ -9,9 +9,9 @@
 -- 4. Trigger to prevent any UPDATE operations (belt-and-suspenders approach)
 --
 -- Security Model:
--- - medisync_readonly: Can SELECT all audit records (for compliance/reporting)
--- - medisync_app: Can SELECT all records, INSERT new records, no UPDATE/DELETE
--- - medisync_etl: Can SELECT all records, INSERT new records, no UPDATE/DELETE
+-- - AnySync_readonly: Can SELECT all audit records (for compliance/reporting)
+-- - AnySync_app: Can SELECT all records, INSERT new records, no UPDATE/DELETE
+-- - AnySync_etl: Can SELECT all records, INSERT new records, no UPDATE/DELETE
 -- - superusers: Bypass RLS (for emergency maintenance only)
 --
 -- This ensures audit trail integrity and immutability for compliance requirements.
@@ -44,21 +44,21 @@ DROP POLICY IF EXISTS audit_log_delete_policy ON app.audit_log;
 -- This is essential for compliance, reporting, and debugging
 CREATE POLICY audit_log_select_policy ON app.audit_log
     FOR SELECT
-    TO medisync_readonly, medisync_app, medisync_etl
+    TO AnySync_readonly, AnySync_app, AnySync_etl
     USING (true);
 
 -- INSERT Policy: app and etl roles can insert new audit records
 -- All inserts are allowed - the audit log captures all actions
 CREATE POLICY audit_log_insert_policy ON app.audit_log
     FOR INSERT
-    TO medisync_app, medisync_etl
+    TO AnySync_app, AnySync_etl
     WITH CHECK (true);
 
 -- UPDATE Policy: DENY ALL - No updates allowed to audit records
 -- Using a policy that always returns false
 CREATE POLICY audit_log_update_policy ON app.audit_log
     FOR UPDATE
-    TO medisync_readonly, medisync_app, medisync_etl
+    TO AnySync_readonly, AnySync_app, AnySync_etl
     USING (false)
     WITH CHECK (false);
 
@@ -66,7 +66,7 @@ CREATE POLICY audit_log_update_policy ON app.audit_log
 -- Using a policy that always returns false
 CREATE POLICY audit_log_delete_policy ON app.audit_log
     FOR DELETE
-    TO medisync_readonly, medisync_app, medisync_etl
+    TO AnySync_readonly, AnySync_app, AnySync_etl
     USING (false);
 
 -- ============================================================================
@@ -118,16 +118,16 @@ CREATE TRIGGER trg_prevent_audit_log_delete
 
 -- Explicitly revoke UPDATE and DELETE from all application roles
 -- This is another layer of defense
-REVOKE UPDATE, DELETE ON app.audit_log FROM medisync_readonly;
-REVOKE UPDATE, DELETE ON app.audit_log FROM medisync_app;
-REVOKE UPDATE, DELETE ON app.audit_log FROM medisync_etl;
+REVOKE UPDATE, DELETE ON app.audit_log FROM AnySync_readonly;
+REVOKE UPDATE, DELETE ON app.audit_log FROM AnySync_app;
+REVOKE UPDATE, DELETE ON app.audit_log FROM AnySync_etl;
 
 -- Ensure only INSERT and SELECT are granted
--- medisync_readonly already has only SELECT from previous migration
+-- AnySync_readonly already has only SELECT from previous migration
 -- Re-grant to be explicit about the intended permissions
-GRANT SELECT ON app.audit_log TO medisync_readonly;
-GRANT SELECT, INSERT ON app.audit_log TO medisync_app;
-GRANT SELECT, INSERT ON app.audit_log TO medisync_etl;
+GRANT SELECT ON app.audit_log TO AnySync_readonly;
+GRANT SELECT, INSERT ON app.audit_log TO AnySync_app;
+GRANT SELECT, INSERT ON app.audit_log TO AnySync_etl;
 
 -- ============================================================================
 -- VALIDATION FUNCTION: Helper to verify audit log integrity
@@ -242,15 +242,15 @@ COMMENT ON TRIGGER trg_prevent_audit_log_delete ON app.audit_log IS
 -- SELECT * FROM app.validate_audit_log_security();
 
 -- Test INSERT (should succeed):
--- SET ROLE medisync_app;
+-- SET ROLE AnySync_app;
 -- INSERT INTO app.audit_log (action, resource) VALUES ('test', 'migration_test');
 
 -- Test UPDATE (should fail):
--- SET ROLE medisync_app;
+-- SET ROLE AnySync_app;
 -- UPDATE app.audit_log SET action = 'modified' WHERE action = 'test';
 
 -- Test DELETE (should fail):
--- SET ROLE medisync_app;
+-- SET ROLE AnySync_app;
 -- DELETE FROM app.audit_log WHERE action = 'test';
 
 -- Reset role after testing:

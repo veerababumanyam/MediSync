@@ -1,6 +1,6 @@
 # Agent Specs — Index
 
-Complete per-agent specification files for all 58 MediSync AI agents across 5 modules.
+Complete per-agent specification files for all 58 AnySync AI agents across 5 modules.
 
 All specs use the Go + Genkit stack (see [01-oss-toolchain.md](../01-oss-toolchain.md)). Python sidecars are used only for ML workloads (OCR, forecasting, NER, voice).
 

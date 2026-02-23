@@ -1,11 +1,11 @@
 ---
 name: project-references
-description: Essential reference navigator for MediSync development. Provides quick access to architectural standards, PRD requirements, agent specifications, and the modular project structure to ensure implementation consistency.
+description: Essential reference navigator for AnySync development. Provides quick access to architectural standards, PRD requirements, agent specifications, and the modular project structure to ensure implementation consistency.
 ---
 
 # Project References Skill
 
-This skill serves as the central "ground truth" navigator for agents developing the MediSync platform. It ensures all development aligns with the established architecture, security policies, and product requirements.
+This skill serves as the central "ground truth" navigator for agents developing the AnySync platform. It ensures all development aligns with the established architecture, security policies, and product requirements.
 
 ## Core Project Documents
 
@@ -22,7 +22,7 @@ When tasked with development, analysis, or debugging, start by consulting these 
 
 ## Modular Architecture (A-E)
 
-MediSync is divided into five functional modules. Always identify which module a task belongs to:
+AnySync is divided into five functional modules. Always identify which module a task belongs to:
 
 - **Module A: Conversational BI** (`internal/agents/module_a/`) - Text-to-SQL, charts, and dashboarding.
 - **Module B: AI Accountant** (`internal/agents/module_b/`) - OCR, ledger mapping, Tally sync, and approvals.
@@ -32,7 +32,7 @@ MediSync is divided into five functional modules. Always identify which module a
 
 ## Reference Skill Repository
 
-The project maintains a vast library of "meta-skills" in `/References/skills`. These should be used as templates and best-practice guides for building new MediSync agent skills.
+The project maintains a vast library of "meta-skills" in `/References/skills`. These should be used as templates and best-practice guides for building new AnySync agent skills.
 
 ### Key Knowledge Areas from References:
 - **Search Strategy**: How to decompose queries (`References/skills/search-strategy`).
@@ -60,7 +60,7 @@ The project maintains a vast library of "meta-skills" in `/References/skills`. T
 
 ## Security & Governance Protocols
 
-1. **Read-Only Data Plane**: AI agents NEVER write directly to the data warehouse. Use the `medisync_readonly` role.
+1. **Read-Only Data Plane**: AI agents NEVER write directly to the data warehouse. Use the `AnySync_readonly` role.
 2. **HITL Gateways**: All write-backs to Tally ERP MUST be human-approved via Module B's approval workflow.
 3. **OPA Enforcement**: All authorization logic resides in `.rego` files in the `/policies` directory.
 4. **Audit Logging**: Every financial transaction or AI decision must be logged to the immutable `audit_log` table.

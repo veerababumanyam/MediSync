@@ -1,4 +1,4 @@
-// Package handlers provides HTTP handlers for the MediSync API.
+// Package handlers provides HTTP handlers for the AnySync API.
 //
 // This file implements the document processing endpoints for upload,
 // classification, extraction, review, and approval workflows.
@@ -17,9 +17,9 @@ import (
 
 	"github.com/go-chi/chi/v5"
 	"github.com/google/uuid"
-	"github.com/medisync/medisync/internal/storage"
-	"github.com/medisync/medisync/internal/warehouse"
-	"github.com/medisync/medisync/internal/warehouse/models"
+	"github.com/AnySync/AnySync/internal/storage"
+	"github.com/AnySync/AnySync/internal/warehouse"
+	"github.com/AnySync/AnySync/internal/warehouse/models"
 )
 
 // DocumentHandler handles document processing endpoints.

@@ -281,10 +281,10 @@ generation = trace.generation(
 ### 12.3 Key Metrics to Track (Prometheus/Grafana)
 
 ```
-medisync_agent_requests_total{agent="[X-NN]", status="success|failure"}
-medisync_agent_latency_seconds{agent="[X-NN]", quantile="0.5|0.95|0.99"}
-medisync_agent_confidence_score{agent="[X-NN]"}
-medisync_agent_hitl_escalations_total{agent="[X-NN]"}
+AnySync_agent_requests_total{agent="[X-NN]", status="success|failure"}
+AnySync_agent_latency_seconds{agent="[X-NN]", quantile="0.5|0.95|0.99"}
+AnySync_agent_confidence_score{agent="[X-NN]"}
+AnySync_agent_hitl_escalations_total{agent="[X-NN]"}
 ```
 
 ---
@@ -359,10 +359,10 @@ def write_audit_log(
 | **Runtime** | `[Python 3.11 / FastAPI service / Airflow DAG / Celery worker]` |
 | **Celery Queue** | `[queue name if applicable]` |
 | **Airflow DAG ID** | `[dag_id if applicable]` |
-| **Docker image** | `medisync/agent-[agent-id]:latest` |
+| **Docker image** | `AnySync/agent-[agent-id]:latest` |
 | **Env vars required** | `[VAR_NAME=description, ...]` |
-| **Secrets (Vault)** | `[secret/medisync/[agent-id]/...]` |
-| **DB connection** | `medisync_readonly` role (SELECT only) |
+| **Secrets (Vault)** | `[secret/AnySync/[agent-id]/...]` |
+| **DB connection** | `AnySync_readonly` role (SELECT only) |
 | **Depends on agents** | `[comma-separated Agent IDs, or "None"]` |
 | **Consumed by agents** | `[comma-separated Agent IDs, or "User-facing"]` |
 

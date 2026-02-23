@@ -8,7 +8,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/medisync/medisync/internal/warehouse/models"
+	"github.com/AnySync/AnySync/internal/warehouse/models"
 )
 
 // FactorCalculator calculates individual confidence factors.

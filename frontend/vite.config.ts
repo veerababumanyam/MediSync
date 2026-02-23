@@ -5,7 +5,7 @@ import path from 'node:path'
 import tailwindcss from '@tailwindcss/vite'
 
 /**
- * Vite configuration for MediSync Frontend
+ * Vite configuration for AnySync Frontend
  *
  * Features:
  * - Hot Module Replacement (HMR) for development

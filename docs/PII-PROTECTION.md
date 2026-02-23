@@ -3,9 +3,9 @@
 **Version:** 2.0.0
 **Status:** Implementation-Ready
 **Last Updated:** February 22, 2026
-**Maintainer:** MediSync Security Team
+**Maintainer:** AnySync Security Team
 
-> This document is the **single source of truth** for PII protection in MediSync. It covers architecture, admin configuration, database schemas, API contracts, frontend UI specifications, and deployment guidance — everything required to build, configure, and operate the system.
+> This document is the **single source of truth** for PII protection in AnySync. It covers architecture, admin configuration, database schemas, API contracts, frontend UI specifications, and deployment guidance — everything required to build, configure, and operate the system.
 
 ---
 
@@ -48,7 +48,7 @@
 sequenceDiagram
     participant User
     participant FE as Frontend (React)
-    participant API as MediSync API (Go)
+    participant API as AnySync API (Go)
     participant Cache as Redis (Config Cache)
     participant Presidio as Presidio Service
     participant DB as PostgreSQL
@@ -86,7 +86,7 @@ sequenceDiagram
 
 ```mermaid
 graph LR
-    subgraph MediSync Pod
+    subgraph AnySync Pod
         API[Go API :8080]
         Analyzer[Presidio Analyzer :5001]
         Anonymizer[Presidio Anonymizer :5002]
@@ -181,7 +181,7 @@ The allow list panel provides a user-friendly interface for managing safe terms:
 │  │ Term              │ Entity Type │ Added By │ Actions││
 │  │───────────────────│─────────────│──────────│────────││
 │  │ Al Noor Hospital  │ PERSON      │ Admin    │ ✏️ 🗑️  ││
-│  │ MediSync          │ ORG         │ System   │ ✏️ 🗑️  ││
+│  │ AnySync          │ ORG         │ System   │ ✏️ 🗑️  ││
 │  │ Dr. Ahmed         │ PERSON      │ Admin    │ ✏️ 🗑️  ││
 │  │ Riyadh            │ LOCATION    │ Admin    │ ✏️ 🗑️  ││
 │  │ Cardiology Dept   │ ORG         │ System   │ ✏️ 🗑️  ││
@@ -261,7 +261,7 @@ On first setup, the system auto-populates smart defaults:
 | :--- | :--- | :--- |
 | `\b\d{10}\b` | Regex | `SA_IQAMA` (Saudi Iqama Number) |
 | `\b\d{3}-\d{2}-\d{4}\b` | Regex | `US_SSN` |
-| `MS-PAT-\d{5,}` | Regex | `MEDISYNC_MRN` (MediSync Patient ID) |
+| `MS-PAT-\d{5,}` | Regex | `AnySync_MRN` (AnySync Patient ID) |
 
 ---
 
@@ -312,7 +312,7 @@ Admins can toggle detection and choose a transformation operator for each entity
 │                                                         │
 │  ┌── Healthcare ───────────────────────────────────────┐│
 │  │ ☑ MEDICAL_LICENSE  [▼ Redact   ]                   ││
-│  │ ☑ MEDISYNC_MRN     [▼ Hash     ]                   ││
+│  │ ☑ AnySync_MRN     [▼ Hash     ]                   ││
 │  └─────────────────────────────────────────────────────┘│
 │                                                         │
 │                           [Reset Defaults] [Save]       │
@@ -330,12 +330,12 @@ Defined through the deny list (Section 4.3). Each regex rule is compiled into a 
 **Presidio JSON equivalent:**
 ```json
 {
-  "name": "MediSync MRN Recognizer",
+  "name": "AnySync MRN Recognizer",
   "supported_language": "en",
-  "supported_entity": "MEDISYNC_MRN",
+  "supported_entity": "AnySync_MRN",
   "patterns": [
     {
-      "name": "medisync_mrn_pattern",
+      "name": "AnySync_mrn_pattern",
       "regex": "MS-PAT-\\d{5,}",
       "score": 0.95
     }
@@ -457,7 +457,7 @@ CREATE TABLE app.pii_deny_list (
     pattern         VARCHAR(1000) NOT NULL,
     pattern_type    VARCHAR(20) NOT NULL DEFAULT 'regex'
         CHECK (pattern_type IN ('regex', 'literal')),
-    entity_name     VARCHAR(100) NOT NULL,              -- custom entity name, e.g. MEDISYNC_MRN
+    entity_name     VARCHAR(100) NOT NULL,              -- custom entity name, e.g. AnySync_MRN
     operator        VARCHAR(50) NOT NULL DEFAULT 'redact'
         CHECK (operator IN ('redact', 'replace', 'mask', 'hash', 'encrypt')),
     operator_params JSONB DEFAULT '{}',
@@ -529,7 +529,7 @@ Returns the current PII configuration.
   "confidence_threshold": 0.75,
   "nlp_engine": "transformers",
   "conflict_resolution": "largest_entity",
-  "updated_by": "admin@medisync.com",
+  "updated_by": "admin@AnySync.com",
   "updated_at": "2026-02-22T09:00:00Z"
 }
 ```
@@ -801,7 +801,7 @@ Analytics cards showing:
 - **By Module** (pie chart)
 - **By Entity Type** (bar chart)
 - **Average Scrub Latency** (line chart trending over time)
-- Charts use **Apache ECharts** per the MediSync design system.
+- Charts use **Apache ECharts** per the AnySync design system.
 
 ### 10.5 Accessibility & i18n
 
@@ -868,9 +868,9 @@ POST /recognizers
 {
   "value": [
     {
-      "name": "MediSync MRN",
+      "name": "AnySync MRN",
       "supported_language": "en",
-      "supported_entity": "MEDISYNC_MRN",
+      "supported_entity": "AnySync_MRN",
       "deny_list": [],
       "patterns": [
         {"name": "mrn", "regex": "MS-PAT-\\d{5,}", "score": 0.95}
@@ -1007,7 +1007,7 @@ services:
 
 ### 15.2 Kubernetes (Production)
 
-- Presidio deployed as a **sidecar container** in the MediSync API pod.
+- Presidio deployed as a **sidecar container** in the AnySync API pod.
 - Resource limits: `256Mi` RAM, `500m` CPU per Presidio container.
 - Model volume mounted from a PersistentVolumeClaim for fast startup.
 - **NetworkPolicy**: Only the Go API can reach Presidio — no external access.

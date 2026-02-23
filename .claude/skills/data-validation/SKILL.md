@@ -5,7 +5,7 @@ description: Run automated data quality checks on every ETL batch before data la
 
 # Data Quality Validation Skill
 
-Guidelines for ensuring data integrity across the MediSync platform using declarative validation frameworks.
+Guidelines for ensuring data integrity across the AnySync platform using declarative validation frameworks.
 
 ## Validation Framework: Great Expectations
 

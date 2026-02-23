@@ -1,10 +1,10 @@
 
-# MediSync — Agent Blueprints
+# AnySync — Agent Blueprints
 
 **Version:** 1.1 | **Created:** February 19, 2026  
 **Cross-ref:** [00-agent-backlog.md](./00-agent-backlog.md) | [01-oss-toolchain.md](./01-oss-toolchain.md) | [03-governance-security.md](./03-governance-security.md) | [docs/i18n-architecture.md](../i18n-architecture.md)
 
-> This document provides detailed development blueprints for the highest-priority and most complex agents in the MediSync platform. Each blueprint specifies inputs, outputs, tool chain, prompt design, guardrails, HITL gates, and evaluation criteria.
+> This document provides detailed development blueprints for the highest-priority and most complex agents in the AnySync platform. Each blueprint specifies inputs, outputs, tool chain, prompt design, guardrails, HITL gates, and evaluation criteria.
 
 ---
 
@@ -28,7 +28,7 @@
 ## A-01 — Text-to-SQL Agent
 
 ### Purpose
-Convert a natural language business question into a safe, read-only SQL query against the MediSync data warehouse, execute it, and return structured results with metadata.
+Convert a natural language business question into a safe, read-only SQL query against the AnySync data warehouse, execute it, and return structured results with metadata.
 
 ### Inputs
 | Field | Type | Source |
@@ -72,7 +72,7 @@ UserQuery
 
 ### System Prompt (Template)
 ```
-You are an expert SQL analyst for MediSync, a healthcare and accounting platform.
+You are an expert SQL analyst for AnySync, a healthcare and accounting platform.
 You have READ-ONLY access to a PostgreSQL data warehouse containing:
   - HIMS data: patients, appointments, billing, pharmacy dispensations
   - Tally data: ledgers, vouchers, inventory, sales, receipts
@@ -93,7 +93,7 @@ Available metrics:
 
 ### Guardrails
 - **SQL Injection Guard:** Parameterise all inputs; reject queries with non-SELECT DML.
-- **Read-only enforcement:** OPA policy `medisync.bi.read_only` blocks any write operations at the DB connection level (separate read-only Postgres role).
+- **Read-only enforcement:** OPA policy `AnySync.bi.read_only` blocks any write operations at the DB connection level (separate read-only Postgres role).
 - **Hallucination Guard:** If confidence < 0.70, append "Low confidence — please verify" and queue for manual review.
 - **Off-topic deflection:** Classifier chain detects non-business queries and refuses gracefully.
 - **Column masking:** OPA policy strips sensitive columns (patient PII, cost prices) based on `user_role`.
@@ -278,7 +278,7 @@ Approved Ledger Mapping (from B-05)
 ## B-09 — Tally Sync Agent
 
 ### Purpose
-Push approved transactions from the MediSync platform into Tally ERP via TDL XML API. This is the **only** agent with write access to Tally.
+Push approved transactions from the AnySync platform into Tally ERP via TDL XML API. This is the **only** agent with write access to Tally.
 
 ### Inputs
 | Field | Type | Source |

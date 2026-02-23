@@ -1,5 +1,5 @@
 /**
- * MediSync Document Processing Types
+ * AnySync Document Processing Types
  *
  * TypeScript types for document processing API requests and responses.
  *

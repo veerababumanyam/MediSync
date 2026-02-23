@@ -1,12 +1,12 @@
 // Package warehouse provides read-only database access for AI agents.
 //
 // This file provides the ReadOnlyClient struct which enforces that all queries
-// use the medisync_readonly role and are SELECT-only. All queries are logged
+// use the AnySync_readonly role and are SELECT-only. All queries are logged
 // for audit purposes.
 //
 // Security:
 //   - All queries must be SELECT statements (validated before execution)
-//   - Uses medisync_readonly database role (configured via DSN)
+//   - Uses AnySync_readonly database role (configured via DSN)
 //   - All queries are logged for audit trail
 //
 // Usage:
@@ -64,7 +64,7 @@ type QueryAuditEntry struct {
 
 // ReadOnlyClientConfig holds configuration for the read-only client.
 type ReadOnlyClientConfig struct {
-	// Pool is the PostgreSQL connection pool (must use medisync_readonly role).
+	// Pool is the PostgreSQL connection pool (must use AnySync_readonly role).
 	Pool *pgxpool.Pool
 
 	// Logger is the structured logger for query auditing.
@@ -72,7 +72,7 @@ type ReadOnlyClientConfig struct {
 }
 
 // NewReadOnlyClient creates a new read-only database client.
-// The provided pool must be configured with the medisync_readonly role.
+// The provided pool must be configured with the AnySync_readonly role.
 func NewReadOnlyClient(ctx context.Context, pool *PostgresPool, logger *slog.Logger) (*ReadOnlyClient, error) {
 	if pool == nil {
 		return nil, fmt.Errorf("warehouse: connection pool is required")

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * MediSync Hardcoded String Detector
+ * AnySync Hardcoded String Detector
  *
  * Scans .tsx files for hardcoded strings that should be internationalized:
  * - JSX text content: <div>Hello</div>
@@ -325,7 +325,7 @@ function findTsxFiles(dir: string): string[] {
  * Main function
  */
 function main(): void {
-  console.log('\n🔍 MediSync Hardcoded String Detector');
+  console.log('\n🔍 AnySync Hardcoded String Detector');
   console.log('='.repeat(40));
 
   const files = findTsxFiles(SRC_DIR);

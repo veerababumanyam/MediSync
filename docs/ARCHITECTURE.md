@@ -1,4 +1,4 @@
-# MediSync — Comprehensive System Architecture
+# AnySync — Comprehensive System Architecture
 
 **Version:** 1.0  
 **Status:** Approved — Engineering Baseline  
@@ -54,11 +54,11 @@
 
 ## 1. System Overview
 
-**MediSync** is an AI-powered, chat-based Business Intelligence platform that unifies operational data from a **Healthcare Information Management System (HIMS)** and financial data from **Tally ERP**. It surfaces cross-domain insights through a conversational interface, automates bookkeeping via an AI Accountant module, delivers enterprise-grade reporting through an Easy Reports module, and offers agentic search-driven analytics powered by 58 autonomous AI agents.
+**AnySync** is an AI-powered, chat-based Business Intelligence platform that unifies operational data from a **Healthcare Information Management System (HIMS)** and financial data from **Tally ERP**. It surfaces cross-domain insights through a conversational interface, automates bookkeeping via an AI Accountant module, delivers enterprise-grade reporting through an Easy Reports module, and offers agentic search-driven analytics powered by 58 autonomous AI agents.
 
 ### Core Problem
 
-| Pain Point | Current State | MediSync Solution |
+| Pain Point | Current State | AnySync Solution |
 |---|---|---|
 | Siloed data | HIMS (operations) and Tally (finance) never speak to each other | Unified data warehouse with incremental ETL every 15–60 min |
 | Manual reporting | Hours of spreadsheet manipulation per report | Natural-language query → instant chart/table in < 5 seconds |
@@ -116,7 +116,7 @@
 ║   │  (analytics) │  │  (analytics) │  │ (MetricFlow)  │  │  (pgvector /     │  ║
 ║   └──────────────┘  └──────────────┘  └──────────────┘  │   Milvus)        │  ║
 ║                                                           └──────────────────┘  ║
-║   Cache: Redis    |   Read-only role: medisync_readonly                         ║
+║   Cache: Redis    |   Read-only role: AnySync_readonly                         ║
 ╚══════════════════════════════════════════════════════════════════════════════════╝
                                                 │ READ-ONLY
                                                 ▼
@@ -164,7 +164,7 @@
 
 ### 4.1 Data Source Layer
 
-MediSync is a **read-side platform** — it never writes to source systems except through the explicitly human-approved Tally sync pipeline.
+AnySync is a **read-side platform** — it never writes to source systems except through the explicitly human-approved Tally sync pipeline.
 
 #### Tally ERP Integration
 - **Protocol:** TDL (Tally Definition Language) XML over HTTP POST/GET
@@ -242,9 +242,9 @@ PostgreSQL Instance
 ```
 
 **Access control:**
-- `medisync_readonly` — `GRANT SELECT` on `hims_analytics`, `tally_analytics`, `semantic` schemas only. Used by all AI agents.
-- `medisync_app` — Full CRUD on `app` schema. Used by API service accounts.
-- `medisync_etl` — `INSERT/UPDATE` on `hims_analytics` and `tally_analytics`. Used by ETL service only.
+- `AnySync_readonly` — `GRANT SELECT` on `hims_analytics`, `tally_analytics`, `semantic` schemas only. Used by all AI agents.
+- `AnySync_app` — Full CRUD on `app` schema. Used by API service accounts.
+- `AnySync_etl` — `INSERT/UPDATE` on `hims_analytics` and `tally_analytics`. Used by ETL service only.
 - No user or agent ever connects with superuser privileges.
 
 **Extensions:**
@@ -422,7 +422,7 @@ User types query in chat
 │        Schema context from pgvector cache                  │
 │        Metric definitions from MetricFlow registry         │
 │        SQL Validator: block any non-SELECT DML             │
-│        PostgreSQL executor (medisync_readonly role)        │
+│        PostgreSQL executor (AnySync_readonly role)        │
 │     │                                                       │
 │     ├─── On DB error ──► A-02: Self-Correction Agent       │
 │     │                         (rewrite + retry, max 3x)   │
@@ -444,7 +444,7 @@ User types query in chat
 
 **Key security guardrails (A-01):**
 - SQL Injection Guard — parameterised inputs; all user strings treated as bind parameters
-- Read-only enforcement — OPA policy `medisync.bi.read_only`; separate Postgres role
+- Read-only enforcement — OPA policy `AnySync.bi.read_only`; separate Postgres role
 - Hallucination Guard — off-topic classifier; deflects non-business questions
 - Column masking — OPA strips patient PII and cost-price columns based on `user_role`
 - HITL Gate — queries with confidence < 0.70 or touching PII tables are routed to manual review queue
@@ -867,13 +867,13 @@ All authorization is delegated to Open Policy Agent (OPA) as a sidecar:
 Every Agent API Request
     │
     ▼
-OPA Sidecar: POST /v1/data/medisync/authz/allow
+OPA Sidecar: POST /v1/data/AnySync/authz/allow
     Input: { user: JWT claims, action, resource, sql? }
     Policies:
-        medisync.bi.read_only      → blocks any DML in SQL queries
-        medisync.tally             → finance_head + approved workflow + no self-approval
-        medisync.data.row_filter   → adds department filter for non-admin users
-        medisync.columns.mask      → strips PII / cost columns by role
+        AnySync.bi.read_only      → blocks any DML in SQL queries
+        AnySync.tally             → finance_head + approved workflow + no self-approval
+        AnySync.data.row_filter   → adds department filter for non-admin users
+        AnySync.columns.mask      → strips PII / cost columns by role
     Output: { allow: bool, reason: string, row_filter: {} }
 ```
 
@@ -883,7 +883,7 @@ OPA Sidecar: POST /v1/data/medisync/authz/allow
 ┌──────────────────────────────────────────┐
 │          INTELLIGENCE PLANE              │
 │  All AI agents + Data Warehouse          │
-│  Postgres role: medisync_readonly        │
+│  Postgres role: AnySync_readonly        │
 │  OPA: block all DML                      │
 │  → Can never corrupt financial data      │
 └─────────────────────┬────────────────────┘
@@ -946,7 +946,7 @@ Agents that always require a human approval before irreversible actions:
 
 ## 9. Internationalisation Architecture (i18n)
 
-MediSync ships with first-class **English (LTR)** and **Arabic (RTL)** support from Phase 1.
+AnySync ships with first-class **English (LTR)** and **Arabic (RTL)** support from Phase 1.
 
 ### Locale Detection (Priority Order)
 
@@ -1143,7 +1143,7 @@ Offline capabilities:
 
 ## 14. Deployment Topology
 
-MediSync is deployed **on-premises** (private network, self-hosted) to satisfy healthcare data residency requirements.
+AnySync is deployed **on-premises** (private network, self-hosted) to satisfy healthcare data residency requirements.
 
 ```
 ┌────────────────────── On-Premises Network ──────────────────────────┐
@@ -1250,4 +1250,4 @@ MediSync is deployed **on-premises** (private network, self-hosted) to satisfy h
 
 ---
 
-*Document Version: 1.0 | Last Updated: February 19, 2026 | Owner: MediSync Engineering*
+*Document Version: 1.0 | Last Updated: February 19, 2026 | Owner: AnySync Engineering*

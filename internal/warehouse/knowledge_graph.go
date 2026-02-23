@@ -1,7 +1,7 @@
 // Package warehouse provides data access interfaces for the Council of AIs system.
 //
 // This package implements repository patterns for Knowledge Graph access,
-// following MediSync's read-only data plane architecture.
+// following AnySync's read-only data plane architecture.
 package warehouse
 
 import (
@@ -61,8 +61,8 @@ type TraversalStep struct {
 
 // KnowledgeGraphRepository defines the interface for Knowledge Graph data access.
 //
-// All methods use the medisync_readonly role to ensure read-only access
-// to the Knowledge Graph, following MediSync's security architecture.
+// All methods use the AnySync_readonly role to ensure read-only access
+// to the Knowledge Graph, following AnySync's security architecture.
 type KnowledgeGraphRepository interface {
 	// FindSimilar finds nodes with embeddings similar to the query embedding.
 	// Returns up to limit nodes sorted by similarity (descending).

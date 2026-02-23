@@ -87,5 +87,13 @@
     "updated": "تم تحديث التقرير بنجاح",
     "deleted": "تم حذف التقرير المجدول",
     "runStarted": "بدأ إنشاء التقرير"
+  },
+  "error": {
+    "loadFailed": "فشل تحميل التقارير",
+    "createFailed": "فشل إنشاء التقرير",
+    "updateFailed": "فشل تحديث التقرير",
+    "deleteFailed": "فشل حذف التقرير",
+    "runFailed": "فشل تشغيل التقرير",
+    "downloadFailed": "فشل تنزيل التقرير"
   }
 }

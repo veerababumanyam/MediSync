@@ -1,6 +1,6 @@
-# MediSync — Claude AI Assistant Guide
+# AnySync — Claude AI Assistant Guide
 
-**Project:** MediSync - AI-Powered Conversational BI & Intelligent Accounting for Healthcare
+**Project:** AnySync - AI-Powered Conversational BI & Intelligent Accounting for Healthcare
 **Version:** 1.0-alpha
 **Last Updated:** February 19, 2026
 
@@ -21,7 +21,7 @@
 
 ## 1. Project Overview
 
-MediSync is an AI-powered, chat-based Business Intelligence platform for healthcare and pharmacy businesses. It solves the core problem of **siloed data** between operational systems (HIMS) and financial systems (Tally ERP) by:
+AnySync is an AI-powered, chat-based Business Intelligence platform for healthcare and pharmacy businesses. It solves the core problem of **siloed data** between operational systems (HIMS) and financial systems (Tally ERP) by:
 
 1. **Conversational BI Dashboard** - Chat with your data in natural language; get live charts and tables
 2. **AI Accountant** - OCR extraction → AI ledger mapping → one-click Tally sync
@@ -57,7 +57,7 @@ MediSync is an AI-powered, chat-based Business Intelligence platform for healthc
                      ▼
 ┌─────────────────────────────────────────────────────────────────┐
 │        DATA WAREHOUSE (PostgreSQL + pgvector + Redis)           │
-│   medisync_readonly role — no AI agent can write                │
+│   AnySync_readonly role — no AI agent can write                │
 └────────────────────┬───────────────────────────────────────────┘
                      │  READ ONLY
                      ▼
@@ -150,7 +150,7 @@ func (s *AgentService) TextToSQLFlow(ctx context.Context, req TextToSQLRequest) 
     // 3. Normalize domain terms (A-04)
     // 4. Generate SQL with confidence scoring (A-01)
     // 5. Validate SQL is SELECT-only
-    // 6. Execute via medisync_readonly role
+    // 6. Execute via AnySync_readonly role
     // 7. Route to visualization (A-03)
     // 8. Format localized response (E-03)
 }
@@ -161,7 +161,7 @@ func (s *AgentService) TextToSQLFlow(ctx context.Context, req TextToSQLRequest) 
 **Read-Only Enforcement:**
 ```go
 // All AI agents must use the readonly role
-const dbRole = "medisync_readonly"
+const dbRole = "AnySync_readonly"
 
 // SQL validation happens before execution
 if !isSelectOnlyQuery(sql) {
@@ -241,7 +241,7 @@ type AgentError struct {
 ### File Organization
 
 ```
-medisync/
+AnySync/
 ├── cmd/                    # Entry points (api, etl, migrate)
 ├── internal/
 │   ├── agents/            # AI agent implementations
@@ -306,7 +306,7 @@ medisync/
 ### Database Migration
 
 1. Create migration file in `migrations/`
-2. Use `medisync_readonly` role reference for AI queries
+2. Use `AnySync_readonly` role reference for AI queries
 3. Test migration on copy of production data
 4. Run: `go run ./cmd/migrate`
 5. Verify with rollback test
@@ -336,7 +336,7 @@ medisync/
 
 Before committing code, verify:
 
-- [ ] AI agents use `medisync_readonly` DB role
+- [ ] AI agents use `AnySync_readonly` DB role
 - [ ] All SQL queries are validated as SELECT-only
 - [ ] Write-back operations require HITL approval
 - [ ] OPA policies cover new endpoints
@@ -431,7 +431,7 @@ cd mobile && flutter test
 
 ## 14. Philosophy Summary
 
-> **"MediSync exists to liberate healthcare and accounting teams from the tyranny of spreadsheets and manual reconciliation."**
+> **"AnySync exists to liberate healthcare and accounting teams from the tyranny of spreadsheets and manual reconciliation."**
 
 When working on this codebase:
 - **Security first**: Never compromise on HITL gates for write-backs
@@ -442,7 +442,7 @@ When working on this codebase:
 
 ---
 
-*This guide is maintained by the MediSync engineering team. For questions or updates, please refer to the project documentation or contact the team lead.*
+*This guide is maintained by the AnySync engineering team. For questions or updates, please refer to the project documentation or contact the team lead.*
 
 ## Active Technologies
 - Go 1.26 (backend), TypeScript 5.9 / React 19.2 (frontend)

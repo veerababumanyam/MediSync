@@ -1,4 +1,4 @@
-# MediSync — Internationalisation & Localisation Architecture
+# AnySync — Internationalisation & Localisation Architecture
 
 **Version:** 1.0 | **Created:** February 19, 2026  
 **Status:** Approved — Design & Development Baseline  
@@ -8,7 +8,7 @@
 
 ## 0. Motivation & Scope
 
-MediSync operates in a healthcare and accounting context where **language is a clinical concern**. Misread Arabic-script drug names, RTL-broken report layouts, or English-only AI responses force bilingual staff to context-switch, introducing errors. This document architects full product i18n (internationalisation) and l10n (localisation) across every surface.
+AnySync operates in a healthcare and accounting context where **language is a clinical concern**. Misread Arabic-script drug names, RTL-broken report layouts, or English-only AI responses force bilingual staff to context-switch, introducing errors. This document architects full product i18n (internationalisation) and l10n (localisation) across every surface.
 
 **Phase 0 (this document) — supported locales:**
 

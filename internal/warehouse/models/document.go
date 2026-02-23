@@ -1,4 +1,4 @@
-// Package models provides data structures for the MediSync warehouse.
+// Package models provides data structures for the AnySync warehouse.
 package models
 
 import (

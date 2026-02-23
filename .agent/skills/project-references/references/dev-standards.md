@@ -1,4 +1,4 @@
-# MediSync Development Standards
+# AnySync Development Standards
 
 ## Language Specifics
 

@@ -1,6 +1,6 @@
 ---
 name: text-to-sql
-description: Convert natural language business questions into safe, read-only SQL queries against MediSync data warehouse (HIMS & Tally). Use for business intelligence, metric retrieval, and data exploration.
+description: Convert natural language business questions into safe, read-only SQL queries against AnySync data warehouse (HIMS & Tally). Use for business intelligence, metric retrieval, and data exploration.
 ---
 
 # Text-to-SQL Skill

@@ -1,4 +1,4 @@
--- MediSync Document Processing Pipeline - Documents Migration
+-- AnySync Document Processing Pipeline - Documents Migration
 -- Version: 015
 -- Description: Rollback document processing tables
 -- Task: T001

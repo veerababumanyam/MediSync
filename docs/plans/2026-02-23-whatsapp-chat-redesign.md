@@ -9,7 +9,7 @@
 
 ## 1. Executive Summary
 
-Transform MediSync's chat interface from a single-panel layout to a production-grade, WhatsApp-inspired two-panel experience. This is the core of the application where users spend 90% of their time, requiring exceptional usability, elegance, responsiveness, and robustness.
+Transform AnySync's chat interface from a single-panel layout to a production-grade, WhatsApp-inspired two-panel experience. This is the core of the application where users spend 90% of their time, requiring exceptional usability, elegance, responsiveness, and robustness.
 
 ### Key Outcomes
 - Conversations sidebar for session management

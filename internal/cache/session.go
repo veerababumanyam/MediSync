@@ -37,7 +37,7 @@ import (
 )
 
 // Session key prefix for Redis.
-const sessionKeyPrefix = "medisync:session"
+const sessionKeyPrefix = "AnySync:session"
 
 // Default session TTL values.
 const (

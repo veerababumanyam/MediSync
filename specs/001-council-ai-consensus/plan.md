@@ -25,7 +25,7 @@ Implement a multi-agent consensus system that eradicates AI hallucinations by re
 
 | Principle | Status | Compliance |
 |-----------|--------|------------|
-| I. Security First & HITL Gates | ✅ PASS | Read-only Knowledge Graph access via medisync_readonly role; no autonomous writes |
+| I. Security First & HITL Gates | ✅ PASS | Read-only Knowledge Graph access via AnySync_readonly role; no autonomous writes |
 | II. Read-Only Intelligence Plane | ✅ PASS | All AI queries use SELECT-only against data warehouse; consensus is computation-only |
 | III. i18n by Default | ✅ PASS | Response text uses i18next keys; confidence indicators localized |
 | IV. Open Source Only | ✅ PASS | All dependencies (Genkit, pgvector, NATS) are Apache-2.0/MIT/BSD |
@@ -96,7 +96,7 @@ frontend/
             └── UncertaintyDisplay.tsx
 ```
 
-**Structure Decision**: Uses existing MediSync monorepo structure. Council package added to `internal/agents/` following the established module pattern (module_a through module_e). Frontend components added to dedicated `council/` directory under components.
+**Structure Decision**: Uses existing AnySync monorepo structure. Council package added to `internal/agents/` following the established module pattern (module_a through module_e). Frontend components added to dedicated `council/` directory under components.
 
 ## Complexity Tracking
 

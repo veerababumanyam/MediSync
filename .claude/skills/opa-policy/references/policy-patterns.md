@@ -6,7 +6,7 @@
 
 ```rego
 # Use partial evaluation for performance
-package medisync.optimized
+package AnySync.optimized
 
 # Pre-compute role permissions at compile time
 precomputed_permissions[permission] {
@@ -47,7 +47,7 @@ user_accessible_patients if {
 ### Row-Level Security
 
 ```rego
-package medisync.row_security
+package AnySync.row_security
 
 # Filter patients based on access rules
 filter_patients[patient] {
@@ -75,7 +75,7 @@ filter_appointments[appt] {
 ### Field-Level Masking
 
 ```rego
-package medisync.field_masking
+package AnySync.field_masking
 
 # Define sensitive fields per role
 sensitive_fields := {
@@ -106,7 +106,7 @@ mask_patient[masked] {
 ### Time Window Restrictions
 
 ```rego
-package medisync.time_restrictions
+package AnySync.time_restrictions
 
 import future.keywords.if
 
@@ -147,7 +147,7 @@ allow if {
 ### Expiration Policies
 
 ```rego
-package medisync.expiration
+package AnySync.expiration
 
 # Check if approval has expired
 approval_valid if {
@@ -177,7 +177,7 @@ session_valid if {
 ### Multi-Factor Authorization
 
 ```rego
-package medisync.mfa
+package AnySync.mfa
 
 # High-value operations require multiple factors
 require_mfa if {
@@ -218,7 +218,7 @@ allow_delete if {
 ### Contextual Access
 
 ```rego
-package medisync.contextual
+package AnySync.contextual
 
 # IP-based restrictions
 ip_allowed if {
@@ -260,7 +260,7 @@ allow if {
 ### Audit Policy
 
 ```rego
-package medisync.audit
+package AnySync.audit
 
 # Operations that must be logged
 audit_required_operations := {
@@ -299,7 +299,7 @@ decision_reason := "approval_based" if {
 ### Compliance Checks
 
 ```rego
-package medisync.compliance
+package AnySync.compliance
 
 # GDPR compliance
 gdpr_compliant if {
@@ -345,7 +345,7 @@ hipaa_compliant if {
 ### Inheritance Pattern
 
 ```rego
-package medisync.base
+package AnySync.base
 
 # Base allow rule
 default allow = false
@@ -372,9 +372,9 @@ allow_write if {
 ```
 
 ```rego
-package medisync.documents
+package AnySync.documents
 
-import data.medisync.base
+import data.AnySync.base
 
 # Extend base policies
 allow if {
@@ -403,9 +403,9 @@ document_accessible if {
 ### Table-Driven Tests
 
 ```rego
-package medisync.dashboard_test
+package AnySync.dashboard_test
 
-import data.medisync.dashboard
+import data.AnySync.dashboard
 
 # Test cases as data
 test_cases := [
@@ -437,9 +437,9 @@ test_all if {
 ### Mock Data Tests
 
 ```rego
-package medisync.tally_test
+package AnySync.tally_test
 
-import data.medisync.tally
+import data.AnySync.tally
 
 # Mock data for tests
 mock_patients := [

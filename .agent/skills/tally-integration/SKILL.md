@@ -1,15 +1,15 @@
 ---
 name: tally-integration
-description: Guides developers integrating Tally ERP with MediSync using TDL XML over HTTP. Covers XML request/response formats, voucher types, sync workflows, and security gates. Use when creating TDL templates, mapping ledgers, syncing transactions, or testing Tally integration.
+description: Guides developers integrating Tally ERP with AnySync using TDL XML over HTTP. Covers XML request/response formats, voucher types, sync workflows, and security gates. Use when creating TDL templates, mapping ledgers, syncing transactions, or testing Tally integration.
 ---
 
 # Tally Integration Guide
 
-Guidelines for integrating MediSync with TallyPrime/ERP 9 via TDL XML.
+Guidelines for integrating AnySync with TallyPrime/ERP 9 via TDL XML.
 
 ★ Insight ─────────────────────────────────────
 Tally integration is the critical "action plane" component. All data movement
-from MediSync to Tally MUST pass through human approval gates (HITL) to prevent
+from AnySync to Tally MUST pass through human approval gates (HITL) to prevent
 unintended financial ledger modifications.
 ─────────────────────────────────────────────────
 
@@ -139,7 +139,7 @@ Understanding `ISDEEMEDPOSITIVE`:
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│  1. MediSync: Generate Entry (Draft)                         │
+│  1. AnySync: Generate Entry (Draft)                         │
 └──────────────────────┬──────────────────────────────────────┘
                        │
                        ▼
@@ -208,7 +208,7 @@ func GenerateRemoteID(entry JournalEntry) string {
         entry.TotalAmount,
     )
     h := sha256.Sum256([]byte(data))
-    return fmt.Sprintf("medisync-%x", h[:8])
+    return fmt.Sprintf("AnySync-%x", h[:8])
 }
 ```
 

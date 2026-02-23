@@ -1,4 +1,4 @@
-// Package api provides Keycloak authentication client for MediSync.
+// Package api provides Keycloak authentication client for AnySync.
 //
 // This file implements the KeycloakClient which handles JWT token validation
 // and user claims extraction from Keycloak-issued tokens.
@@ -14,8 +14,8 @@ import (
 	"sync"
 	"time"
 
-	"github.com/medisync/medisync/internal/api/middleware"
-	"github.com/medisync/medisync/internal/config"
+	"github.com/AnySync/AnySync/internal/api/middleware"
+	"github.com/AnySync/AnySync/internal/config"
 )
 
 // KeycloakClient handles authentication with Keycloak.

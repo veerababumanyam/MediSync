@@ -1,4 +1,4 @@
--- MediSync Dashboard Advanced Features - Alert Rules Migration
+-- AnySync Dashboard Advanced Features - Alert Rules Migration
 -- Version: 012
 -- Description: Create alert_rules and notifications tables for KPI alerts
 -- Task: T003
@@ -114,11 +114,11 @@ COMMENT ON FUNCTION app.update_alert_rules_updated_at() IS 'Trigger function to 
 -- GRANT PERMISSIONS
 -- ============================================================================
 
-GRANT SELECT ON app.alert_rules TO medisync_readonly;
-GRANT SELECT ON app.notifications TO medisync_readonly;
-GRANT SELECT, INSERT, UPDATE, DELETE ON app.alert_rules TO medisync_app;
-GRANT SELECT, INSERT, UPDATE, DELETE ON app.notifications TO medisync_app;
-GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA app TO medisync_app;
+GRANT SELECT ON app.alert_rules TO AnySync_readonly;
+GRANT SELECT ON app.notifications TO AnySync_readonly;
+GRANT SELECT, INSERT, UPDATE, DELETE ON app.alert_rules TO AnySync_app;
+GRANT SELECT, INSERT, UPDATE, DELETE ON app.notifications TO AnySync_app;
+GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA app TO AnySync_app;
 
 -- ============================================================================
 -- END OF MIGRATION

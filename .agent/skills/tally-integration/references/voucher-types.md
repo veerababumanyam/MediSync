@@ -1,6 +1,6 @@
 # Tally Voucher Types Reference
 
-Complete reference for common voucher types used in MediSync integration.
+Complete reference for common voucher types used in AnySync integration.
 
 ## Overview
 
@@ -29,7 +29,7 @@ Tally uses different voucher types for different kinds of transactions. This gui
                             <DATE>20260219</DATE>
                         </REFERENCE>
                         <NARRATION>Monthly depreciation adjustment for medical equipment</NARRATION>
-                        <REMOTEID>medisync-depr-20260219</REMOTEID>
+                        <REMOTEID>AnySync-depr-20260219</REMOTEID>
 
                         <!-- Debit Entry (Asset Debit) -->
                         <ALLLEDGERENTRIES.LIST>
@@ -46,7 +46,7 @@ Tally uses different voucher types for different kinds of transactions. This gui
                             <AMOUNT>5000</AMOUNT>
                         </ALLLEDGERENTRIES.LIST>
 
-                        <UDF:MSYNC.SYNCEDBY>system@medisync.com</UDF:MSYNC.SYNCEDBY>
+                        <UDF:MSYNC.SYNCEDBY>system@AnySync.com</UDF:MSYNC.SYNCEDBY>
                     </VOUCHER>
                 </TALLYMESSAGE>
             </REQUESTDATA>
@@ -118,7 +118,7 @@ Tally uses different voucher types for different kinds of transactions. This gui
                         </ALLLEDGERENTRIES.LIST>
 
                         <NARRATION>Monthly salary payment - February 2026</NARRATION>
-                        <REMOTEID>medisync-pay-salary-20260219</REMOTEID>
+                        <REMOTEID>AnySync-pay-salary-20260219</REMOTEID>
                     </VOUCHER>
                 </TALLYMESSAGE>
             </REQUESTDATA>
@@ -177,7 +177,7 @@ Tally uses different voucher types for different kinds of transactions. This gui
                         </ALLLEDGERENTRIES.LIST>
 
                         <NARRATION>Outpatient consultation payment</NARRATION>
-                        <REMOTEID>medisync-rct-ahmed-20260219</REMOTEID>
+                        <REMOTEID>AnySync-rct-ahmed-20260219</REMOTEID>
                     </VOUCHER>
                 </TALLYMESSAGE>
             </REQUESTDATA>
@@ -260,7 +260,7 @@ Tally uses different voucher types for different kinds of transactions. This gui
                             </BATCHALLOCATIONS.LIST>
                         </ALLINVENTORYENTRIES.LIST>
 
-                        <REMOTEID>medisync-pur-pharma-20260219</REMOTEID>
+                        <REMOTEID>AnySync-pur-pharma-20260219</REMOTEID>
                     </VOUCHER>
                 </TALLYMESSAGE>
             </REQUESTDATA>
@@ -321,7 +321,7 @@ Tally uses different voucher types for different kinds of transactions. This gui
                             <ACTUALQTY>10 nos</ACTUALQTY>
                         </ALLINVENTORYENTRIES.LIST>
 
-                        <REMOTEID>medisync-sale-pharma-20260219</REMOTEID>
+                        <REMOTEID>AnySync-sale-pharma-20260219</REMOTEID>
                     </VOUCHER>
                 </TALLYMESSAGE>
             </REQUESTDATA>

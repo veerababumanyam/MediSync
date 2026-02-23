@@ -18,7 +18,7 @@
                         <DATE>20260219</DATE>
                         <VOUCHERNUMBER>JV-2026-0219-001</VOUCHERNUMBER>
                         <NARRATION>Monthly rent payment for Dubai clinic - February 2026</NARRATION>
-                        <REMOTEID>medisync-8f4d2a1b3c</REMOTEID>
+                        <REMOTEID>AnySync-8f4d2a1b3c</REMOTEID>
 
                         <!-- Debit Entry: Rent Expense -->
                         <ALLLEDGERENTRIES.LIST>
@@ -36,9 +36,9 @@
                             <BANKALLOCTYPE>NotApplicable</BANKALLOCTYPE>
                         </ALLLEDGERENTRIES.LIST>
 
-                        <!-- MediSync Tracking Fields -->
+                        <!-- AnySync Tracking Fields -->
                         <UDF:MSYNC.ENTRYID>ENT-20260219-0001</UDF:MSYNC.ENTRYID>
-                        <UDF:MSYNC.SYNCEDBY>john.doe@medisync.com</UDF:MSYNC.SYNCEDBY>
+                        <UDF:MSYNC.SYNCEDBY>john.doe@AnySync.com</UDF:MSYNC.SYNCEDBY>
                         <UDF:MSYNC.SYNCDATETIME>2026-02-19 14:30:00</UDF:MSYNC.SYNCDATETIME>
                         <UDF:MSYNC.SOURCE>manual</UDF:MSYNC.SOURCE>
                     </VOUCHER>

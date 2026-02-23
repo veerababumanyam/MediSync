@@ -10,7 +10,7 @@
  * @module hooks/useChat
  */
 import { useCallback, useRef, useState } from 'react'
-import { v4 as uuidv4 } from 'uuid'
+import { useTranslation } from 'react-i18next'
 import {
   apiClient,
   APIError,
@@ -52,7 +52,7 @@ export interface UseChatReturn {
 /**
  * Storage key for session persistence
  */
-const SESSION_STORAGE_KEY = 'medisync-chat-session'
+const SESSION_STORAGE_KEY = 'AnySync-chat-session'
 
 /**
  * Get or create a session ID
@@ -62,7 +62,7 @@ function getOrCreateSessionId(): string {
   if (stored) {
     return stored
   }
-  const newId = uuidv4()
+  const newId = crypto.randomUUID()
   sessionStorage.setItem(SESSION_STORAGE_KEY, newId)
   return newId
 }
@@ -71,6 +71,7 @@ function getOrCreateSessionId(): string {
  * Hook for managing chat interactions with streaming support
  */
 export function useChat(): UseChatReturn {
+  const { t } = useTranslation('chat')
   const [messages, setMessages] = useState<Message[]>([])
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -90,7 +91,7 @@ export function useChat(): UseChatReturn {
         case 'thinking':
           return {
             ...msg,
-            partialContent: event.message || 'Thinking...',
+            partialContent: event.message || t('thinking'),
             isStreaming: true,
           }
 
@@ -117,7 +118,7 @@ export function useChat(): UseChatReturn {
         case 'error':
           return {
             ...msg,
-            content: event.message || 'An error occurred',
+            content: event.message || t('error.genericError'),
             isStreaming: false,
             partialContent: undefined,
           }
@@ -125,7 +126,7 @@ export function useChat(): UseChatReturn {
         case 'clarification':
           return {
             ...msg,
-            content: event.message || 'Please clarify your request',
+            content: event.message || t('error.clarification'),
             isStreaming: false,
             partialContent: undefined,
           }
@@ -134,7 +135,7 @@ export function useChat(): UseChatReturn {
           return msg
       }
     }))
-  }, [])
+  }, [t])
 
   /**
    * Send a query to the chat API with streaming
@@ -157,7 +158,7 @@ export function useChat(): UseChatReturn {
 
     // Create user message
     const userMessage: Message = {
-      id: uuidv4(),
+      id: crypto.randomUUID(),
       sessionId,
       role: 'user',
       content: query.trim(),
@@ -165,7 +166,7 @@ export function useChat(): UseChatReturn {
     }
 
     // Create placeholder assistant message
-    const assistantMessageId = uuidv4()
+    const assistantMessageId = crypto.randomUUID()
     const assistantMessage: Message = {
       id: assistantMessageId,
       sessionId,
@@ -183,6 +184,7 @@ export function useChat(): UseChatReturn {
         {
           query: query.trim(),
           sessionId,
+          locale: t('locale', 'en'), // Optional: send locale context if supported
         },
         (event) => handleSSEEvent(event, assistantMessageId),
         abortControllerRef.current.signal
@@ -212,7 +214,7 @@ export function useChat(): UseChatReturn {
         ? err.message
         : err instanceof Error
           ? err.message
-          : 'Failed to send message'
+          : t('error.send')
 
       setError(message)
 
@@ -230,7 +232,7 @@ export function useChat(): UseChatReturn {
       setIsLoading(false)
       abortControllerRef.current = null
     }
-  }, [sessionId, handleSSEEvent])
+  }, [sessionId, handleSSEEvent, t])
 
   /**
    * Clear all messages

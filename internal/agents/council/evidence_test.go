@@ -12,8 +12,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/medisync/medisync/internal/agents/council"
-	"github.com/medisync/medisync/internal/warehouse"
+	"github.com/AnySync/AnySync/internal/agents/council"
+	"github.com/AnySync/AnySync/internal/warehouse"
 	"github.com/pgvector/pgvector-go"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"

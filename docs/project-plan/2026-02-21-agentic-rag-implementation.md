@@ -145,17 +145,17 @@ CREATE TRIGGER update_summaries_updated_at
     BEFORE UPDATE ON contract_summaries
     FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
--- Grant readonly access to medisync_readonly role
-GRANT SELECT ON contract_clauses TO medisync_readonly;
-GRANT SELECT ON contract_parties TO medisync_readonly;
-GRANT SELECT ON contract_financials TO medisync_readonly;
-GRANT SELECT ON contract_summaries TO medisync_readonly;
+-- Grant readonly access to AnySync_readonly role
+GRANT SELECT ON contract_clauses TO AnySync_readonly;
+GRANT SELECT ON contract_parties TO AnySync_readonly;
+GRANT SELECT ON contract_financials TO AnySync_readonly;
+GRANT SELECT ON contract_summaries TO AnySync_readonly;
 
 -- Grant full access to app role
-GRANT ALL ON contract_clauses TO medisync_app;
-GRANT ALL ON contract_parties TO medisync_app;
-GRANT ALL ON contract_financials TO medisync_app;
-GRANT ALL ON contract_summaries TO medisync_app;
+GRANT ALL ON contract_clauses TO AnySync_app;
+GRANT ALL ON contract_parties TO AnySync_app;
+GRANT ALL ON contract_financials TO AnySync_app;
+GRANT ALL ON contract_summaries TO AnySync_app;
 ```
 
 **Step 2: Write the migration (down)**
@@ -188,7 +188,7 @@ Migration applied successfully.
 **Step 4: Verify tables exist**
 
 ```bash
-psql -d medisync -c "\dt contract_*"
+psql -d AnySync -c "\dt contract_*"
 ```
 
 **Expected output:**
@@ -196,10 +196,10 @@ psql -d medisync -c "\dt contract_*"
                 List of relations
  Schema |         Name          | Type  |   Owner
 --------+-----------------------+-------+------------
- public | contract_clauses      | table | medisync
- public | contract_parties      | table | medisync
- public | contract_financials   | table | medisync
- public | contract_summaries    | table | medisync
+ public | contract_clauses      | table | AnySync
+ public | contract_parties      | table | AnySync
+ public | contract_financials   | table | AnySync
+ public | contract_summaries    | table | AnySync
 ```
 
 **Step 5: Commit**
@@ -260,10 +260,10 @@ CREATE INDEX idx_rag_query_status ON rag_query_log(status);
 CREATE INDEX idx_rag_evidence_query ON rag_evidence_log(query_id);
 
 -- Grant access
-GRANT SELECT ON rag_query_log TO medisync_readonly;
-GRANT SELECT ON rag_evidence_log TO medisync_readonly;
-GRANT ALL ON rag_query_log TO medisync_app;
-GRANT ALL ON rag_evidence_log TO medisync_app;
+GRANT SELECT ON rag_query_log TO AnySync_readonly;
+GRANT SELECT ON rag_evidence_log TO AnySync_readonly;
+GRANT ALL ON rag_query_log TO AnySync_app;
+GRANT ALL ON rag_evidence_log TO AnySync_app;
 ```
 
 **Step 2: Write the migration (down)**
@@ -760,7 +760,7 @@ func TestClauseSearch(t *testing.T) {
 	}
 
 	ctx := context.Background()
-	pool, err := pgxpool.New(ctx, "postgres://medisync:medisync@localhost:5432/medisync_test?sslmode=disable")
+	pool, err := pgxpool.New(ctx, "postgres://AnySync:AnySync@localhost:5432/AnySync_test?sslmode=disable")
 	require.NoError(t, err)
 	defer pool.Close()
 
@@ -806,7 +806,7 @@ func TestPartySearch(t *testing.T) {
 	}
 
 	ctx := context.Background()
-	pool, err := pgxpool.New(ctx, "postgres://medisync:medisync@localhost:5432/medisync_test?sslmode=disable")
+	pool, err := pgxpool.New(ctx, "postgres://AnySync:AnySync@localhost:5432/AnySync_test?sslmode=disable")
 	require.NoError(t, err)
 	defer pool.Close()
 
@@ -830,7 +830,7 @@ func TestFinancialAggregation(t *testing.T) {
 	}
 
 	ctx := context.Background()
-	pool, err := pgxpool.New(ctx, "postgres://medisync:medisync@localhost:5432/medisync_test?sslmode=disable")
+	pool, err := pgxpool.New(ctx, "postgres://AnySync:AnySync@localhost:5432/AnySync_test?sslmode=disable")
 	require.NoError(t, err)
 	defer pool.Close()
 

@@ -1,4 +1,4 @@
-// Package api provides the HTTP API server for MediSync.
+// Package api provides the HTTP API server for AnySync.
 //
 // This package implements the API gateway layer using go-chi/chi router.
 // It handles all HTTP routing, middleware chaining, and server lifecycle.
@@ -24,11 +24,11 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/medisync/medisync/internal/api/handlers"
-	"github.com/medisync/medisync/internal/api/middleware"
-	"github.com/medisync/medisync/internal/cache"
-	"github.com/medisync/medisync/internal/config"
-	"github.com/medisync/medisync/internal/warehouse"
+	"github.com/AnySync/AnySync/internal/api/handlers"
+	"github.com/AnySync/AnySync/internal/api/middleware"
+	"github.com/AnySync/AnySync/internal/cache"
+	"github.com/AnySync/AnySync/internal/config"
+	"github.com/AnySync/AnySync/internal/warehouse"
 
 	"github.com/go-chi/chi/v5"
 	chimiddleware "github.com/go-chi/chi/v5/middleware"

@@ -1,4 +1,4 @@
--- MediSync Dashboard Advanced Features - User Preferences Migration (Rollback)
+-- AnySync Dashboard Advanced Features - User Preferences Migration (Rollback)
 -- Version: 010
 -- Description: Rollback user_preferences table
 

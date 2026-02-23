@@ -106,7 +106,7 @@ Genkit Flow:
 
 ## 6. Guardrails
 
-- All SQL evidence queries run as `medisync_readonly`.
+- All SQL evidence queries run as `AnySync_readonly`.
 - No autonomous write actions — findings are advisory only.
 - LLM narrative validated by A-05 before inclusion.
 - Confidence < 0.7 findings labelled with explicit uncertainty badge.

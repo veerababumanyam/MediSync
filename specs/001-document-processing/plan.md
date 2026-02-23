@@ -105,7 +105,7 @@ migrations/
 └── 001_documents.sql          # Document tables
 ```
 
-**Structure Decision**: Follows established MediSync monorepo pattern with `internal/` for backend Go code and `frontend/` for React web app. Document processing agents reside in `module_b/` (AI Accountant) as per agent catalog in CLAUDE.md.
+**Structure Decision**: Follows established AnySync monorepo pattern with `internal/` for backend Go code and `frontend/` for React web app. Document processing agents reside in `module_b/` (AI Accountant) as per agent catalog in CLAUDE.md.
 
 ## Complexity Tracking
 

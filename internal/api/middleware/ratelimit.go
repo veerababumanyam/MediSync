@@ -1,4 +1,4 @@
-// Package middleware provides HTTP middleware for the MediSync API.
+// Package middleware provides HTTP middleware for the AnySync API.
 //
 // This file implements the RateLimitMiddleware that rate limits requests per user
 // using Redis or in-memory storage as a fallback.

@@ -1,22 +1,22 @@
 /**
  * CopilotKit Components Index
  *
- * Exports all CopilotKit-related components for MediSync.
+ * Exports all CopilotKit-related components for AnySync.
  *
  * @module components/copilot
  */
-export { MediSyncCopilot, CopilotFloatingButton } from './MediSyncCopilot'
-export type { MediSyncCopilotProps } from './MediSyncCopilot'
+export { AnySyncCopilot, CopilotFloatingButton } from './AnySyncCopilot'
+export type { AnySyncCopilotProps } from './AnySyncCopilot'
 
 export {
-  medisyncTools,
+  AnySyncTools,
   QueryResultComponent,
   SyncStatusComponent,
   NavigationComponent,
   AlertCreatedComponent,
   ReportCreatedComponent,
   ExportStatusComponent,
-} from './MediSyncTools'
+} from './AnySyncTools'
 
 export type {
   QueryBIParams,
@@ -28,4 +28,4 @@ export type {
   ExportParams,
   ToolResult,
   QueryResult,
-} from './MediSyncTools'
+} from './AnySyncTools'

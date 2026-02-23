@@ -60,7 +60,7 @@ export function LeadCaptureModal({ isOpen, onClose, isDark }: LeadCaptureModalPr
                             Get Started Free
                         </h3>
                         <p className={`mb-6 ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
-                            See how MediSync can transform your legacy systems. Enter your email to begin.
+                            See how AnySync can transform your legacy systems. Enter your email to begin.
                         </p>
 
                         <form onSubmit={handleSubmit} className="space-y-4">

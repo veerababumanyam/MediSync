@@ -1,10 +1,10 @@
-# MediSync — AI Agent Backlog
+# AnySync — AI Agent Backlog
 
 **Version:** 1.0 | **Created:** February 19, 2026 | **Source:** [PRD.md](../PRD.md)
 
-> **Goal:** Maximize automation across all three MediSync modules — Conversational BI, AI Accountant, and Easy Reports — by identifying every task that can be delegated to an AI agent, reducing custom coding by reusing proven open-source tooling.
+> **Goal:** Maximize automation across all three AnySync modules — Conversational BI, AI Accountant, and Easy Reports — by identifying every task that can be delegated to an AI agent, reducing custom coding by reusing proven open-source tooling.
 
-> **Goal:** Maximize automation across all four MediSync modules — Conversational BI, AI Accountant, Easy Reports, and Advanced Search Analytics — by identifying every task that can be delegated to an AI agent, reducing custom coding by reusing proven open-source tooling.
+> **Goal:** Maximize automation across all four AnySync modules — Conversational BI, AI Accountant, Easy Reports, and Advanced Search Analytics — by identifying every task that can be delegated to an AI agent, reducing custom coding by reusing proven open-source tooling.
 
 ---
 

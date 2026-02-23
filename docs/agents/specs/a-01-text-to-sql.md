@@ -12,7 +12,7 @@
 
 ## 1. Purpose
 
-Converts a natural language business question into a safe, read-only SQL query against the MediSync data warehouse, executes it, and returns structured results with a chart-type suggestion and explanation.
+Converts a natural language business question into a safe, read-only SQL query against the AnySync data warehouse, executes it, and returns structured results with a chart-type suggestion and explanation.
 
 > **Addresses:** PRD §5.1 — User Stories US1–US8: "As a user I want to ask questions in plain English and get instant data answers."
 
@@ -92,7 +92,7 @@ type TextToSQLOutput struct {
 | 2 | Genkit Flow (`text-to-sql`) | Apache-2.0 | LLM-based SQL generation |
 | 3 | Ollama / vLLM | MIT / Apache-2.0 | Local LLM inference |
 | 4 | sqlparse (via CGO or subprocess) | BSD | SQL AST assertion — SELECT only |
-| 5 | PostgreSQL (`medisync_readonly` role) | PostgreSQL | Execute validated query |
+| 5 | PostgreSQL (`AnySync_readonly` role) | PostgreSQL | Execute validated query |
 | 6 | A-02 (Self-Correction) | Internal | Retry on DB error (max 3) |
 | 7 | A-03 (Visualization Router) | Internal | Emit chart-type token |
 | 8 | OPA sidecar | Apache-2.0 | Column masking + read-only policy |
@@ -108,7 +108,7 @@ UserQuery
   → Genkit Flow: text-to-sql
       LLM (Ollama/vLLM) + schema_context + semantic_context
   → SQL AST Validator (SELECT-only assertion)
-  → PostgreSQL Executor (medisync_readonly)
+  → PostgreSQL Executor (AnySync_readonly)
   → [A-02] Self-Correction loop (on error, max 3 retries)
   → [A-03] Visualization Router
   → TextToSQLOutput struct
@@ -119,7 +119,7 @@ UserQuery
 ## 7. System Prompt
 
 ```
-You are an expert SQL analyst for MediSync, a healthcare and accounting platform.
+You are an expert SQL analyst for AnySync, a healthcare and accounting platform.
 You have READ-ONLY access to a PostgreSQL data warehouse containing:
   - HIMS data: patients, appointments, billing, pharmacy dispensations
   - Tally data: ledgers, vouchers, inventory, sales, receipts
@@ -155,7 +155,7 @@ Respond ONLY with valid JSON:
 | # | Guard | Type | Trigger | Action |
 |---|-------|------|---------|--------|
 | 1 | SQL AST read-only assertion | Pre-execution | Every query | Reject if non-SELECT DML detected |
-| 2 | OPA policy `medisync.bi.read_only` | Pre-execution | Every request | Hard-block at DB connection level |
+| 2 | OPA policy `AnySync.bi.read_only` | Pre-execution | Every request | Hard-block at DB connection level |
 | 3 | Off-topic classifier | Pre-execution | LLM response `off_topic=true` | Return canned deflection; no SQL executed |
 | 4 | Column masking | Pre-execution | Always | OPA strips PII/cost-price columns per role |
 | 5 | Confidence gate | Post-execution | `confidence_score < 0.70` | Set `hitl_required=true`; add warning banner |
@@ -207,7 +207,7 @@ Respond ONLY with valid JSON:
 
 - **OpenTelemetry:** Span `a-01-text-to-sql` with attributes: `user.role`, `confidence_score`, `chart_type`, `sql_length`, `rows_returned`
 - **Genkit:** Built-in flow tracing captures prompt, response, token usage
-- **Metrics:** `medisync_agent_requests_total{agent="A-01"}`, `medisync_agent_latency_seconds{agent="A-01"}`
+- **Metrics:** `AnySync_agent_requests_total{agent="A-01"}`, `AnySync_agent_latency_seconds{agent="A-01"}`
 
 ---
 
@@ -235,7 +235,7 @@ Logged fields: `agent_id=A-01`, `action=sql_query`, `resource_id=session_id`, `d
 |----------|-------|
 | **Runtime** | Go service (chi router) |
 | **Genkit Flow ID** | `text-to-sql` |
-| **DB connection** | `medisync_readonly` role |
+| **DB connection** | `AnySync_readonly` role |
 | **Depends on agents** | A-02, A-03, A-04 |
 | **Consumed by** | User (chat UI), D-04 |
 | **Env vars** | `GENKIT_OLLAMA_URL`, `POSTGRES_READONLY_DSN`, `OPA_SIDECAR_URL` |

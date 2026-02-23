@@ -1,5 +1,5 @@
-# MediSync Column Masking Policy
-# Package: medisync.column_masking
+# AnySync Column Masking Policy
+# Package: AnySync.column_masking
 # Version: 1.0
 # Description: OPA policy for column-level access control and data masking
 #
@@ -10,7 +10,7 @@
 #
 # Cross-reference: internal/api/opa.go, docs/agents/03-governance-security.md
 
-package medisync.column_masking
+package AnySync.column_masking
 
 import rego.v1
 

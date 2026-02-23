@@ -1,4 +1,4 @@
-# MediSync Logo Assets
+# AnySync Logo Assets
 
 This directory contains all generated logo sizes for web, mobile (iOS/Android), and app store use.
 
@@ -115,4 +115,4 @@ For dark mode or glassmorphism effects, use:
 
 ## License
 
-These logo assets are part of the MediSync project and follow the same license terms.
+These logo assets are part of the AnySync project and follow the same license terms.

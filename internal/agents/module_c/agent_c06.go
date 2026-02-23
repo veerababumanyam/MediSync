@@ -26,8 +26,8 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	"github.com/medisync/medisync/internal/events"
-	"github.com/medisync/medisync/internal/warehouse"
+	"github.com/AnySync/AnySync/internal/events"
+	"github.com/AnySync/AnySync/internal/warehouse"
 )
 
 const (

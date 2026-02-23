@@ -1,4 +1,4 @@
--- MediSync AI Agent Core - Domain Terms Migration
+-- AnySync AI Agent Core - Domain Terms Migration
 -- Version: 007
 -- Description: Create domain terms table for terminology mapping in AI Agent Core
 -- Task: T010
@@ -234,21 +234,21 @@ ON CONFLICT (synonym) DO NOTHING;
 -- GRANT PERMISSIONS
 -- ============================================================================
 
--- Grant SELECT to medisync_readonly role for AI agents
-GRANT SELECT ON app.domain_terms TO medisync_readonly;
+-- Grant SELECT to AnySync_readonly role for AI agents
+GRANT SELECT ON app.domain_terms TO AnySync_readonly;
 
--- Grant full CRUD to medisync_app role for application operations
-GRANT SELECT, INSERT, UPDATE, DELETE ON app.domain_terms TO medisync_app;
-GRANT USAGE, SELECT ON SEQUENCE app.domain_terms_id_seq TO medisync_app;
+-- Grant full CRUD to AnySync_app role for application operations
+GRANT SELECT, INSERT, UPDATE, DELETE ON app.domain_terms TO AnySync_app;
+GRANT USAGE, SELECT ON SEQUENCE app.domain_terms_id_seq TO AnySync_app;
 
 -- Grant execute on functions
-GRANT EXECUTE ON FUNCTION app.find_canonical_term(VARCHAR) TO medisync_app;
-GRANT EXECUTE ON FUNCTION app.find_canonical_term(VARCHAR) TO medisync_readonly;
-GRANT EXECUTE ON FUNCTION app.search_domain_terms(VARCHAR, VARCHAR, INTEGER) TO medisync_app;
-GRANT EXECUTE ON FUNCTION app.search_domain_terms(VARCHAR, VARCHAR, INTEGER) TO medisync_readonly;
-GRANT EXECUTE ON FUNCTION app.get_domain_terms_for_locale(VARCHAR, VARCHAR) TO medisync_app;
-GRANT EXECUTE ON FUNCTION app.get_domain_terms_for_locale(VARCHAR, VARCHAR) TO medisync_readonly;
-GRANT EXECUTE ON FUNCTION app.upsert_domain_term(VARCHAR, VARCHAR, VARCHAR, TEXT, JSONB) TO medisync_app;
+GRANT EXECUTE ON FUNCTION app.find_canonical_term(VARCHAR) TO AnySync_app;
+GRANT EXECUTE ON FUNCTION app.find_canonical_term(VARCHAR) TO AnySync_readonly;
+GRANT EXECUTE ON FUNCTION app.search_domain_terms(VARCHAR, VARCHAR, INTEGER) TO AnySync_app;
+GRANT EXECUTE ON FUNCTION app.search_domain_terms(VARCHAR, VARCHAR, INTEGER) TO AnySync_readonly;
+GRANT EXECUTE ON FUNCTION app.get_domain_terms_for_locale(VARCHAR, VARCHAR) TO AnySync_app;
+GRANT EXECUTE ON FUNCTION app.get_domain_terms_for_locale(VARCHAR, VARCHAR) TO AnySync_readonly;
+GRANT EXECUTE ON FUNCTION app.upsert_domain_term(VARCHAR, VARCHAR, VARCHAR, TEXT, JSONB) TO AnySync_app;
 
 -- ============================================================================
 -- END OF MIGRATION

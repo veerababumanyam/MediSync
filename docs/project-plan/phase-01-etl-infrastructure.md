@@ -67,7 +67,7 @@ Establish the complete data foundation that all subsequent phases depend on. Thi
 
 **Trigger:** NATS subscription to `etl.sync.completed`  
 **Tools:**
-- SQL query executor (read-only, `medisync_readonly` role)
+- SQL query executor (read-only, `AnySync_readonly` role)
 - NATS publisher (emit alerts)
 - Notification dispatcher (write to `app.notification_queue`)
 
@@ -159,7 +159,7 @@ On-Premises Network
 ├── DB Server
 │   ├── PostgreSQL 18.2       (port 5432)
 │   │   ├── Extensions: pgvector, pg_stat_statements, uuid-ossp
-│   │   ├── Roles: medisync_readonly, medisync_app, medisync_etl
+│   │   ├── Roles: AnySync_readonly, AnySync_app, AnySync_etl
 │   │   └── Schemas: hims_analytics, tally_analytics, semantic, app, vectors
 │   └── (Redis also deployable here)
 │
@@ -206,7 +206,7 @@ On-Premises Network
 
 | Requirement | Implementation |
 |---|---|
-| DB access control | Three separate Postgres roles: `medisync_readonly` (SELECT only on analytics schemas), `medisync_app` (CRUD on app schema), `medisync_etl` (INSERT/UPDATE on analytics schemas) |
+| DB access control | Three separate Postgres roles: `AnySync_readonly` (SELECT only on analytics schemas), `AnySync_app` (CRUD on app schema), `AnySync_etl` (INSERT/UPDATE on analytics schemas) |
 | Credential management | Tally and HIMS API credentials in environment secrets loaded from HashiCorp Vault; never in `.env` files or source code |
 | Network isolation | Redis bound to `127.0.0.1` only; Postgres accepting connections from app server CIDR only |
 | TLS | All HTTP services behind TLS 1.3 termination; Tally TDL over HTTPS |

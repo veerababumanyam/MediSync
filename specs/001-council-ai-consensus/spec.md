@@ -211,7 +211,7 @@ Administrators need to review historical queries and verify that the Council of 
 
 - The consensus algorithm's default 80% threshold is a starting point that may be tuned based on domain requirements and user feedback.
 
-- Role-based access control integrates with existing Keycloak/OPA infrastructure in MediSync.
+- Role-based access control integrates with existing Keycloak/OPA infrastructure in AnySync.
 
 - Audit trail storage supports 7-year retention with appropriate archival mechanisms.
 

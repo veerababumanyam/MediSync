@@ -10,7 +10,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/medisync/medisync/internal/config"
+	"github.com/AnySync/AnySync/internal/config"
 )
 
 // testConfig returns a TallyConfig for testing.

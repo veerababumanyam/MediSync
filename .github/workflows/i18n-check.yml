@@ -1,4 +1,4 @@
-# MediSync i18n Validation Workflow
+# AnySync i18n Validation Workflow
 #
 # Validates translation files and detects hardcoded strings.
 # This workflow ENFORCES "i18n by default" - it fails on any violation.

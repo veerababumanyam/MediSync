@@ -1,4 +1,4 @@
-# MediSync Liquid Glass Complete Redesign
+# AnySync Liquid Glass Complete Redesign
 
 **Version:** 1.0
 **Status:** Approved
@@ -9,7 +9,7 @@
 
 ## 1. Executive Summary
 
-This document defines the complete redesign of all MediSync user-facing pages using the Liquid Glass design system. The goal is to create a cohesive, modern, and premium experience across the entire application.
+This document defines the complete redesign of all AnySync user-facing pages using the Liquid Glass design system. The goal is to create a cohesive, modern, and premium experience across the entire application.
 
 ### Key Decisions
 - **Visual Intensity:** Balanced Premium (medium glass opacity, smooth animations)

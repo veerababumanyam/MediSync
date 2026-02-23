@@ -1,10 +1,10 @@
 # Open Source Tools: Technical Reference
 
-This document serves as a technical catalog of open-source tools and libraries integrated into or recommended for the MediSync ecosystem. These tools are selected based on their performance, scalability, and compatibility with the core tech stack (Go, Genkit, React, and Flutter).
+This document serves as a technical catalog of open-source tools and libraries integrated into or recommended for the AnySync ecosystem. These tools are selected based on their performance, scalability, and compatibility with the core tech stack (Go, Genkit, React, and Flutter).
 
 ## 1. Backend & AI Orchestration
 
-| Tool | Category | Role in MediSync | Key Feature |
+| Tool | Category | Role in AnySync | Key Feature |
 | :--- | :--- | :--- | :--- |
 | **Go** | Language | Core Backend Service | Concurrency, High Performance |
 | **Genkit** | AI Framework | AI Orchestration (Go/TS) | Primary framework for type-safe AI flows and RAG |
@@ -21,7 +21,7 @@ This document serves as a technical catalog of open-source tools and libraries i
 
 ## 2. AI-Driven Frontend & Visualization
 
-MediSync utilizes a **GenUI-First** frontend strategy, where interfaces are dynamically constructed based on agent intelligence and medical context.
+AnySync utilizes a **GenUI-First** frontend strategy, where interfaces are dynamically constructed based on agent intelligence and medical context.
 
 ### Web Dashboard Stack (Physician Portal)
 - **CopilotKit** (MIT)
@@ -46,7 +46,7 @@ MediSync utilizes a **GenUI-First** frontend strategy, where interfaces are dyna
 
 ## 3. Enterprise Foundation & Security
 
-MediSync requires robust, on-prem infrastructure to handle sensitive medical data and synchronize with external clinical systems.
+AnySync requires robust, on-prem infrastructure to handle sensitive medical data and synchronize with external clinical systems.
 
 ### Identity & Access Management (IAM)
 - **Keycloak** (Apache-2.0)
@@ -99,7 +99,7 @@ For advanced enterprise analytics without custom coding every widget:
 
 ## 6. Reporting & Document Automation
 
-MediSync generates clinical-grade PDF and Excel reports for patients and regulatory bodies.
+AnySync generates clinical-grade PDF and Excel reports for patients and regulatory bodies.
 - **WeasyPrint** (BSD-3)
   - **Role**: Primary HTML-to-PDF engine with full RTL/CSS support.
 - **Puppeteer** (Apache-2.0)

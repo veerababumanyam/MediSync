@@ -1,4 +1,4 @@
--- MediSync AI Agent Core - Application Tables Migration
+-- AnySync AI Agent Core - Application Tables Migration
 -- Version: 004
 -- Description: Create AI Agent Core tables for query sessions, queries, SQL statements, and results
 -- Task: T007
@@ -138,22 +138,22 @@ COMMENT ON FUNCTION app.update_query_session_updated_at() IS 'Trigger function t
 
 -- ============================================================================
 -- GRANT PERMISSIONS
--- Grant SELECT to medisync_readonly role for AI agents
+-- Grant SELECT to AnySync_readonly role for AI agents
 -- ============================================================================
 
-GRANT SELECT ON app.query_sessions TO medisync_readonly;
-GRANT SELECT ON app.queries TO medisync_readonly;
-GRANT SELECT ON app.sql_statements TO medisync_readonly;
-GRANT SELECT ON app.query_results TO medisync_readonly;
+GRANT SELECT ON app.query_sessions TO AnySync_readonly;
+GRANT SELECT ON app.queries TO AnySync_readonly;
+GRANT SELECT ON app.sql_statements TO AnySync_readonly;
+GRANT SELECT ON app.query_results TO AnySync_readonly;
 
--- Grant full CRUD to medisync_app role for application operations
-GRANT SELECT, INSERT, UPDATE, DELETE ON app.query_sessions TO medisync_app;
-GRANT SELECT, INSERT, UPDATE, DELETE ON app.queries TO medisync_app;
-GRANT SELECT, INSERT, UPDATE, DELETE ON app.sql_statements TO medisync_app;
-GRANT SELECT, INSERT, UPDATE, DELETE ON app.query_results TO medisync_app;
+-- Grant full CRUD to AnySync_app role for application operations
+GRANT SELECT, INSERT, UPDATE, DELETE ON app.query_sessions TO AnySync_app;
+GRANT SELECT, INSERT, UPDATE, DELETE ON app.queries TO AnySync_app;
+GRANT SELECT, INSERT, UPDATE, DELETE ON app.sql_statements TO AnySync_app;
+GRANT SELECT, INSERT, UPDATE, DELETE ON app.query_results TO AnySync_app;
 
 -- Grant sequence usage for any serial columns (if added later)
-GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA app TO medisync_app;
+GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA app TO AnySync_app;
 
 -- ============================================================================
 -- END OF MIGRATION

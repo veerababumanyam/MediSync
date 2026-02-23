@@ -10,7 +10,7 @@
 
 ## 1. Objectives
 
-Unlock MediSync as a developer platform: allow technical users (data engineers, analysts, power users) to write and execute Python notebooks, generate code directly from natural language, federate queries across multiple data nodes with in-memory optimisation, and expose an embedding API surface for external portals to consume MediSync analytics inside their own UIs.
+Unlock AnySync as a developer platform: allow technical users (data engineers, analysts, power users) to write and execute Python notebooks, generate code directly from natural language, federate queries across multiple data nodes with in-memory optimisation, and expose an embedding API surface for external portals to consume AnySync analytics inside their own UIs.
 
 ---
 
@@ -38,10 +38,10 @@ Unlock MediSync as a developer platform: allow technical users (data engineers, 
 |---|---|---|---|
 | D-01 | D-11: SpotterCode agent | AI Eng | NL → Python/SQL/React code; reviewed before execution |
 | D-02 | D-12: Federated Query Optimisation | AI Eng + Data Eng | Federated query across 2 nodes with ≥ 40% latency reduction vs naive join |
-| D-03 | Analyst Studio (Python notebooks) | Frontend + Backend | Jupyter-compatible browser IDE; execute Python cells; access MediSync datasources |
+| D-03 | Analyst Studio (Python notebooks) | Frontend + Backend | Jupyter-compatible browser IDE; execute Python cells; access AnySync datasources |
 | D-04 | Embedding REST API | Backend Eng | Authenticated embed tokens; chart data served via REST |
 | D-05 | Embedding GraphQL API | Backend Eng | GraphQL schema for flexible metric + dimension queries |
-| D-06 | JavaScript Embed SDK | Frontend Eng | `npm install @medisync/embed`; `<MediSyncChart>` React component |
+| D-06 | JavaScript Embed SDK | Frontend Eng | `npm install @AnySync/embed`; `<AnySyncChart>` React component |
 | D-07 | DuckDB in-memory layer | Data Eng | Hot-path queries served from DuckDB; measurable latency improvement |
 | D-08 | Developer documentation | All Eng | SDK docs, embed API reference, Python SDK reference, notebook examples |
 
@@ -131,11 +131,11 @@ Unified result returned to user
 **Purpose:** Browser-based Python notebook environment for power users / data engineers to explore data, build analyses, and prototype reports.
 
 **Technology:** JupyterLite (WASM-based) or server-side JupyterHub (configurable at deployment)  
-**Python SDK:** Pre-installed `medisync` Python package with shortcuts to data access
+**Python SDK:** Pre-installed `AnySync` Python package with shortcuts to data access
 
 ```python
-# Example: MediSync Python SDK in Analyst Studio
-import medisync as ms
+# Example: AnySync Python SDK in Analyst Studio
+import AnySync as ms
 
 # Connect (uses user's session token automatically)
 client = ms.Client()
@@ -222,13 +222,13 @@ query PharmacyMetrics($period: Period!) {
 ### JavaScript Embed SDK
 
 ```javascript
-// npm install @medisync/embed
+// npm install @AnySync/embed
 
-import { MediSyncEmbed } from '@medisync/embed';
+import { AnySyncEmbed } from '@AnySync/embed';
 
-const embed = new MediSyncEmbed({
+const embed = new AnySyncEmbed({
   token: 'emb_xxx...',
-  baseUrl: 'https://medisync.example.com'
+  baseUrl: 'https://AnySync.example.com'
 });
 
 // Render a metric card
@@ -335,7 +335,7 @@ CREATE TABLE app.federated_nodes (
 | D-11 SQL generation | Generated SQL parseable; valid against schema; 0 mutation statements |
 | D-11 Python generation | Generated code runs in sandbox without error on 15 test prompts |
 | D-12 federated query | 2-node federated query returns correct merged result; ≥ 40% latency improvement |
-| Analyst Studio | Python cell executes; `medisync` SDK connects; table + chart output rendered |
+| Analyst Studio | Python cell executes; `AnySync` SDK connects; table + chart output rendered |
 | Embed token scope | Embed token cannot access metrics outside `allowed_metrics` (OPA enforced) |
 | GraphQL | 10 test queries return correct data; schema introspection available |
 | JS SDK | `renderMetric` and `renderDashboard` render correctly in test app |

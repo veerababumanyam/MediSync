@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-MediSync Logo Generator
+AnySync Logo Generator
 Generates various sizes of the logo for web, mobile, and other platforms.
 """
 
@@ -106,8 +106,8 @@ ANDROID_ADAPTIVE_ICON = '''<?xml version="1.0" encoding="utf-8"?>
 
 # Web app manifest content
 WEB_MANIFEST_CONTENT = {
-    "name": "MediSync",
-    "short_name": "MediSync",
+    "name": "AnySync",
+    "short_name": "AnySync",
     "description": "AI-Powered Conversational BI & Intelligent Accounting for Healthcare",
     "icons": [
         {
@@ -298,7 +298,7 @@ def generate_logo_sizes(source_path, output_dir):
             f.write('<meta name="theme-color" content="#0056D2">\n')
             f.write('<meta name="apple-mobile-web-app-capable" content="yes">\n')
             f.write('<meta name="apple-mobile-web-app-status-bar-style" content="default">\n')
-            f.write('<meta name="apple-mobile-web-app-title" content="MediSync">\n')
+            f.write('<meta name="apple-mobile-web-app-title" content="AnySync">\n')
         print(f"Generated: favicon-snippet.html")
 
         print(f"\nSummary: Generated {len(SIZES) + len(ios_mappings) + len(android_sizes) + 3} files")

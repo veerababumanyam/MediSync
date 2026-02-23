@@ -7,6 +7,6 @@
  */
 
 export { ThemeProvider } from './ThemeProvider'
-export type { MediSyncThemeProviderProps } from './ThemeProvider'
+export type { AnySyncThemeProviderProps } from './ThemeProvider'
 export { useTheme } from './useTheme'
 export type { UseThemeReturn } from './useTheme'

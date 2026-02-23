@@ -1,6 +1,6 @@
 // Package a01_text_to_sql provides the text-to-SQL agent subcomponents.
 //
-// This file implements SQL execution with the medisync_readonly role.
+// This file implements SQL execution with the AnySync_readonly role.
 package a01_text_to_sql
 
 import (

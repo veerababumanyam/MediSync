@@ -1,4 +1,4 @@
-// Package config provides configuration management for MediSync.
+// Package config provides configuration management for AnySync.
 // This file handles structured logging with slog.
 package config
 

@@ -1,4 +1,4 @@
-// Example: Testing a MediSync Agent
+// Example: Testing a AnySync Agent
 // Demonstrates unit testing with mocks and integration testing patterns
 
 package module_a
@@ -55,7 +55,7 @@ func TestSimpleQueryAgent_Success(t *testing.T) {
 	// Setup expectations
 	mockOPA.On("Allow", mock.Anything, "warehouse_query", mock.Anything).Return(true, nil)
 	mockModel.On("Generate", mock.Anything, mock.Anything).Return("SELECT * FROM patients", nil)
-	mockDB.On("Query", mock.Anything, "SELECT * FROM patients", "medisync_readonly").Return([]map[string]any{"id": 1}, nil)
+	mockDB.On("Query", mock.Anything, "SELECT * FROM patients", "AnySync_readonly").Return([]map[string]any{"id": 1}, nil)
 
 	// Execute
 	req := SimpleQueryRequest{
@@ -163,7 +163,7 @@ func TestSimpleQueryAgent_ArabicLocale(t *testing.T) {
 	mockModel.On("Generate", mock.Anything, mock.MatchedBy(func(p string) bool {
 		return strings.Contains(p, "Respond in Arabic")
 	})).Return("SELECT * FROM patients", nil)
-	mockDB.On("Query", mock.Anything, "SELECT * FROM patients", "medisync_readonly").Return([]map[string]any{}, nil)
+	mockDB.On("Query", mock.Anything, "SELECT * FROM patients", "AnySync_readonly").Return([]map[string]any{}, nil)
 
 	req := SimpleQueryRequest{
 		Query:     "كم عدد المرضى؟",
@@ -216,7 +216,7 @@ func BenchmarkProcessFlow(b *testing.B) {
 
 	mockOPA.On("Allow", mock.Anything, "warehouse_query", mock.Anything).Return(true, nil)
 	mockModel.On("Generate", mock.Anything, mock.Anything).Return("SELECT * FROM patients", nil)
-	mockDB.On("Query", mock.Anything, "SELECT * FROM patients", "medisync_readonly").Return([]map[string]any{}, nil)
+	mockDB.On("Query", mock.Anything, "SELECT * FROM patients", "AnySync_readonly").Return([]map[string]any{}, nil)
 
 	req := SimpleQueryRequest{
 		Query:     "Show patients",

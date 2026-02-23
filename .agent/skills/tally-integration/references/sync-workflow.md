@@ -1,12 +1,12 @@
 # Tally Sync Workflow Reference
 
-Detailed workflow for synchronizing data from MediSync to Tally ERP.
+Detailed workflow for synchronizing data from AnySync to Tally ERP.
 
 ## Sync Pipeline Overview
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
-│                         MediSync Platform                           │
+│                         AnySync Platform                           │
 ├─────────────────────────────────────────────────────────────────────┤
 │  1. Data Entry (OCR / Manual / HIMS)                               │
 │                    ↓                                                │
@@ -54,7 +54,7 @@ type JournalEntry struct {
 }
 
 type LedgerEntry struct {
-    LedgerID     string  `json:"ledger_id"`      // MediSync ledger reference
+    LedgerID     string  `json:"ledger_id"`      // AnySync ledger reference
     LedgerName   string  `json:"ledger_name"`    // Mapped Tally ledger name
     IsDebit      bool    `json:"is_debit"`
     Amount       float64 `json:"amount"`
@@ -233,7 +233,7 @@ func (s *SyncService) checkOPA(ctx context.Context, userID, entryID string, acti
 ### Example OPA Policy (Rego)
 
 ```rego
-package medisync.tally
+package AnySync.tally
 
 default allow = false
 
@@ -528,7 +528,7 @@ func generateRemoteID(entry *JournalEntry) string {
     }
 
     h := sha256.Sum256([]byte(data))
-    return fmt.Sprintf("medisync-%x", h[:12])
+    return fmt.Sprintf("AnySync-%x", h[:12])
 }
 ```
 

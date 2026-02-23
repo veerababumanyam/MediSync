@@ -136,7 +136,7 @@ Report (C-01 P&L includes this voucher's ledger amount)
 ```
 
 **Rate limiting:** 100 requests/minute per API key  
-**Auth:** API key in header (`X-MediSync-API-Key`); scoped to requesting user's permissions
+**Auth:** API key in header (`X-AnySync-API-Key`); scoped to requesting user's permissions
 
 ---
 

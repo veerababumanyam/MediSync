@@ -1,4 +1,4 @@
-// Package api provides comprehensive error handling with localization for MediSync.
+// Package api provides comprehensive error handling with localization for AnySync.
 //
 // This file implements the APIError type for structured error responses with
 // full internationalization support (English and Arabic). All API errors follow
@@ -588,7 +588,7 @@ func NotFoundResponse(w http.ResponseWriter, r *http.Request) {
 func UnauthorizedResponse(w http.ResponseWriter, r *http.Request) {
 	locale := getLocaleFromRequest(r)
 	err := NewAPIError(ErrUnauthorized, locale)
-	w.Header().Set("WWW-Authenticate", `Bearer realm="medisync"`)
+	w.Header().Set("WWW-Authenticate", `Bearer realm="AnySync"`)
 	err.WriteJSON(w, http.StatusUnauthorized)
 }
 

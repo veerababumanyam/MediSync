@@ -1,7 +1,7 @@
 /**
  * ChatPage Component
  *
- * Main chat interface page for MediSync's conversational BI feature.
+ * Main chat interface page for AnySync's conversational BI feature.
  * Provides natural language interaction with healthcare and accounting data.
  *
  * Features:
@@ -64,9 +64,9 @@ export const ChatPage: React.FC<ChatPageProps> = ({ className = '' }) => {
 
   // Update document title
   useEffect(() => {
-    document.title = `${t('pageTitle', 'Chat')} | MediSync`
+    document.title = `${t('pageTitle', 'Chat')} | AnySync`
     return () => {
-      document.title = 'MediSync'
+      document.title = 'AnySync'
     }
   }, [t])
 
@@ -116,21 +116,21 @@ export const ChatPage: React.FC<ChatPageProps> = ({ className = '' }) => {
       />
 
       {/* Main Content */}
-      <main id="main-content" tabIndex={-1} className="container mx-auto px-4 pt-6 pb-6">
-        {/* Chat Interface Container - iOS 26 Liquid Glass */}
-        <div className="liquid-glass-content-card h-[calc(100vh-160px)] overflow-hidden">
+      <main id="main-content" tabIndex={-1} className="container mx-auto px-4 main-content-top pb-6">
+        {/* Chat Interface Container - iOS 26 Pronounced Glass */}
+        <div className="liquid-glass-pronounced liquid-glass-floating shadow-xl h-[calc(100vh-160px)] overflow-hidden animate-liquid-fade-in">
           <ChatInterface
             initialSessionId={sessionId}
             className="h-full"
           />
         </div>
 
-        {/* Error Display - Liquid Glass with Red Accent */}
+        {/* Error Display - Pronounced Glass with Red Accent */}
         {error && (
           <div
             role="alert"
             aria-live="assertive"
-            className="liquid-glass-content-card mt-4 p-4 border-s-4 border-s-red-500"
+            className="liquid-glass-pronounced mt-4 p-4 border-s-4 border-s-red-500 shadow-md"
           >
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">

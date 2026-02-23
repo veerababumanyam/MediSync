@@ -1,5 +1,5 @@
-# MediSync Council of AIs Consensus Policy
-# Package: medisync.council
+# AnySync Council of AIs Consensus Policy
+# Package: AnySync.council
 # Version: 1.0
 # Description: OPA policy for Council of AIs consensus system with role-based access control
 #
@@ -10,7 +10,7 @@
 # Cross-reference: internal/agents/council/, docs/agents/03-governance-security.md
 # Feature: specs/001-council-ai-consensus/spec.md
 
-package medisync.council
+package AnySync.council
 
 import rego.v1
 

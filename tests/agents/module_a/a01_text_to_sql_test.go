@@ -4,7 +4,7 @@ package module_a_test
 import (
 	"testing"
 
-	"github.com/medisync/medisync/internal/agents/module_a/a01_text_to_sql"
+	"github.com/AnySync/AnySync/internal/agents/module_a/a01_text_to_sql"
 )
 
 func TestSQLParameterizer_BasicParameterization(t *testing.T) {

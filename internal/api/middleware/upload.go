@@ -1,4 +1,4 @@
-// Package middleware provides HTTP middleware for the MediSync API.
+// Package middleware provides HTTP middleware for the AnySync API.
 package middleware
 
 import (
@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/medisync/medisync/internal/warehouse/models"
+	"github.com/AnySync/AnySync/internal/warehouse/models"
 )
 
 // UploadValidator validates file uploads.

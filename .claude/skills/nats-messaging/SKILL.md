@@ -3,12 +3,12 @@ name: nats-messaging
 description: This skill should be used when the user asks to "implement NATS messaging", "publish NATS events", "NATS JetStream", "event-driven architecture", "message queues", "NATS subscriptions", "event publishing", or mentions NATS-specific concepts like subjects, consumers, streams, or ack.
 ---
 
-# NATS Messaging Patterns for MediSync
+# NATS Messaging Patterns for AnySync
 
-NATS JetStream provides event-driven messaging for MediSync's ETL pipeline, notifications, and inter-service communication. This skill covers publishing, subscribing, and stream management.
+NATS JetStream provides event-driven messaging for AnySync's ETL pipeline, notifications, and inter-service communication. This skill covers publishing, subscribing, and stream management.
 
 ★ Insight ─────────────────────────────────────
-MediSync uses NATS for:
+AnySync uses NATS for:
 1. **ETL Events** - Data sync completion notifications
 2. **Agent Coordination** - Inter-agent communication
 3. **Alerts** - Real-time notification delivery
@@ -30,14 +30,14 @@ JetStream provides durability and replay capabilities.
 ## Subject Naming Convention
 
 ```
-medisync.{domain}.{entity}.{action}
+AnySync.{domain}.{entity}.{action}
 
 Examples:
-- medisync.etl.tally.completed
-- medisync.etl.hims.synced
-- medisync.document.ocr.extracted
-- medisync.tally.sync.approved
-- medisync.alert.notification.created
+- AnySync.etl.tally.completed
+- AnySync.etl.hims.synced
+- AnySync.document.ocr.extracted
+- AnySync.tally.sync.approved
+- AnySync.alert.notification.created
 ```
 
 ## Publishing Events
@@ -60,7 +60,7 @@ type Publisher struct {
 
 func NewPublisher(url string) (*Publisher, error) {
     nc, err := nats.Connect(url,
-        nats.Name("medisync-publisher"),
+        nats.Name("AnySync-publisher"),
         nats.ReconnectWait(2*time.Second),
         nats.MaxReconnects(10),
     )
@@ -95,7 +95,7 @@ func (p *Publisher) Publish(ctx context.Context, subject string, event Event) er
 
 // Common event types
 func (p *Publisher) PublishETLCompleted(ctx context.Context, source string, recordsProcessed int) error {
-    return p.Publish(ctx, "medisync.etl."+source+".completed", Event{
+    return p.Publish(ctx, "AnySync.etl."+source+".completed", Event{
         ID:        uuid.New().String(),
         Type:      "etl.completed",
         Timestamp: time.Now(),
@@ -230,23 +230,23 @@ func (s *Subscriber) EnsureStream(streamName string, subjects []string) error {
     return nil
 }
 
-// Common streams for MediSync
-func (s *Subscriber) SetupMediSyncStreams() error {
+// Common streams for AnySync
+func (s *Subscriber) SetupAnySyncStreams() error {
     streams := []struct {
         name     string
         subjects []string
     }{
         {
             name:     "EVENTS",
-            subjects: []string{"medisync.>"},
+            subjects: []string{"AnySync.>"},
         },
         {
             name:     "ALERTS",
-            subjects: []string{"medisync.alert.>"},
+            subjects: []string{"AnySync.alert.>"},
         },
         {
             name:     "AUDIT",
-            subjects: []string{"medisync.audit.>"},
+            subjects: []string{"AnySync.audit.>"},
         },
     }
 
@@ -275,7 +275,7 @@ type ETLEvent struct {
 }
 
 func (p *Publisher) PublishETLEvent(ctx context.Context, event ETLEvent) error {
-    subject := fmt.Sprintf("medisync.etl.%s.completed", event.Source)
+    subject := fmt.Sprintf("AnySync.etl.%s.completed", event.Source)
     return p.Publish(ctx, subject, Event{
         ID:        uuid.New().String(),
         Type:      "etl.completed",
@@ -299,7 +299,7 @@ type DocumentEvent struct {
 }
 
 func (p *Publisher) PublishDocumentProcessed(ctx context.Context, event DocumentEvent) error {
-    subject := fmt.Sprintf("medisync.document.%s.%s", event.DocumentType, event.Status)
+    subject := fmt.Sprintf("AnySync.document.%s.%s", event.DocumentType, event.Status)
     return p.Publish(ctx, subject, Event{
         ID:        uuid.New().String(),
         Type:      "document.processed",
@@ -324,7 +324,7 @@ type TallySyncEvent struct {
 }
 
 func (p *Publisher) PublishTallySync(ctx context.Context, event TallySyncEvent) error {
-    subject := fmt.Sprintf("medisync.tally.sync.%s", event.Status)
+    subject := fmt.Sprintf("AnySync.tally.sync.%s", event.Status)
     return p.Publish(ctx, subject, Event{
         ID:        uuid.New().String(),
         Type:      "tally.sync",
@@ -380,7 +380,7 @@ func (s *Subscriber) SubscribeWithRetry(subject string, maxRetries int, handler 
 
 ```
 # Server configuration
-server_name: medisync-nats
+server_name: AnySync-nats
 listen: 0.0.0.0:4222
 
 # JetStream
@@ -394,7 +394,7 @@ jetstream {
 authorization {
     users: [
         {
-            user: medisync,
+            user: AnySync,
             password: $2a$11$...  # bcrypt hash
         }
     ]
@@ -402,7 +402,7 @@ authorization {
 
 # Clustering (for production)
 cluster {
-    name: medisync-cluster
+    name: AnySync-cluster
     listen: 0.0.0.0:6222
     routes: [
         nats://nats-1:6222

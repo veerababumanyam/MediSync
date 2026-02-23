@@ -1,4 +1,4 @@
--- MediSync Dashboard Advanced Features - Scheduled Reports Migration (Rollback)
+-- AnySync Dashboard Advanced Features - Scheduled Reports Migration (Rollback)
 -- Version: 013
 -- Description: Rollback scheduled_reports and scheduled_report_runs tables
 

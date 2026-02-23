@@ -1,4 +1,4 @@
-# MediSync Grafana Datasource Configuration
+# AnySync Grafana Datasource Configuration
 # Auto-provisioned on container startup
 
 apiVersion: 1
@@ -19,10 +19,10 @@ datasources:
   - name: PostgreSQL
     type: postgres
     url: postgres:5432
-    database: medisync
-    user: medisync
+    database: AnySync
+    user: AnySync
     secureJsonData:
-      password: medisync_dev_password
+      password: AnySync_dev_password
     jsonData:
       sslmode: disable
       maxOpenConns: 5

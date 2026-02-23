@@ -5,7 +5,7 @@ import (
 	"context"
 	"testing"
 
-	"github.com/medisync/medisync/internal/agents/module_a/a05_hallucination"
+	"github.com/AnySync/AnySync/internal/agents/module_a/a05_hallucination"
 )
 
 func TestHallucinationGuard_OnTopicQueries(t *testing.T) {

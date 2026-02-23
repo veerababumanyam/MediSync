@@ -1,7 +1,7 @@
 /**
  * WebMCP Service
  *
- * Handles registration of MediSync as a WebMCP-enabled application.
+ * Handles registration of AnySync as a WebMCP-enabled application.
  * WebMCP allows browser-based AI agents to discover and invoke tools
  * directly within the web application.
  *
@@ -59,7 +59,7 @@ class WebMCPService {
     private static hasLoggedSupportWarning = false;
 
     /**
-     * Register core MediSync tools for Chat functionality
+     * Register core AnySync tools for Chat functionality
      */
     public registerChatTools(callbacks: {
         onQuery: (query: string) => void;
@@ -79,7 +79,7 @@ class WebMCPService {
         // 1. Tool for querying BI
         this.registerTool({
             name: 'queryBI',
-            description: 'Execute a natural language query against MediSync BI data (e.g., "What was the revenue last month?")',
+            description: 'Execute a natural language query against AnySync BI data (e.g., "What was the revenue last month?")',
             parameters: {
                 type: 'object',
                 properties: {
@@ -92,7 +92,7 @@ class WebMCPService {
             },
             handler: async ({ query }) => {
                 callbacks.onQuery(query as string);
-                return { success: true, message: `Query "${query as string}" submitted to MediSync.` };
+                return { success: true, message: `Query "${query as string}" submitted to AnySync.` };
             }
         }, 'chat');
 
@@ -113,7 +113,7 @@ class WebMCPService {
         // 3. Tool for navigating to dashboards
         this.registerTool({
             name: 'showDashboard',
-            description: 'Navigate to a specific MediSync dashboard',
+            description: 'Navigate to a specific AnySync dashboard',
             parameters: {
                 type: 'object',
                 properties: {
@@ -130,7 +130,7 @@ class WebMCPService {
             }
         }, 'chat');
 
-        console.log('MediSync WebMCP Chat tools registered successfully.');
+        console.log('AnySync WebMCP Chat tools registered successfully.');
     }
 
     /**
@@ -268,7 +268,7 @@ class WebMCPService {
             }
         }, 'dashboard');
 
-        console.log('MediSync WebMCP Dashboard tools registered successfully.');
+        console.log('AnySync WebMCP Dashboard tools registered successfully.');
     }
 
     /**
@@ -288,7 +288,7 @@ class WebMCPService {
         // 1. Tool for navigation
         this.registerTool({
             name: 'navigate',
-            description: 'Navigate to a different page in MediSync',
+            description: 'Navigate to a different page in AnySync',
             parameters: {
                 type: 'object',
                 properties: {
@@ -340,7 +340,7 @@ class WebMCPService {
             }
         }, 'navigation');
 
-        console.log('MediSync WebMCP Navigation tools registered successfully.');
+        console.log('AnySync WebMCP Navigation tools registered successfully.');
     }
 
     /**
@@ -400,7 +400,7 @@ class WebMCPService {
             }
         }, 'reports');
 
-        console.log('MediSync WebMCP Reports tools registered successfully.');
+        console.log('AnySync WebMCP Reports tools registered successfully.');
     }
 
     /**
@@ -457,7 +457,7 @@ class WebMCPService {
             }
         }, 'alerts');
 
-        console.log('MediSync WebMCP Alerts tools registered successfully.');
+        console.log('AnySync WebMCP Alerts tools registered successfully.');
     }
 
     /**

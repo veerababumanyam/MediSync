@@ -6,7 +6,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/medisync/medisync/internal/agents/module_e/e02_translation"
+	"github.com/AnySync/AnySync/internal/agents/module_e/e02_translation"
 )
 
 func TestQueryTranslation_ArabicToEnglish(t *testing.T) {

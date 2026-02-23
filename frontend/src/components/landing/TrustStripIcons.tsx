@@ -83,14 +83,14 @@ interface TrustStripIconProps extends TrustIconProps {
 }
 
 const TRUST_BRAND_COLORS: Record<keyof typeof TRUST_STRIP_ICONS, { light: string; dark: string }> = {
-  item1: { light: '#0056D2', dark: '#60A5FA' }, // HIMS
-  item2: { light: '#0E7490', dark: '#22D3EE' }, // LIMS
-  item3: { light: '#1E3A8A', dark: '#93C5FD' }, // Tally
-  item4: { light: '#7C3AED', dark: '#C4B5FD' }, // SQL
-  item5: { light: '#0F766E', dark: '#5EEAD4' }, // Custom API
-  item6: { light: '#C2410C', dark: '#FDBA74' }, // Oracle
-  item7: { light: '#15803D', dark: '#86EFAC' }, // SAP
-  item8: { light: '#BE185D', dark: '#F9A8D4' }, // REST/GraphQL
+  item1: { light: 'var(--trust-hims)', dark: 'var(--trust-hims-dark)' }, // HIMS
+  item2: { light: 'var(--trust-lims)', dark: 'var(--trust-lims-dark)' }, // LIMS
+  item3: { light: 'var(--trust-tally)', dark: 'var(--trust-tally-dark)' }, // Tally
+  item4: { light: 'var(--trust-sql)', dark: 'var(--trust-sql-dark)' }, // SQL
+  item5: { light: 'var(--trust-api)', dark: 'var(--trust-api-dark)' }, // Custom API
+  item6: { light: 'var(--trust-oracle)', dark: 'var(--trust-oracle-dark)' }, // Oracle
+  item7: { light: 'var(--trust-sap)', dark: 'var(--trust-sap-dark)' }, // SAP
+  item8: { light: 'var(--trust-graphql)', dark: 'var(--trust-graphql-dark)' }, // REST/GraphQL
 }
 
 export function getTrustBrandColor(itemKey: keyof typeof TRUST_STRIP_ICONS, isDark: boolean): string {

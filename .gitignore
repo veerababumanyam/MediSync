@@ -1,4 +1,4 @@
-# MediSync Git Ignore Configuration
+# AnySync Git Ignore Configuration
 
 # =============================================================================
 # Environment Files
@@ -82,9 +82,8 @@ credentials/
 *.dump
 
 # =============================================================================
-# Temporary files
+# Agent specific files
 # =============================================================================
-*.tmp
-*.temp
-*.bak
-*.backup
+.gemini/
+.playwright-mcp/
+.claude/

@@ -1,4 +1,4 @@
-# MediSync Agent ID Mapping Reference
+# AnySync Agent ID Mapping Reference
 
 Use this index to quickly locate specific agent logic and documentation.
 

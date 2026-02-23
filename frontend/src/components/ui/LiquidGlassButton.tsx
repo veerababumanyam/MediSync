@@ -2,20 +2,20 @@
  * Liquid Glass Button Component
  *
  * Premium iOS-inspired glassmorphic button with liquid animations,
- * dynamic lighting effects, and WCAG 3.0 Bronze compliance.
+ * dynamic lighting effects, and WCAG 3.0 Gold focus compliance.
  *
  * Features:
  * - Multiple visual variants (glass, primary, secondary, ghost)
  * - Liquid hover animations (lift, glow, ripple)
  * - Branded color variants using logo colors
- * - Focus indicators for keyboard navigation
+ * - WCAG 3.0 Gold focus indicators for keyboard navigation
  * - Loading state with spinner
  * - Icon support with positioning
  * - Reduced motion support
  * - RTL support
  *
  * @module components/ui/LiquidGlassButton
- * @version 2.0.0
+ * @version 2.1.0
  */
 
 import React, { forwardRef, useState, useCallback, type ComponentProps } from 'react'
@@ -30,14 +30,14 @@ type MotionButtonProps = ComponentProps<typeof motion.button>
  * Liquid glass button variant definitions
  */
 const liquidButtonVariants = cva(
-  // Base classes - focus-visible uses global CSS :focus-visible from globals.css
-  'liquid-glass-button inline-flex items-center justify-center gap-2 font-medium transition-all duration-200 focus-visible:outline-[3px] focus-visible:outline-offset-[3px] focus-visible:outline-[var(--color-trust-blue)] dark:focus-visible:outline-cyan-400 disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none min-h-[44px] min-w-[44px]',
+  // Base classes - WCAG 3.0 Gold focus indicator
+  'liquid-glass-button inline-flex items-center justify-center gap-2 font-medium transition-all duration-200 liquid-focus-gold disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none min-h-[44px] min-w-[44px]',
   {
     variants: {
       // Button style variants
       variant: {
         // Glass button with transparent background - theme-aware text (legacy)
-        glass: 'liquid-glass px-4 py-2 text-slate-700 dark:text-white hover:text-slate-900 dark:hover:text-white',
+        glass: 'liquid-glass px-4 py-2 text-secondary hover:text-primary dark:text-neutral-100 dark:hover:text-neutral-50',
         // iOS 26-style prominent glass for headers/navigation - enhanced visibility
         prominent: 'liquid-glass-button-prominent',
         // Primary button with brand gradient
@@ -47,7 +47,7 @@ const liquidButtonVariants = cva(
         // Ghost button (minimal styling) - uses semantic text-secondary token
         ghost: 'px-4 py-2 text-secondary hover:bg-surface-glass rounded-lg',
         // Danger button
-        danger: 'px-5 py-2.5 bg-red-500 text-white hover:bg-red-600 rounded-lg shadow-lg shadow-red-500/25',
+        danger: 'px-5 py-2.5 bg-error text-white hover:opacity-90 rounded-lg shadow-lg shadow-error/20',
       },
       // Size variants
       size: {

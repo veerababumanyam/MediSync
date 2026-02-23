@@ -1,10 +1,10 @@
-# MediSync Technology Stack & Version Review
+# AnySync Technology Stack & Version Review
 *Last Updated: 2026-02-22*
 
-This document provides a comprehensive overview of the current MediSync technology stack, comparing established versions against the latest stable releases as of February 2026.
+This document provides a comprehensive overview of the current AnySync technology stack, comparing established versions against the latest stable releases as of February 2026.
 
 ## 🚀 Overview
-MediSync is built on a modern, high-performance stack focusing on scalability, AI-readiness, and developer experience. The project maintains a "bleeding-edge yet stable" philosophy.
+AnySync is built on a modern, high-performance stack focusing on scalability, AI-readiness, and developer experience. The project maintains a "bleeding-edge yet stable" philosophy.
 
 ---
 
@@ -40,7 +40,7 @@ The backend is powered by Go, utilizing a high-performance concurrent architectu
 ---
 
 ## 🏗️ Infrastructure & DevOps
-MediSync uses a containerized architecture with a focus on vector-enabled search and robust event streaming.
+AnySync uses a containerized architecture with a focus on vector-enabled search and robust event streaming.
 
 | Component | Current Version | Latest Stable | Image Tag / Version | Recommendation |
 | :--- | :--- | :--- | :--- | :--- |
@@ -61,7 +61,7 @@ MediSync uses a containerized architecture with a focus on vector-enabled search
 
 ## 🎯 Strategic Recommendations
 1. **Frontend**: Prioritize the **Tailwind CSS v4** upgrade. The new engine significantly reduces build times and simplifies configuration.
-2. **Infrastructure**: Schedule a migration for **PostgreSQL 18.2**. While v16 is stable, v18 offers critical optimizations for the scale of data MediSync handles.
+2. **Infrastructure**: Schedule a migration for **PostgreSQL 18.2**. While v16 is stable, v18 offers critical optimizations for the scale of data AnySync handles.
 3. **Monitoring**: The jump from **Prometheus 2.x to 3.x** is significant. This should be tested thoroughly in a staging environment before production rollout.
 4. **Security**: Keeping **Keycloak** updated to v26.x is essential for maintaining the latest security patches and identity protocols.
 

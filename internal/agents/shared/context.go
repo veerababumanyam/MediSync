@@ -1,4 +1,4 @@
-// Package shared provides shared utilities for AI agents in MediSync.
+// Package shared provides shared utilities for AI agents in AnySync.
 //
 // This file implements the AgentContext which carries user context through
 // all agent operations, including locale-aware prompting helpers.

@@ -1,7 +1,7 @@
-# Comprehensive Audit Logging Policy for MediSync
+# Comprehensive Audit Logging Policy for AnySync
 # This policy demonstrates audit logging, compliance, and security patterns
 
-package medisync.audit
+package AnySync.audit
 
 import future.keywords.if
 import future.keywords.in
@@ -356,16 +356,16 @@ notification_recipients := recipients if {
 
     # Notify compliance for PHI access
     if contains_phi then {
-        recipients := array.concat(recipients, ["compliance@medisync.io"])
+        recipients := array.concat(recipients, ["compliance@AnySync.io"])
     }
 
     # Notify finance for high-value syncs
     if input.action == "sync" and is_high_value_operation then {
-        recipients := array.concat(recipients, ["finance@medisync.io"])
+        recipients := array.concat(recipients, ["finance@AnySync.io"])
     }
 
     # Notify security for suspicious patterns
     if input.context.suspicious_activity == true then {
-        recipients := array.concat(recipients, ["security@medisync.io"])
+        recipients := array.concat(recipients, ["security@AnySync.io"])
     }
 }

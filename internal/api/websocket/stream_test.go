@@ -1,4 +1,4 @@
-// Package websocket provides WebSocket utilities for the MediSync API.
+// Package websocket provides WebSocket utilities for the AnySync API.
 //
 // This file contains tests for the stream handler.
 package websocket

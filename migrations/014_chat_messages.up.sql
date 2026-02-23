@@ -1,4 +1,4 @@
--- MediSync Dashboard Advanced Features - Chat Messages Migration
+-- AnySync Dashboard Advanced Features - Chat Messages Migration
 -- Version: 014
 -- Description: Create chat_messages table for conversation history
 -- Task: T005
@@ -43,9 +43,9 @@ COMMENT ON TABLE app.chat_messages IS 'Chat messages for conversation history wi
 -- GRANT PERMISSIONS
 -- ============================================================================
 
-GRANT SELECT ON app.chat_messages TO medisync_readonly;
-GRANT SELECT, INSERT, UPDATE, DELETE ON app.chat_messages TO medisync_app;
-GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA app TO medisync_app;
+GRANT SELECT ON app.chat_messages TO AnySync_readonly;
+GRANT SELECT, INSERT, UPDATE, DELETE ON app.chat_messages TO AnySync_app;
+GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA app TO AnySync_app;
 
 -- ============================================================================
 -- END OF MIGRATION

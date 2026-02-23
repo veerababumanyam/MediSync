@@ -5,7 +5,7 @@ import (
 	"context"
 	"testing"
 
-	"github.com/medisync/medisync/internal/agents/module_e/e01_language"
+	"github.com/AnySync/AnySync/internal/agents/module_e/e01_language"
 )
 
 func TestLanguageDetection_English(t *testing.T) {
@@ -123,7 +123,7 @@ func TestLanguageDetection_MixedContent(t *testing.T) {
 		},
 		{
 			name:        "Arabic with English brand name",
-			query:       "أظهر إيرادات MediSync",
+			query:       "أظهر إيرادات AnySync",
 			expectedMin: 0.7,
 		},
 	}

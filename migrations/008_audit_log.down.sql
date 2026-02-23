@@ -1,4 +1,4 @@
--- MediSync AI Agent Core - AI Audit Log Migration (Rollback)
+-- AnySync AI Agent Core - AI Audit Log Migration (Rollback)
 -- Version: 008
 -- Description: Rollback AI-specific audit log table for AI Agent Core
 -- Task: T011
@@ -11,14 +11,14 @@
 -- REVOKE PERMISSIONS
 -- ============================================================================
 
-REVOKE SELECT ON app.ai_audit_log FROM medisync_readonly;
-REVOKE SELECT, INSERT ON app.ai_audit_log FROM medisync_app;
+REVOKE SELECT ON app.ai_audit_log FROM AnySync_readonly;
+REVOKE SELECT, INSERT ON app.ai_audit_log FROM AnySync_app;
 
-REVOKE EXECUTE ON FUNCTION app.log_ai_action(UUID, UUID, VARCHAR, VARCHAR, UUID, JSONB, INET, TEXT) FROM medisync_app;
-REVOKE EXECUTE ON FUNCTION app.get_query_audit_trail(UUID) FROM medisync_app;
-REVOKE EXECUTE ON FUNCTION app.get_query_audit_trail(UUID) FROM medisync_readonly;
-REVOKE EXECUTE ON FUNCTION app.get_tenant_audit_summary(UUID, TIMESTAMPTZ, TIMESTAMPTZ) FROM medisync_app;
-REVOKE EXECUTE ON FUNCTION app.get_tenant_audit_summary(UUID, TIMESTAMPTZ, TIMESTAMPTZ) FROM medisync_readonly;
+REVOKE EXECUTE ON FUNCTION app.log_ai_action(UUID, UUID, VARCHAR, VARCHAR, UUID, JSONB, INET, TEXT) FROM AnySync_app;
+REVOKE EXECUTE ON FUNCTION app.get_query_audit_trail(UUID) FROM AnySync_app;
+REVOKE EXECUTE ON FUNCTION app.get_query_audit_trail(UUID) FROM AnySync_readonly;
+REVOKE EXECUTE ON FUNCTION app.get_tenant_audit_summary(UUID, TIMESTAMPTZ, TIMESTAMPTZ) FROM AnySync_app;
+REVOKE EXECUTE ON FUNCTION app.get_tenant_audit_summary(UUID, TIMESTAMPTZ, TIMESTAMPTZ) FROM AnySync_readonly;
 
 -- ============================================================================
 -- DROP POLICIES AND DISABLE RLS

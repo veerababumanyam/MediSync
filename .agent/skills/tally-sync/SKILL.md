@@ -1,14 +1,14 @@
 ---
 name: tally-sync
-description: Push approved transactions from the MediSync platform into Tally ERP via TDL XML API. Safe, idempotent, and auditable synchronization.
+description: Push approved transactions from the AnySync platform into Tally ERP via TDL XML API. Safe, idempotent, and auditable synchronization.
 ---
 
 # Tally Sync Skill
 
-Guidelines for synchronizing approved financial data from MediSync to Tally Prime/ERP 9.
+Guidelines for synchronizing approved financial data from AnySync to Tally Prime/ERP 9.
 
 > [!NOTE]
-> For detailed XML/JSON API structures and Tally Gateway configuration, refer to the [Tally Developer Reference](file:///Users/v13478/Desktop/MediSync/References/tally-reference.md).
+> For detailed XML/JSON API structures and Tally Gateway configuration, refer to the [Tally Developer Reference](file:///Users/v13478/Desktop/AnySync/References/tally-reference.md).
 
 ## Integration Architecture
 

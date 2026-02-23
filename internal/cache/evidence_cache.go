@@ -36,8 +36,8 @@ import (
 	"log/slog"
 	"time"
 
-	"github.com/medisync/medisync/internal/agents/council"
-	"github.com/medisync/medisync/internal/warehouse"
+	"github.com/AnySync/AnySync/internal/agents/council"
+	"github.com/AnySync/AnySync/internal/warehouse"
 	"github.com/redis/go-redis/v9"
 )
 

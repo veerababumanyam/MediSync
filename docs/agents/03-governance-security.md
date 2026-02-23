@@ -1,4 +1,4 @@
-# MediSync — Governance & Security Design
+# AnySync — Governance & Security Design
 
 **Version:** 1.0 | **Created:** February 19, 2026  
 **Cross-ref:** [PRD.md §10, §14](../PRD.md) | [00-agent-backlog.md](./00-agent-backlog.md)
@@ -19,7 +19,7 @@ These two requirements are **compatible** when properly scoped:
 
 | Constraint | Scope | Resolution |
 |------------|-------|-----------|
-| AI read-only | **Data Warehouse (PostgreSQL)** | AI agents connect with a `medisync_readonly` Postgres role that has GRANT SELECT only. No INSERT/UPDATE/DELETE is possible at the DB driver level. |
+| AI read-only | **Data Warehouse (PostgreSQL)** | AI agents connect with a `AnySync_readonly` Postgres role that has GRANT SELECT only. No INSERT/UPDATE/DELETE is possible at the DB driver level. |
 | Write to Tally | **Tally ERP via TDL XML API** | Tally sync is **not** a warehouse write — it is an integration write over HTTP/TDL. This path is controlled by a separate policy layer and **always requires explicit human approval** (B-08 → B-09 pipeline). |
 
 **Architecture principle:** Separate the data intelligence plane (read-only warehouse) from the transactional action plane (Tally write-back). Connect them **only** through the human-approved workflow gate.
@@ -28,7 +28,7 @@ These two requirements are **compatible** when properly scoped:
 ┌──────────────────────────────────────────┐
 │          INTELLIGENCE PLANE              │
 │  (AI Agents + Read-only Warehouse)       │
-│  Postgres role: medisync_readonly        │
+│  Postgres role: AnySync_readonly        │
 │  OPA policy: block all DML               │
 └─────────────────────┬────────────────────┘
                       │ READ ONLY
@@ -59,7 +59,7 @@ These two requirements are **compatible** when properly scoped:
 
 All user authentication is handled by **Keycloak**:
 
-- **SSO:** Single sign-on across all MediSync modules (BI Dashboard, AI Accountant, Easy Reports).
+- **SSO:** Single sign-on across all AnySync modules (BI Dashboard, AI Accountant, Easy Reports).
 - **2FA:** TOTP-based 2FA mandatory for all Finance and Admin roles.
 - **JWT Claims:** Every API request carries a signed JWT containing `user_id`, `roles[]`, `department`, `cost_centres[]`.
 - **Session Management:** 8-hour session tokens; refresh tokens valid for 30 days; force-logout on role change.
@@ -88,7 +88,7 @@ All authorization decisions are delegated to **Open Policy Agent (OPA)** running
 ```
 Agent API Request
   → API Gateway (FastAPI)
-  → OPA Sidecar: POST /v1/data/medisync/authz/allow
+  → OPA Sidecar: POST /v1/data/AnySync/authz/allow
       → Policy bundle (Rego rules)
       → User context (JWT claims)
       → Request context (resource, action)
@@ -99,10 +99,10 @@ Agent API Request
 ### 3.2 Core Rego Policies
 
 ```rego
-# medisync/policies/bi_readonly.rego
+# AnySync/policies/bi_readonly.rego
 # Enforce read-only access to the data warehouse for all BI agents
 
-package medisync.bi
+package AnySync.bi
 
 default allow = false
 
@@ -121,11 +121,11 @@ contains_dml(sql) {
 ```
 
 ```rego
-# medisync/policies/tally_sync.rego
+# AnySync/policies/tally_sync.rego
 # Only finance_head or accountant_lead may trigger Tally sync
 # Self-approval is blocked
 
-package medisync.tally
+package AnySync.tally
 
 default allow = false
 
@@ -158,10 +158,10 @@ self_approved(user, wf_id) {
 ```
 
 ```rego
-# medisync/policies/row_level_security.rego
+# AnySync/policies/row_level_security.rego
 # Users only see data relevant to their department / cost-centre
 
-package medisync.data
+package AnySync.data
 
 default row_filter = {}
 
@@ -275,12 +275,12 @@ CREATE RULE no_delete_audit AS ON DELETE TO audit_log DO INSTEAD NOTHING;
 ### 6.1 AI Read-Only Boundary (BI Agents)
 
 ```
-Network Policy: medisync_readonly Postgres role
-  GRANT SELECT ON ALL TABLES IN SCHEMA public TO medisync_readonly;
-  REVOKE INSERT, UPDATE, DELETE, TRUNCATE ON ALL TABLES IN SCHEMA public FROM medisync_readonly;
+Network Policy: AnySync_readonly Postgres role
+  GRANT SELECT ON ALL TABLES IN SCHEMA public TO AnySync_readonly;
+  REVOKE INSERT, UPDATE, DELETE, TRUNCATE ON ALL TABLES IN SCHEMA public FROM AnySync_readonly;
 ```
 
-The `medisync_readonly` role is enforced at the **database level** — not just in application code. Even if an agent generates an INSERT statement, the database will reject it.
+The `AnySync_readonly` role is enforced at the **database level** — not just in application code. Even if an agent generates an INSERT statement, the database will reject it.
 
 ### 6.2 Confidence-Based Routing
 
@@ -311,7 +311,7 @@ On assertion failure: log to audit trail, return error to user, never execute.
 
 ## 7. Tally Write-Back — Full Security Flow
 
-This is the highest-risk operation in MediSync. The complete security chain:
+This is the highest-risk operation in AnySync. The complete security chain:
 
 ```
 User clicks "Approve" (B-08)

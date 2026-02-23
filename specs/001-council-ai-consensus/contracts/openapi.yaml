@@ -14,7 +14,7 @@ info:
     - `admin`: Can view all deliberations and audit trails
   version: 1.0.0
   contact:
-    name: MediSync Engineering
+    name: AnySync Engineering
 
 servers:
   - url: /api/v1/council

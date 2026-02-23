@@ -1,8 +1,8 @@
 {
-  "realm": "medisync",
+  "realm": "AnySync",
   "enabled": true,
-  "displayName": "MediSync",
-  "displayNameHtml": "<strong>MediSync</strong>",
+  "displayName": "AnySync",
+  "displayNameHtml": "<strong>AnySync</strong>",
   "sslRequired": "none",
   "registrationAllowed": false,
   "loginWithEmailAllowed": true,
@@ -76,7 +76,7 @@
       }
     ],
     "client": {
-      "medisync-app": [
+      "AnySync-app": [
         {
           "name": "query_hims",
           "description": "Permission to query HIMS data"
@@ -132,9 +132,9 @@
   ],
   "clients": [
     {
-      "clientId": "medisync-app",
-      "name": "MediSync Application",
-      "description": "Main MediSync web application",
+      "clientId": "AnySync-app",
+      "name": "AnySync Application",
+      "description": "Main AnySync web application",
       "enabled": true,
       "publicClient": true,
       "directAccessGrantsEnabled": true,
@@ -169,8 +169,8 @@
       ]
     },
     {
-      "clientId": "medisync-etl",
-      "name": "MediSync ETL Service",
+      "clientId": "AnySync-etl",
+      "name": "AnySync ETL Service",
       "description": "ETL service for data synchronization",
       "enabled": true,
       "publicClient": false,
@@ -184,7 +184,7 @@
   "users": [
     {
       "username": "admin",
-      "email": "admin@medisync.local",
+      "email": "admin@AnySync.local",
       "enabled": true,
       "emailVerified": true,
       "firstName": "System",
@@ -198,12 +198,12 @@
       ],
       "realmRoles": ["admin"],
       "clientRoles": {
-        "medisync-app": ["query_hims", "query_tally", "export_data", "approve_workflows", "manage_users"]
+        "AnySync-app": ["query_hims", "query_tally", "export_data", "approve_workflows", "manage_users"]
       }
     },
     {
       "username": "analyst",
-      "email": "analyst@medisync.local",
+      "email": "analyst@AnySync.local",
       "enabled": true,
       "emailVerified": true,
       "firstName": "Demo",
@@ -217,12 +217,12 @@
       ],
       "realmRoles": ["analyst"],
       "clientRoles": {
-        "medisync-app": ["query_hims", "query_tally", "export_data"]
+        "AnySync-app": ["query_hims", "query_tally", "export_data"]
       }
     },
     {
       "username": "viewer",
-      "email": "viewer@medisync.local",
+      "email": "viewer@AnySync.local",
       "enabled": true,
       "emailVerified": true,
       "firstName": "Demo",
@@ -236,20 +236,20 @@
       ],
       "realmRoles": ["viewer"],
       "clientRoles": {
-        "medisync-app": ["query_hims", "query_tally"]
+        "AnySync-app": ["query_hims", "query_tally"]
       }
     }
   ],
   "scopeMappings": [
     {
-      "client": "medisync-app",
+      "client": "AnySync-app",
       "roles": ["admin", "analyst", "viewer"]
     }
   ],
   "clientScopeMappings": {
-    "medisync-app": [
+    "AnySync-app": [
       {
-        "client": "medisync-app",
+        "client": "AnySync-app",
         "roles": ["query_hims", "query_tally"]
       }
     ]

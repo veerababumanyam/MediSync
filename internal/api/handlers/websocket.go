@@ -1,4 +1,4 @@
-// Package handlers provides HTTP handlers for the MediSync API.
+// Package handlers provides HTTP handlers for the AnySync API.
 //
 // This file implements the WebSocket handler for real-time bidirectional chat.
 // It handles GET /v1/ws/chat requests for WebSocket connections.
@@ -13,7 +13,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/medisync/medisync/internal/warehouse"
+	"github.com/AnySync/AnySync/internal/warehouse"
 
 	"github.com/google/uuid"
 	"github.com/gorilla/websocket"

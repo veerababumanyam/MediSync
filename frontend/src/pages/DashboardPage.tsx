@@ -73,9 +73,9 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({ className = '' }) 
 
   // Update document title
   useEffect(() => {
-    document.title = `${t('pageTitle', 'Dashboard')} | MediSync`
+    document.title = `${t('pageTitle', 'Dashboard')} | AnySync`
     return () => {
-      document.title = 'MediSync'
+      document.title = 'AnySync'
     }
   }, [t])
 
@@ -153,7 +153,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({ className = '' }) 
       // WebMCP declarative attributes for dashboard container
       {...({
         'tool-name': 'medi-dashboard',
-        'tool-description': 'The main dashboard for viewing pinned charts and business insights in MediSync',
+        'tool-description': 'The main dashboard for viewing pinned charts and business insights in AnySync',
       } as { 'tool-name': string; 'tool-description': string })}
     >
       {/* Animated Background */}
@@ -168,64 +168,82 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({ className = '' }) 
       />
 
       {/* Main Content */}
-      <main id="main-content" tabIndex={-1} className="max-w-7xl mx-auto p-4 md:p-6 space-y-6" aria-busy={isLoading}>
+      <main id="main-content" tabIndex={-1} className="max-w-7xl mx-auto main-content-top px-4 md:px-6 pb-4 md:pb-6 space-y-6" aria-busy={isLoading}>
         {/* KPI Cards Section */}
         <FadeIn>
           <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {/* Revenue Card */}
-            <GlassBrandCard interactive className="p-4">
+            <GlassBrandCard interactive className="p-4 animate-liquid-fade-in" style={{ animationDelay: '0ms' }}>
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-logo-blue to-logo-teal flex items-center justify-center text-xl" aria-hidden="true">
+                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-logo-blue to-logo-teal flex items-center justify-center text-xl shadow-lg animate-pulse-slow" aria-hidden="true">
                   💰
                 </div>
                 <div>
-                  <p className="text-sm liquid-text-secondary">Revenue</p>
+                  <p className="text-sm liquid-text-secondary font-medium">Revenue</p>
                   <p className="text-2xl font-bold liquid-text-primary">$124,500</p>
                 </div>
               </div>
-              <div className="mt-2 text-sm text-emerald-400"><span aria-hidden="true">↑</span> Up 12% from last month</div>
+              <div className="mt-3 flex items-center gap-2">
+                <span className="inline-flex items-center px-2 py-1 rounded-md bg-emerald-500/20 text-emerald-400 text-xs font-semibold">
+                  <span aria-hidden="true">↑</span> 12%
+                </span>
+                <span className="text-xs liquid-text-secondary">from last month</span>
+              </div>
             </GlassBrandCard>
 
             {/* Patients Card */}
-            <GlassTealCard interactive className="p-4">
+            <GlassTealCard interactive className="p-4 animate-liquid-fade-in" style={{ animationDelay: '100ms' }}>
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-logo-teal to-[rgba(24,146,157,0.5)] flex items-center justify-center text-xl" aria-hidden="true">
+                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-brand-secondary to-brand-secondary/50 flex items-center justify-center text-xl shadow-glow-secondary animate-pulse-slow" style={{ animationDelay: '500ms' }} aria-hidden="true">
                   👥
                 </div>
                 <div>
-                  <p className="text-sm liquid-text-secondary">Patients Today</p>
+                  <p className="text-sm liquid-text-secondary font-medium">Patients Today</p>
                   <p className="text-2xl font-bold liquid-text-primary">248</p>
                 </div>
               </div>
-              <div className="mt-2 text-sm text-emerald-400"><span aria-hidden="true">↑</span> Up 8% from yesterday</div>
+              <div className="mt-3 flex items-center gap-2">
+                <span className="inline-flex items-center px-2 py-1 rounded-md bg-emerald-500/20 text-emerald-400 text-xs font-semibold">
+                  <span aria-hidden="true">↑</span> 8%
+                </span>
+                <span className="text-xs liquid-text-secondary">from yesterday</span>
+              </div>
             </GlassTealCard>
 
             {/* Appointments Card */}
-            <GlassBlueCard interactive className="p-4">
+            <GlassBlueCard interactive className="p-4 animate-liquid-fade-in" style={{ animationDelay: '200ms' }}>
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-logo-blue to-[rgba(39,80,168,0.5)] flex items-center justify-center text-xl" aria-hidden="true">
+                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-brand-primary to-brand-primary/50 flex items-center justify-center text-xl shadow-glow-primary animate-pulse-slow" style={{ animationDelay: '1000ms' }} aria-hidden="true">
                   📅
                 </div>
                 <div>
-                  <p className="text-sm liquid-text-secondary">Appointments</p>
+                  <p className="text-sm liquid-text-secondary font-medium">Appointments</p>
                   <p className="text-2xl font-bold liquid-text-primary">56</p>
                 </div>
               </div>
-              <div className="mt-2 text-sm text-blue-400">12 pending confirmation</div>
+              <div className="mt-3 flex items-center gap-2">
+                <span className="inline-flex items-center px-2 py-1 rounded-md bg-blue-500/20 text-blue-400 text-xs font-semibold">
+                  ⏱ 12 pending
+                </span>
+              </div>
             </GlassBlueCard>
 
             {/* Inventory Card */}
-            <GlassGreenCard interactive className="p-4">
+            <GlassGreenCard interactive className="p-4 animate-liquid-fade-in" style={{ animationDelay: '300ms' }}>
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-green-500 to-emerald-400 flex items-center justify-center text-xl" aria-hidden="true">
+                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-green-500 to-emerald-400 flex items-center justify-center text-xl shadow-glow-success animate-pulse-slow" style={{ animationDelay: '1500ms' }} aria-hidden="true">
                   📦
                 </div>
                 <div>
-                  <p className="text-sm liquid-text-secondary">Low Stock Items</p>
+                  <p className="text-sm liquid-text-secondary font-medium">Low Stock Items</p>
                   <p className="text-2xl font-bold liquid-text-primary">7</p>
                 </div>
               </div>
-              <div className="mt-2 text-sm text-amber-400">Requires attention</div>
+              <div className="mt-3 flex items-center gap-2">
+                <span className="inline-flex items-center px-2 py-1 rounded-md bg-amber-500/20 text-amber-400 text-xs font-semibold">
+                  ⚠ Requires attention
+                </span>
+              </div>
             </GlassGreenCard>
           </section>
         </FadeIn>
@@ -280,7 +298,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({ className = '' }) 
           ) : null}
         </div>
 
-        {/* Quick Actions Section - Glass Effect */}
+        {/* Quick Actions Section - Pronounced Glass Effect */}
         <FadeIn>
           <section
             className="mt-6"
@@ -290,9 +308,9 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({ className = '' }) 
               'tool-description': 'Quick action buttons to explore common business queries',
             } as { 'tool-name': string; 'tool-description': string })}
           >
-            <LiquidGlassCard intensity="medium" elevation="raised" className="p-6">
+            <LiquidGlassCard intensity="pronounced" elevation="floating" className="p-6">
               <div className="flex items-center gap-3 mb-6">
-                <div className="w-10 h-10 rounded-xl liquid-glass-brand flex items-center justify-center">
+                <div className="w-10 h-10 rounded-xl liquid-glass-brand flex items-center justify-center shadow-md animate-pulse-slow">
                   <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                     <path
                       strokeLinecap="round"
@@ -385,7 +403,7 @@ const QuickActionButton: React.FC<QuickActionButtonProps> = ({
   return (
     <a
       href={href}
-      className="liquid-glass flex items-center gap-3 p-4 rounded-xl hover:shadow-lg hover:shadow-blue-500/10 transition-all duration-200 group"
+      className="liquid-glass-pronounced liquid-glass-hover-lift liquid-focus-gold flex items-center gap-3 p-4 rounded-xl hover:shadow-lg hover:shadow-teal-500/20 transition-all duration-300 group"
       aria-label={ariaLabel || label}
       // WebMCP declarative attributes
       {...(toolName ? {
@@ -393,8 +411,8 @@ const QuickActionButton: React.FC<QuickActionButtonProps> = ({
         'tool-description': toolDescription || label,
       } as { 'tool-name': string; 'tool-description': string } : {})}
     >
-      <span className="text-2xl" aria-hidden="true">{icon}</span>
-      <span className="text-sm font-medium liquid-text-primary group-hover:text-blue-400 transition-colors">
+      <span className="text-2xl transition-transform duration-300 group-hover:scale-110" aria-hidden="true">{icon}</span>
+      <span className="text-sm font-medium liquid-text-primary group-hover:text-logo-teal transition-colors">
         {label}
       </span>
     </a>

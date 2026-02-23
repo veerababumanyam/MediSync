@@ -1,4 +1,4 @@
-// Package handlers provides HTTP handlers for the MediSync API.
+// Package handlers provides HTTP handlers for the AnySync API.
 //
 // This file implements the alert rules and notification management endpoints.
 package handlers
@@ -12,8 +12,8 @@ import (
 
 	"github.com/go-chi/chi/v5"
 	"github.com/google/uuid"
-	"github.com/medisync/medisync/internal/warehouse"
-	"github.com/medisync/medisync/internal/warehouse/models"
+	"github.com/AnySync/AnySync/internal/warehouse"
+	"github.com/AnySync/AnySync/internal/warehouse/models"
 )
 
 // AlertsHandler handles alert rules and notification endpoints.

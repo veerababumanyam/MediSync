@@ -1,4 +1,4 @@
-// Package websocket provides WebSocket utilities for the MediSync API.
+// Package websocket provides WebSocket utilities for the AnySync API.
 //
 // This file implements chunked streaming support for WebSocket connections,
 // enabling efficient transfer of large datasets with progress tracking.

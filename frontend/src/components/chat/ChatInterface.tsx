@@ -198,8 +198,8 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
       {/* Visually hidden H1 for proper heading hierarchy */}
       <h1 className="sr-only">{t('pageTitle')}</h1>
 
-      {/* Utility Row - Liquid Glass Subtle */}
-      <div className="liquid-glass-subtle border-b border-white/10 dark:border-white/5">
+      {/* Utility Row - Pronounced Glass */}
+      <div className="liquid-glass-pronounced border-b border-glass-soft animate-liquid-fade-in">
         <ChatHeader
           onNewSession={handleNewSession}
         />
@@ -210,21 +210,20 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
         {messages.length === 0 && !streaming.isStreaming ? (
           <FadeIn>
             <div className="flex flex-col items-center justify-center h-full text-center">
-              {/* Welcome Card - iOS 26 Liquid Glass */}
-              <div className="liquid-glass-content-card p-8 max-w-2xl mb-8">
+              {/* Welcome Card - iOS 26 Pronounced Glass */}
+              <div className="liquid-glass-pronounced liquid-glass-brand liquid-glass-hover-lift p-8 max-w-2xl mb-8 shadow-lg animate-liquid-fade-in">
                 {/* AI Icon with Brand Gradient */}
-                <div className="w-12 h-12 rounded-xl flex items-center justify-center mx-auto mb-6 shadow-lg" style={{
-                  background: 'linear-gradient(135deg, #2750a8 0%, #18929d 100%)',
-                  boxShadow: '0 8px 24px rgba(39, 80, 168, 0.3)'
+                <div className="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-glass-elevated animate-float-slow" style={{
+                  background: 'var(--gradient-logo-spectrum)',
                 }}>
-                  <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                  <svg className="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
                   </svg>
                 </div>
-                <h2 className="hero-gradient-text text-xl font-semibold mb-4">
+                <h2 className="hero-gradient-text text-2xl font-semibold mb-4">
                   {t('welcome.title')}
                 </h2>
-                <p className="liquid-text-secondary mb-8 max-w-md mx-auto">
+                <p className="text-secondary mb-8 max-w-md mx-auto text-base leading-relaxed">
                   {t('welcome.subtitle')}
                 </p>
                 <StaggerChildren className="w-full">
@@ -251,15 +250,15 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
             {error && (
               <FadeIn>
                 <div
-                  className="liquid-glass-content-card mt-4 p-4 border-s-4 border-s-red-500"
+                  className="liquid-glass-pronounced mt-4 p-4 border-s-4 border-s-error shadow-md"
                   role="alert"
                   aria-live="assertive"
                 >
                   <div className="flex items-center gap-3">
-                    <svg className="w-5 h-5 text-red-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                    <svg className="w-5 h-5 text-error shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
-                    <span className="text-red-600 dark:text-red-400 flex-1">{error}</span>
+                    <span className="text-error flex-1 font-medium">{error}</span>
                   </div>
                 </div>
               </FadeIn>
@@ -269,8 +268,8 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
         )}
       </div>
 
-      {/* Input Area - Liquid Glass */}
-      <div className="liquid-glass-light border-t border-white/20 dark:border-white/10 p-4">
+      {/* Input Area - Pronounced Glass */}
+      <div className="liquid-glass-pronounced border-t border-glass-soft p-4">
         <ChatInput
           onSend={handleSendMessage}
           disabled={streaming.isStreaming}

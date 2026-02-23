@@ -76,7 +76,7 @@ Complete the Easy Reports module with the zero-code drag-and-drop report builder
 **Row-level filtering:**
 
 ```rego
-package medisync.data
+package AnySync.data
 
 # Apply department filter for non-admin users
 row_filter[filter] if {

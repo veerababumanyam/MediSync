@@ -1,4 +1,4 @@
-// Package shared provides shared utilities for AI agents in MediSync.
+// Package shared provides shared utilities for AI agents in AnySync.
 //
 // This file implements the LLM plugin configuration with support for
 // OpenAI and Ollama as switchable providers, configured via LLM_PROVIDER env var.

@@ -10,9 +10,9 @@ import { CouncilPage } from './pages/CouncilPage'
 import { DashboardPage } from './pages/DashboardPage'
 
 // CopilotKit components
-import { MediSyncCopilot, CopilotFloatingButton } from './components/copilot'
+import { AnySyncCopilot, CopilotFloatingButton } from './components/copilot'
 import { AppLogo } from './components/common'
-import { AnimatedBackground, LiquidGlassHeader } from './components/ui'
+import { AnimatedBackground, LiquidGlassHeader, LiquidGlassFooter } from './components/ui'
 import { ThemeProvider, useTheme } from './components/theme'
 import { webMCPService } from './services/WebMCPService'
 
@@ -68,7 +68,7 @@ function getCurrentRoute(): Route {
 }
 
 /**
- * MediSync Main Application Component
+ * AnySync Main Application Component
  *
  * Features:
  * - CopilotKit integration for generative UI
@@ -184,7 +184,7 @@ function AppContent() {
     }
   }
 
-  // CopilotKit content with MediSync tools
+  // CopilotKit content with AnySync tools
   const copilotContent = (
     <>
       {renderRoute()}
@@ -197,7 +197,7 @@ function AppContent() {
   if (isCopilotKitEnabled) {
     return (
       <CopilotKit {...copilotConfig}>
-        <MediSyncCopilot
+        <AnySyncCopilot
           currentRoute={currentRoute}
           locale={currentLocale}
           onNavigate={(route) => navigateTo(route as Route)}
@@ -234,7 +234,7 @@ function HomePage({ isRTL, currentLocale, toggleLanguage, navigateTo }: HomePage
     const themeToggle =
       document.querySelector('[data-debug-theme-toggle="1"]') ??
       document.querySelector('button[title*="Switch to"]')
-    const logoButton = document.querySelector('button[aria-label*="MediSync"]')
+    const logoButton = document.querySelector('button[aria-label*="AnySync"]')
     const navButtons = Array.from(document.querySelectorAll('nav button'))
     const chatButton = navButtons.find((button) => {
       const text = button.textContent?.trim().toLowerCase() ?? ''
@@ -317,7 +317,7 @@ function HomePage({ isRTL, currentLocale, toggleLanguage, navigateTo }: HomePage
       // WebMCP declarative attributes for home page
       {...({
         'tool-name': 'medi-home',
-        'tool-description': 'The MediSync home page with feature overview and quick access to Chat and Dashboard',
+        'tool-description': 'The AnySync home page with feature overview and quick access to Chat and Dashboard',
       } as React.HTMLAttributes<HTMLDivElement>)}
     >
       {/* Skip-to-main link (WCAG 2.4.1 Bypass Blocks) */}
@@ -332,9 +332,9 @@ function HomePage({ isRTL, currentLocale, toggleLanguage, navigateTo }: HomePage
       />
 
       {/* Main Content - Modular Landing Page */}
-      <main id="main-content" className="w-full pt-4">
+      <main id="main-content" className="w-full main-content-top">
         {/* Announcement Banner */}
-        <AnnouncementBanner isDark={isDark} />
+        <AnnouncementBanner />
 
         <HeroCarousel
           isDark={isDark}
@@ -343,14 +343,14 @@ function HomePage({ isRTL, currentLocale, toggleLanguage, navigateTo }: HomePage
 
         <SectorsSection isDark={isDark} />
 
-        <section id="features" className="py-24 relative z-10 overflow-hidden bg-slate-50/50 dark:bg-[#0A0F1C]/50" aria-labelledby="features-heading">
+        <section id="features" className="py-24 relative z-10 overflow-hidden bg-surface-glass-subtle" aria-labelledby="features-heading">
           <div className="container mx-auto px-4 relative z-10">
-            <div className="text-center max-w-3xl mx-auto mb-14">
-              <h2 id="features-heading" className="text-4xl md:text-5xl font-bold mb-6 text-slate-900 dark:text-white tracking-tight drop-shadow-sm">
+            <div className="text-center max-w-3xl mx-auto mb-14 pt-6">
+              <h2 id="features-heading" className="text-4xl md:text-5xl font-bold mb-8 text-primary tracking-tight drop-shadow-sm">
                 Everything You Need
               </h2>
-              <p className="text-xl text-slate-600 dark:text-slate-400 leading-relaxed">
-                From conversational queries to automated accounting, MediSync connects your healthcare data in ways you never thought possible.
+              <p className="text-xl text-secondary leading-relaxed">
+                From conversational queries to automated accounting, AnySync connects your healthcare data in ways you never thought possible.
               </p>
             </div>
 
@@ -468,88 +468,11 @@ function HomePage({ isRTL, currentLocale, toggleLanguage, navigateTo }: HomePage
         </section>
 
         <FinalCTA
-          isDark={isDark}
           onOpenLeadCapture={() => navigateTo('chat')}
         />
       </main>
 
-      {/* Footer — 4 sections in one horizontal row, no wrap */}
-      <footer className="border-t border-slate-200/50 dark:border-slate-700/50 mt-12 pt-6 bg-white/5 dark:bg-slate-900/50 backdrop-blur-sm" role="contentinfo">
-        <div className="container mx-auto px-4 py-5">
-          {/* Footer Links: single row, 4 equal columns via flex */}
-          <div className="flex flex-row flex-nowrap gap-6 sm:gap-8 mb-6">
-            {/* Product */}
-            <nav aria-label={t('home.footer.product', 'Product')} className="flex flex-col flex-1 min-w-0 basis-0">
-              <h4 id="footer-product" className="text-sm font-semibold text-slate-900 dark:text-white uppercase tracking-wider mb-2">{t('home.footer.product')}</h4>
-              <ul aria-labelledby="footer-product" className="space-y-1.5">
-                <li><a href="#features" className="text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">{t('home.footer.features')}</a></li>
-                <li><a href="#pricing" className="text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">{t('home.footer.pricing')}</a></li>
-                <li><a href="#" aria-disabled="true" className="text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">{t('home.footer.integrations')}</a></li>
-                <li><a href="#" aria-disabled="true" className="text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">{t('home.footer.api')}</a></li>
-              </ul>
-            </nav>
-
-            {/* Company */}
-            <nav aria-label={t('home.footer.company', 'Company')} className="flex flex-col flex-1 min-w-0 basis-0 border-s border-slate-200/50 dark:border-slate-700/50 ps-6">
-              <h4 id="footer-company" className="text-sm font-semibold text-slate-900 dark:text-white uppercase tracking-wider mb-2">{t('home.footer.company')}</h4>
-              <ul aria-labelledby="footer-company" className="space-y-1.5">
-                <li><a href="#about" className="text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">{t('home.footer.about')}</a></li>
-                <li><a href="#" aria-disabled="true" className="text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">{t('home.footer.blog')}</a></li>
-                <li><a href="#" aria-disabled="true" className="text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">{t('home.footer.careers')}</a></li>
-                <li><a href="#" aria-disabled="true" className="text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">{t('home.footer.contact')}</a></li>
-              </ul>
-            </nav>
-
-            {/* Resources */}
-            <nav aria-label={t('home.footer.resources', 'Resources')} className="flex flex-col flex-1 min-w-0 basis-0 border-s border-slate-200/50 dark:border-slate-700/50 ps-6">
-              <h4 id="footer-resources" className="text-sm font-semibold text-slate-900 dark:text-white uppercase tracking-wider mb-2">{t('home.footer.resources')}</h4>
-              <ul aria-labelledby="footer-resources" className="space-y-1.5">
-                <li><a href="#" aria-disabled="true" className="text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">{t('home.footer.documentation')}</a></li>
-                <li><a href="#" aria-disabled="true" className="text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">{t('home.footer.helpCenter')}</a></li>
-                <li><a href="#" aria-disabled="true" className="text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">{t('home.footer.status')}</a></li>
-                <li><a href="#" aria-disabled="true" className="text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">{t('home.footer.security')}</a></li>
-              </ul>
-            </nav>
-
-            {/* Legal */}
-            <nav aria-label={t('home.footer.legal', 'Legal')} className="flex flex-col flex-1 min-w-0 basis-0 border-s border-slate-200/50 dark:border-slate-700/50 ps-6">
-              <h4 id="footer-legal" className="text-sm font-semibold text-slate-900 dark:text-white uppercase tracking-wider mb-2">{t('home.footer.legal')}</h4>
-              <ul aria-labelledby="footer-legal" className="space-y-1.5">
-                <li><a href="#" aria-disabled="true" className="text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">{t('home.footer.privacyPolicy')}</a></li>
-                <li><a href="#" aria-disabled="true" className="text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">{t('home.footer.termsOfService')}</a></li>
-                <li><a href="#" aria-disabled="true" className="text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">{t('home.footer.cookiePolicy')}</a></li>
-                <li><a href="#" aria-disabled="true" className="text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">{t('home.footer.compliance')}</a></li>
-              </ul>
-            </nav>
-          </div>
-
-          {/* Footer Bottom */}
-          <div className="flex flex-col md:flex-row items-center justify-between pt-4 border-t border-slate-200/50 dark:border-slate-700/50">
-            <p className="text-sm text-slate-500 dark:text-slate-400 mb-4 md:mb-0">
-              {t('home.footer.copyright', { year: new Date().getFullYear() })}
-            </p>
-
-            {/* Social Links */}
-            <div className="flex items-center gap-2">
-              <a href="#" className="inline-flex items-center justify-center p-2 min-w-[44px] min-h-[44px] text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors rounded-lg" aria-label={t('social.twitter', 'Twitter')}>
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84" />
-                </svg>
-              </a>
-              <a href="#" className="inline-flex items-center justify-center p-2 min-w-[44px] min-h-[44px] text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors rounded-lg" aria-label={t('social.linkedin', 'LinkedIn')}>
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
-                </svg>
-              </a>
-              <a href="#" className="inline-flex items-center justify-center p-2 min-w-[44px] min-h-[44px] text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors rounded-lg" aria-label={t('social.github', 'GitHub')}>
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                  <path fillRule="evenodd" clipRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
-                </svg>
-              </a>
-            </div>
-          </div>
-        </div>
-      </footer>
+      <LiquidGlassFooter />
     </div>
   )
 }
@@ -575,12 +498,12 @@ export default function App() {
  */
 function LoadingFallback() {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800">
+    <div className="min-h-screen flex items-center justify-center bg-surface">
       <div className="text-center">
         <div className="mx-auto mb-4">
           <AppLogo size="md" />
         </div>
-        <p className="text-slate-600 dark:text-slate-400">Loading MediSync...</p>
+        <p className="text-secondary">Loading AnySync...</p>
       </div>
     </div>
   )

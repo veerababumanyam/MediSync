@@ -1,4 +1,4 @@
-# MediSync Development Environment
+# AnySync Development Environment
 # Docker Compose configuration for local development
 #
 # Services:
@@ -24,12 +24,12 @@ services:
   # Schemas: hims_analytics, tally_analytics, app, vectors
   postgres:
     image: pgvector/pgvector:pg18-bookworm
-    container_name: medisync-postgres
+    container_name: AnySync-postgres
     restart: unless-stopped
     environment:
-      POSTGRES_USER: ${POSTGRES_USER:-medisync}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-medisync_dev_password}
-      POSTGRES_DB: ${POSTGRES_DB:-medisync}
+      POSTGRES_USER: ${POSTGRES_USER:-AnySync}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-AnySync_dev_password}
+      POSTGRES_DB: ${POSTGRES_DB:-AnySync}
       # Performance tuning for development
       POSTGRES_INITDB_ARGS: "--encoding=UTF8 --locale=en_US.UTF-8"
     ports:
@@ -44,16 +44,16 @@ services:
     command: >
       postgres -c shared_preload_libraries=pg_stat_statements -c pg_stat_statements.track=all -c log_statement=all -c log_min_duration_statement=100 -c shared_buffers=256MB -c effective_cache_size=768MB -c maintenance_work_mem=128MB -c work_mem=16MB -c max_connections=100
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-medisync} -d ${POSTGRES_DB:-medisync}" ]
+      test: [ "CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-AnySync} -d ${POSTGRES_DB:-AnySync}" ]
       interval: 10s
       timeout: 5s
       retries: 5
       start_period: 30s
     networks:
-      - medisync-network
+      - AnySync-network
     labels:
-      - "com.medisync.service=database"
-      - "com.medisync.description=PostgreSQL data warehouse with pgvector"
+      - "com.AnySync.service=database"
+      - "com.AnySync.description=PostgreSQL data warehouse with pgvector"
 
   # ============================================================================
   # NATS - Event Streaming with JetStream
@@ -64,7 +64,7 @@ services:
   #   - Real-time notifications
   nats:
     image: nats:2.12-alpine
-    container_name: medisync-nats
+    container_name: AnySync-nats
     restart: unless-stopped
     ports:
       # Client connections
@@ -86,10 +86,10 @@ services:
       retries: 5
       start_period: 10s
     networks:
-      - medisync-network
+      - AnySync-network
     labels:
-      - "com.medisync.service=messaging"
-      - "com.medisync.description=NATS JetStream for event streaming"
+      - "com.AnySync.service=messaging"
+      - "com.AnySync.description=NATS JetStream for event streaming"
 
   # ============================================================================
   # Redis - Caching and Session Storage
@@ -101,7 +101,7 @@ services:
   #   - Temporary data
   redis:
     image: redis:8-alpine
-    container_name: medisync-redis
+    container_name: AnySync-redis
     restart: unless-stopped
     ports:
       - "${REDIS_PORT:-6379}:6379"
@@ -118,10 +118,10 @@ services:
       retries: 5
       start_period: 10s
     networks:
-      - medisync-network
+      - AnySync-network
     labels:
-      - "com.medisync.service=cache"
-      - "com.medisync.description=Redis cache and session storage"
+      - "com.AnySync.service=cache"
+      - "com.AnySync.description=Redis cache and session storage"
 
   # ============================================================================
   # Keycloak - Identity and Access Management
@@ -132,7 +132,7 @@ services:
   #   - JWT token issuance
   keycloak:
     image: quay.io/keycloak/keycloak:26.5.4
-    container_name: medisync-keycloak
+    container_name: AnySync-keycloak
     restart: unless-stopped
     environment:
       # Admin credentials (change in production!)
@@ -169,10 +169,10 @@ services:
       postgres:
         condition: service_healthy
     networks:
-      - medisync-network
+      - AnySync-network
     labels:
-      - "com.medisync.service=auth"
-      - "com.medisync.description=Keycloak identity provider"
+      - "com.AnySync.service=auth"
+      - "com.AnySync.description=Keycloak identity provider"
 
   # ============================================================================
   # ETL Service - Data Synchronization
@@ -185,12 +185,12 @@ services:
     build:
       context: .
       dockerfile: cmd/etl/Dockerfile
-    image: medisync-etl:latest
-    container_name: medisync-etl
+    image: AnySync-etl:latest
+    container_name: AnySync-etl
     restart: unless-stopped
     environment:
       # Database connection
-      DATABASE_URL: postgres://${POSTGRES_USER:-medisync}:${POSTGRES_PASSWORD:-medisync_dev_password}@postgres:5432/${POSTGRES_DB:-medisync}?sslmode=disable
+      DATABASE_URL: postgres://${POSTGRES_USER:-AnySync}:${POSTGRES_PASSWORD:-AnySync_dev_password}@postgres:5432/${POSTGRES_DB:-AnySync}?sslmode=disable
       # NATS connection
       NATS_URL: nats://nats:4222
       # Redis connection
@@ -220,19 +220,19 @@ services:
       redis:
         condition: service_healthy
     networks:
-      - medisync-network
+      - AnySync-network
     extra_hosts:
       - "host.docker.internal:host-gateway"
     labels:
-      - "com.medisync.service=etl"
-      - "com.medisync.description=ETL service for Tally and HIMS data sync"
+      - "com.AnySync.service=etl"
+      - "com.AnySync.description=ETL service for Tally and HIMS data sync"
 
   # ============================================================================
   # Prometheus - Metrics Collection (Optional)
   # ============================================================================
   prometheus:
     image: prom/prometheus:v3.9.1
-    container_name: medisync-prometheus
+    container_name: AnySync-prometheus
     restart: unless-stopped
     profiles:
       - monitoring
@@ -252,17 +252,17 @@ services:
       timeout: 10s
       retries: 3
     networks:
-      - medisync-network
+      - AnySync-network
     labels:
-      - "com.medisync.service=monitoring"
-      - "com.medisync.description=Prometheus metrics server"
+      - "com.AnySync.service=monitoring"
+      - "com.AnySync.description=Prometheus metrics server"
 
   # ============================================================================
   # Grafana - Dashboards and Visualization (Optional)
   # ============================================================================
   grafana:
     image: grafana/grafana:12.3.3
-    container_name: medisync-grafana
+    container_name: AnySync-grafana
     restart: unless-stopped
     profiles:
       - monitoring
@@ -285,17 +285,17 @@ services:
       timeout: 10s
       retries: 3
     networks:
-      - medisync-network
+      - AnySync-network
     labels:
-      - "com.medisync.service=dashboards"
-      - "com.medisync.description=Grafana visualization"
+      - "com.AnySync.service=dashboards"
+      - "com.AnySync.description=Grafana visualization"
 
 # ============================================================================
 # Networks
 # ============================================================================
 networks:
-  medisync-network:
-    name: medisync-network
+  AnySync-network:
+    name: AnySync-network
     driver: bridge
     ipam:
       config:
@@ -306,14 +306,14 @@ networks:
 # ============================================================================
 volumes:
   postgres_data:
-    name: medisync-postgres-data
+    name: AnySync-postgres-data
   nats_data:
-    name: medisync-nats-data
+    name: AnySync-nats-data
   redis_data:
-    name: medisync-redis-data
+    name: AnySync-redis-data
   keycloak_data:
-    name: medisync-keycloak-data
+    name: AnySync-keycloak-data
   prometheus_data:
-    name: medisync-prometheus-data
+    name: AnySync-prometheus-data
   grafana_data:
-    name: medisync-grafana-data
+    name: AnySync-grafana-data

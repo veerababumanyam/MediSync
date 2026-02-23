@@ -1,4 +1,4 @@
--- MediSync Complete Schema Example
+-- AnySync Complete Schema Example
 -- This demonstrates idiomatic PostgreSQL schema design
 
 -- Enable required extensions
@@ -279,11 +279,11 @@ CREATE INDEX idx_audit_entity ON audit_log(entity_type, entity_id);
 -- READ-ONLY ROLE (for AI agents)
 -- =============================================================================
 
-CREATE ROLE medisync_readonly WITH LOGIN PASSWORD 'secure_password_here';
+CREATE ROLE AnySync_readonly WITH LOGIN PASSWORD 'secure_password_here';
 
-GRANT CONNECT ON DATABASE medisync TO medisync_readonly;
-GRANT USAGE ON SCHEMA public TO medisync_readonly;
-GRANT SELECT ON ALL TABLES IN SCHEMA public TO medisync_readonly;
+GRANT CONNECT ON DATABASE AnySync TO AnySync_readonly;
+GRANT USAGE ON SCHEMA public TO AnySync_readonly;
+GRANT SELECT ON ALL TABLES IN SCHEMA public TO AnySync_readonly;
 
 ALTER DEFAULT PRIVILEGES IN SCHEMA public
-    GRANT SELECT ON TABLES TO medisync_readonly;
+    GRANT SELECT ON TABLES TO AnySync_readonly;

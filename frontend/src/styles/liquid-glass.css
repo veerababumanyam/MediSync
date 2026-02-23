@@ -1,118 +1,46 @@
 /**
- * MediSync Liquid Glassmorphism Design System
+ * AnySync Liquid Glassmorphism Design System
  *
- * Premium iOS-inspired liquid glass effects with WCAG 3.0 Bronze compliance
+ * Premium iOS-inspired liquid glass effects with WCAG 3.0 compliance.
+ *
+ * This file provides the liquid glass COMPONENT CLASSES that use the
+ * design tokens from design-tokens.css. All tokens are centralized there.
  *
  * Features:
  * - Multi-layered glass morphism with realistic depth
  * - Liquid animations and organic transitions
  * - Dynamic lighting and specular highlights
- * - WCAG 3.0 Bronze color contrast ratios (minimum 4.5:1)
+ * - WCAG 3.0 Gold focus indicators
  * - Reduced motion support
  * - RTL support for Arabic
  *
- * @version 2.0.0
- * @lastUpdated 2026-02-22
+ * @version 2.1.0
+ * @lastUpdated 2026-02-23
+ * @depends design-tokens.css (must be imported first)
  */
 
 /* ============================================
-   DESIGN TOKENS - Liquid Glass System
-   ============================================ */
-
+   BACKWARD COMPATIBILITY ALIASES
+   ============================================
+   These aliases map old token names to the centralized tokens
+   in design-tokens.css for backward compatibility.
+*/
 :root {
-  /* === Brand Colors (from logo) === */
-  /* Deep Blue - Core Logo Brand anchor */
-  --ms-deep-blue: #2750a8;
-  --ms-deep-blue-rgb: 39, 80, 168;
+  /* Legacy brand color aliases */
+  --ms-deep-blue: var(--brand-primary);
+  --ms-deep-blue-rgb: var(--brand-primary-rgb);
+  --ms-blue: var(--brand-primary);
+  --ms-blue-rgb: var(--brand-primary-rgb);
+  --ms-teal: var(--brand-secondary);
+  --ms-teal-rgb: var(--brand-secondary-rgb);
+  --ms-teal-light: var(--brand-secondary);
+  --ms-teal-light-rgb: var(--brand-secondary-rgb);
+  --ms-green: var(--brand-navy);
+  --ms-green-rgb: var(--brand-navy-rgb);
 
-  /* Medium Blue - Primary action */
-  --ms-blue: #2750a8;
-  --ms-blue-rgb: 39, 80, 168;
-
-  /* Teal - Secondary Logo Brand */
-  --ms-teal: #18929d;
-  --ms-teal-rgb: 24, 146, 157;
-  --ms-teal-light: #18929d;
-  --ms-teal-light-rgb: 24, 146, 157;
-
-  /* Midnight Navy - Base Background texts */
-  --ms-green: #0f172a;
-  --ms-green-rgb: 15, 23, 42;
-
-  /* === Liquid Glass Base Tokens === */
-  /* Background layers for depth simulation (Apple HIG) */
-  --glass-bg-subtle: rgba(255, 255, 255, 0.40);
-  /* Ultra Thin */
-  --glass-bg-light: rgba(255, 255, 255, 0.85);
-  /* Thick */
-  --glass-bg-medium: rgba(255, 255, 255, 0.70);
-  /* Regular */
-  --glass-bg-heavy: rgba(255, 255, 255, 0.55);
-  /* Thin */
-
-  /* Border illumination (simulated light refraction) */
-  --glass-border-bright: rgba(255, 255, 255, 0.6);
-  --glass-border-soft: rgba(255, 255, 255, 0.35);
-  --glass-border-dim: rgba(255, 255, 255, 0.15);
-
-  /* Specular highlights (top-edge shimmer) */
-  --glass-highlight: rgba(255, 255, 255, 0.8);
-  --glass-highlight-soft: rgba(255, 255, 255, 0.4);
-
-  /* === Shadow System (multi-layered for depth) === */
-  /* Primary shadow - ambient occlusion */
-  --shadow-ambient:
-    0 0 0 1px rgba(0, 0, 0, 0.04),
-    0 2px 4px rgba(0, 0, 0, 0.02),
-    0 8px 16px rgba(0, 0, 0, 0.04);
-
-  /* Elevation shadow - lifted elements */
-  --shadow-elevation:
-    0 0 0 1px rgba(0, 0, 0, 0.06),
-    0 4px 8px rgba(0, 0, 0, 0.04),
-    0 16px 32px rgba(0, 0, 0, 0.08);
-
-  /* Float shadow - highest elevation */
-  --shadow-float:
-    0 0 0 1px rgba(0, 0, 0, 0.08),
-    0 8px 16px rgba(0, 0, 0, 0.06),
-    0 32px 64px rgba(0, 0, 0, 0.12);
-
-  /* Inner shadow for pressed state */
-  --shadow-inset:
-    inset 0 2px 4px rgba(0, 0, 0, 0.06),
-    inset 0 1px 2px rgba(0, 0, 0, 0.04);
-
-  /* === Backdrop Blur Tokens (Apple HIG) === */
-  --blur-xs: blur(10px);
-  --blur-sm: blur(20px);
-  /* Ultra Thin */
-  --blur-md: blur(45px);
-  /* Regular */
-  --blur-lg: blur(60px);
-  /* Thick */
-  --blur-xl: blur(80px);
-  /* Extreme */
-
-  /* === Animation Timing === */
-  --ease-liquid: cubic-bezier(0.4, 0.0, 0.2, 1);
-  --ease-liquid-in: cubic-bezier(0.4, 0.0, 1, 1);
-  --ease-liquid-out: cubic-bezier(0.0, 0.0, 0.2, 1);
-  --ease-liquid-elastic: cubic-bezier(0.68, -0.6, 0.32, 1.6);
-
-  --duration-instant: 100ms;
-  --duration-quick: 200ms;
-  --duration-base: 300ms;
-  --duration-slow: 500ms;
-  --duration-slower: 800ms;
-
-  /* === Border Radius (organic curves) === */
-  --radius-sm: 8px;
-  --radius-md: 12px;
-  --radius-lg: 16px;
-  --radius-xl: 20px;
-  --radius-2xl: 28px;
-  --radius-full: 9999px;
+  /* Shadow system aliases */
+  --shadow-elevation: var(--shadow-raised);
+  --shadow-float: var(--shadow-floating);
 }
 
 /* ============================================
@@ -292,10 +220,6 @@
 
 .liquid-glass-floating {
   box-shadow: var(--shadow-float);
-}
-
-.liquid-glass-pressed {
-  box-shadow: var(--shadow-inset);
 }
 
 /* ============================================
@@ -655,6 +579,174 @@
     inset 0 1px 0 rgba(255, 255, 255, 0.12);
 }
 
+/* ============================================================================
+ * CONTENT CONTAINER UTILITIES
+ * ============================================================================
+ * Single source of truth for page-level content containers across AnySync.
+ * These classes bundle glass effect + layout (padding, radius, height) so
+ * components don't repeat `rounded-2xl p-6 h-full` or mix hover/focus ad hoc.
+ *
+ * See: docs/DESIGN.md §5.9 Content Containers
+ * ========================================================================== */
+
+/* Base container - soft glass content card with consistent layout */
+/* Extends .liquid-glass-content-card with standardized layout tokens */
+.liquid-container-card {
+  /* Glass effect (from liquid-glass-content-card) */
+  position: relative;
+  min-height: 120px;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  /* Light mode glass */
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.75) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-top: 1px solid rgba(255, 255, 255, 0.9);
+  border-radius: var(--radius-2xl);
+  box-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.04),
+    0 4px 12px rgba(0, 0, 0, 0.03),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+
+  /* Layout from design tokens */
+  padding: var(--space-6);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Dark mode base container */
+.dark .liquid-container-card,
+[data-theme='dark'] .liquid-container-card {
+  background:
+    linear-gradient(180deg, rgba(30, 41, 59, 0.9) 0%, rgba(30, 41, 59, 0.75) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.2),
+    0 4px 12px rgba(0, 0, 0, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+/* Hover effect for base container (disabled for carousel containers) */
+.liquid-container-card:not(.hero-carousel-container):hover {
+  transform: translateY(-4px);
+  box-shadow:
+    0 4px 8px rgba(0, 0, 0, 0.06),
+    0 12px 24px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+.dark .liquid-container-card:not(.hero-carousel-container):hover,
+[data-theme='dark'] .liquid-container-card:not(.hero-carousel-container):hover {
+  box-shadow:
+    0 4px 8px rgba(0, 0, 0, 0.25),
+    0 12px 24px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+/* Pronounced variant - stronger glass (90% opacity, 80px blur) for featured content */
+.liquid-container-card--pronounced {
+  /* Compose pronounced glass */
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.95) 0%, transparent 35%),
+    rgba(255, 255, 255, 0.90);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-top: 1px solid rgba(255, 255, 255, 0.9);
+  border-radius: var(--radius-2xl);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.3),
+    0 8px 32px rgba(0, 0, 0, 0.08),
+    0 32px 64px rgba(0, 0, 0, 0.12);
+  backdrop-filter: blur(80px) saturate(180%);
+  -webkit-backdrop-filter: blur(80px) saturate(180%);
+
+  /* Layout from design tokens */
+  padding: var(--space-6);
+  min-height: 120px;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  transition: all var(--duration-base) var(--ease-liquid);
+}
+
+/* Dark mode pronounced container */
+.dark .liquid-container-card--pronounced,
+[data-theme='dark'] .liquid-container-card--pronounced {
+  background:
+    linear-gradient(180deg, rgba(15, 23, 42, 0.98) 0%, transparent 35%),
+    rgba(15, 23, 42, 0.92);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, 0.5),
+    0 8px 32px rgba(0, 0, 0, 0.4),
+    0 32px 64px rgba(0, 0, 0, 0.5);
+}
+
+/* Interactive modifier - adds hover lift + WCAG 3.0 Gold focus for clickable cards */
+.liquid-container-card--interactive {
+  cursor: pointer;
+}
+
+.liquid-container-card--interactive:hover {
+  transform: translateY(-4px);
+  box-shadow:
+    0 4px 8px rgba(0, 0, 0, 0.06),
+    0 12px 24px rgba(0, 0, 0, 0.08),
+    0 24px 48px rgba(0, 0, 0, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+.dark .liquid-container-card--interactive:hover,
+[data-theme='dark'] .liquid-container-card--interactive:hover {
+  box-shadow:
+    0 4px 8px rgba(0, 0, 0, 0.25),
+    0 12px 24px rgba(0, 0, 0, 0.2),
+    0 24px 48px rgba(0, 0, 0, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+/* WCAG 3.0 Gold focus indicator for interactive containers */
+.liquid-container-card--interactive:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 var(--focus-ring-width) var(--focus-gold),
+    0 0 0 calc(var(--focus-ring-width) + var(--focus-ring-offset)) rgba(var(--focus-gold-rgb), 0.3),
+    0 8px 32px rgba(0, 0, 0, 0.15);
+}
+
+.dark .liquid-container-card--interactive:focus-visible,
+[data-theme='dark'] .liquid-container-card--interactive:focus-visible {
+  box-shadow:
+    0 0 0 var(--focus-ring-width) var(--focus-gold),
+    0 0 0 calc(var(--focus-ring-width) + var(--focus-ring-offset)) rgba(var(--focus-gold-rgb), 0.4),
+    0 8px 32px rgba(0, 0, 0, 0.4);
+}
+
+/* High contrast mode - ensure focus is visible */
+@media (prefers-contrast: high) {
+  .liquid-container-card--interactive:focus-visible {
+    outline: 3px solid var(--focus-gold);
+    outline-offset: 2px;
+  }
+}
+
+/* Reduced motion - disable hover transform */
+@media (prefers-reduced-motion: reduce) {
+  .liquid-container-card--interactive:hover {
+    transform: none;
+  }
+}
+
+/* ============================================================================
+ * END CONTENT CONTAINER UTILITIES
+ * ========================================================================== */
+
 /* === iOS 26-Style CTA Section (Branded Gradient with Glass Effect) === */
 .liquid-glass-cta {
   position: relative;
@@ -739,9 +831,17 @@
   font-weight: 500;
   font-size: 15px;
   /* Theme-aware text color for WCAG 3.3 AA compliance */
-  color: var(--text-primary, #0f172a);
+  color: var(--text-primary);
   cursor: pointer;
   user-select: none;
+
+  /* SVGs inside buttons should be white with a subtle shadow for visibility on #F2F2F2 */
+  svg {
+    color: white;
+    fill: white;
+    stroke: white;
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.25));
+  }
 }
 
 .liquid-glass-button:hover {
@@ -758,7 +858,7 @@
 /* Dark mode button text */
 .dark .liquid-glass-button,
 [data-theme='dark'] .liquid-glass-button {
-  color: var(--text-primary, #f8fafc);
+  color: var(--text-primary);
 }
 
 /* iOS 26-style prominent glass button for header/navigation */
@@ -772,23 +872,31 @@
   font-weight: 600;
   font-size: 14px;
   /* Light mode: dark text on light glass */
-  color: #334155;
+  color: var(--neutral-700);
   cursor: pointer;
   user-select: none;
-  /* Enhanced glass effect */
+  /* iOS 26 style: #F2F2F2 light grey glass body */
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.6) 0%, transparent 40%),
-    rgba(255, 255, 255, 0.75);
-  border: 1px solid rgba(255, 255, 255, 0.5);
-  border-top: 1px solid rgba(255, 255, 255, 0.8);
+    linear-gradient(180deg, rgba(255, 255, 255, 0.5) 0%, transparent 40%),
+    var(--neutral-100);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-top: 1px solid rgba(255, 255, 255, 1.0);
   border-radius: 9999px;
   box-shadow:
-    0 2px 8px rgba(0, 0, 0, 0.06),
-    0 1px 2px rgba(0, 0, 0, 0.04),
-    inset 0 1px 0 rgba(255, 255, 255, 0.5);
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
-  transition: all 0.2s ease;
+    0 2px 8px rgba(0, 0, 0, 0.04),
+    0 1px 2px rgba(0, 0, 0, 0.02),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(20px) saturate(120%);
+  -webkit-backdrop-filter: blur(20px) saturate(120%);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Force SVGs to white with high-contrast shadow */
+  svg {
+    color: white !important;
+    fill: white !important;
+    stroke: white !important;
+    filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.35));
+  }
 }
 
 .liquid-glass-button-prominent:hover {
@@ -814,7 +922,7 @@
 .dark .liquid-glass-button-prominent,
 [data-theme='dark'] .liquid-glass-button-prominent {
   /* Dark mode: light text on dark glass */
-  color: #f1f5f9;
+  color: var(--neutral-100);
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.12) 0%, transparent 40%),
     rgba(30, 41, 59, 0.75);
@@ -965,34 +1073,34 @@
 }
 
 .liquid-glass-badge-blue {
-  color: var(--ms-blue);
-  border-color: rgba(var(--ms-blue-rgb), 0.3);
+  color: var(--brand-primary);
+  border-color: var(--brand-primary-alpha);
   background:
-    linear-gradient(180deg, rgba(var(--ms-blue-rgb), 0.15) 0%, transparent 50%),
+    linear-gradient(180deg, var(--brand-primary-alpha) 0%, transparent 50%),
     var(--glass-bg-medium);
 }
 
 .liquid-glass-badge-teal {
-  color: var(--ms-teal);
-  border-color: rgba(var(--ms-teal-rgb), 0.3);
+  color: var(--brand-secondary);
+  border-color: var(--brand-secondary-alpha);
   background:
-    linear-gradient(180deg, rgba(var(--ms-teal-rgb), 0.15) 0%, transparent 50%),
+    linear-gradient(180deg, var(--brand-secondary-alpha) 0%, transparent 50%),
     var(--glass-bg-medium);
 }
 
 .liquid-glass-badge-green {
-  color: #059669;
-  border-color: rgba(var(--ms-green-rgb), 0.3);
+  color: var(--color-success);
+  border-color: var(--color-success-alpha);
   background:
-    linear-gradient(180deg, rgba(var(--ms-green-rgb), 0.15) 0%, transparent 50%),
+    linear-gradient(180deg, var(--color-success-alpha) 0%, transparent 50%),
     var(--glass-bg-medium);
 }
 
 .liquid-glass-badge-red {
-  color: #dc2626;
-  border-color: rgba(220, 38, 38, 0.3);
+  color: var(--color-error);
+  border-color: var(--color-error-alpha);
   background:
-    linear-gradient(180deg, rgba(220, 38, 38, 0.1) 0%, transparent 50%),
+    linear-gradient(180deg, var(--color-error-alpha) 0%, transparent 50%),
     var(--glass-bg-medium);
 }
 
@@ -1167,6 +1275,7 @@
    @media (forced-colors: active)
    ============================================ */
 @media (forced-colors: active) {
+
   /* Base glass component adjustments */
   .liquid-glass,
   .liquid-glass-light,
@@ -1605,6 +1714,11 @@
   padding: var(--space-4, 1rem);
 }
 
+/* Main content top padding: consistent header-to-content spacing (RTL-safe) */
+.main-content-top {
+  padding-block-start: var(--main-content-top, var(--space-6, 1.5rem));
+}
+
 /* ============================================
    PRINT STYLES
    ============================================ */
@@ -1619,5 +1733,875 @@
     border: 1px solid #e2e8f0;
     box-shadow: none;
     backdrop-filter: none;
+  }
+}
+
+/* ============================================
+   WCAG 3.0 GOLD FOCUS INDICATORS
+   ============================================
+   Gold focus rings for maximum visibility and
+   3:1 contrast ratio compliance (WCAG 3.0)
+*/
+
+/* WCAG 3.0 Gold focus - primary focus style */
+.liquid-focus-gold:focus-visible {
+  outline: 2px solid var(--focus-gold, #FFD700);
+  outline-offset: var(--focus-ring-offset, 2px);
+  box-shadow:
+    0 0 0 4px rgba(255, 215, 0, 0.15),
+    var(--shadow-elevation, var(--shadow-elevation));
+}
+
+/* WCAG 3.0 Gold focus with glow effect */
+.liquid-focus-glow:focus-visible {
+  outline: 2px solid var(--focus-gold, #FFD700);
+  outline-offset: var(--focus-ring-offset, 2px);
+  box-shadow:
+    0 0 0 4px rgba(255, 215, 0, 0.2),
+    0 0 20px rgba(255, 215, 0, 0.4);
+}
+
+/* WCAG 3.0 Gold focus for dark mode */
+.dark .liquid-focus-gold:focus-visible,
+[data-theme='dark'] .liquid-focus-gold:focus-visible {
+  outline-color: #FFED4E;
+  /* Lighter gold for dark backgrounds */
+  box-shadow:
+    0 0 0 4px rgba(255, 237, 78, 0.2),
+    0 0 20px rgba(255, 237, 78, 0.5);
+}
+
+/* Double ring focus for extra visibility */
+.liquid-focus-ring-gold:focus-visible {
+  outline: 2px solid var(--focus-gold, #FFD700);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px var(--focus-gold, #FFD700);
+}
+
+/* Focus indicator for buttons */
+.liquid-glass-button:focus-visible {
+  outline: 2px solid var(--focus-gold, #FFD700);
+  outline-offset: 2px;
+}
+
+/* Focus indicator for inputs */
+.liquid-glass-input:focus-visible {
+  outline: 2px solid var(--focus-gold, #FFD700);
+  outline-offset: 1px;
+}
+
+/* High contrast mode focus override */
+@media (prefers-contrast: high) {
+
+  .liquid-glass:focus-visible,
+  .liquid-focus-gold:focus-visible {
+    outline-width: 3px;
+    outline-offset: 3px;
+  }
+}
+
+/* ============================================
+   PRONOUNCED GLASS VARIANTS (iOS 26 Style)
+   ============================================
+   Maximum opacity and blur for pronounced glassmorphism
+*/
+
+/* Pronounced glass - 90% opacity, 80px blur */
+.liquid-glass-pronounced {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.95) 0%, transparent 35%),
+    rgba(255, 255, 255, 0.90);
+  border-color: rgba(255, 255, 255, 0.6);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.3),
+    0 8px 32px rgba(0, 0, 0, 0.08),
+    0 32px 64px rgba(0, 0, 0, 0.12);
+  backdrop-filter: blur(80px) saturate(180%);
+  -webkit-backdrop-filter: blur(80px) saturate(180%);
+}
+
+/* Dark mode pronounced glass */
+.dark .liquid-glass-pronounced,
+[data-theme='dark'] .liquid-glass-pronounced {
+  background:
+    linear-gradient(180deg, rgba(15, 23, 42, 0.98) 0%, transparent 35%),
+    rgba(15, 23, 42, 0.92);
+  border-color: rgba(255, 255, 255, 0.15);
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, 0.5),
+    0 8px 32px rgba(0, 0, 0, 0.4),
+    0 32px 64px rgba(0, 0, 0, 0.5);
+}
+
+/* ============================================
+   IOS NOTCH SAFE AREA SUPPORT
+   ============================================
+*/
+
+.liquid-safe-area-top {
+  padding-top: var(--safe-area-top, 0px);
+}
+
+.liquid-safe-area-bottom {
+  padding-bottom: var(--safe-area-bottom, 0px);
+}
+
+.liquid-safe-area-left {
+  padding-left: var(--safe-area-left, 0px);
+}
+
+.liquid-safe-area-right {
+  padding-right: var(--safe-area-right, 0px);
+}
+
+.liquid-safe-area-all {
+  padding:
+    var(--safe-area-top, 0px) var(--safe-area-right, 0px) var(--safe-area-bottom, 0px) var(--safe-area-left, 0px);
+}
+
+/* ============================================
+   COGNITIVE ACCESSIBILITY UTILITIES
+   ============================================
+   WCAG 3.0 Cognitive - Reduce cognitive load
+*/
+
+/* Clear visual hierarchy */
+.liquid-hierarchy-primary {
+  font-size: 1.125rem;
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+}
+
+.liquid-hierarchy-secondary {
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+.liquid-hierarchy-tertiary {
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.6;
+}
+
+/* Clear labels for form inputs */
+.liquid-clear-label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.liquid-clear-label>label {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--color-text-primary, #0f172a);
+}
+
+.dark .liquid-clear-label>label,
+[data-theme='dark'] .liquid-clear-label>label {
+  color: #f1f5f9;
+}
+
+/* Error messages in context */
+.liquid-error-context {
+  position: relative;
+}
+
+.liquid-error-context::after {
+  content: attr(data-error);
+  position: absolute;
+  bottom: -1.25rem;
+  left: 0;
+  font-size: 0.75rem;
+  color: var(--semantic-error, #ef4444);
+  font-weight: 500;
+}
+
+.dark .liquid-error-context::after,
+[data-theme='dark'] .liquid-error-context::after {
+  color: #f87171;
+}
+
+/* ============================================
+   SHADOW TOKENS UPDATE
+   ============================================
+   Unified shadow system with pronounced variants
+*/
+
+/* Shadow with colored glow */
+.liquid-shadow-glow-blue {
+  box-shadow:
+    0 0 0 1px rgba(39, 80, 168, 0.1),
+    0 8px 32px rgba(39, 80, 168, 0.2),
+    0 0 40px rgba(39, 80, 168, 0.1);
+}
+
+.liquid-shadow-glow-teal {
+  box-shadow:
+    0 0 0 1px rgba(24, 146, 157, 0.1),
+    0 8px 32px rgba(24, 146, 157, 0.2),
+    0 0 40px rgba(24, 146, 157, 0.1);
+}
+
+.liquid-shadow-glow-green {
+  box-shadow:
+    0 0 0 1px rgba(74, 222, 128, 0.1),
+    0 8px 32px rgba(74, 222, 128, 0.2),
+    0 0 40px rgba(74, 222, 128, 0.1);
+}
+
+/* ============================================
+   CTA VARIANTS (Semantic Call-to-Action)
+   ============================================
+   Centralized CTA styles for consistent button design
+   across the application. Following iOS 26 HIG and
+   WCAG 3.0 standards for accessibility.
+
+   Classes:
+   - .cta-hero: Hero carousel CTA (largest, most prominent)
+   - .cta-landing-primary: Landing page primary action
+   - .cta-landing-secondary: Landing page secondary action
+   
+   All CTAs include:
+   - min-height: 44px (WCAG 2.5.5 touch target)
+   - liquid-focus-gold (WCAG 3.0 Gold focus indicator)
+   - Consistent spacing and typography
+   - Theme-aware via .dark selector
+   ============================================ */
+
+/* ============================================
+   HERO CTA - Most Prominent Call-to-Action
+   Used in: HeroCarousel.tsx
+   ============================================ */
+
+.cta-hero {
+  /* Layout & sizing */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2, 0.5rem);
+  padding: var(--space-4, 1rem) var(--space-8, 2rem);
+  min-height: 44px;
+  /* WCAG 2.5.5 touch target */
+
+  /* Typography */
+  font-weight: var(--font-semibold, 600);
+  font-size: var(--text-base, 1rem);
+  line-height: var(--leading-normal, 1.5);
+  color: white;
+
+  /* Shape */
+  border-radius: var(--radius-xl, 20px);
+
+  /* LIGHT MODE: Deep saturated gradient for contrast on light backgrounds */
+  background: linear-gradient(135deg,
+      #1e40af 0%,
+      /* darker blue-800 */
+      var(--brand-primary) 50%,
+      #0e7490 100%
+      /* darker cyan-700 */
+    );
+  border: none;
+  box-shadow:
+    0 4px 16px rgba(30, 64, 175, 0.4),
+    0 8px 32px rgba(0, 0, 0, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+
+  /* Smooth transitions */
+  transition: all var(--duration-base, 250ms) var(--ease-liquid, cubic-bezier(0.4, 0, 0.2, 1));
+
+  /* Cursor & selection */
+  cursor: pointer;
+  user-select: none;
+
+  /* Position for pseudo-elements */
+  position: relative;
+}
+
+/* Glossy overlay for iOS 26 liquid glass effect */
+.cta-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.25) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.cta-hero>* {
+  position: relative;
+  z-index: 1;
+}
+
+/* Hover effect */
+.cta-hero:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 6px 20px rgba(30, 64, 175, 0.5),
+    0 12px 40px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+/* Shimmer effect on hover */
+.cta-hero:hover::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(90deg,
+      transparent,
+      rgba(255, 255, 255, 0.4),
+      transparent);
+  transform: skewX(-20deg);
+  animation: cta-shimmer 1.5s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 1;
+}
+
+@keyframes cta-shimmer {
+  0% {
+    left: -100%;
+  }
+
+  100% {
+    left: 200%;
+  }
+}
+
+/* Active/pressed state */
+.cta-hero:active {
+  transform: translateY(0) scale(0.98);
+  box-shadow:
+    0 2px 8px rgba(var(--brand-primary-rgb), 0.3),
+    inset 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Focus state - WCAG 3.0 Gold */
+.cta-hero:focus-visible {
+  outline: 2px solid var(--focus-gold, #FFD700);
+  outline-offset: var(--focus-ring-offset, 2px);
+  box-shadow:
+    0 0 0 4px rgba(255, 215, 0, 0.2),
+    0 4px 16px rgba(var(--brand-primary-rgb), 0.3);
+}
+
+/* Dark mode focus - lighter gold */
+.dark .cta-hero:focus-visible,
+[data-theme='dark'] .cta-hero:focus-visible {
+  outline-color: #FFED4E;
+  box-shadow:
+    0 0 0 4px rgba(255, 237, 78, 0.25),
+    0 4px 16px rgba(var(--brand-primary-rgb), 0.4);
+}
+
+/* ============================================
+   DARK MODE CTA HERO - Bright, glowing variant
+   ============================================ */
+.dark .cta-hero,
+[data-theme='dark'] .cta-hero {
+  /* DARK MODE: Bright cyan-blue gradient that glows on dark backgrounds */
+  background: linear-gradient(135deg,
+      #3b82f6 0%,
+      /* bright blue-500 */
+      #06b6d4 50%,
+      /* cyan-500 */
+      #22d3ee 100%
+      /* bright cyan-400 */
+    );
+  box-shadow:
+    0 4px 16px rgba(59, 130, 246, 0.5),
+    0 8px 32px rgba(6, 182, 212, 0.3),
+    0 0 40px rgba(34, 211, 238, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+
+.dark .cta-hero:hover,
+[data-theme='dark'] .cta-hero:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 6px 24px rgba(59, 130, 246, 0.6),
+    0 12px 48px rgba(6, 182, 212, 0.4),
+    0 0 60px rgba(34, 211, 238, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.dark .cta-hero:active,
+[data-theme='dark'] .cta-hero:active {
+  box-shadow:
+    0 2px 12px rgba(59, 130, 246, 0.5),
+    inset 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Dark mode shimmer - more intense */
+.dark .cta-hero:hover::after,
+[data-theme='dark'] .cta-hero:hover::after {
+  background: linear-gradient(90deg,
+      transparent,
+      rgba(255, 255, 255, 0.5),
+      transparent);
+}
+
+/* ============================================
+   LANDING PRIMARY CTA
+   Used in: FinalCTA.tsx (primary button)
+   ============================================ */
+
+.cta-landing-primary {
+  /* Layout & sizing */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2, 0.5rem);
+  padding: var(--space-4, 1rem) var(--space-8, 2rem);
+  min-height: 44px;
+
+  /* Typography */
+  font-weight: var(--font-bold, 700);
+  font-size: var(--text-lg, 1.125rem);
+  line-height: var(--leading-normal, 1.5);
+
+  /* Shape */
+  border-radius: var(--radius-xl, 20px);
+
+  /* Smooth transitions */
+  transition: all var(--duration-moderate, 350ms) var(--ease-liquid, cubic-bezier(0.4, 0, 0.2, 1));
+
+  /* Base glass button structure */
+  position: relative;
+  cursor: pointer;
+  user-select: none;
+}
+
+/* Light mode - blue-cyan gradient with white text */
+.cta-landing-primary {
+  /* LIGHT MODE: Deep saturated gradient for contrast */
+  background: linear-gradient(135deg,
+      #1e40af 0%,
+      /* darker blue-800 */
+      var(--brand-primary) 50%,
+      #0e7490 100%
+      /* darker cyan-700 */
+    );
+  color: white;
+  border: none;
+  box-shadow:
+    0 4px 16px rgba(30, 64, 175, 0.4),
+    0 8px 32px rgba(0, 0, 0, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+.cta-landing-primary:hover {
+  transform: translateY(-2px);
+  background: linear-gradient(135deg,
+      #1e3a8a 0%,
+      /* even darker blue-900 */
+      #1e40af 50%,
+      #0d6e75 100%
+      /* even darker cyan */
+    );
+  box-shadow:
+    0 6px 20px rgba(30, 64, 175, 0.5),
+    0 12px 40px rgba(0, 0, 0, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+/* Active state */
+.cta-landing-primary:active {
+  transform: translateY(0) scale(0.98);
+  box-shadow:
+    0 2px 8px rgba(30, 64, 175, 0.4),
+    inset 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Focus state - WCAG 3.0 Gold */
+.cta-landing-primary:focus-visible {
+  outline: 2px solid var(--focus-gold, #FFD700);
+  outline-offset: var(--focus-ring-offset, 2px);
+  box-shadow:
+    0 0 0 4px rgba(255, 215, 0, 0.2),
+    0 4px 16px rgba(30, 64, 175, 0.4);
+}
+
+/* ============================================
+   DARK MODE LANDING PRIMARY - Bright cyan variant
+   ============================================ */
+.dark .cta-landing-primary,
+[data-theme='dark'] .cta-landing-primary {
+  /* DARK MODE: Bright cyan-blue gradient that glows */
+  background: linear-gradient(135deg,
+      #3b82f6 0%,
+      /* bright blue-500 */
+      #06b6d4 50%,
+      /* cyan-500 */
+      #22d3ee 100%
+      /* bright cyan-400 */
+    );
+  box-shadow:
+    0 4px 16px rgba(59, 130, 246, 0.5),
+    0 8px 32px rgba(6, 182, 212, 0.3),
+    0 0 40px rgba(34, 211, 238, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.dark .cta-landing-primary:hover,
+[data-theme='dark'] .cta-landing-primary:hover {
+  transform: translateY(-2px);
+  background: linear-gradient(135deg,
+      #60a5fa 0%,
+      /* lighter blue-400 */
+      #22d3ee 50%,
+      /* cyan-400 */
+      #67e8f9 100%
+      /* even lighter cyan-300 */
+    );
+  box-shadow:
+    0 6px 24px rgba(59, 130, 246, 0.6),
+    0 12px 48px rgba(6, 182, 212, 0.4),
+    0 0 60px rgba(34, 211, 238, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+
+/* Dark mode active */
+.dark .cta-landing-primary:active,
+[data-theme='dark'] .cta-landing-primary:active {
+  box-shadow:
+    0 2px 12px rgba(59, 130, 246, 0.5),
+    inset 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Dark mode focus */
+.dark .cta-landing-primary:focus-visible,
+[data-theme='dark'] .cta-landing-primary:focus-visible {
+  outline-color: #FFED4E;
+  box-shadow:
+    0 0 0 4px rgba(255, 237, 78, 0.25),
+    0 4px 20px rgba(59, 130, 246, 0.5);
+}
+
+/* ============================================
+   LANDING SECONDARY CTA
+   Used in: FinalCTA.tsx (secondary button)
+   ============================================ */
+
+.cta-landing-secondary {
+  /* Layout & sizing */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2, 0.5rem);
+  padding: var(--space-4, 1rem) var(--space-8, 2rem);
+  min-height: 44px;
+
+  /* Typography */
+  font-weight: var(--font-bold, 700);
+  font-size: var(--text-lg, 1.125rem);
+  line-height: var(--leading-normal, 1.5);
+  color: white;
+
+  /* Shape */
+  border-radius: var(--radius-xl, 20px);
+
+  /* Transparent background with white border for contrast */
+  background: transparent;
+  border: 2px solid rgba(255, 255, 255, 0.6);
+  box-shadow:
+    0 4px 16px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+
+  /* Smooth transitions */
+  transition: all var(--duration-base, 250ms) var(--ease-liquid, cubic-bezier(0.4, 0, 0.2, 1));
+
+  /* Cursor & selection */
+  cursor: pointer;
+  user-select: none;
+}
+
+/* Hover effect */
+.cta-landing-secondary:hover {
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.8);
+  box-shadow:
+    0 6px 20px rgba(0, 0, 0, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+/* Active state */
+.cta-landing-secondary:active {
+  transform: translateY(0) scale(0.98);
+  background: rgba(255, 255, 255, 0.05);
+  box-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.1),
+    inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Focus state - WCAG 3.0 Gold */
+.cta-landing-secondary:focus-visible {
+  outline: 2px solid var(--focus-gold, #FFD700);
+  outline-offset: var(--focus-ring-offset, 2px);
+  box-shadow:
+    0 0 0 4px rgba(255, 215, 0, 0.2),
+    0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+/* Dark mode secondary CTA - lighter border for visibility */
+.dark .cta-landing-secondary,
+[data-theme='dark'] .cta-landing-secondary {
+  border-color: rgba(255, 255, 255, 0.5);
+  box-shadow:
+    0 4px 16px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.dark .cta-landing-secondary:hover,
+[data-theme='dark'] .cta-landing-secondary:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.7);
+  box-shadow:
+    0 6px 20px rgba(0, 0, 0, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+/* Dark mode focus */
+.dark .cta-landing-secondary:focus-visible,
+[data-theme='dark'] .cta-landing-secondary:focus-visible {
+  outline-color: #FFED4E;
+  box-shadow:
+    0 0 0 4px rgba(255, 237, 78, 0.25),
+    0 4px 16px rgba(0, 0, 0, 0.25);
+}
+
+/* ============================================
+   HEADER PRIMARY CTA (Compact variant)
+   Used in: ChatHeader.tsx, ChatInput.tsx
+   ============================================ */
+
+.cta-header-primary {
+  /* Layout & sizing - more compact */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2, 0.5rem);
+  padding: var(--space-2, 0.5rem) var(--space-4, 1rem);
+  min-height: 40px;
+  /* Slightly smaller for header context */
+
+  /* Typography */
+  font-weight: var(--font-medium, 500);
+  font-size: var(--text-sm, 0.875rem);
+  line-height: var(--leading-normal, 1.5);
+  color: white;
+
+  /* Shape */
+  border-radius: var(--radius-lg, 16px);
+
+  /* LIGHT MODE: Deep saturated gradient */
+  background: linear-gradient(135deg,
+      #1e40af 0%,
+      /* darker blue-800 */
+      var(--brand-primary) 50%,
+      #0e7490 100%
+      /* darker cyan-700 */
+    );
+  border: none;
+  box-shadow:
+    0 2px 8px rgba(30, 64, 175, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+
+  /* Smooth transitions */
+  transition: all var(--duration-base, 250ms) var(--ease-liquid, cubic-bezier(0.4, 0, 0.2, 1));
+
+  /* Cursor & selection */
+  cursor: pointer;
+  user-select: none;
+}
+
+/* Hover effect */
+.cta-header-primary:hover {
+  background: linear-gradient(135deg,
+      #1e3a8a 0%,
+      /* darker blue-900 */
+      #1e40af 50%,
+      #0d6e75 100%
+      /* darker cyan */
+    );
+  box-shadow:
+    0 4px 12px rgba(30, 64, 175, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  transform: translateY(-1px);
+}
+
+/* Active state */
+.cta-header-primary:active {
+  transform: translateY(0) scale(0.98);
+  box-shadow:
+    0 2px 8px rgba(30, 64, 175, 0.35),
+    inset 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Focus state - WCAG 3.0 Gold */
+.cta-header-primary:focus-visible {
+  outline: 2px solid var(--focus-gold, #FFD700);
+  outline-offset: var(--focus-ring-offset, 2px);
+  box-shadow:
+    0 0 0 4px rgba(255, 215, 0, 0.2),
+    0 2px 8px rgba(30, 64, 175, 0.4);
+}
+
+/* ============================================
+   DARK MODE HEADER PRIMARY - Bright cyan variant
+   ============================================ */
+.dark .cta-header-primary,
+[data-theme='dark'] .cta-header-primary {
+  /* DARK MODE: Bright cyan-blue gradient */
+  background: linear-gradient(135deg,
+      #3b82f6 0%,
+      /* bright blue-500 */
+      #06b6d4 50%,
+      /* cyan-500 */
+      #22d3ee 100%
+      /* bright cyan-400 */
+    );
+  box-shadow:
+    0 2px 8px rgba(59, 130, 246, 0.5),
+    0 0 20px rgba(6, 182, 212, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.dark .cta-header-primary:hover,
+[data-theme='dark'] .cta-header-primary:hover {
+  background: linear-gradient(135deg,
+      #60a5fa 0%,
+      /* lighter blue-400 */
+      #22d3ee 50%,
+      /* cyan-400 */
+      #67e8f9 100%
+      /* even lighter cyan-300 */
+    );
+  box-shadow:
+    0 4px 12px rgba(59, 130, 246, 0.6),
+    0 0 30px rgba(6, 182, 212, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  transform: translateY(-1px);
+}
+
+.dark .cta-header-primary:active,
+[data-theme='dark'] .cta-header-primary:active {
+  box-shadow:
+    0 2px 8px rgba(59, 130, 246, 0.5),
+    inset 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Dark mode focus */
+.dark .cta-header-primary:focus-visible,
+[data-theme='dark'] .cta-header-primary:focus-visible {
+  outline-color: #FFED4E;
+  box-shadow:
+    0 0 0 4px rgba(255, 237, 78, 0.25),
+    0 2px 8px rgba(59, 130, 246, 0.6);
+}
+
+/* Disabled state */
+.cta-header-primary:disabled,
+.cta-header-primary[aria-disabled="true"] {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow:
+    0 2px 8px rgba(30, 64, 175, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.dark .cta-header-primary:disabled,
+.dark .cta-header-primary[aria-disabled="true"],
+[data-theme='dark'] .cta-header-primary:disabled,
+[data-theme='dark'] .cta-header-primary[aria-disabled="true"] {
+  box-shadow:
+    0 2px 8px rgba(59, 130, 246, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+/* ============================================
+   ACCESSIBILITY: Reduced Motion Support
+   ============================================ */
+@media (prefers-reduced-motion: reduce) {
+
+  .cta-hero,
+  .cta-landing-primary,
+  .cta-landing-secondary,
+  .cta-header-primary {
+    transition-duration: 0.01ms !important;
+  }
+
+  .cta-hero:hover::after,
+  .cta-header-primary:hover::after {
+    animation: none;
+  }
+
+  .cta-hero:hover,
+  .cta-landing-primary:hover,
+  .cta-landing-secondary:hover,
+  .cta-header-primary:hover {
+    transform: none;
+  }
+}
+
+/* ============================================
+   ACCESSIBILITY: High Contrast Mode
+   ============================================ */
+@media (prefers-contrast: high) {
+
+  .cta-hero,
+  .cta-landing-primary,
+  .cta-landing-secondary,
+  .cta-header-primary {
+    outline-width: 3px;
+    outline-offset: 3px;
+  }
+}
+
+/* ============================================
+   ACCESSIBILITY: Windows High Contrast Mode
+   ============================================ */
+@media (forced-colors: active) {
+
+  .cta-hero,
+  .cta-landing-primary,
+  .cta-landing-secondary,
+  .cta-header-primary {
+    background: ButtonFace;
+    border: 2px solid ButtonText;
+    color: ButtonText;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+
+  .cta-hero:hover,
+  .cta-landing-primary:hover,
+  .cta-landing-secondary:hover,
+  .cta-header-primary:hover {
+    background: Highlight;
+    color: HighlightText;
+    border-color: Highlight;
+  }
+
+  .cta-hero:focus-visible,
+  .cta-landing-primary:focus-visible,
+  .cta-landing-secondary:focus-visible,
+  .cta-header-primary:focus-visible {
+    outline: 3px solid Highlight;
+    outline-offset: 3px;
+    box-shadow: none;
+  }
+
+  /* Hide shimmer effect */
+  .cta-hero:hover::after,
+  .cta-header-primary:hover::after {
+    display: none;
   }
 }

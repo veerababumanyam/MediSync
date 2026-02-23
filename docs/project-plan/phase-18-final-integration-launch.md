@@ -11,7 +11,7 @@
 
 ## 1. Objectives
 
-Deliver MediSync v2 — the complete platform with all 58 agents across all 5 modules fully integrated, hardened, and production-ready. Conduct a final structured UAT covering Module D and all cross-module integration paths added in Phases 13–17. Complete the final security audit. Migrate from Docker Compose to Kubernetes for production scalability. Publish the v2 API specification and embed SDK documentation. Deliver the stakeholder launch event. Close out the 54-week programme.
+Deliver AnySync v2 — the complete platform with all 58 agents across all 5 modules fully integrated, hardened, and production-ready. Conduct a final structured UAT covering Module D and all cross-module integration paths added in Phases 13–17. Complete the final security audit. Migrate from Docker Compose to Kubernetes for production scalability. Publish the v2 API specification and embed SDK documentation. Deliver the stakeholder launch event. Close out the 54-week programme.
 
 ---
 
@@ -45,10 +45,10 @@ Deliver MediSync v2 — the complete platform with all 58 agents across all 5 mo
 | D-02 | Cross-module integration UAT | QA + All Eng | Full workflow test (Phase 11 E2E + Module D extensions) pass |
 | D-03 | Final security audit | Security | 0 P0/P1 unresolved; new agents D-01 to D-14 all in scope |
 | D-04 | Kubernetes production deployment | DevOps | All services running on K8s; health checks green; auto-scaling tested |
-| D-05 | Helm chart package | DevOps | `helm install medisync` deploys full stack; values file documented |
+| D-05 | Helm chart package | DevOps | `helm install AnySync` deploys full stack; values file documented |
 | D-06 | Final performance benchmarks | All Eng | All v2 SLOs met (table below) |
 | D-07 | v2 API documentation | Backend Eng | Full OpenAPI 3.1 spec; all endpoints (including D module); Swagger UI |
-| D-08 | Embed SDK v1.0 published | Frontend Eng | `@medisync/embed@1.0.0` published to npm (or private registry) |
+| D-08 | Embed SDK v1.0 published | Frontend Eng | `@AnySync/embed@1.0.0` published to npm (or private registry) |
 | D-09 | v2 User documentation | PM + All | All 5 modules covered; EN + AR versions; PDF format |
 | D-10 | Stakeholder launch demo | PM | Live production demo on Kubernetes; all 5 modules demonstrated |
 | D-11 | Programme close-out report | PM | Summary of 54-week programme: delivered, deferred, KPIs, learnings |
@@ -117,12 +117,12 @@ Deliver MediSync v2 — the complete platform with all 58 agents across all 5 mo
 
 ```yaml
 # Kubernetes workloads (simplified)
-Namespace: medisync
+Namespace: AnySync
 
 Deployments:
-  medisync-api:        replicas: 3   (HPA: 2-10, CPU 70%)
-  medisync-worker:     replicas: 3   (HPA: 2-8, queue depth metric)
-  medisync-web:        replicas: 2   (HPA: 2-6, RPS metric)
+  AnySync-api:        replicas: 3   (HPA: 2-10, CPU 70%)
+  AnySync-worker:     replicas: 3   (HPA: 2-8, queue depth metric)
+  AnySync-web:        replicas: 2   (HPA: 2-6, RPS metric)
   keycloak:            replicas: 2   (StatefulSet)
 
 StatefulSets:
@@ -155,7 +155,7 @@ Monitoring:
 
 **Helm chart structure:**
 ```
-medisync-helm/
+AnySync-helm/
   Chart.yaml
   values.yaml           ← all configuration (domain, secrets, replicas)
   values-production.yaml
@@ -273,7 +273,7 @@ The close-out report (produced by PM) will document:
 - [ ] Cross-module integration E2E test: passes
 - [ ] Final security audit: 0 P0/P1 findings
 - [ ] Kubernetes deployment: all services healthy; HPA tested
-- [ ] Helm chart: `helm install medisync` deploys successfully
+- [ ] Helm chart: `helm install AnySync` deploys successfully
 - [ ] All v2 performance SLOs met (100 concurrent users)
 - [ ] OpenAPI v2 spec published at `/api/docs`
 - [ ] Embed SDK v1.0 published

@@ -1,4 +1,4 @@
-// Package models defines data models for the MediSync warehouse.
+// Package models defines data models for the AnySync warehouse.
 //
 // This file contains the ConfidenceScore model.
 package models

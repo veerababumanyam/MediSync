@@ -1,4 +1,4 @@
-// Package main provides the entry point for the MediSync API server.
+// Package main provides the entry point for the AnySync API server.
 //
 // The API server handles all HTTP requests including:
 // - Conversational BI queries
@@ -30,10 +30,10 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/medisync/medisync/internal/api"
-	"github.com/medisync/medisync/internal/cache"
-	"github.com/medisync/medisync/internal/config"
-	"github.com/medisync/medisync/internal/warehouse"
+	"github.com/AnySync/AnySync/internal/api"
+	"github.com/AnySync/AnySync/internal/cache"
+	"github.com/AnySync/AnySync/internal/config"
+	"github.com/AnySync/AnySync/internal/warehouse"
 )
 
 func main() {

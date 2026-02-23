@@ -77,7 +77,7 @@ Cron trigger fires
     │   CSV  → Go encoding/csv
     │
     ▼ Email assembly:
-    │   Subject: "MediSync — {{report_name}} — {{period}} [{{locale}}]"
+    │   Subject: "AnySync — {{report_name}} — {{period}} [{{locale}}]"
     │   Body: HTML summary + key metrics + download link
     │   Attachments: up to 3 format files
     │
@@ -98,7 +98,7 @@ Cron trigger fires
 1. Select Report Type from pre-built library
 2. Configure parameters (period mode, department filter, entity)
 3. Set schedule (frequency picker → cron expression preview)
-4. Configure recipients (add emails; assign MediSync user roles to auto-populate their email)
+4. Configure recipients (add emails; assign AnySync user roles to auto-populate their email)
 5. Select output formats (PDF / Excel / CSV — multi-select)
 6. Optional: add conditional trigger rule
 7. Select locale (EN / AR / Bilingual)
@@ -135,18 +135,18 @@ smtp:
   port: 587
   username: ${SMTP_USERNAME}
   password: ${SMTP_PASSWORD}
-  from: "MediSync Reports <reports@medisync.local>"
+  from: "AnySync Reports <reports@AnySync.local>"
   tls: true
 
 email_templates:
   scheduled_report:
-    subject_en: "MediSync — {{.ReportName}} — {{.Period}}"
+    subject_en: "AnySync — {{.ReportName}} — {{.Period}}"
     subject_ar: "ميدي سينك — {{.ReportName}} — {{.Period}}"
     body_template: "email_report_body.html"
 ```
 
 **Email body includes:**
-- MediSync logo (inline base64)
+- AnySync logo (inline base64)
 - Report summary: up to 5 headline KPIs from the report
 - "View Full Report" link to portal (JWT-authenticated)
 - "Unsubscribe from this schedule" link

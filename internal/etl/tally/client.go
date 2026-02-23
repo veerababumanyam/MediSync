@@ -1,7 +1,7 @@
 // Package tally provides a client for communicating with Tally ERP via TDL XML over HTTP.
 //
 // This package implements the Tally Gateway interface for extracting and syncing
-// data between MediSync and Tally Prime/ERP. It supports both master data (ledgers,
+// data between AnySync and Tally Prime/ERP. It supports both master data (ledgers,
 // cost centres, stock items) and transactional data (vouchers, stock movements).
 //
 // Usage:
@@ -28,7 +28,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/medisync/medisync/internal/config"
+	"github.com/AnySync/AnySync/internal/config"
 )
 
 // Request types for Tally API.

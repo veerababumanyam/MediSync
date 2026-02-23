@@ -1,6 +1,6 @@
 # SEO & AI Search Checklists
 
-Use these checklists during development to ensure MediSync meets the highest standards for search and AI visibility.
+Use these checklists during development to ensure AnySync meets the highest standards for search and AI visibility.
 
 ## 1. New Page Creation Checklist
 - [ ] **Title Tag**: Is there a unique, keyword-rich `<title>`?

@@ -1,6 +1,6 @@
 # Agentic RAG: Solving Semantic Collapse at Enterprise Scale
 
-**Design Document** | MediSync Contract Intelligence
+**Design Document** | AnySync Contract Intelligence
 **Date:** 2026-02-21
 **Author:** Claude (AI Assistant)
 **Status:** Draft for Review
@@ -525,7 +525,7 @@ tests/rag/
 
 ---
 
-## 10. Integration with MediSync
+## 10. Integration with AnySync
 
 ### 10.1 New Agent Module
 
@@ -566,7 +566,7 @@ migrations/
 ```rego
 # policies/rag.rego
 
-package medisync.rag
+package AnySync.rag
 
 # Only users with contract_read role can query
 allow {

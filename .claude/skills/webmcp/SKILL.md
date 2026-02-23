@@ -322,5 +322,5 @@ async function handleDelete({ documentId }) {
 ## Related Skills
 
 - **copilotkit-generative-ui** - For generative UI with CopilotKit
-- **medisync-dev** - For MediSync-specific development
+- **AnySync-dev** - For AnySync-specific development
 - **tally-integration** - For Tally ERP integration patterns

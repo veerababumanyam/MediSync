@@ -5,7 +5,7 @@ import (
 	"context"
 	"testing"
 
-	"github.com/medisync/medisync/internal/agents/module_a/a02_sql_correction"
+	"github.com/AnySync/AnySync/internal/agents/module_a/a02_sql_correction"
 )
 
 func TestSQLCorrection_ColumnNotFound(t *testing.T) {

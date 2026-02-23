@@ -1,5 +1,5 @@
 /**
- * MediSync API Client Service
+ * AnySync API Client Service
  *
  * Centralized HTTP client for all API requests with:
  * - Authentication header injection
@@ -41,7 +41,7 @@ interface RequestOptions extends Omit<RequestInit, 'body'> {
  * Get auth token from storage
  */
 function getAuthToken(): string | null {
-  return localStorage.getItem('medisync-token')
+  return localStorage.getItem('AnySync-token')
 }
 
 /**

@@ -1,4 +1,4 @@
--- MediSync Dashboard Advanced Features - Alert Rules Migration (Rollback)
+-- AnySync Dashboard Advanced Features - Alert Rules Migration (Rollback)
 -- Version: 012
 -- Description: Rollback alert_rules and notifications tables
 

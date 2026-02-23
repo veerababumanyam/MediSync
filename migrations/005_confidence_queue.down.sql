@@ -1,4 +1,4 @@
--- MediSync AI Agent Core - Confidence Scoring and Review Queue Migration (Rollback)
+-- AnySync AI Agent Core - Confidence Scoring and Review Queue Migration (Rollback)
 -- Version: 005
 -- Description: Rollback confidence scoring and review queue tables
 -- Task: T008
@@ -12,14 +12,14 @@
 -- REVOKE PERMISSIONS
 -- ============================================================================
 
-REVOKE SELECT ON app.review_queue FROM medisync_readonly;
-REVOKE SELECT ON app.confidence_scores FROM medisync_readonly;
+REVOKE SELECT ON app.review_queue FROM AnySync_readonly;
+REVOKE SELECT ON app.confidence_scores FROM AnySync_readonly;
 
-REVOKE SELECT, INSERT, UPDATE, DELETE ON app.review_queue FROM medisync_app;
-REVOKE SELECT, INSERT, UPDATE, DELETE ON app.confidence_scores FROM medisync_app;
+REVOKE SELECT, INSERT, UPDATE, DELETE ON app.review_queue FROM AnySync_app;
+REVOKE SELECT, INSERT, UPDATE, DELETE ON app.confidence_scores FROM AnySync_app;
 
-REVOKE EXECUTE ON FUNCTION app.get_pending_review_count(UUID) FROM medisync_app;
-REVOKE EXECUTE ON FUNCTION app.get_pending_review_count(UUID) FROM medisync_readonly;
+REVOKE EXECUTE ON FUNCTION app.get_pending_review_count(UUID) FROM AnySync_app;
+REVOKE EXECUTE ON FUNCTION app.get_pending_review_count(UUID) FROM AnySync_readonly;
 
 -- ============================================================================
 -- DROP TRIGGERS AND FUNCTIONS

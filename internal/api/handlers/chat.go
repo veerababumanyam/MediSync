@@ -1,4 +1,4 @@
-// Package handlers provides HTTP handlers for the MediSync API.
+// Package handlers provides HTTP handlers for the AnySync API.
 //
 // This file implements the SSE streaming chat handler for the conversational BI feature.
 // It handles POST /v1/chat requests and streams responses using Server-Sent Events.
@@ -13,9 +13,9 @@ import (
 	"sync"
 	"time"
 
-	"github.com/medisync/medisync/internal/agents/module_a/a03_visualization"
-	"github.com/medisync/medisync/internal/warehouse"
-	"github.com/medisync/medisync/internal/warehouse/models"
+	"github.com/AnySync/AnySync/internal/agents/module_a/a03_visualization"
+	"github.com/AnySync/AnySync/internal/warehouse"
+	"github.com/AnySync/AnySync/internal/warehouse/models"
 
 	"github.com/google/uuid"
 )

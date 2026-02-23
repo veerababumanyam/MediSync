@@ -1,4 +1,4 @@
--- MediSync AI Agent Core - Schema Embeddings Migration (Rollback)
+-- AnySync AI Agent Core - Schema Embeddings Migration (Rollback)
 -- Version: 006
 -- Description: Rollback schema embeddings table for AI Agent Core
 -- Task: T009
@@ -11,13 +11,13 @@
 -- REVOKE PERMISSIONS
 -- ============================================================================
 
-REVOKE SELECT ON vectors.ai_schema_embeddings FROM medisync_readonly;
-REVOKE SELECT, INSERT, UPDATE, DELETE ON vectors.ai_schema_embeddings FROM medisync_app;
-REVOKE USAGE, SELECT ON SEQUENCE vectors.ai_schema_embeddings_id_seq FROM medisync_app;
+REVOKE SELECT ON vectors.ai_schema_embeddings FROM AnySync_readonly;
+REVOKE SELECT, INSERT, UPDATE, DELETE ON vectors.ai_schema_embeddings FROM AnySync_app;
+REVOKE USAGE, SELECT ON SEQUENCE vectors.ai_schema_embeddings_id_seq FROM AnySync_app;
 
-REVOKE EXECUTE ON FUNCTION vectors.search_schema_elements(vector(1536), INTEGER, VARCHAR) FROM medisync_app;
-REVOKE EXECUTE ON FUNCTION vectors.search_schema_elements(vector(1536), INTEGER, VARCHAR) FROM medisync_readonly;
-REVOKE EXECUTE ON FUNCTION vectors.upsert_schema_embedding(VARCHAR(20), VARCHAR(255), TEXT, JSONB, vector(1536)) FROM medisync_app;
+REVOKE EXECUTE ON FUNCTION vectors.search_schema_elements(vector(1536), INTEGER, VARCHAR) FROM AnySync_app;
+REVOKE EXECUTE ON FUNCTION vectors.search_schema_elements(vector(1536), INTEGER, VARCHAR) FROM AnySync_readonly;
+REVOKE EXECUTE ON FUNCTION vectors.upsert_schema_embedding(VARCHAR(20), VARCHAR(255), TEXT, JSONB, vector(1536)) FROM AnySync_app;
 
 -- ============================================================================
 -- DROP TRIGGERS AND FUNCTIONS

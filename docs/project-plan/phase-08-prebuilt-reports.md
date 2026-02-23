@@ -94,7 +94,7 @@ User selects report + date range + filters (department, entity, etc.)
     │
     ▼ C-01 loads pre-defined SQL template for report type
     │   Injects parameters (date range, filters, locale)
-    │   Executes against medisync_readonly Postgres role
+    │   Executes against AnySync_readonly Postgres role
     │
     ▼ C-05 (Phase 10): Row/column security enforcement
     │   (In Phase 8: basic OPA role filter for department)

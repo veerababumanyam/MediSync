@@ -361,7 +361,7 @@ void main() {
     await tester.pumpWidget(
       UncontrolledProviderScope(
         container: container,
-        child: const MediSyncApp(),
+        child: const AnySyncApp(),
       ),
     );
 

@@ -150,3 +150,54 @@ export {
   type LiquidGlassToastProps,
   type ToastType,
 } from './LiquidGlassToast'
+
+/**
+ * Liquid Glass Dropdown
+ *
+ * Premium select component with glassmorphic styling.
+ */
+export {
+  LiquidGlassDropdown,
+  type DropdownOption,
+  type LiquidGlassDropdownProps,
+} from './LiquidGlassDropdown'
+
+/**
+ * Liquid Glass Calendar
+ *
+ * Premium date picker with iOS 26 aesthetics.
+ */
+export {
+  LiquidGlassCalendar,
+  type LiquidGlassCalendarProps,
+} from './LiquidGlassCalendar'
+
+/**
+ * Liquid Glass Switch
+ *
+ * Premium toggle switch with liquid animations.
+ */
+export {
+  LiquidGlassSwitch,
+  type LiquidGlassSwitchProps,
+} from './LiquidGlassSwitch'
+
+/**
+ * Liquid Glass Checkbox
+ *
+ * Premium checkbox with animated checkmark.
+ */
+export {
+  LiquidGlassCheckbox,
+  type LiquidGlassCheckboxProps,
+} from './LiquidGlassCheckbox'
+
+/**
+ * Liquid Glass Footer
+ *
+ * Reusable footer component for v3.0.0.
+ */
+export {
+  LiquidGlassFooter,
+  type LiquidGlassFooterProps,
+} from './LiquidGlassFooter'

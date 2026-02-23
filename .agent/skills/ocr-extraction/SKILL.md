@@ -5,7 +5,7 @@ description: Extract structured financial data from multi-modal documents (PDF, 
 
 # OCR Extraction Skill
 
-Guidelines for extracting financial entities from various document formats using the MediSync AI Accountant OCR pipeline.
+Guidelines for extracting financial entities from various document formats using the AnySync AI Accountant OCR pipeline.
 
 ## Extraction Strategy by Format
 

@@ -1,4 +1,4 @@
-# golangci-lint configuration for MediSync
+# golangci-lint configuration for AnySync
 # https://golangci-lint.run/usage/configuration/
 
 run:
@@ -131,7 +131,7 @@ linters-settings:
 
   goimports:
     # Put imports beginning with prefix after 3rd-party packages
-    local-prefixes: github.com/medisync/medisync
+    local-prefixes: github.com/AnySync/AnySync
 
   goconst:
     # Minimal occurrences count to trigger
@@ -207,7 +207,7 @@ linters-settings:
 
     # Ignore words
     ignore-words:
-      - mediSync
+      - AnySync
       - keycloak
 
   nakedret:

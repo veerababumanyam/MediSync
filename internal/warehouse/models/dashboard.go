@@ -1,4 +1,4 @@
-// Package models provides data models for MediSync.
+// Package models provides data models for AnySync.
 package models
 
 import (

@@ -3,7 +3,7 @@
 
 ## 1. Overview & Context
 
-**Product Name:** MediSync
+**Product Name:** AnySync
 **logo:**public/logo.png
 
 **Problem Statement:** The client operates a multi-faceted healthcare business (clinic, pharmacy) using HIMS for operations and Tally for accounting. Currently, data is siloed. Extracting cross-platform insights (e.g., correlating clinic footfall with realized pharmacy revenue) requires manual data dumping and spreadsheet manipulation, which is slow, error-prone, and static.
@@ -803,7 +803,7 @@ This module brings next-generation conversational analytics capabilities, enabli
 
 ## 6.10. Multi-Language Support & Localisation (i18n / l10n)
 
-MediSync targets a bilingual workforce where operational staff, managers, and accountants may communicate in either English or Arabic. Multi-language support is a **first-class product requirement** — not a post-launch add-on.
+AnySync targets a bilingual workforce where operational staff, managers, and accountants may communicate in either English or Arabic. Multi-language support is a **first-class product requirement** — not a post-launch add-on.
 
 **Full architecture details:** See [docs/i18n-architecture.md](../i18n-architecture.md)
 

@@ -129,8 +129,8 @@ The `TALLYMESSAGE` element contains the actual data:
         <DATE>20260219</DATE>
     </REFERENCE>
 
-    <!-- MediSync Extension -->
-    <REMOTEID>medisync-a1b2c3d4</REMOTEID>
+    <!-- AnySync Extension -->
+    <REMOTEID>AnySync-a1b2c3d4</REMOTEID>
 
     <!-- Ledger Entries -->
     <ALLLEDGERENTRIES.LIST>
@@ -152,7 +152,7 @@ The `TALLYMESSAGE` element contains the actual data:
     </ALLLEDGERENTRIES.LIST>
 
     <!-- UDF Fields -->
-    <UDF:MSYNC.SYNCEDBY>john.doe@medisync.com</UDF:MSYNC.SYNCEDBY>
+    <UDF:MSYNC.SYNCEDBY>john.doe@AnySync.com</UDF:MSYNC.SYNCEDBY>
     <UDF:MSYNC.SYNCDATETIME>2026-02-19 10:30:00</UDF:MSYNC.SYNCDATETIME>
 </VOUCHER>
 ```
@@ -193,7 +193,7 @@ The `TALLYMESSAGE` element contains the actual data:
     <ISBANKPAYMENTON>No</ISBANKPAYMENTON>
     <ISBANKRECONON>No</ISBANKRECONON>
 
-    <!-- MediSync UDF -->
+    <!-- AnySync UDF -->
     <UDF:MSYNC.LEDGERID>LED-12345</UDF:MSYNC.LEDGERID>
 </LEDGER>
 ```
@@ -353,17 +353,17 @@ Multiple vouchers in a single request:
 
 ## UDF (User Defined Fields)
 
-Custom fields for MediSync tracking:
+Custom fields for AnySync tracking:
 
 ```xml
 <VOUCHER xmlns:UDF="TallyUDF">
     <!-- Standard Tally fields -->
 
-    <!-- MediSync custom fields -->
+    <!-- AnySync custom fields -->
     <UDF:MSYNC.ENTRYID>ENT-12345</UDF:MSYNC.ENTRYID>
     <UDF:MSYNC.SYNCSTATUS>synced</UDF:MSYNC.SYNCSTATUS>
     <UDF:MSYNC.SYNCDATETIME>2026-02-19 10:30:00</UDF:MSYNC.SYNCDATETIME>
-    <UDF:MSYNC.SYNCEDBY>john.doe@medisync.com</UDF:MSYNC.SYNCEDBY>
+    <UDF:MSYNC.SYNCEDBY>john.doe@AnySync.com</UDF:MSYNC.SYNCEDBY>
     <UDF:MSYNC.SOURCE>ocr</UDF:MSYNC.SOURCE>
     <UDF:MSYNC.DOCUMENTHASH>a1b2c3d4e5f6</UDF:MSYNC.DOCUMENTHASH>
 </VOUCHER>
