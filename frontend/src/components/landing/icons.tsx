@@ -17,35 +17,60 @@ export function HeroIllustration({ slide, isDark }: { slide: string; isDark: boo
     const successColor = 'var(--color-success)'
 
     if (slide === 'slide1') {
-        // AI Brain — conversational AI concept
+        // Conversation with Legacy — AI brain connecting to legacy systems
         return (
             <svg viewBox="0 0 320 280" fill="none" className="w-full h-auto max-w-[320px]" aria-hidden="true">
-                {/* Glow ring */}
-                <circle cx="160" cy="140" r="110" fill={accentLight} fillOpacity={accentOpacity} style={{ animation: 'pulseGlow 4s ease-in-out infinite' }} />
-                {/* Brain outline */}
-                <ellipse cx="160" cy="130" rx="70" ry="65" stroke={accent} strokeWidth="2.5" fill="none" style={{ animation: 'floatY 5s ease-in-out infinite' }} />
-                {/* Neural connections */}
-                <circle cx="130" cy="110" r="8" fill={accent} fillOpacity="0.8" />
-                <circle cx="190" cy="110" r="8" fill={accent} fillOpacity="0.8" />
-                <circle cx="160" cy="145" r="10" fill={accent} />
-                <circle cx="140" cy="160" r="6" fill={accent} fillOpacity="0.6" />
-                <circle cx="180" cy="160" r="6" fill={accent} fillOpacity="0.6" />
-                <line x1="130" y1="110" x2="160" y2="145" stroke={accent} strokeWidth="1.5" strokeOpacity="0.5" />
-                <line x1="190" y1="110" x2="160" y2="145" stroke={accent} strokeWidth="1.5" strokeOpacity="0.5" />
-                <line x1="140" y1="160" x2="160" y2="145" stroke={accent} strokeWidth="1.5" strokeOpacity="0.5" />
-                <line x1="180" y1="160" x2="160" y2="145" stroke={accent} strokeWidth="1.5" strokeOpacity="0.5" />
-                {/* Chat bubbles */}
-                <rect x="40" y="200" rx="12" ry="12" width="90" height="36" fill={nodeColor} stroke={strokeColor} strokeWidth="1.5" style={{ animation: 'floatYReverse 4s ease-in-out infinite' }} />
-                <circle cx="60" cy="218" r="3" fill={accent} />
-                <rect x="70" y="213" rx="2" width="45" height="4" fill={strokeColor} />
-                <rect x="70" y="221" rx="2" width="30" height="4" fill={strokeColor} />
-                <rect x="190" y="210" rx="12" ry="12" width="90" height="36" fill={accent} fillOpacity="0.15" stroke={accent} strokeWidth="1" style={{ animation: 'floatY 3.5s ease-in-out infinite' }} />
-                <rect x="205" y="223" rx="2" width="55" height="4" fill={accent} fillOpacity="0.5" />
-                <rect x="205" y="231" rx="2" width="35" height="4" fill={accent} fillOpacity="0.3" />
+                {/* Outer glow ring */}
+                <circle cx="160" cy="140" r="120" fill={accentLight} fillOpacity="0.08" style={{ animation: 'pulseGlow 6s ease-in-out infinite' }} />
+
+                {/* Central AI node */}
+                <g style={{ animation: 'floatY 4s ease-in-out infinite' }}>
+                    <circle cx="160" cy="100" r="35" fill={accent} fillOpacity="0.15" stroke={accent} strokeWidth="2" />
+                    <text x="160" y="105" textAnchor="middle" fill={accent} fontSize="14" fontWeight="700">AI</text>
+                </g>
+
+                {/* Connection lines with dash animation */}
+                <line x1="160" y1="135" x2="80" y2="190" stroke={accent} strokeWidth="1.5" strokeDasharray="4 4" strokeOpacity="0.4" />
+                <line x1="160" y1="135" x2="160" y2="200" stroke={accent} strokeWidth="1.5" strokeDasharray="4 4" strokeOpacity="0.4" />
+                <line x1="160" y1="135" x2="240" y2="190" stroke={accent} strokeWidth="1.5" strokeDasharray="4 4" strokeOpacity="0.4" />
+
+                {/* Legacy system nodes */}
+                <g style={{ animation: 'floatYReverse 4.5s ease-in-out infinite' }}>
+                    <rect x="45" y="175" rx="8" width="70" height="40" fill={nodeColor} stroke={strokeColor} strokeWidth="1.5" />
+                    <text x="80" y="200" textAnchor="middle" fill={accent} fontSize="10" fontWeight="600">HIMS</text>
+                </g>
+
+                <g style={{ animation: 'floatYReverse 4.5s ease-in-out infinite 0.3s' }}>
+                    <rect x="125" y="195" rx="8" width="70" height="40" fill={nodeColor} stroke={strokeColor} strokeWidth="1.5" />
+                    <text x="160" y="220" textAnchor="middle" fill={accent} fontSize="10" fontWeight="600">Tally</text>
+                </g>
+
+                <g style={{ animation: 'floatYReverse 4.5s ease-in-out infinite 0.6s' }}>
+                    <rect x="205" y="175" rx="8" width="70" height="40" fill={nodeColor} stroke={strokeColor} strokeWidth="1.5" />
+                    <text x="240" y="200" textAnchor="middle" fill={accent} fontSize="10" fontWeight="600">SQL</text>
+                </g>
+
+                {/* Chat bubbles — showing conversation */}
+                <g style={{ animation: 'floatY 3.5s ease-in-out infinite' }}>
+                    <rect x="50" y="50" rx="12" width="80" height="32" fill={nodeColor} stroke={strokeColor} strokeWidth="1" />
+                    <rect x="62" y="60" width="45" height="4" rx="2" fill={strokeColor} />
+                    <rect x="62" y="68" width="30" height="4" rx="2" fill={strokeColor} />
+                </g>
+
+                <g style={{ animation: 'floatYReverse 3s ease-in-out infinite 0.5s' }}>
+                    <rect x="190" y="45" rx="12" width="80" height="32" fill={accent} fillOpacity="0.15" stroke={accent} strokeWidth="1" />
+                    <rect x="202" y="57" width="55" height="4" rx="2" fill={accent} fillOpacity="0.6" />
+                    <rect x="202" y="65" width="35" height="4" rx="2" fill={accent} fillOpacity="0.4" />
+                </g>
+
                 {/* Sparkle accents */}
-                <circle cx="80" cy="80" r="3" fill={accent} fillOpacity="0.4" style={{ animation: 'pulseGlow 3s ease-in-out infinite' }} />
-                <circle cx="240" cy="100" r="2" fill={accent} fillOpacity="0.3" style={{ animation: 'pulseGlow 3.5s ease-in-out infinite 0.5s' }} />
-                <circle cx="260" cy="180" r="2.5" fill={accent} fillOpacity="0.35" style={{ animation: 'pulseGlow 4s ease-in-out infinite 1s' }} />
+                <circle cx="55" cy="140" r="3" fill={accent} fillOpacity="0.5" style={{ animation: 'pulseGlow 3s ease-in-out infinite' }} />
+                <circle cx="265" cy="130" r="2.5" fill={accent} fillOpacity="0.4" style={{ animation: 'pulseGlow 3.5s ease-in-out infinite 0.7s' }} />
+                <circle cx="160" cy="260" r="2" fill={accent} fillOpacity="0.3" style={{ animation: 'pulseGlow 4s ease-in-out infinite 1.2s' }} />
+
+                {/* Data flow particles */}
+                <circle cx="120" cy="165" r="3" fill={accent} fillOpacity="0.6" style={{ animation: 'floatY 2s ease-in-out infinite' }} />
+                <circle cx="200" cy="165" r="3" fill={accent} fillOpacity="0.6" style={{ animation: 'floatYReverse 2.3s ease-in-out infinite 0.4s' }} />
             </svg>
         )
     }
