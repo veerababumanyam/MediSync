@@ -83,6 +83,12 @@ export function HeroCarousel({ isDark, onOpenLeadCapture }: HeroCarouselProps) {
                                 aria-hidden={!isActive}
                             >
                                 <div className="hero-slide-layout px-6 sm:px-10 md:px-14 py-10 sm:py-14 lg:py-16">
+                                    {/* Inner content card with subtle separation */}
+                                    <div className="relative rounded-2xl p-4 sm:p-6" style={{
+                                        boxShadow: isDark
+                                            ? 'inset 0 1px 0 0 rgba(255,255,255,0.05)'
+                                            : 'inset 0 1px 0 0 rgba(255,255,255,0.5)',
+                                    }}>
                                     {/* LEFT: Text content */}
                                     <div className="flex-1 min-w-0 text-center lg:text-left">
                                         {/* Logo + badge row */}
@@ -151,10 +157,19 @@ export function HeroCarousel({ isDark, onOpenLeadCapture }: HeroCarouselProps) {
                                         </div>
                                     </div>
 
-                                    {/* RIGHT: SVG Illustration - with floating animation */}
-                                    <div className="shrink-0 w-full max-w-[260px] sm:max-w-[300px] lg:max-w-[340px] animate-float-medium">
+                                    {/* RIGHT: SVG Illustration - with floating animation and backdrop glow */}
+                                    <div className="shrink-0 w-full max-w-[260px] sm:max-w-[300px] lg:max-w-[340px] animate-float-medium relative">
+                                        {/* Backdrop glow */}
+                                        <div
+                                            className="absolute inset-0 -z-10 rounded-full opacity-30"
+                                            style={{
+                                                background: `radial-gradient(circle, ${isDark ? 'rgba(24, 146, 157, 0.2)' : 'rgba(39, 80, 168, 0.15)'} 0%, transparent 70%)`,
+                                                transform: 'scale(1.3)',
+                                            }}
+                                        />
                                         <HeroIllustration slide={item} isDark={isDark} />
                                     </div>
+                                    </div>{/* End inner content card */}
                                 </div>
                             </div>
                         )
