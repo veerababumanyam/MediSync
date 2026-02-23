@@ -7,7 +7,6 @@ export function HeroIllustration({ slide, isDark }: { slide: string; isDark: boo
     // Use design tokens for colors
     const accent = isDark ? 'var(--brand-secondary)' : 'var(--brand-primary)'
     const accentLight = isDark ? 'var(--brand-secondary)' : 'var(--brand-primary)'
-    const accentOpacity = isDark ? '0.2' : '0.15'
     const nodeColor = isDark ? '#1e293b' : '#f1f5f9'
     const strokeColor = isDark ? 'rgba(255,255,255,0.15)' : 'rgba(0,0,0,0.1)'
 
@@ -145,31 +144,66 @@ export function HeroIllustration({ slide, isDark }: { slide: string; isDark: boo
         )
     }
 
-    // slide3 — Analytics dashboard supercharged
+    // slide3 — Trust Dashboard with outcomes and compliance
     return (
         <svg viewBox="0 0 320 280" fill="none" className="w-full h-auto max-w-[320px]" aria-hidden="true">
-            <circle cx="160" cy="140" r="105" fill={accentLight} fillOpacity={accentOpacity} style={{ animation: 'pulseGlow 4.5s ease-in-out infinite' }} />
+            {/* Outer glow ring */}
+            <circle cx="160" cy="140" r="115" fill={accentLight} fillOpacity="0.08" style={{ animation: 'pulseGlow 5s ease-in-out infinite' }} />
+
             {/* Dashboard frame */}
-            <rect x="60" y="60" rx="14" width="200" height="160" fill={nodeColor} stroke={strokeColor} strokeWidth="1.5" style={{ animation: 'floatY 5s ease-in-out infinite' }} />
-            {/* Title bar */}
-            <rect x="60" y="60" rx="14" width="200" height="28" fill={accent} fillOpacity="0.12" />
-            <circle cx="78" cy="74" r="4" fill={errorColor} fillOpacity="0.7" />
-            <circle cx="92" cy="74" r="4" fill={warningColor} fillOpacity="0.7" />
-            <circle cx="106" cy="74" r="4" fill={successColor} fillOpacity="0.7" />
-            {/* Chart bars */}
-            <rect x="80" y="170" width="16" height="35" rx="3" fill={accent} fillOpacity="0.3" />
-            <rect x="104" y="155" width="16" height="50" rx="3" fill={accent} fillOpacity="0.5" />
-            <rect x="128" y="140" width="16" height="65" rx="3" fill={accent} fillOpacity="0.7" />
-            <rect x="152" y="125" width="16" height="80" rx="3" fill={accent} fillOpacity="0.85" />
-            <rect x="176" y="110" width="16" height="95" rx="3" fill={accent} />
-            <rect x="200" y="100" width="16" height="105" rx="3" fill={accent} fillOpacity="0.9" />
+            <g style={{ animation: 'floatY 5s ease-in-out infinite' }}>
+                <rect x="50" y="55" rx="14" width="220" height="165" fill={nodeColor} stroke={strokeColor} strokeWidth="1.5" />
+
+                {/* Title bar */}
+                <rect x="50" y="55" rx="14" width="220" height="26" fill={accent} fillOpacity="0.1" />
+                <circle cx="68" cy="68" r="4" fill={errorColor} fillOpacity="0.7" />
+                <circle cx="82" cy="68" r="4" fill={warningColor} fillOpacity="0.7" />
+                <circle cx="96" cy="68" r="4" fill={successColor} fillOpacity="0.7" />
+                <text x="160" y="72" textAnchor="middle" fill={accent} fontSize="9" fontWeight="600" fillOpacity="0.8">AnySync Dashboard</text>
+            </g>
+
+            {/* Floating metric cards */}
+            <g style={{ animation: 'floatYReverse 3s ease-in-out infinite' }}>
+                <rect x="30" y="225" rx="8" width="65" height="30" fill={nodeColor} stroke={accent} strokeWidth="1" />
+                <text x="62" y="238" textAnchor="middle" fill={successColor} fontSize="10" fontWeight="700">↑ +127%</text>
+                <text x="62" y="250" textAnchor="middle" fill={accent} fontSize="7" fillOpacity="0.7">Growth</text>
+            </g>
+
+            <g style={{ animation: 'floatY 3.5s ease-in-out infinite 0.5s' }}>
+                <rect x="225" y="35" rx="8" width="65" height="30" fill={nodeColor} stroke={accent} strokeWidth="1" />
+                <text x="257" y="48" textAnchor="middle" fill={accent} fontSize="10" fontWeight="700">₹2.1Cr</text>
+                <text x="257" y="60" textAnchor="middle" fill={accent} fontSize="7" fillOpacity="0.7">Saved</text>
+            </g>
+
+            {/* Bar chart */}
+            <g>
+                <rect x="70" y="175" width="18" height="30" rx="3" fill={accent} fillOpacity="0.25" />
+                <rect x="95" y="160" width="18" height="45" rx="3" fill={accent} fillOpacity="0.35" />
+                <rect x="120" y="145" width="18" height="60" rx="3" fill={accent} fillOpacity="0.5" />
+                <rect x="145" y="130" width="18" height="75" rx="3" fill={accent} fillOpacity="0.65" />
+                <rect x="170" y="115" width="18" height="90" rx="3" fill={accent} fillOpacity="0.8" />
+                <rect x="195" y="100" width="18" height="105" rx="3" fill={accent} fillOpacity="0.95" />
+                <rect x="220" y="90" width="18" height="115" rx="3" fill={accent} />
+            </g>
+
             {/* Trend line */}
-            <polyline points="88,165 112,148 136,132 160,118 184,105 208,95" stroke={accent} strokeWidth="2" fill="none" strokeLinecap="round" />
-            {/* Metric cards floating */}
-            <rect x="40" y="230" rx="8" width="70" height="28" fill={nodeColor} stroke={accent} strokeWidth="1" fillOpacity="0.8" style={{ animation: 'floatYReverse 3s ease-in-out infinite' }} />
-            <text x="75" y="248" textAnchor="middle" fill={accent} fontSize="9" fontWeight="700">+127%</text>
-            <rect x="210" y="40" rx="8" width="70" height="28" fill={nodeColor} stroke={accent} strokeWidth="1" fillOpacity="0.8" style={{ animation: 'floatY 3.5s ease-in-out infinite 0.5s' }} />
-            <text x="245" y="58" textAnchor="middle" fill={accent} fontSize="9" fontWeight="700">₹2.1Cr</text>
+            <polyline points="79,165 104,150 129,135 154,120 179,105 204,92 229,82" stroke={successColor} strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+
+            {/* Trust badges */}
+            <g style={{ animation: 'floatY 4s ease-in-out infinite 0.3s' }}>
+                <rect x="105" y="240" rx="6" width="50" height="22" fill={nodeColor} stroke={successColor} strokeWidth="1" />
+                <text x="130" y="255" textAnchor="middle" fill={successColor} fontSize="8" fontWeight="600">HIPAA</text>
+            </g>
+
+            <g style={{ animation: 'floatYReverse 4s ease-in-out infinite 0.6s' }}>
+                <rect x="165" y="240" rx="6" width="50" height="22" fill={nodeColor} stroke={accent} strokeWidth="1" />
+                <text x="190" y="255" textAnchor="middle" fill={accent} fontSize="8" fontWeight="600">99.9%</text>
+            </g>
+
+            {/* Sparkle accents */}
+            <circle cx="35" cy="90" r="2.5" fill={accent} fillOpacity="0.4" style={{ animation: 'pulseGlow 3s ease-in-out infinite' }} />
+            <circle cx="285" cy="170" r="2" fill={accent} fillOpacity="0.35" style={{ animation: 'pulseGlow 3.5s ease-in-out infinite 0.5s' }} />
+            <circle cx="160" cy="270" r="2" fill={successColor} fillOpacity="0.5" style={{ animation: 'pulseGlow 4s ease-in-out infinite 1s' }} />
         </svg>
     )
 }
