@@ -207,21 +207,21 @@ function WorkflowUI() {
 }
 ```
 
-## Integration with MediSync
+## Integration with AnySync
 
-CopilotKit is the frontend layer for MediSync's AI agents:
+CopilotKit is the frontend layer for AnySync's AI agents:
 
 ```typescript
-// In MediSync frontend
+// In AnySync frontend
 import { CopilotKit } from "@copilotkit/react-core";
 import { CopilotPopup } from "@copilotkit/react-ui";
 
 function App() {
   return (
-    <CopilotKit agent="medisync-agent">
+    <CopilotKit agent="AnySync-agent">
       <Dashboard />
       <CopilotPopup
-        instructions="You are MediSync AI assistant..."
+        instructions="You are AnySync AI assistant..."
         tools={[textToSQL, runReport, syncToTally]}
       />
     </CopilotKit>
@@ -229,7 +229,7 @@ function App() {
 }
 ```
 
-### MediSync-Specific Tools
+### AnySync-Specific Tools
 
 | Tool | Description | UI Render |
 |------|-------------|-----------|
@@ -266,6 +266,8 @@ function App() {
 
 ## Related Skills
 
+- **modern-ui-ux-design** - WCAG 3.0 accessibility, iOS 26 liquid glass morphism, and design tokens for generative UI components
 - **webmcp** - For client-side MCP tools
-- **medisync-dev** - For MediSync-specific development
+- **AnySync-dev** - For AnySync-specific development
 - **tally-integration** - For Tally ERP integration
+- **react-typescript** - React component patterns used in generative UI

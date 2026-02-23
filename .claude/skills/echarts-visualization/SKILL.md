@@ -3,12 +3,12 @@ name: echarts-visualization
 description: This skill should be used when the user asks to "create charts", "build visualizations", "implement ECharts", "add data visualizations", "dashboard charts", "graph components", or mentions Apache ECharts chart types (line, bar, pie, scatter, heatmap).
 ---
 
-# Apache ECharts Visualization for MediSync
+# Apache ECharts Visualization for AnySync
 
-Apache ECharts 5.6 provides rich, interactive visualizations for MediSync dashboards, supporting real-time streaming, responsive design, and RTL layouts.
+Apache ECharts 5.6 provides rich, interactive visualizations for AnySync dashboards, supporting real-time streaming, responsive design, and RTL layouts.
 
 ★ Insight ─────────────────────────────────────
-MediSync visualization architecture:
+AnySync visualization architecture:
 1. **React-ECharts** - Declarative wrapper for ECharts
 2. **Streaming charts** - Real-time data via WebSocket
 3. **Responsive** - Auto-resize with container
@@ -21,7 +21,7 @@ MediSync visualization architecture:
 | Aspect | Details |
 |--------|---------|
 | **Package** | echarts (5.6.x) + echarts-for-react (3.x) |
-| **Themes** | Light/dark with MediSync brand colors |
+| **Themes** | Light/dark with AnySync brand colors |
 | **Responsive** | Auto-resize enabled |
 | **Export** | PNG, SVG, PDF via echarts extension |
 | **i18n** | Locale-aware number/date formatting |
@@ -80,7 +80,7 @@ export function LineChart({ data, title }: ChartProps) {
 }
 ```
 
-## MediSync Chart Types
+## AnySync Chart Types
 
 ### Revenue Trend Chart
 
@@ -449,6 +449,12 @@ export function useChartExport() {
   return { exportToPNG, exportToSVG };
 }
 ```
+
+## Related Skills
+
+- **modern-ui-ux-design** - WCAG 3.0 accessibility, iOS 26 liquid glass styling, and design tokens for chart containers
+- **react-typescript** - React component patterns for chart wrappers
+- **i18next-i18n** - Number/date localization in chart tooltips
 
 ## Additional Resources
 

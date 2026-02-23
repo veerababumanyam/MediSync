@@ -1,14 +1,14 @@
 ---
 name: i18next-i18n
-description: This skill should be used when the user asks to "add translations", "implement i18n", "internationalize", "add language support", "RTL layout", "Arabic translations", "i18next setup", or mentions multi-language support for MediSync.
+description: This skill should be used when the user asks to "add translations", "implement i18n", "internationalize", "add language support", "RTL layout", "Arabic translations", "i18next setup", or mentions multi-language support for AnySync.
 ---
 
-# i18next Internationalization for MediSync
+# i18next Internationalization for AnySync
 
-i18next 24.2 provides comprehensive internationalization for MediSync's React web app, supporting English (LTR) and Arabic (RTL) as first-class languages from Phase 1.
+i18next 24.2 provides comprehensive internationalization for AnySync's React web app, supporting English (LTR) and Arabic (RTL) as first-class languages from Phase 1.
 
 ★ Insight ─────────────────────────────────────
-MediSync i18n architecture:
+AnySync i18n architecture:
 1. **Dual language** - English (en) and Arabic (ar) from day one
 2. **RTL support** - Logical properties + react-i18next
 3. **Namespace per feature** - Lazy-loaded translations
@@ -140,7 +140,7 @@ export function RTLProvider({ children }: { children: React.ReactNode }) {
 ```json
 {
   "app": {
-    "name": "MediSync",
+    "name": "AnySync",
     "tagline": "AI-Powered Healthcare Intelligence"
   },
   "navigation": {
@@ -480,7 +480,7 @@ import i18n from './config';
 describe('i18n configuration', () => {
   it('should have English translations', async () => {
     await i18n.changeLanguage('en');
-    expect(i18n.t('app.name')).toBe('MediSync');
+    expect(i18n.t('app.name')).toBe('AnySync');
   });
 
   it('should have Arabic translations', async () => {
@@ -494,6 +494,12 @@ describe('i18n configuration', () => {
   });
 });
 ```
+
+## Related Skills
+
+- **modern-ui-ux-design** - WCAG 3.0 accessibility, iOS 26 liquid glass, and comprehensive RTL patterns for components
+- **react-typescript** - React component patterns for translation integration
+- **flutter-dart** - Mobile i18n with ARB files (shares translation keys)
 
 ## Additional Resources
 

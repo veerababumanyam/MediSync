@@ -5,10 +5,10 @@ description: This skill should be used when the user asks to "create React compo
 
 # React + TypeScript Best Practices
 
-React 19 with TypeScript provides type-safe, performant UI development. This skill covers idiomatic patterns, hooks, state management, and performance optimization for MediSync's frontend.
+React 19 with TypeScript provides type-safe, performant UI development. This skill covers idiomatic patterns, hooks, state management, and performance optimization for AnySync's frontend.
 
 ★ Insight ─────────────────────────────────────
-MediSync's frontend stack:
+AnySync's frontend stack:
 1. **React 19** - Latest with Server Components support
 2. **TypeScript 5.9** - Strict mode enabled
 3. **CopilotKit** - Generative UI for AI interactions
@@ -422,6 +422,12 @@ describe('UserCard', () => {
   });
 });
 ```
+
+## Related Skills
+
+- **modern-ui-ux-design** - WCAG 3.0 accessibility, iOS 26 liquid glass morphism, RTL patterns, and design tokens
+- **echarts-visualization** - Data visualization and chart components
+- **i18next-i18n** - Internationalization and RTL layout patterns
 
 ## Additional Resources
 

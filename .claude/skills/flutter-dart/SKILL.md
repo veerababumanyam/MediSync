@@ -1,14 +1,14 @@
 ---
 name: flutter-dart
-description: This skill should be used when the user asks to "create Flutter widgets", "build mobile features", "implement Dart patterns", "add Flutter screens", "Flutter state management", "offline sync with PowerSync", or mentions Flutter/Dart mobile development for MediSync.
+description: This skill should be used when the user asks to "create Flutter widgets", "build mobile features", "implement Dart patterns", "add Flutter screens", "Flutter state management", "offline sync with PowerSync", or mentions Flutter/Dart mobile development for AnySync.
 ---
 
-# Flutter/Dart Mobile Development for MediSync
+# Flutter/Dart Mobile Development for AnySync
 
-Flutter 3.42 powers the MediSync mobile app with iOS and Android support, PowerSync for offline-first architecture, and comprehensive i18n with ARB files.
+Flutter 3.42 powers the AnySync mobile app with iOS and Android support, PowerSync for offline-first architecture, and comprehensive i18n with ARB files.
 
 ★ Insight ─────────────────────────────────────
-MediSync mobile architecture:
+AnySync mobile architecture:
 1. **Offline-first** - PowerSync local-first database
 2. **RTL support** - Arabic layout mirroring
 3. **State management** - Riverpod for reactive state
@@ -485,6 +485,12 @@ flutter pub run build_runner build --delete-conflicting-outputs
 # Watch for changes
 flutter pub run build_runner watch --delete-conflicting-outputs
 ```
+
+## Related Skills
+
+- **modern-ui-ux-design** - WCAG 3.0 accessibility, iOS 26 liquid glass morphism, and design tokens (for web patterns that inspire mobile)
+- **react-typescript** - Web frontend patterns (shared i18n and design principles)
+- **i18next-i18n** - Internationalization patterns (ARB shares translation keys)
 
 ## Additional Resources
 
