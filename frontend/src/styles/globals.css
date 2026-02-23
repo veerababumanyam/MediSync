@@ -1,5 +1,5 @@
 /**
- * MediSync Global Styles
+ * AnySync Global Styles
  *
  * Design System Reference: docs/DESIGN.md
  *
@@ -1170,9 +1170,10 @@ nav button:focus-visible,
   border-width: 0;
 }
 
-/* Make sr-only content visible on focus */
+/* Make sr-only content visible on focus (and when any child has focus) */
 .sr-only:focus,
-.sr-only:active {
+.sr-only:active,
+.sr-only:focus-within {
   position: static;
   width: auto;
   height: auto;
@@ -1827,5 +1828,30 @@ nav button:focus-visible,
   /* Use active state instead for touch feedback */
   .hero-cta:active {
     transform: scale(0.98);
+  }
+}
+
+/* ============================================
+ * Hero Carousel - Reduced Motion Support
+ * ============================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-carousel-container *,
+  .hero-carousel-container *::before,
+  .hero-carousel-container *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .hero-carousel-container .animate-float-medium,
+  .hero-carousel-container [style*="animation"] {
+    animation: none !important;
+  }
+
+  /* Keep opacity transitions for accessibility */
+  .hero-carousel-container [role="tabpanel"] {
+    transition: opacity 0.15s ease !important;
   }
 }
